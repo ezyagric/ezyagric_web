@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getSite } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 import { Section, SectionHeader } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
+import { CheckDot } from "./parts";
 
 /** For cooperatives and agribusinesses: what the web portal does, and the way in. */
 export function Organisations() {
@@ -21,7 +21,7 @@ export function Organisations() {
           <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
             {org.points.map((point) => (
               <li key={point} className="flex items-start gap-3 text-base text-ink">
-                <Icon name="check-circle" className="mt-0.5 size-5 shrink-0 text-brand-700" />
+                <CheckDot />
                 <span>{point}</span>
               </li>
             ))}
@@ -36,7 +36,7 @@ export function Organisations() {
           </ButtonLink>
         </div>
 
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-brand-900/10 ring-1 ring-line">
+        <div className="overflow-hidden rounded-lg border border-line bg-white shadow-xl shadow-brand-900/10">
           <Image
             src={org.image.src}
             alt={org.image.alt}

@@ -6,7 +6,7 @@ slug: produce-market
 order: 4
 name: Produce Market
 appTagline: Sell crops & livestock
-accent: amber
+accent: green
 icon: store
 
 card:
@@ -71,6 +71,15 @@ steps:
     - title: Mark it as sold
       text: Update the listing when it's sold.
 
+# A real photo from the EzyAgric photo library.
+photo:
+  image:
+    src: /images/photos/farmer-in-garden.webp
+    alt: A Ugandan farmer tending crops in his banana garden
+    width: 720
+    height: 1080
+  caption: Grow it, then post it. List what you harvest on Produce Market.
+
 faq:
   - q: Does it cost anything to list?
     a: No. Listing your produce is free.
@@ -85,4 +94,4 @@ faq:
 
 seo:
   title: "Produce Market – list your crops and livestock for sale | EzyAgric"
-  description: "Post your crops, livestock and farm products for sale in the EzyAgric app. Set your own units and asking price. Free to list, in Uganda."
+  description: "Post your crops, livestock and farm products for sale in the EzyAgric App. Set your own units and asking price. Free to list, in Uganda."

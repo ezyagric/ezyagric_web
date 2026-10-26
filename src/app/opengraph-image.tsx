@@ -18,11 +18,11 @@ export default function Image() {
 
   return renderOgImage({
     eyebrow: site.hero.eyebrow,
-    title: site.slogan,
-    tagline,
-    accent: "kaezy",
-    artwork: "ka-ezy-phone",
-    chips: products.map((p) => ({ label: p.name, accent: p.accent })),
-    bar: products.map((p) => p.accent),
+    headline: site.slogan,
+    subline: tagline,
+    accent: "blue",
+    // Ka-Ezy, as in the home page hero (site.hero.mascot).
+    artwork: "ka-ezy-full",
+    chips: products.map((p) => p.name),
   });
 }

@@ -17,7 +17,8 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <figure className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-line">
+    // Brand guide card: white, 1px #E4E8F2 border, 8px radius.
+    <figure className="overflow-hidden rounded-lg border border-line bg-white">
       <div className="relative aspect-video bg-ink">
         {playing ? (
           <iframe
@@ -43,7 +44,9 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
               setPlaying(true);
               track("video_play", { video_id: id });
             }}
-            className="group absolute inset-0 block size-full"
+            // The figure clips anything outside it, so the focus ring is
+            // drawn inside the thumbnail (white, to show on the photo).
+            className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-white"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised thumbnail */}
             <img
@@ -55,7 +58,9 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
               className="size-full object-cover"
             />
             <span className="absolute inset-0 flex items-center justify-center bg-ink/20 transition-colors group-hover:bg-ink/35">
-              <span className="flex size-16 items-center justify-center rounded-full bg-white/95 text-brand-700 shadow-lg">
+              {/* Play in the guide's icon style: white glyph in a solid
+                  green circle (a white ring instead of a drop shadow). */}
+              <span className="flex size-16 items-center justify-center rounded-full bg-leaf-500 text-white ring-4 ring-white transition-colors group-hover:bg-leaf-700 group-focus-visible:bg-leaf-700">
                 <Play aria-hidden="true" className="ml-1 size-7 fill-current" />
               </span>
             </span>

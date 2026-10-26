@@ -4,6 +4,7 @@ import { AGENT_APP_ID, PORTAL_URL, playStoreUrl } from "@/lib/links";
 import { PlayBadge } from "@/components/ui/Button";
 import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { GA_ENABLED } from "@/components/analytics/config";
+import { Logo } from "./Logo";
 
 type FooterLink = {
   href: string;
@@ -13,8 +14,8 @@ type FooterLink = {
 };
 
 // min-h-12 keeps every footer link a 48px tap target.
-const LINK = "inline-flex min-h-12 items-center text-white/90 hover:text-white hover:underline";
-const SMALL_LINK = "inline-flex min-h-12 items-center hover:text-white hover:underline";
+const LINK = "inline-flex min-h-12 min-w-12 items-center text-white/90 hover:text-white hover:underline";
+const SMALL_LINK = "inline-flex min-h-12 min-w-12 items-center justify-center hover:text-white hover:underline";
 
 export function Footer() {
   const site = getSite();
@@ -41,12 +42,12 @@ export function Footer() {
       links: [
         {
           href: playStoreUrl("general", "footer"),
-          label: "EzyAgric Farmer app",
+          label: "EzyAgric App",
           track: { "data-track": "get_app_click", "data-track-product": "general", "data-track-position": "footer" },
         },
         {
           href: playStoreUrl("agents", "footer", AGENT_APP_ID),
-          label: "EzyAgric Agent app",
+          label: "EzyAgric Agent App",
           track: { "data-track": "agent_app_click", "data-track-position": "footer" },
         },
         {
@@ -59,20 +60,25 @@ export function Footer() {
   ];
 
   return (
-    // The top border keeps the footer apart from a dark closing band above it
-    // (e.g. Ka-Ezy's), whose end colour is close to the footer's.
-    <footer className="border-t-4 border-brand-500 bg-ink text-white">
+    // Brand guide: Dark Navy footer with the reversed (white) logo; green
+    // highlights for the column labels ("navy with green highlight").
+    <footer className="bg-ink text-white">
+      {/* The signature blue-to-green stripe keeps the footer apart from a
+          dark or gradient closing band above it. */}
+      <div aria-hidden="true" className="h-1.5 bg-linear-to-r from-brand-700 to-leaf-500" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
         <div className="col-span-2 md:col-span-3 lg:col-span-1">
-          <p className="text-2xl font-extrabold">{site.name}</p>
-          <p className="mt-2 text-brand-100">{site.slogan}</p>
+          {/* Full lockup with its tagline, 207px wide; mt-6 below is the
+              logo's clear space (half the mark's height, about 21px). */}
+          <Logo variant="white" loading="lazy" className="h-16 w-auto" />
+          <p className="mt-6 text-lg font-semibold">{site.slogan}</p>
           <div className="mt-6">
             <PlayBadge campaign="general" medium="footer" className="h-12 w-auto" />
           </div>
         </div>
         {columns.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <p className="text-sm font-bold tracking-wider text-brand-100 uppercase">{col.title}</p>
+            <p className="text-sm font-semibold tracking-[0.14em] text-leaf-500 uppercase">{col.title}</p>
             <ul className="mt-2">
               {col.links.map((l) => (
                 <li key={l.label}>

@@ -19,7 +19,7 @@ export function SectionTitle({
     <div className="mb-10 max-w-2xl">
       <h2
         id={id}
-        className="text-3xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl"
+        className="text-3xl font-bold tracking-tight text-balance text-brand-700 sm:text-4xl"
       >
         {title}
         {badge}

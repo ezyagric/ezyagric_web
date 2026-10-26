@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ImageData } from "@/lib/content";
 
 /**
- * A simple phone outline around an app screenshot. `preload` (Next 16's
+ * A simple phone outline (Dark Navy) around an app screenshot. `preload` (Next 16's
  * replacement for the deprecated `priority`) is for the hero image only.
  */
 export function PhoneFrame({
@@ -18,7 +18,7 @@ export function PhoneFrame({
 }) {
   return (
     <div
-      className={`relative rounded-[2.5rem] bg-ink p-2.5 shadow-2xl shadow-brand-900/30 ring-1 ring-black/10 ${className}`}
+      className={`relative rounded-[2.5rem] bg-ink p-2.5 shadow-2xl shadow-ink/30 ring-1 ring-ink/10 ${className}`}
     >
       <div className="overflow-hidden rounded-[2rem] bg-white">
         <Image

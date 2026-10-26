@@ -1,41 +1,34 @@
 import type { Accent } from "@/lib/content";
 
-// Full class strings (not built from pieces) so Tailwind can find them.
-// `text` and `button` colours pass 4.5:1 contrast; `soft` is a tint for backgrounds.
+// Product accents in the three brand colours. Full class strings (not built
+// from pieces) so Tailwind can find them. `text` passes 4.5:1;
+// `icon` is the solid circle behind white icons (guide: blue, green or navy).
 export const ACCENTS: Record<
   Accent,
-  { text: string; soft: string; border: string; button: string; ring: string; bar: string }
+  { text: string; soft: string; border: string; ring: string; bar: string; icon: string }
 > = {
-  kaezy: {
-    text: "text-kaezy-600",
-    soft: "bg-kaezy-50",
-    border: "border-kaezy-600/25",
-    button: "bg-kaezy-600 hover:bg-kaezy-900 text-white",
-    ring: "ring-kaezy-600/20",
-    bar: "bg-kaezy-600",
+  blue: {
+    text: "text-brand-700",
+    soft: "bg-brand-50",
+    border: "border-brand-700/25",
+    ring: "ring-brand-700/20",
+    bar: "bg-brand-700",
+    icon: "bg-brand-700 text-white",
   },
-  leaf: {
+  green: {
     text: "text-leaf-700",
     soft: "bg-leaf-50",
     border: "border-leaf-700/25",
-    button: "bg-leaf-700 hover:bg-[#28633a] text-white",
     ring: "ring-leaf-700/20",
     bar: "bg-leaf-500",
+    icon: "bg-leaf-500 text-white",
   },
-  teal: {
-    text: "text-teal-700",
-    soft: "bg-teal-50",
-    border: "border-teal-700/25",
-    button: "bg-teal-700 hover:bg-[#0b5a4b] text-white",
-    ring: "ring-teal-700/20",
-    bar: "bg-teal-500",
-  },
-  amber: {
-    text: "text-amber-700",
-    soft: "bg-amber-50",
-    border: "border-amber-700/25",
-    button: "bg-amber-700 hover:bg-[#924307] text-white",
-    ring: "ring-amber-700/20",
-    bar: "bg-amber-500",
+  navy: {
+    text: "text-ink",
+    soft: "bg-surface",
+    border: "border-ink/20",
+    ring: "ring-ink/15",
+    bar: "bg-ink",
+    icon: "bg-ink text-white",
   },
 };

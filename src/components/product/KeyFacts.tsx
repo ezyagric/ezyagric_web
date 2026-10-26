@@ -1,8 +1,9 @@
 import { isVisible, visible, type Product } from "@/lib/content";
+import { ACCENTS } from "@/components/ui/accents";
 import { Container, Section } from "@/components/ui/Container";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 import { SectionTitle } from "./SectionTitle";
-import { TONES, type BandTone } from "./tones";
+import type { BandTone } from "./tones";
 
 /** True when the page has a key facts box or a lender line to show. */
 export function hasKeyFacts(product: Product): boolean {
@@ -10,17 +11,18 @@ export function hasKeyFacts(product: Product): boolean {
 }
 
 /**
- * Credit key facts (EzyCredits Pay Later) in a bordered box, like a
- * lender's key facts statement, with the lender line as small print.
+ * Credit key facts (EzyCredits Pay Later) in a box like a lender's key
+ * facts statement: the guide's card style with a bar of the product colour
+ * along the top so it stands out, and the lender line as small print.
  * Pending rows show in preview with a badge and drop out in production.
  */
 export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }) {
   const { keyFacts, lenderLine } = product;
-  const colours = TONES[product.accent];
+  const accent = ACCENTS[product.accent];
 
   const smallPrint =
     lenderLine && isVisible(lenderLine) ? (
-      <p className="mt-4 max-w-3xl text-sm text-pretty text-muted">
+      <p className="mt-4 max-w-3xl text-sm font-light text-pretty text-muted">
         <ClaimText claim={lenderLine} />
       </p>
     ) : null;
@@ -42,7 +44,8 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
         badge={keyFacts.pending ? <PendingBadge note={keyFacts.note} /> : null}
       />
 
-      <div className={`max-w-3xl overflow-hidden rounded-2xl border-2 bg-white ${colours.strongBorder}`}>
+      <div className="relative max-w-3xl overflow-hidden rounded-lg border border-line bg-white pt-1.5">
+        <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${accent.bar}`} />
         <dl className="divide-y divide-line">
           {visible(keyFacts.items).map((item) => (
             <div

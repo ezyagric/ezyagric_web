@@ -95,7 +95,8 @@ export type Step = z.infer<typeof Step>;
 const Faq = z.object({ q: z.string(), a: z.string(), ...pendingFields });
 export type Faq = z.infer<typeof Faq>;
 
-const Accent = z.enum(["kaezy", "leaf", "teal", "amber"]);
+// Product accents use the three brand colours (Brand Guide v1.0).
+const Accent = z.enum(["blue", "green", "navy"]);
 export type Accent = z.infer<typeof Accent>;
 
 const ProductSchema = z.object({
@@ -140,6 +141,8 @@ const ProductSchema = z.object({
           z.object({
             name: z.string(),
             price: z.string(),
+            /** Small label next to the price, e.g. "2% off". */
+            badge: z.string().optional(),
             text: z.string(),
             highlight: z.boolean().default(false),
             ...pendingFields,
@@ -166,6 +169,23 @@ const ProductSchema = z.object({
     .optional(),
   lenderLine: Claim.optional(),
   disclaimer: z.string().optional(),
+  /** A real photo from the EzyAgric photo library, shown in its own band. */
+  photo: z.object({ image: Image, caption: z.string() }).optional(),
+  /** Short self-hosted product videos (public/videos), loaded only on tap. */
+  demoVideos: z
+    .object({
+      title: z.string(),
+      intro: z.string().optional(),
+      items: z.array(
+        z.object({
+          src: z.string().startsWith("/videos/"),
+          poster: Image,
+          title: z.string(),
+          text: z.string(),
+        }),
+      ),
+    })
+    .optional(),
   videoIds: z.array(z.string()).default([]),
   faq: z.array(Faq),
   seo: z.object({ title: z.string(), description: z.string().max(170) }),
@@ -210,6 +230,8 @@ const SiteSchema = z.object({
   impact: z.object({
     title: z.string(),
     asOf: Claim,
+    /** A real farmer photo shown beside the figures. */
+    image: Image.optional(),
     items: z.array(
       z.object({
         value: z.number(),

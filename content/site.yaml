@@ -23,19 +23,19 @@ hero:
     - Shopping, vet services, Pay Later and selling available in Uganda
   screenshot:
     src: /images/screens/home.webp
-    alt: "EzyAgric app home screen showing Agrishop, Ka-Ezy and Produce Market"
+    alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"
     width: 640
     height: 1385
   mascot:
-    src: /images/products/ka-ezy-phone.webp
-    alt: Ka-Ezy, the EzyAgric farm assistant, holding a phone
-    width: 520
-    height: 937
+    src: /images/products/ka-ezy-full.webp
+    alt: Ka-Ezy, the EzyAgric farm expert, holding a phone with the EzyAgric App
+    width: 640
+    height: 1312
 
 products:
   eyebrow: One app, four tools
   title: Everything your farm needs, in your pocket
-  intro: "Get advice, buy inputs, pay your way and list your harvest for sale — all in the EzyAgric app."
+  intro: "Get advice, buy inputs, pay your way and list your harvest for sale — all in the EzyAgric App."
 
 journey:
   title: How the four tools work together
@@ -75,6 +75,11 @@ alsoInApp:
 impact:
   title: Our impact
   asOf: As of October 2026
+  image:
+    src: /images/photos/farmer-with-phone.webp
+    alt: A young Ugandan farmer smiling and holding his phone with the EzyAgric App
+    width: 720
+    height: 1280
   items:
     - value: 550000
       suffix: "+"
@@ -109,7 +114,7 @@ stories:
 # when someone taps play.
 videos:
   - id: WsKjvNgo9Ms
-    title: A farmer in Luwero District on how the EzyAgric app changed his farming
+    title: A farmer in Luwero District on how the EzyAgric App changed his farming
     topic: farmers
   - id: wZ1TVA9bUgQ
     title: A village agent in Luwero District
@@ -121,7 +126,7 @@ videos:
     title: How to pay for your inputs using EzyCredits
     topic: ezycredits
   - id: jiSQJP99bGQ
-    title: How to top up EzyCredits in the EzyAgric app
+    title: How to top up EzyCredits in the EzyAgric App
     topic: ezycredits
   - id: QNSfJhYhIqA
     title: Digitizing agriculture in Africa
@@ -167,7 +172,7 @@ agents:
   title: Earn commissions bringing EzyAgric to farmers
   intro: "Digital Agriculture Champions (DACs) take EzyAgric's services to farmers in their area — including farmers without smartphones."
   steps:
-    - Download the EzyAgric Agent app
+    - Download the EzyAgric Agent App
     - Register with your phone number
     - The EzyAgric team contacts you to get you started
     - Get trained to deliver EzyAgric services in your area
@@ -178,29 +183,29 @@ agents:
     - Take orders for inputs and services
     - Earn commissions on the services you deliver
   cta:
-    label: Get the Agent app
+    label: Get the EzyAgric Agent App
     campaign: agents
   image:
-    src: /images/photos/village-agent.webp
-    alt: An EzyAgric field agent with a farmer in a vegetable garden
-    width: 900
-    height: 675
+    src: /images/photos/agent-guiding-farmers.webp
+    alt: An EzyAgric agent in a blue EzyAgric shirt showing two farmers how to use the EzyAgric App on a phone
+    width: 1200
+    height: 800
 
 faq:
   title: Questions farmers ask
   items:
-    - q: Is the EzyAgric app free?
-      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, renew for UGX 5,000."
+    - q: Is the EzyAgric App free?
+      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
     - q: Where does EzyAgric work?
       a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
     - q: Can I use Ka-Ezy outside Uganda?
-      a: "Yes. Ka-Ezy works wherever you can use the EzyAgric app."
+      a: "Yes. Ka-Ezy works wherever you can use the EzyAgric App."
       pending: true
       note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
     - q: How do I pay?
       a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
     - q: Is there an iPhone app?
-      a: "Right now the EzyAgric app is available on Android from Google Play."
+      a: "Right now the EzyAgric App is available on Android from Google Play."
       pending: true
       note: Confirm iPhone status — App Store screenshots exist in the app project.
     - q: Can I get help from a person?

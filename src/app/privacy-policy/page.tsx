@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, FileDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { buttonClasses } from "@/components/ui/Button";
 import { PendingBadge } from "@/components/ui/Pending";
 import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { GA_ENABLED } from "@/components/analytics/config";
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
 function PolicySection({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
     <section aria-labelledby={id} className="mt-8">
-      <h2 id={id} className="text-xl font-extrabold text-ink sm:text-2xl">
+      <h2 id={id} className="text-xl font-bold text-brand-700 sm:text-2xl">
         {title}
       </h2>
       <div className="mt-3 space-y-3">{children}</div>
@@ -50,7 +51,7 @@ function PolicySection({ id, title, children }: { id: string; title: string; chi
 
 function List({ items }: { items: string[] }) {
   return (
-    <ul className="list-disc space-y-2 pl-6 marker:text-brand-700">
+    <ul className="list-disc space-y-2 pl-6 marker:text-leaf-500">
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -62,7 +63,8 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="bg-surface py-8 sm:py-14">
       <Container>
-        <article className="mx-auto max-w-3xl rounded-2xl bg-white p-5 leading-relaxed text-ink shadow-sm ring-1 ring-line sm:p-10">
+        {/* Brand guide card: white, 1px #E4E8F2 border, 8px radius. */}
+        <article className="mx-auto max-w-3xl rounded-lg border border-line bg-white p-5 leading-relaxed text-ink sm:p-10">
           <div className="flex flex-wrap items-center justify-between gap-x-6">
             <Link prefetch={false}
               href="/"
@@ -81,7 +83,7 @@ export default function PrivacyPolicyPage() {
             </a>
           </div>
 
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-brand-700 sm:text-4xl">
             Privacy Policy
           </h1>
           <p className="mt-2 text-muted">
@@ -192,11 +194,11 @@ export default function PrivacyPolicyPage() {
           {/* New for the rebuilt site; not in the PDF yet. */}
           <section
             aria-labelledby="analytics-and-embedded-videos"
-            className="mt-10 rounded-2xl border-2 border-dashed border-line bg-surface p-5 sm:p-6"
+            className="mt-10 rounded-lg border-2 border-dashed border-line bg-surface p-5 sm:p-6"
           >
             <h2
               id="analytics-and-embedded-videos"
-              className="text-xl font-extrabold text-ink sm:text-2xl"
+              className="text-xl font-bold text-brand-700 sm:text-2xl"
             >
               Analytics and embedded videos
               <PendingBadge note="New section — legal to review before launch" />
@@ -219,7 +221,7 @@ export default function PrivacyPolicyPage() {
               </p>
               {GA_ENABLED ? (
                 <p>
-                  <CookieSettingsButton className="inline-flex min-h-12 items-center rounded-full border-2 border-brand-700 bg-white px-5 font-bold text-brand-700 hover:bg-brand-50">
+                  <CookieSettingsButton className={buttonClasses("secondary")}>
                     Change cookie settings
                   </CookieSettingsButton>
                 </p>

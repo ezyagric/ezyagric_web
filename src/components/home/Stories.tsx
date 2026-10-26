@@ -36,7 +36,8 @@ export function Stories() {
 
       {more.length > 0 ? (
         <details className="group mt-10">
-          <summary className="inline-flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-full border-2 border-brand-700 bg-white px-5 font-bold text-brand-700 hover:bg-brand-50 [&::-webkit-details-marker]:hidden">
+          {/* Styled as the guide's secondary button: Primary Blue outline on white. */}
+          <summary className="inline-flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-lg border-2 border-brand-700 bg-white px-5 font-semibold text-brand-700 transition-colors hover:bg-brand-50 [&::-webkit-details-marker]:hidden">
             More videos ({more.length})
             <ChevronDown
               aria-hidden="true"

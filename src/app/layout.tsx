@@ -32,8 +32,9 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", site: "@ezyagric" },
 };
 
+// Browser bar colour on Android: Primary Blue (Brand Guide v1.0).
 export const viewport: Viewport = {
-  themeColor: "#1f6da3",
+  themeColor: "#05377e",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

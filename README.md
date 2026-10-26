@@ -88,6 +88,20 @@ So the team can review everything on staging, and nothing unconfirmed reaches th
 
 ---
 
+## Brand
+
+The site follows the **EzyAgric Brand Guide v1.0 (2026)** from the *EzyAgric Creative & Content Pack: SmartAgric Community* Google Drive folder, which is also where the full Ka-Ezy artwork, the 2026 photos, the Ka-Ezy demo videos and the Ka-Ezy prices and campaign lines came from. Tagline: *Endless farming possibilities*.
+
+- **Colours** (tokens in `src/app/globals.css`): the EzyAgric logo blue `#05377E` (`brand-700`: headlines, links, outlines; the blue of the "EzyAgric" wordmark, chosen by the EzyAgric team on 26 Oct 2026 in place of the guide's Primary Blue `#0043C0`), Vibrant Green `#0C9548` (`leaf-500`: icons, highlights, large text, the end of the gradient), Dark Navy `#05103B` (`ink`: body text, card titles, footer, dark bands). White or the `#F7F9FC` tint (`surface`) carries most of each page; card borders are `#E4E8F2` (`line`). The signature gradient (logo blue to green) is the `.brand-gradient` class.
+- **Accessible green:** white text on Vibrant Green is only 3.9:1, below WCAG AA. Buttons and small green text therefore use the deeper `leaf-700` `#0A7F3D` (5.1:1), and the gradient ends in it so white text passes across the band. Exact Vibrant Green is kept for icons, highlights, large text and decoration.
+- **Type:** Nunito Sans only (loaded by `next/font`, fallback Trebuchet MS). Headlines Bold, sub-headlines SemiBold, section labels SemiBold capitals with 0.14em tracking, body Regular at 1.6 line height, never below 14px. The script tagline face is only ever seen inside the logo.
+- **Buttons and cards:** primary buttons are a green fill with a white SemiBold label and 8px radius; secondary buttons a blue outline on white (`src/components/ui/Button.tsx`). Cards are white with a 1px `#E4E8F2` border, 8px radius and navy titles. Icons are white line glyphs in a solid blue, green or navy circle (`IconCircle`).
+- **Logo:** the logo and its tagline are one unit, so the site only uses the full lockup (`public/images/brand/ezyagric-logo.svg`; reversed white version `ezyagric-logo-white.svg` on navy, blue, green, the gradient and photos), through `src/components/layout/Logo.tsx`. At least 140px wide on screen; clear space of half the circular mark's height on every side; never stretched, recoloured, re-typeset, given effects or put in colour on a brand colour. `ezyagric-wordmark.svg` (no tagline) is kept in the repo but must not be used.
+- **Naming:** always *EzyAgric* (one word, capital E and A) and *the EzyAgric App*.
+- **Share images** follow the guide's link/X post layout: 1200x630, blue headline (two lines at most), product names in green, the logo bottom left at 180px, 60px margins.
+
+---
+
 ## Images
 
 Originals (PNG/JPG, full size) live in `assets-src/`. The site uses small WebP copies in `public/images/`, made by:
@@ -98,15 +112,23 @@ npm run images
 
 To add or replace an image:
 
-1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `partners/`, `brand/`, `videos/`).
+1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `photos-2026/`, `partners/`, `brand/`, `videos/`, `video-posters/`).
 2. If it is a new file, add a line for it in `scripts/optimize-images.mjs` (source, output name, maximum width).
 3. Run `npm run images`. It prints the size of every output file.
 4. Use the output in the YAML: `src` (starting with `/images/`), `alt` (what the image shows; empty for decoration), and the output `width` and `height` printed by the script.
 5. Commit both the original and the WebP file. The Docker build does not run this step.
 
+What is where:
+
+- `photos-2026/` — real photos from the Creative & Content Pack (a farmer with the EzyAgric App, an agent guiding farmers, Ka-Ezy at an exhibition, a farmer in his garden, an EzyAgric bag on a coffee farm), used on the home and product pages.
+- `app/ka-ezy-full.png` — the full Ka-Ezy character on a pure white background. Place it on a pure white (`#FFFFFF`) area, or its background shows as a white box.
+- `videos/` — thumbnails for the YouTube videos; `video-posters/` — posters for the Ka-Ezy demo videos.
+- `public/videos/*.mp4` — the Ka-Ezy demo videos (about 4 MB each), served from this site and listed under `demoVideos` in `content/products/ka-ezy.yaml`. They use `preload="none"`, so nothing downloads until someone taps play. They are not processed by `npm run images`; keep new ones short and compressed (H.264, 720p or less).
+- `brand/` — the logo SVGs (copied as they are) and the payment marks.
+
 Images are cached by browsers for 30 days. When you replace an image that is already live, give the new file a new name so visitors see it straight away.
 
-The **share images** (the picture shown when a link is posted on WhatsApp, Facebook or X) are drawn at build time by `src/app/opengraph-image.tsx` (site) and `src/app/[slug]/opengraph-image.tsx` (one per product). They use the product name and app tagline from the YAML, the PNG artwork in `assets-src/app/`, and the Nunito Sans font in `assets-src/fonts/` (SIL Open Font License, `OFL.txt`).
+The **share images** (the picture shown when a link is posted on WhatsApp, Facebook or X) are drawn at build time by `src/app/opengraph-image.tsx` (site) and `src/app/[slug]/opengraph-image.tsx` (one per product). They use the product name, hero eyebrow and headline from the YAML, the PNG artwork in `assets-src/app/`, the logo SVG in `assets-src/brand/`, and the Nunito Sans font in `assets-src/fonts/` (SIL Open Font License, `OFL.txt`).
 
 ---
 
@@ -243,7 +265,7 @@ Notes for engineers:
 - This Next.js version may differ from what you know. Read `AGENTS.md` and the docs in `node_modules/next/dist/docs/` before using an unfamiliar API.
 - Pages are Server Components; add `"use client"` only where interaction needs it. Menus and accordions use `<details>` so they work without JavaScript.
 - Static export means no redirects, headers or rewrites in `next.config.ts`; those live in `nginx/nginx.conf`.
-- Colours: text and buttons use the `*-700` / `kaezy-600` / `ink` / `muted` tokens (they pass contrast checks); `*-500` colours are for decoration only. Tokens are in `src/app/globals.css`.
+- Colours: small text and buttons use the `brand-700` / `leaf-700` / `ink` / `muted` tokens (they pass contrast checks); `leaf-500` (exact Vibrant Green) is for icons, highlights, large text and decoration. `review-*` is only for the "To confirm" badges. Tokens are in `src/app/globals.css`; see [Brand](#brand).
 
 ## The `legacy/` folder
 

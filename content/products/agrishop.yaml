@@ -1,11 +1,11 @@
-# Agrishop — inputs and services in the EzyAgric app.
+# Agrishop — inputs and services in the EzyAgric App.
 # Facts checked against the farmer app (v4.8.2). See content/site.yaml for editing notes.
 
 slug: agrishop
 order: 2
 name: Agrishop
 appTagline: Buy crop & livestock inputs and services
-accent: leaf
+accent: green
 icon: shopping-cart
 
 card:
@@ -74,6 +74,15 @@ steps:
       text: Mobile Money, EzyCredits Wallet, EzyCredits Pay Later, or pay on delivery.
     - title: Track your order
       text: Watch your order move until it's delivered.
+
+# A real photo from the EzyAgric photo library.
+photo:
+  image:
+    src: /images/photos/ezyagric-bag-coffee.webp
+    alt: An EzyAgric bag among ripe red coffee cherries on the farm
+    width: 1400
+    height: 933
+  caption: From the input shop to the farm gate — EzyAgric on a Ugandan coffee farm.
 
 faq:
   - q: Are the products genuine?

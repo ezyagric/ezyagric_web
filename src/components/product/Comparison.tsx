@@ -1,10 +1,14 @@
 import { isVisible, type Product } from "@/lib/content";
-import { ACCENTS } from "@/components/ui/accents";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { ClaimText } from "@/components/ui/Pending";
 import type { BandTone } from "./tones";
 
 type ComparisonData = NonNullable<Product["comparison"]>;
+
+// Green highlight pill for a column's tagline ("Pay now"). leaf-700 on
+// leaf-50 passes 4.5:1.
+const TAGLINE =
+  "inline-block rounded-full bg-leaf-50 px-3 py-0.5 text-sm font-semibold text-leaf-700";
 
 /**
  * Rows whose every value may be shown. A row with a hidden (pending) value
@@ -18,13 +22,14 @@ export function comparisonRows(comparison: ComparisonData) {
 /**
  * Side-by-side comparison. Phones get one card per column (label: value);
  * from md up it is a real table. Only one of the two is displayed, so
- * screen readers never hear it twice.
+ * screen readers never hear it twice. Guide card style (white, line
+ * border, 8px radius, navy titles) with each column's tagline as a green
+ * highlight.
  */
 export function Comparison({ product, tone }: { product: Product; tone: BandTone }) {
   const comparison = product.comparison;
   if (!comparison) return null;
 
-  const accent = ACCENTS[product.accent];
   const { columns, title, intro } = comparison;
   const rows = comparisonRows(comparison);
 
@@ -36,16 +41,12 @@ export function Comparison({ product, tone }: { product: Product; tone: BandTone
         {columns.map((column, ci) => (
           <li
             key={column.name}
-            className={`overflow-hidden rounded-2xl border bg-white shadow-sm ${accent.border}`}
+            className="overflow-hidden rounded-lg border border-line bg-white"
           >
-            <div className={`px-5 py-4 ${accent.soft}`}>
-              <h3 className="text-xl font-extrabold text-ink">{column.name}</h3>
+            <div className="border-b border-line bg-surface px-5 py-4">
+              <h3 className="text-xl font-bold text-ink">{column.name}</h3>
               <p className="mt-1">
-                <span
-                  className={`inline-block rounded-full bg-white px-3 py-0.5 text-sm font-bold ${accent.text}`}
-                >
-                  {column.tagline}
-                </span>
+                <span className={TAGLINE}>{column.tagline}</span>
               </p>
             </div>
             <dl className="divide-y divide-line">
@@ -65,7 +66,7 @@ export function Comparison({ product, tone }: { product: Product; tone: BandTone
         ))}
       </ul>
 
-      <div className="hidden overflow-hidden rounded-2xl border border-line bg-white shadow-sm md:block">
+      <div className="hidden overflow-hidden rounded-lg border border-line bg-white md:block">
         <table className="w-full table-fixed border-collapse text-left">
           <caption className="sr-only">{title}</caption>
           <colgroup>
@@ -75,16 +76,12 @@ export function Comparison({ product, tone }: { product: Product; tone: BandTone
             ))}
           </colgroup>
           <thead>
-            <tr className={accent.soft}>
+            <tr className="border-b border-line bg-surface">
               <td className="p-5" />
               {columns.map((column) => (
                 <th key={column.name} scope="col" className="p-5 align-bottom">
-                  <span className="block text-xl font-extrabold text-ink">{column.name}</span>
-                  <span
-                    className={`mt-1.5 inline-block rounded-full bg-white px-3 py-0.5 text-sm font-bold ${accent.text}`}
-                  >
-                    {column.tagline}
-                  </span>
+                  <span className="block text-xl font-bold text-ink">{column.name}</span>
+                  <span className={`mt-1.5 ${TAGLINE}`}>{column.tagline}</span>
                 </th>
               ))}
             </tr>
@@ -98,7 +95,7 @@ export function Comparison({ product, tone }: { product: Product; tone: BandTone
                 {columns.map((column, ci) => {
                   const value = row.values[ci];
                   return (
-                    <td key={column.name} className="p-5 align-top text-base text-muted">
+                    <td key={column.name} className="p-5 align-top text-base text-ink">
                       {value ? <ClaimText claim={value} /> : null}
                     </td>
                   );

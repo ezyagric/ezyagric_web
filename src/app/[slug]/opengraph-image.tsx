@@ -13,7 +13,7 @@ import {
 // build time and written to out/<slug>/opengraph-image.
 
 export const dynamic = "force-static";
-export const alt = "An EzyAgric product: its name and what it does in the farmer app";
+export const alt = "An EzyAgric product: its name and what it does in the EzyAgric App";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
@@ -32,17 +32,16 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   // Same artwork as the product page hero, from its PNG original
   // (e.g. /images/products/agrishop.webp -> assets-src/app/agrishop.png).
-  // Products without artwork (EzyCredits) get a wallet icon instead.
+  // Products without artwork (EzyCredits) get their icon in a circle.
   const heroImage = product.hero.image ?? product.card.image;
   const name = heroImage ? path.basename(heroImage.src, path.extname(heroImage.src)) : "";
 
   return renderOgImage({
     // "Agrishop · Inputs and services" -> "Inputs and services"
     eyebrow: product.hero.eyebrow.split("·").at(-1)?.trim() ?? product.hero.eyebrow,
-    title: product.name,
-    tagline: product.appTagline,
+    productName: product.name,
+    headline: product.hero.headline,
     accent: product.accent,
     artwork: isArtwork(name) ? name : undefined,
-    bar: [product.accent],
   });
 }

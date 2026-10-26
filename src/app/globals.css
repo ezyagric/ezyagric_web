@@ -1,42 +1,49 @@
 @import "tailwindcss";
 
 /*
- * Brand tokens, taken from the farmer app (lib/styles/colors.dart).
- * Rule: the *-500 colours are for decoration and large text only.
- * Body text, links and buttons use the *-700 / ink colours, which pass
- * WCAG AA (4.5:1) on white.
+ * Brand tokens from the EzyAgric Brand Guide v1.0 (2026): Vibrant Green
+ * #0C9548 and Dark Navy #05103B, with white or the #F7F9FC tint carrying most
+ * of the page. The brand blue is the blue of the "EzyAgric" wordmark in the
+ * logo (#05377E, from the vector logo), as decided by the EzyAgric team on
+ * 26 Oct 2026; it replaces the guide's Primary Blue #0043C0.
+ *
+ * Accessibility adaptation: Vibrant Green with white text is 3.9:1, below
+ * WCAG AA (4.5:1) for button-size text. leaf-500 is the exact brand green,
+ * for icons, highlights and large text; leaf-700 (5.1:1) is its deeper shade
+ * for buttons and small green text.
  */
 @theme {
-  --font-sans: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito-sans), "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #1e3a5c; /* headings, body text */
-  --color-muted: #475569; /* secondary text (7.6:1) */
-  --color-surface: #f4f8fb; /* tinted section background */
-  --color-line: #dbe5ee; /* borders */
+  /* Body copy at 1.6 line height (guide: 1.55-1.7). */
+  --text-sm--line-height: 1.55;
+  --text-base--line-height: 1.6;
+  --text-lg--line-height: 1.6;
+  --text-xl--line-height: 1.55;
 
-  --color-brand-50: #eaf3fa;
-  --color-brand-100: #d3e7f5;
-  --color-brand-500: #2f86c2; /* decoration only (3.9:1) */
-  --color-brand-700: #1f6da3; /* text, links, buttons (5.6:1) */
-  --color-brand-900: #16486c;
+  --color-ink: #05103b; /* Dark Navy: body text, card titles, footer (18.4:1) */
+  --color-muted: #3b4668; /* navy-grey secondary text (9.3:1) */
+  --color-surface: #f7f9fc; /* the guide's near-white tint */
+  --color-line: #e4e8f2; /* card borders (guide) */
 
-  --color-leaf-50: #edf5ef;
-  --color-leaf-500: #589165; /* decoration only */
-  --color-leaf-700: #327a43; /* text, buttons (5.3:1) */
+  --color-brand-50: #ebf0f7;
+  --color-brand-100: #d5dfee;
+  --color-brand-500: #05377e; /* EzyAgric logo blue */
+  --color-brand-700: #05377e; /* logo blue: headlines, links, outlines (11.3:1) */
+  --color-brand-800: #042c66; /* hover */
+  --color-brand-900: #05103b; /* Dark Navy bands */
 
-  --color-teal-50: #e7f4f1;
-  --color-teal-500: #149078; /* decoration only */
-  --color-teal-700: #0e6e5c; /* text (6.2:1) */
+  --color-leaf-50: #e7f5ed;
+  --color-leaf-100: #c9ead7;
+  --color-leaf-500: #0c9548; /* Vibrant Green: icons, highlights, large text */
+  --color-leaf-700: #0a7f3d; /* accessible green: buttons, small text (5.1:1) */
+  --color-leaf-800: #08692f; /* hover */
 
-  --color-kaezy-50: #e9f1f9;
-  --color-kaezy-600: #2774b3; /* text (5.0:1) */
-  --color-kaezy-900: #1d4465;
+  /* Review-only colours: "To confirm" badges and the preview banner, never
+     shown in production builds. */
+  --color-review-50: #fdf3e7;
+  --color-review-700: #b45309;
 
-  --color-amber-50: #fdf3e7;
-  --color-amber-500: #f57c00; /* decoration only */
-  --color-amber-700: #b45309; /* text (5.0:1) */
-
-  --color-whatsapp: #0f7a40; /* darker than WhatsApp green so white text passes (5.4:1) */
 }
 
 @layer base {
@@ -52,21 +59,36 @@
   }
 
   body {
-    @apply bg-white font-sans text-ink antialiased;
+    @apply bg-white font-sans leading-[1.6] text-ink antialiased;
   }
 
   /* Anchor targets clear the sticky header. */
   [id] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 5.5rem;
   }
 
   :focus-visible {
     @apply outline-3 outline-offset-2 outline-brand-700;
   }
 
+  /* The guide: headlines in Primary Blue, never blue body text. */
+  h1,
+  h2 {
+    @apply text-brand-700;
+  }
+
   /* The brand-blue ring is too faint on the dark footer and dark bands. */
   .bg-ink :focus-visible,
-  .bg-brand-900 :focus-visible {
+  .bg-brand-900 :focus-visible,
+  .brand-gradient :focus-visible {
     @apply outline-white;
+  }
+}
+
+@layer components {
+  /* The signature gradient: Primary Blue to green, left to right. The green
+     end is the accessible shade so white text passes across the whole band. */
+  .brand-gradient {
+    background-image: linear-gradient(110deg, var(--color-brand-700) 0%, var(--color-brand-700) 35%, var(--color-leaf-700) 100%);
   }
 }

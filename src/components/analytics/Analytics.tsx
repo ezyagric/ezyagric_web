@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { track } from "@/lib/track";
+import { buttonClasses } from "@/components/ui/Button";
 import { CONSENT_STORAGE_KEY, GA_ENABLED, GA_ID, OPEN_CONSENT_EVENT } from "./config";
 
 // Google Analytics 4, loaded only after the visitor taps "Accept".
@@ -199,20 +200,21 @@ function ConsentManager() {
         <div
           role="region"
           aria-label="Cookie choice"
-          className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-xl rounded-2xl bg-white p-4 text-ink shadow-xl ring-1 ring-line sm:bottom-5 sm:p-5"
+          className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-xl rounded-lg bg-white p-4 text-ink shadow-xl ring-1 ring-line sm:bottom-5 sm:p-5"
         >
-          <p className="text-base leading-snug">
+          <p className="text-base">
             We&apos;d like to use Google Analytics cookies to understand how people use this
             site.{" "}
             <Link prefetch={false} href="/privacy-policy/" className="font-semibold text-brand-700 underline">
               Privacy policy
             </Link>
           </p>
+          {/* Brand buttons: blue outline "No thanks", green "Accept". */}
           <div className="mt-3 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
             <button
               type="button"
               onClick={() => choose("denied")}
-              className="min-h-12 cursor-pointer rounded-full border-2 border-brand-700 bg-white px-5 font-bold text-brand-700 hover:bg-brand-50"
+              className={`cursor-pointer ${buttonClasses("secondary")}`}
             >
               No thanks
             </button>
@@ -220,7 +222,7 @@ function ConsentManager() {
               ref={acceptRef}
               type="button"
               onClick={() => choose("granted")}
-              className="min-h-12 cursor-pointer rounded-full bg-brand-700 px-5 font-bold text-white hover:bg-brand-900"
+              className={`cursor-pointer ${buttonClasses("primary")}`}
             >
               Accept
             </button>

@@ -2,19 +2,28 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { playStoreUrl } from "@/lib/links";
 
+// Brand guide: primary buttons are a green fill with a white SemiBold label
+// and an 8px radius; secondary buttons are a Primary Blue outline on white.
 const VARIANTS = {
-  primary: "bg-brand-700 text-white hover:bg-brand-900",
+  primary: "bg-leaf-700 text-white hover:bg-leaf-800",
   secondary: "border-2 border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
   ghost: "text-brand-700 hover:bg-brand-50",
-  whatsapp: "bg-whatsapp text-white hover:bg-[#0b5f32]",
-  light: "bg-white text-brand-900 hover:bg-brand-50",
-  // No colours of its own: pass a product's ACCENTS[accent].button in
-  // className. (Tailwind orders same-property utilities by name, not by
-  // class order, so overriding another variant's colours does not work.)
-  accent: "",
+  whatsapp: "bg-leaf-700 text-white hover:bg-leaf-800",
+  light: "bg-white text-ink hover:bg-brand-50",
+  // White outline, for buttons on the blue-green gradient or navy.
+  outlineLight: "border-2 border-white text-white hover:bg-white/10",
 } as const;
 
 export type ButtonVariant = keyof typeof VARIANTS;
+
+/**
+ * The button look as a class string, for the few real <button>s (the cookie
+ * banner) so they match the links below. Minimum height 48px.
+ */
+export function buttonClasses(variant: ButtonVariant = "primary", size: "md" | "lg" = "md"): string {
+  const sizing = size === "lg" ? "min-h-14 px-6 text-lg" : "min-h-12 px-5 text-base";
+  return `inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors ${sizing} ${VARIANTS[variant]}`;
+}
 
 /**
  * A link styled as a button (every CTA on this site navigates somewhere).
@@ -39,8 +48,7 @@ export function ButtonLink({
   size?: "md" | "lg";
 }) {
   const external = /^(https?:|mailto:|tel:)/.test(href);
-  const sizing = size === "lg" ? "min-h-14 px-6 text-lg" : "min-h-12 px-5 text-base";
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full font-bold transition-colors ${sizing} ${VARIANTS[variant]} ${className}`;
+  const classes = `${buttonClasses(variant, size)} ${className}`;
   const data = {
     "data-track": track,
     ...(trackProps

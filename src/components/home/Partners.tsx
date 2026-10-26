@@ -28,14 +28,14 @@ export function Partners() {
       <div className="space-y-10">
         {groups.map((group) => (
           <div key={group.title}>
-            <h3 className="mb-4 text-center text-sm font-bold tracking-wider text-muted uppercase">
+            <h3 className="mb-4 text-center text-sm font-semibold tracking-[0.14em] text-muted uppercase">
               {group.title}
             </h3>
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {group.items.map(({ name, logo, pending, note }) => (
                 <li
                   key={name}
-                  className="flex h-24 flex-col items-center justify-center gap-1 rounded-2xl bg-white px-4 py-3 ring-1 ring-line"
+                  className="flex h-24 flex-col items-center justify-center gap-1 rounded-lg border border-line bg-white px-4 py-3"
                 >
                   <Image
                     src={logo.src}

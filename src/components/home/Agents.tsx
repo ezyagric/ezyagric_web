@@ -4,10 +4,13 @@ import { AGENT_APP_ID, playStoreUrl } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
+import { CheckDot } from "./parts";
 
 /**
- * Village agent recruitment. Reads top to bottom on a phone as:
- * what agents do, a photo, how to start, then the Agent app button.
+ * The Digital Agriculture Champion (DAC) programme: village agents who take
+ * EzyAgric to farmers. Reads top to bottom on a phone as: what DACs do, a
+ * photo of an agent at work, how to start, then the Agent app button. From
+ * lg the photo moves to the left, mirroring the Organisations band above.
  */
 export function Agents() {
   const { agents } = getSite();
@@ -22,18 +25,19 @@ export function Agents() {
             title={agents.title}
             intro={agents.intro}
           />
-          <h3 className="text-xl font-extrabold text-ink">What DACs do</h3>
+          <h3 className="text-xl font-bold text-ink">What DACs do</h3>
           <ul className="mt-4 space-y-3">
             {agents.roles.map((role) => (
               <li key={role} className="flex items-start gap-3 text-base text-ink">
-                <Icon name="check-circle" className="mt-0.5 size-5 shrink-0 text-leaf-700" />
+                <CheckDot />
                 <span>{role}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="overflow-hidden rounded-2xl shadow-xl shadow-brand-900/10 ring-1 ring-line">
+        {/* A real EzyAgric agent guiding farmers (lazy: below the fold). */}
+        <div className="overflow-hidden rounded-lg border border-line lg:order-first">
           <Image
             src={agents.image.src}
             alt={agents.image.alt}
@@ -45,14 +49,14 @@ export function Agents() {
         </div>
       </div>
 
-      <h3 className="mt-14 text-xl font-extrabold text-ink">How to get started</h3>
+      <h3 className="mt-14 text-xl font-bold text-ink">How to get started</h3>
       <ol className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {agents.steps.map((step, i) => (
-          <li key={step} className="flex items-start gap-4 rounded-2xl bg-surface p-5">
+          <li key={step} className="flex items-start gap-4 rounded-lg border border-line bg-white p-5">
             {/* The <ol> already numbers steps for screen readers. */}
             <span
               aria-hidden="true"
-              className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-700 text-lg font-extrabold text-white"
+              className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white"
             >
               {i + 1}
             </span>

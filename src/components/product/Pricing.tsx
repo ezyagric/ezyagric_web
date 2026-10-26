@@ -1,28 +1,40 @@
 import { visible, type Product } from "@/lib/content";
-import { ACCENTS } from "@/components/ui/accents";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 import { SectionTitle } from "./SectionTitle";
-import { TONES, type BandTone } from "./tones";
+import type { BandTone } from "./tones";
 
-// Full class names so Tailwind can find them.
+// Full class names so Tailwind can find them. One column on phones, two
+// from sm, and the whole row from lg.
 const TIER_COLUMNS: Record<number, string> = {
-  1: "",
-  2: "sm:grid-cols-2",
+  1: "max-w-md",
+  2: "max-w-4xl sm:grid-cols-2",
   3: "sm:grid-cols-2 lg:grid-cols-3",
+  4: "sm:grid-cols-2 lg:grid-cols-4",
 };
 
 /**
- * Price cards (Ka-Ezy). `pricing.pending` only adds a badge: the published
- * price is confirmed, and the note says which details still need checking.
+ * "UGX 4,750 / month" → amount "UGX 4,750" and unit "/ month", so the
+ * amount can be large and the unit small. Display text only: a price
+ * without " / " (e.g. "Free") is all amount.
+ */
+function splitPrice(price: string): { amount: string; unit?: string } {
+  const at = price.indexOf(" / ");
+  return at > 0 ? { amount: price.slice(0, at), unit: price.slice(at + 1) } : { amount: price };
+}
+
+/**
+ * Price cards (Ka-Ezy). Prices are offers, so they are the green highlight
+ * (guide: green highlights product names, prices and offers), with any
+ * saving as a small green pill. `pricing.pending` only adds a badge: the
+ * published price is confirmed, and the note says which details still need
+ * checking.
  */
 export function Pricing({ product, tone }: { product: Product; tone: BandTone }) {
   const pricing = product.pricing;
   if (!pricing) return null;
 
-  const accent = ACCENTS[product.accent];
-  const colours = TONES[product.accent];
   const tiers = visible(pricing.tiers);
   const notes = visible(pricing.notes);
 
@@ -35,37 +47,54 @@ export function Pricing({ product, tone }: { product: Product; tone: BandTone })
         badge={pricing.pending ? <PendingBadge note={pricing.note} /> : null}
       />
 
-      <ul className={`grid max-w-4xl gap-5 ${TIER_COLUMNS[tiers.length] ?? TIER_COLUMNS[3]}`}>
-        {tiers.map((tier) => (
-          <li
-            key={tier.name}
-            className={`relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 pt-8 sm:p-8 sm:pt-10 ${
-              tier.highlight ? `shadow-lg ${colours.highlight}` : "border border-line shadow-sm"
-            }`}
-          >
-            {/* Ribbon along the top of the highlighted tier. */}
-            {tier.highlight ? (
-              <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-2 ${accent.bar}`} />
-            ) : null}
-            <h3 className="text-lg font-extrabold text-ink">
-              {tier.name}
-              {tier.pending ? <PendingBadge note={tier.note} /> : null}
-            </h3>
-            <p
-              className={`mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl ${tier.highlight ? accent.text : "text-ink"}`}
+      <ul className={`grid gap-5 ${TIER_COLUMNS[tiers.length] ?? TIER_COLUMNS[4]}`}>
+        {tiers.map((tier) => {
+          const { amount, unit } = splitPrice(tier.price);
+          return (
+            <li
+              key={tier.name}
+              className={`relative flex flex-col overflow-hidden rounded-lg bg-white p-6 pt-8 ${
+                tier.highlight ? "ring-2 ring-leaf-500" : "border border-line"
+              }`}
             >
-              {tier.price}
-            </p>
-            <p className="mt-4 text-base text-pretty text-muted">{tier.text}</p>
-          </li>
-        ))}
+              {/* Signature blue-to-green ribbon along the top of the highlighted tier. */}
+              {tier.highlight ? (
+                <span aria-hidden="true" className="brand-gradient absolute inset-x-0 top-0 h-2" />
+              ) : null}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-lg font-bold text-ink">
+                  {tier.name}
+                  {tier.pending ? <PendingBadge note={tier.note} /> : null}
+                </h3>
+                {tier.badge ? (
+                  <span className="rounded-full bg-leaf-700 px-2.5 py-0.5 text-sm font-semibold text-white">
+                    {tier.badge}
+                  </span>
+                ) : null}
+              </div>
+              {/* One text run, so it reads as "UGX 4,750 / month". */}
+              <p className="mt-3 text-leaf-500">
+                <span className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-3xl">
+                  {amount}
+                </span>
+                {unit ? (
+                  <>
+                    {" "}
+                    <span className="text-base font-semibold text-leaf-700">{unit}</span>
+                  </>
+                ) : null}
+              </p>
+              <p className="mt-3 text-base text-pretty text-muted">{tier.text}</p>
+            </li>
+          );
+        })}
       </ul>
 
       {notes.length > 0 ? (
         <ul className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
           {notes.map((note) => (
             <li key={note.text} className="flex items-start gap-2.5 text-base text-ink">
-              <Icon name="check-circle" className={`mt-0.5 size-5 shrink-0 ${accent.text}`} />
+              <Icon name="check-circle" className="mt-0.5 size-5 shrink-0 text-leaf-500" />
               <span>
                 <ClaimText claim={note} />
               </span>

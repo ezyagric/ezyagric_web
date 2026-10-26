@@ -9,7 +9,7 @@ export function PendingBadge({ note }: { note?: string }) {
   if (!SHOW_PENDING) return null;
   return (
     <span
-      className="ml-1.5 inline-flex cursor-help items-center gap-1 rounded-full border border-dashed border-amber-700 bg-amber-50 px-2 py-0.5 align-middle text-[11px] font-bold tracking-wide text-amber-700 uppercase"
+      className="ml-1.5 inline-flex cursor-help items-center gap-1 rounded-full border border-dashed border-review-700 bg-review-50 px-2 py-0.5 align-middle text-[11px] font-bold tracking-wide text-review-700 uppercase"
       title={note ?? "Waiting for confirmation from the EzyAgric team"}
     >
       To confirm

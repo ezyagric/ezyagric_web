@@ -7,7 +7,7 @@ slug: ezycredits
 order: 3
 name: EzyCredits
 appTagline: Wallet and Pay Later
-accent: teal
+accent: navy
 icon: wallet
 
 card:
@@ -38,7 +38,7 @@ comparison:
   rows:
     - label: What it is
       values:
-        - A prepaid balance in your EzyAgric app
+        - A prepaid balance in your EzyAgric App
         - Credit for farm purchases, provided by Pezesha
     - label: How it works
       values:

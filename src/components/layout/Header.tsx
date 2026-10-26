@@ -23,9 +23,12 @@ export function Header() {
       >
         Skip to content
       </a>
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" prefetch={false} className="shrink-0 rounded" aria-label="EzyAgric home">
-          <Logo className="h-9 w-auto" />
+      {/* 72px tall: the 44px logo (142px wide, above the guide's 140px
+          minimum for the full lockup) keeps 14px of clear space above and
+          below, and the page gutter (16px+) and gap-4 keep it at the sides. */}
+      <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link href="/" prefetch={false} className="shrink-0 rounded-lg" aria-label="EzyAgric home">
+          <Logo className="h-11 w-auto" />
         </Link>
 
         {/* Names never wrap ("Ka-Ezy" would break at its hyphen). There is
@@ -38,7 +41,7 @@ export function Header() {
                 <Link
                   prefetch={false}
                   href={`/${p.slug}/`}
-                  className="block rounded-full px-2.5 py-2 text-ink hover:bg-brand-50 hover:text-brand-700"
+                  className="inline-flex min-h-11 items-center rounded-lg px-2.5 text-ink transition-colors hover:bg-brand-50 hover:text-brand-700"
                 >
                   {p.name}
                 </Link>
@@ -50,7 +53,7 @@ export function Header() {
                 <Link
                   prefetch={false}
                   href={l.href}
-                  className="block rounded-full px-2.5 py-2 text-muted hover:bg-brand-50 hover:text-brand-700"
+                  className="inline-flex min-h-11 items-center rounded-lg px-2.5 text-muted transition-colors hover:bg-brand-50 hover:text-brand-700"
                 >
                   {l.label}
                 </Link>
@@ -60,23 +63,30 @@ export function Header() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 whitespace-nowrap lg:flex">
-          <ButtonLink href={PORTAL_URL} variant="ghost" track="portal_login_click" className="!min-h-11 !px-4 text-sm">
+          {/* Brand guide: secondary = Primary Blue outline, primary = green. */}
+          <ButtonLink
+            href={PORTAL_URL}
+            variant="secondary"
+            track="portal_login_click"
+            className="!min-h-11 !px-4 !text-[15px]"
+          >
             Partner login
           </ButtonLink>
           <ButtonLink
             href={playStoreUrl("general", "header")}
             track="get_app_click"
             trackProps={{ product: "general", position: "header" }}
-            className="!min-h-11 !px-4 text-sm"
+            className="!min-h-11 !px-4 !text-[15px]"
           >
             Get the app
           </ButtonLink>
         </div>
 
         <MobileMenu>
-          <div className="fixed inset-x-0 top-16 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-line bg-white px-4 pt-2 pb-6 shadow-lg">
+          {/* top-18 / 4.5rem = the header's height (h-18). */}
+          <div className="fixed inset-x-0 top-18 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-line bg-white px-4 pt-2 pb-6 shadow-lg">
             <nav aria-label="Main">
-              <p className="px-3 pt-3 pb-1 text-xs font-bold tracking-wider text-muted uppercase">
+              <p className="px-3 pt-3 pb-1 text-sm font-semibold tracking-[0.14em] text-brand-700 uppercase">
                 Products
               </p>
               <ul className="grid grid-cols-2 gap-1">
@@ -85,7 +95,7 @@ export function Header() {
                     <Link
                       prefetch={false}
                       href={`/${p.slug}/`}
-                      className="block rounded-xl px-3 py-3 text-base font-bold text-ink hover:bg-brand-50"
+                      className="block rounded-lg px-3 py-3 text-base font-bold text-ink hover:bg-brand-50 hover:text-brand-700"
                     >
                       {p.name}
                     </Link>
@@ -98,7 +108,7 @@ export function Header() {
                     <Link
                       prefetch={false}
                       href={l.href}
-                      className="block rounded-xl px-3 py-3 text-base font-semibold text-ink hover:bg-brand-50"
+                      className="block rounded-lg px-3 py-3 text-base font-semibold text-ink hover:bg-brand-50 hover:text-brand-700"
                     >
                       {l.label}
                     </Link>

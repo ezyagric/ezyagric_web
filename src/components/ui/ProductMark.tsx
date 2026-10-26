@@ -5,7 +5,10 @@ import { Icon } from "./Icon";
 
 /**
  * A product's artwork from the app when it has one (Ka-Ezy, Agrishop,
- * Produce Market); otherwise its icon on an accent-tinted tile (EzyCredits).
+ * Produce Market), on a white tile with the card border. Otherwise
+ * (EzyCredits) its icon in the guide's icon style, like IconCircle: a white
+ * glyph in a solid circle of the product's colour (navy for EzyCredits),
+ * here the same size as the artwork tiles.
  */
 export function ProductMark({
   product,
@@ -15,12 +18,12 @@ export function ProductMark({
   size?: "sm" | "md";
 }) {
   const box = size === "sm" ? "size-14" : "size-24";
-  const accent = ACCENTS[product.accent];
   const image = product.card.image;
 
   if (image) {
     return (
-      <div className={`${box} shrink-0 overflow-hidden rounded-2xl ${accent.soft}`}>
+      // The artwork is drawn on white, so the tile is white too.
+      <div className={`${box} shrink-0 overflow-hidden rounded-lg border border-line bg-white`}>
         <Image
           src={image.src}
           alt=""
@@ -33,7 +36,9 @@ export function ProductMark({
     );
   }
   return (
-    <div className={`${box} flex shrink-0 items-center justify-center rounded-2xl ${accent.soft} ${accent.text}`}>
+    <div
+      className={`${box} flex shrink-0 items-center justify-center rounded-full ${ACCENTS[product.accent].icon}`}
+    >
       <Icon name={product.icon} className={size === "sm" ? "size-7" : "size-11"} />
     </div>
   );

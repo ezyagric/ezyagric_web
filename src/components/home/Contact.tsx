@@ -1,24 +1,31 @@
 import type { ReactNode } from "react";
-import { getSite, isVisible, visible, type IconName } from "@/lib/content";
+import { getSite, isVisible, visible, type Accent, type IconName } from "@/lib/content";
 import { mailUrl, telUrl, whatsappUrl } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
+import { IconCircle } from "@/components/ui/IconCircle";
 import { PendingBadge } from "@/components/ui/Pending";
 
-/** Icon + h3 at the top of each contact card. */
-function CardTitle({ icon, children }: { icon: IconName; children: ReactNode }) {
+/** Icon in a solid brand circle + h3 at the top of each contact card. */
+function CardTitle({
+  icon,
+  color,
+  children,
+}: {
+  icon: IconName;
+  color: Accent | "outline";
+  children: ReactNode;
+}) {
   return (
     <div className="flex items-center gap-3">
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
-        <Icon name={icon} className="size-6" />
-      </span>
-      <h3 className="text-lg font-extrabold text-ink">{children}</h3>
+      <IconCircle name={icon} color={color} />
+      <h3 className="text-lg font-bold text-ink">{children}</h3>
     </div>
   );
 }
 
-const CARD = "rounded-2xl border border-line bg-white p-5 sm:p-6";
+const CARD = "rounded-lg border border-line bg-white p-5 sm:p-6";
 
 /**
  * Contact details. WhatsApp leads (most farmers' first choice), then call,
@@ -38,16 +45,13 @@ export function Contact() {
           <SectionHeader id="contact-title" title={contact.title} intro={contact.intro} />
 
           {isVisible(whatsapp) ? (
-            <div className="rounded-2xl border-2 border-whatsapp/30 bg-leaf-50 p-5 sm:p-6">
-              <div className="flex items-center gap-3">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-whatsapp text-white">
-                  <Icon name="message-circle" className="size-6" />
-                </span>
-                <h3 className="text-lg font-extrabold text-ink">
-                  WhatsApp
-                  {whatsapp.pending ? <PendingBadge note={whatsapp.note} /> : null}
-                </h3>
-              </div>
+            // The lead option (most farmers' first choice), so a green tint
+            // instead of the plain white card.
+            <div className="rounded-lg border border-leaf-100 bg-leaf-50 p-5 sm:p-6">
+              <CardTitle icon="message-circle" color="green">
+                WhatsApp
+                {whatsapp.pending ? <PendingBadge note={whatsapp.note} /> : null}
+              </CardTitle>
               <ButtonLink
                 href={whatsappUrl(whatsapp.number, whatsapp.message)}
                 variant="whatsapp"
@@ -67,7 +71,7 @@ export function Contact() {
         <ul className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
           {phones.length > 0 ? (
             <li className={CARD}>
-              <CardTitle icon="phone">Call us</CardTitle>
+              <CardTitle icon="phone" color="blue">Call us</CardTitle>
               <ul className="mt-4 space-y-3">
                 {phones.map((phone) => (
                   <li key={phone.number} className="flex flex-wrap items-center gap-2">
@@ -91,7 +95,7 @@ export function Contact() {
 
           {emails.length > 0 ? (
             <li className={CARD}>
-              <CardTitle icon="mail">Email</CardTitle>
+              <CardTitle icon="mail" color="outline">Email</CardTitle>
               <ul className="mt-4 space-y-3">
                 {emails.map((email) => (
                   <li key={email.address}>
@@ -120,7 +124,7 @@ export function Contact() {
           ) : null}
 
           <li className={`${CARD} sm:col-span-2 lg:col-span-1`}>
-            <CardTitle icon="map-pin">Office</CardTitle>
+            <CardTitle icon="map-pin" color="green">Office</CardTitle>
             <address className="mt-4 text-base text-ink not-italic">
               {address.lines.map((line) => (
                 <span key={line} className="block">

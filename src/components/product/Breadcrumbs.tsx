@@ -2,16 +2,14 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { Product } from "@/lib/content";
 import { SITE_URL } from "@/lib/env";
-import { ACCENTS } from "@/components/ui/accents";
 import { Container } from "@/components/ui/Container";
 
 /**
  * Home › Product, plus the same trail as BreadcrumbList structured data so
- * search results can show it. The bar shares the hero's tint so the two
+ * search results can show it. White, like the hero below it, so the two
  * read as one block.
  */
 export function Breadcrumbs({ product }: { product: Product }) {
-  const accent = ACCENTS[product.accent];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -28,13 +26,13 @@ export function Breadcrumbs({ product }: { product: Product }) {
 
   return (
     <>
-      <nav aria-label="Breadcrumb" className={accent.soft}>
+      <nav aria-label="Breadcrumb" className="bg-white">
         <Container>
           <ol className="flex flex-wrap items-center gap-x-1.5 text-sm">
             <li className="flex items-center gap-1.5">
               <Link prefetch={false}
                 href="/"
-                className="inline-flex min-h-12 items-center rounded font-semibold text-muted underline-offset-4 hover:text-ink hover:underline"
+                className="-mx-2 inline-flex min-h-12 items-center rounded px-2 font-semibold text-muted underline-offset-4 hover:text-brand-700 hover:underline"
               >
                 Home
               </Link>

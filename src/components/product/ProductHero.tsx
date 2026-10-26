@@ -1,54 +1,45 @@
 import Image from "next/image";
 import { isVisible, type Product } from "@/lib/content";
 import { playStoreUrl } from "@/lib/links";
-import { ACCENTS } from "@/components/ui/accents";
 import { ButtonLink, PlayBadge } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
+import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText } from "@/components/ui/Pending";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { PayWaysVisual } from "./PayWaysVisual";
-import { TONES } from "./tones";
+import { Wave } from "@/components/ui/Wave";
 
 /**
- * Product hero. On a 360px phone the headline, intro and both install
- * buttons come first; the visual follows. Same layout as the home hero, so
- * the four pages feel like one family, with the product's accent colour.
+ * Product hero on plain white (brand guide: white carries the page, and the
+ * product artwork is drawn on pure white). On a 360px phone the headline,
+ * intro and both install buttons come first; the visual follows. Same layout
+ * as the home hero, so the four pages feel like one family.
  */
 export function ProductHero({ product }: { product: Product }) {
-  const accent = ACCENTS[product.accent];
-  const tone = TONES[product.accent];
   const { hero, cta, availability } = product;
 
   return (
-    <section
-      aria-labelledby="product-title"
-      className={`overflow-hidden bg-linear-to-b to-white ${tone.heroFrom}`}
-    >
+    <section aria-labelledby="product-title" className="overflow-hidden bg-white">
       <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
         <div>
-          {/* A white pill keeps the accent text above 4.5:1 on the tinted background. */}
-          <p
-            className={`inline-flex rounded-full bg-white px-3 py-1 text-sm font-bold tracking-wide ring-1 ${accent.text} ${accent.ring}`}
-          >
-            {hero.eyebrow}
-          </p>
+          <Eyebrow product={product} />
           <h1
             id="product-title"
-            className="mt-4 text-4xl font-extrabold tracking-tight text-balance text-ink sm:text-5xl lg:text-6xl"
+            className="mt-4 text-4xl font-bold tracking-tight text-balance text-brand-700 sm:text-5xl lg:text-6xl"
           >
             {hero.headline}
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-pretty text-muted sm:text-xl">{hero.intro}</p>
+          <p className="mt-4 max-w-xl text-lg text-pretty text-ink sm:text-xl">{hero.intro}</p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3">
+            {/* Guide: primary buttons are a green fill, whatever the product. */}
             <ButtonLink
               href={playStoreUrl(cta.campaign, "product-hero")}
               track="get_app_click"
               trackProps={{ product: product.slug, position: "product-hero" }}
               size="lg"
-              variant="accent"
-              className={`w-full sm:w-auto ${accent.button}`}
+              className="w-full sm:w-auto"
             >
               <Icon name={product.icon} className="size-5" />
               {cta.label}
@@ -58,7 +49,7 @@ export function ProductHero({ product }: { product: Product }) {
 
           {availability && isVisible(availability) ? (
             <p className="mt-5 flex items-start gap-2 text-base text-muted">
-              <Icon name="map-pin" className={`mt-0.5 size-5 shrink-0 ${accent.text}`} />
+              <Icon name="map-pin" className="mt-0.5 size-5 shrink-0 text-leaf-500" />
               <span>
                 <ClaimText claim={availability} />
               </span>
@@ -73,63 +64,102 @@ export function ProductHero({ product }: { product: Product }) {
 }
 
 /**
- * The app screenshot when there is one (with the product artwork beside it
- * from sm up), else the artwork on its own, else, for EzyCredits, an
- * HTML illustration of its two ways to pay.
+ * "Ka-Ezy · Your 24/7 farm expert": the product's icon in a solid circle,
+ * then the product name highlighted in green (guide: green highlights
+ * product names) and the descriptor in navy. Sentence case rather than the
+ * caps label style, so product names keep their spelling.
+ */
+function Eyebrow({ product }: { product: Product }) {
+  const { eyebrow } = product.hero;
+  const split = eyebrow.indexOf(" · ");
+  const name = split > 0 ? eyebrow.slice(0, split) : eyebrow;
+  const rest = split > 0 ? eyebrow.slice(split + 3) : "";
+
+  return (
+    <p className="flex items-center gap-3 text-base font-semibold">
+      <IconCircle name={product.icon} color={product.accent} size="sm" />
+      <span>
+        <span className="font-bold text-leaf-700">{name}</span>
+        {rest ? (
+          <>
+            {" "}
+            <span aria-hidden="true" className="text-leaf-500">
+              ·
+            </span>{" "}
+            <span className="text-ink">{rest}</span>
+          </>
+        ) : null}
+      </span>
+    </p>
+  );
+}
+
+/**
+ * The app screenshot beside the product artwork (Ka-Ezy), else the artwork
+ * on its own, else, for EzyCredits, an HTML illustration of its two ways to
+ * pay. The artwork is drawn on a pure white background, so it never
+ * overlaps the phone or sits on a tint: it would show as a white box.
  */
 function HeroVisual({ product }: { product: Product }) {
-  const tone = TONES[product.accent];
   const { screenshot, image } = product.hero;
 
-  if (screenshot) {
+  if (screenshot && image) {
+    // The full-length Ka-Ezy character (640x1312) has wide white margins
+    // above and below him; the crop (object-cover) trims them so his feet
+    // line up with the phone. Square artwork (Agrishop) is shown whole.
+    const fullLength = image.height > image.width * 1.5;
+    // Two columns that scale together, so the pair fits a 360px phone
+    // without overflowing and lines up at the bottom on every width.
     return (
-      // Padding on the wrapper makes room for the artwork that overlaps the
-      // phone's left edge, so nothing overflows sideways.
-      <div className="relative isolate mx-auto w-fit sm:pl-24 lg:pl-28">
-        <div
-          aria-hidden="true"
-          className={`absolute top-1/4 right-0 -z-10 aspect-square w-64 rounded-full sm:w-80 ${tone.blob}`}
-        />
+      // The pair stands on the brand wave, which also hides the flat crop of
+      // the full-length Ka-Ezy artwork at his knees.
+      <div className="relative mx-auto grid w-full max-w-md grid-cols-[1fr_1.2fr] items-end gap-3 sm:max-w-lg sm:gap-5 lg:max-w-none">
         <PhoneFrame
           image={screenshot}
           preload
-          className="w-52 sm:w-64 lg:w-72"
-          sizes="(min-width: 1024px) 288px, (min-width: 640px) 256px, 208px"
+          className="w-full"
+          sizes="(min-width: 1024px) 210px, (min-width: 640px) 230px, 42vw"
         />
-        {image ? (
-          <div className="absolute bottom-6 left-0 hidden w-36 overflow-hidden rounded-3xl bg-white p-2 shadow-xl shadow-ink/15 ring-1 ring-black/5 sm:block lg:w-40">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={image.width}
-              height={image.height}
-              sizes="(min-width: 1024px) 144px, 128px"
-              className="h-auto w-full rounded-2xl"
-            />
-          </div>
-        ) : null}
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          sizes="(min-width: 1024px) 260px, (min-width: 640px) 280px, 52vw"
+          className={
+            fullLength
+              ? "aspect-[640/1000] h-auto w-full object-cover object-[50%_60%]"
+              : "h-auto w-full"
+          }
+        />
+        {fullLength ? <Wave id={`${product.slug}-hero-wave`} className="h-12 sm:h-16" /> : null}
       </div>
+    );
+  }
+
+  if (screenshot) {
+    return (
+      <PhoneFrame
+        image={screenshot}
+        preload
+        className="mx-auto w-52 sm:w-64 lg:w-72"
+        sizes="(min-width: 1024px) 288px, (min-width: 640px) 256px, 208px"
+      />
     );
   }
 
   if (image) {
     return (
-      <div className="relative isolate mx-auto w-full max-w-xs sm:max-w-sm">
-        <div
-          aria-hidden="true"
-          className={`absolute -inset-4 -z-10 rounded-full sm:-inset-8 ${tone.blob}`}
+      <div className="mx-auto w-full max-w-xs sm:max-w-sm">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          preload
+          sizes="(min-width: 640px) 384px, 320px"
+          className="h-auto w-full"
         />
-        <div className="overflow-hidden rounded-[2rem] bg-white p-3 shadow-2xl shadow-ink/15 ring-1 ring-black/5">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            preload
-            sizes="(min-width: 640px) 360px, 296px"
-            className="h-auto w-full rounded-3xl"
-          />
-        </div>
       </div>
     );
   }

@@ -13,7 +13,10 @@ export function Container({
 const TONES = {
   white: "bg-white",
   surface: "bg-surface",
+  /** Dark Navy band. */
   brand: "bg-brand-900 text-white",
+  /** The signature blue-to-green gradient (white text passes across it). */
+  gradient: "brand-gradient text-white",
 } as const;
 
 /** A full-width page band with consistent vertical rhythm. */
@@ -56,6 +59,8 @@ export function SectionHeader({
   title: string;
   intro?: string;
   align?: "left" | "center";
+  /** White text, for the navy and gradient bands (tinted whites fall
+   *  below 4.5:1 on the green end of the gradient). */
   invert?: boolean;
   children?: ReactNode;
 }) {
@@ -64,19 +69,19 @@ export function SectionHeader({
     <div className={`mb-10 max-w-2xl ${centered}`}>
       {eyebrow ? (
         <p
-          className={`mb-2 text-sm font-bold tracking-wider uppercase ${invert ? "text-brand-100" : "text-brand-700"}`}
+          className={`mb-2 text-sm font-semibold tracking-[0.14em] uppercase ${invert ? "text-white" : "text-brand-700"}`}
         >
           {eyebrow}
         </p>
       ) : null}
       <h2
         id={id}
-        className={`text-3xl font-extrabold tracking-tight text-balance sm:text-4xl ${invert ? "text-white" : "text-ink"}`}
+        className={`text-3xl font-bold tracking-tight text-balance sm:text-4xl ${invert ? "text-white" : "text-brand-700"}`}
       >
         {title}
       </h2>
       {intro ? (
-        <p className={`mt-3 text-lg text-pretty ${invert ? "text-brand-50" : "text-muted"}`}>
+        <p className={`mt-3 text-lg text-pretty ${invert ? "text-white" : "text-muted"}`}>
           {intro}
         </p>
       ) : null}

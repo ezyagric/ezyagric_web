@@ -36,6 +36,18 @@ const IMAGES = [
   ["photos/records.jpg", "photos/records.webp", 1200],
   ["photos/farm-profile.jpg", "photos/farm-profile.webp", 1200],
 
+  // From the EzyAgric Creative & Content Pack (Google Drive, Oct 2026)
+  ["app/ka-ezy-full.png", "products/ka-ezy-full.webp", 640],
+  ["photos-2026/farmer-with-phone.jpg", "photos/farmer-with-phone.webp", 720],
+  ["photos-2026/agent-guiding-farmers.jpg", "photos/agent-guiding-farmers.webp", 1200],
+  ["photos-2026/kaezy-exhibition.jpg", "photos/kaezy-exhibition.webp", 800],
+  ["photos-2026/farmer-in-garden.jpg", "photos/farmer-in-garden.webp", 720],
+  ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
+  ["video-posters/kaezy-expert-advice.png", "videos/kaezy-expert-advice.webp", 900],
+  ["video-posters/kaezy-disease-diagnosis.png", "videos/kaezy-disease-diagnosis.webp", 900],
+  ["video-posters/kaezy-garden-mapping.png", "videos/kaezy-garden-mapping.webp", 900],
+  ["video-posters/kaezy-farm-records.png", "videos/kaezy-farm-records.webp", 900],
+
   // Payment marks
   ["brand/mtn.png", "brand/mtn.webp", 120],
   ["brand/airtel.png", "brand/airtel.webp", 120],
@@ -52,6 +64,8 @@ const COPIES = [
   ["brand/ezyagric-logo.svg", "brand/ezyagric-logo.svg"],
   // Same logo without the tagline, for the header (viewBox cropped)
   ["brand/ezyagric-wordmark.svg", "brand/ezyagric-wordmark.svg"],
+  // Reversed (white) lockup for navy, blue or green backgrounds
+  ["brand/ezyagric-logo-white.svg", "brand/ezyagric-logo-white.svg"],
   ["brand/google-play-badge.svg", "brand/google-play-badge.svg"],
 ];
 
