@@ -25,10 +25,10 @@ export function Agents() {
             title={agents.title}
             intro={agents.intro}
           />
-          <h3 className="text-xl font-bold text-ink">What DACs do</h3>
+          <h3 className="text-xl font-heading text-title">What DACs do</h3>
           <ul className="mt-4 space-y-3">
             {agents.roles.map((role) => (
-              <li key={role} className="flex items-start gap-3 text-base text-ink">
+              <li key={role} className="flex items-start gap-3 text-base text-body">
                 <CheckDot />
                 <span>{role}</span>
               </li>
@@ -37,7 +37,7 @@ export function Agents() {
         </div>
 
         {/* A real EzyAgric agent guiding farmers (lazy: below the fold). */}
-        <div className="overflow-hidden rounded-lg border border-line lg:order-first">
+        <div className="overflow-hidden rounded-media border border-line lg:order-first">
           <Image
             src={agents.image.src}
             alt={agents.image.alt}
@@ -49,18 +49,18 @@ export function Agents() {
         </div>
       </div>
 
-      <h3 className="mt-14 text-xl font-bold text-ink">How to get started</h3>
+      <h3 className="mt-14 text-xl font-heading text-title">How to get started</h3>
       <ol className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {agents.steps.map((step, i) => (
-          <li key={step} className="flex items-start gap-4 rounded-lg border border-line bg-white p-5">
+          <li key={step} className="flex items-start gap-4 rounded-card border border-line bg-card p-5">
             {/* The <ol> already numbers steps for screen readers. */}
             <span
               aria-hidden="true"
-              className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white"
+              className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand text-lg font-heading text-on-brand"
             >
               {i + 1}
             </span>
-            <span className="pt-2 text-base text-ink">{step}</span>
+            <span className="pt-2 text-base text-body">{step}</span>
           </li>
         ))}
       </ol>

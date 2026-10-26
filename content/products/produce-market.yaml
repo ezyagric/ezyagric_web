@@ -6,7 +6,7 @@ slug: produce-market
 order: 4
 name: Produce Market
 appTagline: Sell crops & livestock
-accent: green
+accent: accent
 icon: store
 
 card:

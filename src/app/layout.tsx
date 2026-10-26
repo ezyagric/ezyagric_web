@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PreviewBanner } from "@/components/layout/PreviewBanner";
 import { Analytics } from "@/components/analytics/Analytics";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
+import { themeToken } from "@/theme/server";
 
 // Nunito Sans is the farmer app's font. next/font downloads it at build time
 // and serves it from this site, so visitors make no request to Google Fonts.
@@ -32,16 +33,21 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", site: "@ezyagric" },
 };
 
-// Browser bar colour on Android: Primary Blue (Brand Guide v1.0).
 export const viewport: Viewport = {
-  themeColor: "#05377e",
+  // Browser toolbar colour on Android: the active theme's heading colour.
+  themeColor: themeToken("heading"),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // data-scroll-behavior lets Next turn smooth scrolling off during page
     // changes (Next 16), so only in-page anchor links scroll smoothly.
-    <html lang="en" data-scroll-behavior="smooth" className={nunitoSans.variable}>
+    <html
+      lang="en"
+      data-theme={site.theme}
+      data-scroll-behavior="smooth"
+      className={nunitoSans.variable}
+    >
       <body className="flex min-h-dvh flex-col">
         <PreviewBanner />
         <Header />

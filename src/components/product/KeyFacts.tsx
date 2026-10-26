@@ -22,14 +22,14 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
 
   const smallPrint =
     lenderLine && isVisible(lenderLine) ? (
-      <p className="mt-4 max-w-3xl text-sm font-light text-pretty text-muted">
+      <p className="mt-4 max-w-3xl text-sm font-caption text-pretty text-muted">
         <ClaimText claim={lenderLine} />
       </p>
     ) : null;
 
   if (!keyFacts || !isVisible(keyFacts)) {
     return smallPrint ? (
-      <div className={tone === "surface" ? "bg-surface py-10" : "bg-white py-10"}>
+      <div className={tone === "subtle" ? "bg-subtle py-10" : "bg-canvas py-10"}>
         <Container>{smallPrint}</Container>
       </div>
     ) : null;
@@ -44,7 +44,7 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
         badge={keyFacts.pending ? <PendingBadge note={keyFacts.note} /> : null}
       />
 
-      <div className="relative max-w-3xl overflow-hidden rounded-lg border border-line bg-white pt-1.5">
+      <div className="relative max-w-3xl overflow-hidden rounded-card border border-line bg-card pt-1.5">
         <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${accent.bar}`} />
         <dl className="divide-y divide-line">
           {visible(keyFacts.items).map((item) => (
@@ -52,9 +52,9 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
               key={item.label}
               className="grid gap-1 px-5 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6 sm:px-6"
             >
-              <dt className="font-bold text-ink">{item.label}</dt>
-              <dd className="text-ink">
-                {item.value ?? <span className="font-semibold text-muted">To be confirmed</span>}
+              <dt className="font-heading text-title">{item.label}</dt>
+              <dd className="text-body">
+                {item.value ?? <span className="font-label text-muted">To be confirmed</span>}
                 {item.pending ? <PendingBadge note={item.note} /> : null}
               </dd>
             </div>

@@ -7,7 +7,7 @@ export function Faq() {
   const { faq } = getSite();
 
   return (
-    <Section id="faq" tone="surface" labelledBy="faq-title">
+    <Section id="faq" tone="subtle" labelledBy="faq-title">
       <div className="mx-auto max-w-3xl">
         <SectionHeader id="faq-title" title={faq.title} align="center" />
         <FaqList items={faq.items} />

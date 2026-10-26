@@ -91,7 +91,7 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
       <Breadcrumbs product={product} />
       <ProductHero product={product} />
       {/* The hero is white, so the first band is tinted. */}
-      {bands(product).map((render, i) => render(i % 2 === 0 ? "surface" : "white"))}
+      {bands(product).map((render, i) => render(i % 2 === 0 ? "subtle" : "canvas"))}
       <ProductCtaBand product={product} />
     </>
   );

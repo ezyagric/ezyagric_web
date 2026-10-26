@@ -200,12 +200,12 @@ function ConsentManager() {
         <div
           role="region"
           aria-label="Cookie choice"
-          className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-xl rounded-lg bg-white p-4 text-ink shadow-xl ring-1 ring-line sm:bottom-5 sm:p-5"
+          className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-xl rounded-card bg-card p-4 text-body shadow-raised ring-1 ring-line sm:bottom-5 sm:p-5"
         >
           <p className="text-base">
             We&apos;d like to use Google Analytics cookies to understand how people use this
             site.{" "}
-            <Link prefetch={false} href="/privacy-policy/" className="font-semibold text-brand-700 underline">
+            <Link prefetch={false} href="/privacy-policy/" className="font-label text-link underline">
               Privacy policy
             </Link>
           </p>

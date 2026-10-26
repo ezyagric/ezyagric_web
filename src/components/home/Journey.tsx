@@ -18,7 +18,7 @@ export function Journey() {
   });
 
   return (
-    <Section id="how-it-works" tone="surface" labelledBy="how-it-works-title">
+    <Section id="how-it-works" tone="subtle" labelledBy="how-it-works-title">
       <SectionHeader id="how-it-works-title" title={journey.title} intro={journey.intro} />
       <ol className="grid lg:grid-cols-4 lg:gap-6">
         {steps.map((step, i) => (
@@ -56,38 +56,38 @@ function JourneyStep({
           {/* Phones: a line down from this step's circle to the next one. */}
           <span
             aria-hidden="true"
-            className="absolute top-[4.5rem] bottom-1 left-8 flex -translate-x-1/2 flex-col items-center text-brand-700 lg:hidden"
+            className="absolute top-[4.5rem] bottom-1 left-8 flex -translate-x-1/2 flex-col items-center text-secondary lg:hidden"
           >
-            <span className="w-0.5 flex-1 rounded-full bg-brand-100" />
+            <span className="w-0.5 flex-1 rounded-pill bg-brand-soft-strong" />
             <ChevronDown className="-mt-1.5 size-5" />
           </span>
           {/* lg: a line across to the next column, ending in an arrow. */}
           <span
             aria-hidden="true"
-            className="absolute top-8 left-20 -right-4 hidden -translate-y-1/2 items-center text-brand-700 lg:flex"
+            className="absolute top-8 left-20 -right-4 hidden -translate-y-1/2 items-center text-secondary lg:flex"
           >
-            <span className="h-0.5 flex-1 rounded-full bg-brand-100" />
+            <span className="h-0.5 flex-1 rounded-pill bg-brand-soft-strong" />
             <ArrowRight className="-ml-1.5 size-5" />
           </span>
         </>
       )}
       <IconCircle name={product.icon} color={product.accent} size="lg" />
       <div className="min-w-0 pt-1 lg:pt-0">
-        <p aria-hidden="true" className="text-sm font-semibold tracking-[0.14em] text-muted uppercase">
+        <p aria-hidden="true" className="text-sm text-label-style text-muted">
           Step {number}
         </p>
-        <h3 className="text-2xl font-bold tracking-tight text-ink">{verb}</h3>
+        <h3 className="text-2xl font-heading tracking-heading text-title">{verb}</h3>
         {/* The product name is the step's green highlight (the accessible
             shade at this size), so the sentence below stays plain. */}
         <p className="mt-0.5">
           <Link prefetch={false}
             href={`/${product.slug}/`}
-            className="inline-flex min-h-12 items-center rounded font-bold text-leaf-700 underline underline-offset-4 hover:text-leaf-800"
+            className="inline-flex min-h-12 items-center rounded-control font-heading text-accent underline underline-offset-4 hover:text-accent-hover"
           >
             {product.name}
           </Link>
         </p>
-        <p className="text-base text-pretty text-ink">{text}</p>
+        <p className="text-base text-pretty text-body">{text}</p>
       </div>
     </li>
   );

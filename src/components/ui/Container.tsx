@@ -11,18 +11,18 @@ export function Container({
 }
 
 const TONES = {
-  white: "bg-white",
-  surface: "bg-surface",
+  canvas: "bg-canvas",
+  subtle: "bg-subtle",
   /** Dark Navy band. */
-  brand: "bg-brand-900 text-white",
-  /** The signature blue-to-green gradient (white text passes across it). */
-  gradient: "brand-gradient text-white",
+  inverse: "bg-inverse text-on-inverse",
+  /** The signature blue-green gradient (on-inverse text passes across it). */
+  gradient: "gradient-brand text-on-inverse",
 } as const;
 
 /** A full-width page band with consistent vertical rhythm. */
 export function Section({
   id,
-  tone = "white",
+  tone = "canvas",
   className = "",
   labelledBy,
   children,
@@ -59,7 +59,7 @@ export function SectionHeader({
   title: string;
   intro?: string;
   align?: "left" | "center";
-  /** White text, for the navy and gradient bands (tinted whites fall
+  /** On-inverse (white) text, for the navy and gradient bands (tinted whites fall
    *  below 4.5:1 on the green end of the gradient). */
   invert?: boolean;
   children?: ReactNode;
@@ -69,19 +69,19 @@ export function SectionHeader({
     <div className={`mb-10 max-w-2xl ${centered}`}>
       {eyebrow ? (
         <p
-          className={`mb-2 text-sm font-semibold tracking-[0.14em] uppercase ${invert ? "text-white" : "text-brand-700"}`}
+          className={`mb-2 text-sm text-label-style ${invert ? "text-on-inverse" : "text-label"}`}
         >
           {eyebrow}
         </p>
       ) : null}
       <h2
         id={id}
-        className={`text-3xl font-bold tracking-tight text-balance sm:text-4xl ${invert ? "text-white" : "text-brand-700"}`}
+        className={`text-3xl font-heading tracking-heading text-balance sm:text-4xl ${invert ? "text-on-inverse" : "text-heading"}`}
       >
         {title}
       </h2>
       {intro ? (
-        <p className={`mt-3 text-lg text-pretty ${invert ? "text-white" : "text-muted"}`}>
+        <p className={`mt-3 text-lg text-pretty ${invert ? "text-on-inverse" : "text-muted"}`}>
           {intro}
         </p>
       ) : null}

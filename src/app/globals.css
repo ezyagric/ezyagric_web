@@ -1,49 +1,84 @@
 @import "tailwindcss";
+@import "../theme/themes.css";
 
 /*
- * Brand tokens from the EzyAgric Brand Guide v1.0 (2026): Vibrant Green
- * #0C9548 and Dark Navy #05103B, with white or the #F7F9FC tint carrying most
- * of the page. The brand blue is the blue of the "EzyAgric" wordmark in the
- * logo (#05377E, from the vector logo), as decided by the EzyAgric team on
- * 26 Oct 2026; it replaces the guide's Primary Blue #0043C0.
- *
- * Accessibility adaptation: Vibrant Green with white text is 3.9:1, below
- * WCAG AA (4.5:1) for button-size text. leaf-500 is the exact brand green,
- * for icons, highlights and large text; leaf-700 (5.1:1) is its deeper shade
- * for buttons and small green text.
+ * Semantic design tokens. Components use ONLY these names (bg-primary,
+ * text-heading, rounded-button, shadow-card, ...); every value comes from the
+ * active theme in src/theme/themes.css. `inline` makes each utility read the
+ * --theme-* variable directly, so switching <html data-theme> restyles the
+ * whole site without rebuilding components.
  */
-@theme {
-  --font-sans: var(--font-nunito-sans), "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+@theme inline {
+  /* No default Tailwind palette: every colour must come from the theme. */
+  --color-*: initial;
 
-  /* Body copy at 1.6 line height (guide: 1.55-1.7). */
+  /* Surfaces */
+  --color-canvas: var(--theme-canvas);
+  --color-subtle: var(--theme-subtle);
+  --color-card: var(--theme-card);
+  --color-inverse: var(--theme-inverse);
+  --color-on-inverse: var(--theme-on-inverse);
+  --color-line: var(--theme-line);
+
+  /* Text */
+  --color-heading: var(--theme-heading);
+  --color-title: var(--theme-title);
+  --color-body: var(--theme-body);
+  --color-muted: var(--theme-muted);
+  --color-label: var(--theme-label);
+  --color-link: var(--theme-link);
+
+  /* Actions */
+  --color-primary: var(--theme-primary);
+  --color-primary-hover: var(--theme-primary-hover);
+  --color-on-primary: var(--theme-on-primary);
+  --color-on-brand: var(--theme-on-brand);
+  --color-on-accent: var(--theme-on-accent);
+  --color-on-secondary: var(--theme-on-secondary);
+  --color-secondary: var(--theme-secondary);
+  --color-secondary-hover: var(--theme-secondary-hover);
+  --color-focus: var(--theme-focus);
+  --color-focus-inverse: var(--theme-focus-inverse);
+
+  /* Brand accents */
+  --color-brand: var(--theme-brand);
+  --color-brand-soft: var(--theme-brand-soft);
+  --color-brand-soft-strong: var(--theme-brand-soft-strong);
+  --color-accent: var(--theme-accent);
+  --color-accent-hover: var(--theme-accent-hover);
+  --color-accent-bright: var(--theme-accent-bright);
+  --color-accent-soft: var(--theme-accent-soft);
+  --color-accent-soft-strong: var(--theme-accent-soft-strong);
+  --color-shade: var(--theme-shade);
+  --color-gradient-start: var(--theme-gradient-start);
+  --color-gradient-end: var(--theme-gradient-end);
+  --color-gradient-decor-end: var(--theme-gradient-decor-end);
+
+  /* Review-only */
+  --color-review: var(--theme-review);
+  --color-review-soft: var(--theme-review-soft);
+
+  /* Shape and elevation */
+  --radius-button: var(--theme-radius-button);
+  --radius-card: var(--theme-radius-card);
+  --radius-media: var(--theme-radius-media);
+  --radius-control: var(--theme-radius-control);
+  --radius-pill: var(--theme-radius-pill);
+  --shadow-card: var(--theme-shadow-card);
+  --shadow-raised: var(--theme-shadow-raised);
+  --shadow-device: var(--theme-shadow-device);
+
+  /* Type */
+  --font-sans: var(--theme-font-body);
+  --font-weight-heading: var(--theme-weight-heading);
+  --font-weight-label: var(--theme-weight-label);
+  --font-weight-caption: var(--theme-weight-caption);
+  --tracking-heading: var(--theme-tracking-heading);
+  --tracking-label: var(--theme-tracking-label);
   --text-sm--line-height: 1.55;
-  --text-base--line-height: 1.6;
-  --text-lg--line-height: 1.6;
+  --text-base--line-height: var(--theme-leading-body);
+  --text-lg--line-height: var(--theme-leading-body);
   --text-xl--line-height: 1.55;
-
-  --color-ink: #05103b; /* Dark Navy: body text, card titles, footer (18.4:1) */
-  --color-muted: #3b4668; /* navy-grey secondary text (9.3:1) */
-  --color-surface: #f7f9fc; /* the guide's near-white tint */
-  --color-line: #e4e8f2; /* card borders (guide) */
-
-  --color-brand-50: #ebf0f7;
-  --color-brand-100: #d5dfee;
-  --color-brand-500: #05377e; /* EzyAgric logo blue */
-  --color-brand-700: #05377e; /* logo blue: headlines, links, outlines (11.3:1) */
-  --color-brand-800: #042c66; /* hover */
-  --color-brand-900: #05103b; /* Dark Navy bands */
-
-  --color-leaf-50: #e7f5ed;
-  --color-leaf-100: #c9ead7;
-  --color-leaf-500: #0c9548; /* Vibrant Green: icons, highlights, large text */
-  --color-leaf-700: #0a7f3d; /* accessible green: buttons, small text (5.1:1) */
-  --color-leaf-800: #08692f; /* hover */
-
-  /* Review-only colours: "To confirm" badges and the preview banner, never
-     shown in production builds. */
-  --color-review-50: #fdf3e7;
-  --color-review-700: #b45309;
-
 }
 
 @layer base {
@@ -59,7 +94,8 @@
   }
 
   body {
-    @apply bg-white font-sans leading-[1.6] text-ink antialiased;
+    @apply bg-canvas font-sans text-body antialiased;
+    line-height: var(--theme-leading-body);
   }
 
   /* Anchor targets clear the sticky header. */
@@ -68,27 +104,36 @@
   }
 
   :focus-visible {
-    @apply outline-3 outline-offset-2 outline-brand-700;
+    @apply outline-3 outline-offset-2 outline-focus;
   }
 
-  /* The guide: headlines in Primary Blue, never blue body text. */
+  /* Headlines take the theme's heading colour; body text never does. */
   h1,
   h2 {
-    @apply text-brand-700;
+    @apply text-heading;
   }
 
-  /* The brand-blue ring is too faint on the dark footer and dark bands. */
-  .bg-ink :focus-visible,
-  .bg-brand-900 :focus-visible,
-  .brand-gradient :focus-visible {
-    @apply outline-white;
+  /* On dark bands and the gradient the focus ring switches colour. */
+  .bg-inverse :focus-visible,
+  .gradient-brand :focus-visible {
+    @apply outline-focus-inverse;
   }
 }
 
-@layer components {
-  /* The signature gradient: Primary Blue to green, left to right. The green
-     end is the accessible shade so white text passes across the whole band. */
-  .brand-gradient {
-    background-image: linear-gradient(110deg, var(--color-brand-700) 0%, var(--color-brand-700) 35%, var(--color-leaf-700) 100%);
-  }
+/* The signature gradient: brand blue to green, left to right. Its green end
+   is the accessible shade, so white text passes across the whole band. */
+@utility gradient-brand {
+  background-image: linear-gradient(110deg, var(--theme-gradient-start) 0%, var(--theme-gradient-start) 35%, var(--theme-gradient-end) 100%);
+}
+
+/* Decorative version (waves, stripes; never under text), ending in the exact brand green. */
+@utility gradient-brand-decor {
+  background-image: linear-gradient(90deg, var(--theme-gradient-start), var(--theme-gradient-decor-end));
+}
+
+/* Section labels / eyebrows: the guide's SemiBold, 0.14em, capitals. */
+@utility text-label-style {
+  font-weight: var(--theme-weight-label);
+  letter-spacing: var(--theme-tracking-label);
+  text-transform: uppercase;
 }

@@ -5,6 +5,10 @@
 # Preview/staging builds show it with a "To confirm" badge; production
 # builds hide it. Validated by src/lib/content.ts at build time.
 
+# Visual theme from src/theme/themes.css: "ezyagric" (default) or
+# "ezyagric-guide" (the Brand Guide's original blue and 8px buttons).
+theme: ezyagric
+
 name: EzyAgric
 legalName: Akorion Company Limited
 slogan: Farm the Ezy way.
@@ -109,10 +113,22 @@ impact:
 stories:
   title: Stories from the field
   intro: Hear from farmers, village agents and the EzyAgric team.
+  channel:
+    label: See all our videos on YouTube
+    url: https://www.youtube.com/@ezyagric8713/videos
 
 # YouTube videos (titles fetched from YouTube, Oct 2026). Videos only load
 # when someone taps play.
 videos:
+  # Featured: shown in the first row on the home page.
+  - id: e9ZdtHdcemc
+    title: "EzyAgric: farm the smart and Ezy way (a Tech & Society feature)"
+    topic: media
+    featured: true
+  - id: 0klmqMEDVtM
+    title: Farming with just a tap
+    topic: app
+    featured: true
   - id: WsKjvNgo9Ms
     title: A farmer in Luwero District on how the EzyAgric App changed his farming
     topic: farmers
@@ -122,6 +138,9 @@ videos:
   - id: Tw2uWYTQZS4
     title: Oboth Silive, EzyAgric village agent in Bugiri District
     topic: agents
+  - id: "-VhNuO4fzh0"
+    title: Quick and safe delivery of farm inputs
+    topic: app
   - id: _qxPHHbXf90
     title: How to pay for your inputs using EzyCredits
     topic: ezycredits
@@ -338,4 +357,4 @@ social:
   - name: LinkedIn
     url: https://www.linkedin.com/company/akorion-company-limited/
   - name: YouTube
-    url: https://www.youtube.com/channel/UCVW4MwDxy_xYpTni2B7J7sw
+    url: https://www.youtube.com/@ezyagric8713

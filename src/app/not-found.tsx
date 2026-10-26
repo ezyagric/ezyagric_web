@@ -20,13 +20,13 @@ export default function NotFound() {
   const products = getProducts();
 
   return (
-    <section aria-labelledby="not-found-title" className="bg-surface py-14 sm:py-20">
+    <section aria-labelledby="not-found-title" className="bg-subtle py-14 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold tracking-[0.14em] text-brand-700 uppercase">Error 404</p>
+          <p className="text-sm text-label-style text-label">Error 404</p>
           <h1
             id="not-found-title"
-            className="mt-2 text-3xl font-bold tracking-tight text-balance text-brand-700 sm:text-4xl"
+            className="mt-2 text-3xl font-heading tracking-heading text-balance text-heading sm:text-4xl"
           >
             Sorry, we can&apos;t find that page
           </h1>
@@ -42,22 +42,22 @@ export default function NotFound() {
           <ul className="grid gap-3 sm:grid-cols-2">
             {products.map((p) => (
               <li key={p.slug}>
-                {/* Brand guide card: white, 1px border, 8px radius, navy title. */}
+                {/* Card: bg-card, border-line, rounded-card, title-colour name. */}
                 <Link
                   prefetch={false}
                   href={`/${p.slug}/`}
-                  className="group flex min-h-20 items-center gap-4 rounded-lg border border-line bg-white p-4 transition-colors hover:border-brand-700"
+                  className="group flex min-h-20 items-center gap-4 rounded-card border border-line bg-card p-4 transition-colors hover:border-secondary"
                 >
                   <ProductMark product={p} size="sm" />
                   <span className="min-w-0 flex-1">
-                    <span className="block text-lg font-bold text-ink group-hover:text-brand-700">
+                    <span className="block text-lg font-heading text-title group-hover:text-link">
                       {p.name}
                     </span>
                     <span className="block text-muted">{p.appTagline}</span>
                   </span>
                   <ChevronRight
                     aria-hidden="true"
-                    className="size-5 shrink-0 text-brand-700 transition-transform group-hover:translate-x-0.5"
+                    className="size-5 shrink-0 text-secondary transition-transform group-hover:translate-x-0.5"
                   />
                 </Link>
               </li>
@@ -66,7 +66,7 @@ export default function NotFound() {
         </nav>
 
         <div className="mt-10 flex flex-col items-center gap-3 text-center">
-          <p className="font-semibold text-ink">Get the EzyAgric App</p>
+          <p className="font-label text-body">Get the EzyAgric App</p>
           <PlayBadge campaign="general" medium="404" />
         </div>
       </Container>

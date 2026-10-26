@@ -1,34 +1,22 @@
 import type { Accent } from "@/lib/content";
 
-// Product accents in the three brand colours. Full class strings (not built
-// from pieces) so Tailwind can find them. `text` passes 4.5:1;
-// `icon` is the solid circle behind white icons (guide: blue, green or navy).
+// Product accents (brand, accent, deep) as semantic theme tokens. Full class
+// strings (not built from pieces) so Tailwind can find them. `icon` is the
+// solid circle behind a glyph; `bar` is a decorative accent bar.
 export const ACCENTS: Record<
   Accent,
-  { text: string; soft: string; border: string; ring: string; bar: string; icon: string }
+  { bar: string; icon: string }
 > = {
-  blue: {
-    text: "text-brand-700",
-    soft: "bg-brand-50",
-    border: "border-brand-700/25",
-    ring: "ring-brand-700/20",
-    bar: "bg-brand-700",
-    icon: "bg-brand-700 text-white",
+  brand: {
+    bar: "bg-brand",
+    icon: "bg-brand text-on-brand",
   },
-  green: {
-    text: "text-leaf-700",
-    soft: "bg-leaf-50",
-    border: "border-leaf-700/25",
-    ring: "ring-leaf-700/20",
-    bar: "bg-leaf-500",
-    icon: "bg-leaf-500 text-white",
+  accent: {
+    bar: "bg-accent-bright",
+    icon: "bg-accent-bright text-on-accent",
   },
-  navy: {
-    text: "text-ink",
-    soft: "bg-surface",
-    border: "border-ink/20",
-    ring: "ring-ink/15",
-    bar: "bg-ink",
-    icon: "bg-ink text-white",
+  deep: {
+    bar: "bg-inverse",
+    icon: "bg-inverse text-on-inverse",
   },
 };

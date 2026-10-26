@@ -16,12 +16,12 @@ function pattern(): RegExp {
 /**
  * Brand guide: "Vibrant Green highlights product names, prices and offers."
  * Renders the copy unchanged, with product names and UGX prices in green.
- * leaf-700 by default (5.1:1, safe at body size); pass leaf-500 only for
- * large text.
+ * text-accent by default (5.1:1, safe at body size); pass text-accent-bright
+ * only for large text.
  */
 export function Highlight({
   text,
-  className = "font-bold text-leaf-700",
+  className = "font-heading text-accent",
 }: {
   text: string;
   className?: string;
@@ -49,7 +49,7 @@ export function CheckDot() {
   return (
     <span
       aria-hidden="true"
-      className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-leaf-500 text-white"
+      className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-accent-bright text-on-primary"
     >
       <Check className="size-3.5" strokeWidth={3} />
     </span>

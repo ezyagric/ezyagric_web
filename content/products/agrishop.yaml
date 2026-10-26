@@ -5,7 +5,7 @@ slug: agrishop
 order: 2
 name: Agrishop
 appTagline: Buy crop & livestock inputs and services
-accent: green
+accent: accent
 icon: shopping-cart
 
 card:
@@ -83,6 +83,10 @@ photo:
     width: 1400
     height: 933
   caption: From the input shop to the farm gate — EzyAgric on a Ugandan coffee farm.
+
+# YouTube videos (ids from content/site.yaml videos).
+videoIds:
+  - "-VhNuO4fzh0"
 
 faq:
   - q: Are the products genuine?

@@ -92,13 +92,49 @@ So the team can review everything on staging, and nothing unconfirmed reaches th
 
 The site follows the **EzyAgric Brand Guide v1.0 (2026)** from the *EzyAgric Creative & Content Pack: SmartAgric Community* Google Drive folder, which is also where the full Ka-Ezy artwork, the 2026 photos, the Ka-Ezy demo videos and the Ka-Ezy prices and campaign lines came from. Tagline: *Endless farming possibilities*.
 
-- **Colours** (tokens in `src/app/globals.css`): the EzyAgric logo blue `#05377E` (`brand-700`: headlines, links, outlines; the blue of the "EzyAgric" wordmark, chosen by the EzyAgric team on 26 Oct 2026 in place of the guide's Primary Blue `#0043C0`), Vibrant Green `#0C9548` (`leaf-500`: icons, highlights, large text, the end of the gradient), Dark Navy `#05103B` (`ink`: body text, card titles, footer, dark bands). White or the `#F7F9FC` tint (`surface`) carries most of each page; card borders are `#E4E8F2` (`line`). The signature gradient (logo blue to green) is the `.brand-gradient` class.
-- **Accessible green:** white text on Vibrant Green is only 3.9:1, below WCAG AA. Buttons and small green text therefore use the deeper `leaf-700` `#0A7F3D` (5.1:1), and the gradient ends in it so white text passes across the band. Exact Vibrant Green is kept for icons, highlights, large text and decoration.
+- **Colours** (values in the `ezyagric` theme, `src/theme/themes.css`; see [Theming](#theming)): the EzyAgric logo blue `#05377E` for headlines, links and outlines (`heading`, `link`, `secondary`, `brand`; the blue of the "EzyAgric" wordmark, chosen by the EzyAgric team on 26 Oct 2026 in place of the guide's Primary Blue `#0043C0`), Vibrant Green `#0C9548` for icons, highlights and large text (`accent-bright`), Dark Navy `#05103B` for body text, card titles, the footer and dark bands (`body`, `title`, `inverse`). White or the `#F7F9FC` tint (`canvas`, `subtle`) carries most of each page; card borders are `#E4E8F2` (`line`). The signature gradient (logo blue to green) is the `gradient-brand` utility.
+- **Accessible green:** white text on Vibrant Green is only 3.9:1, below WCAG AA. Buttons and small green text therefore use the deeper `#0A7F3D` (`primary`, `accent`; 5.1:1), and the gradient ends in it so white text passes across the band. Exact Vibrant Green is kept for icons, highlights, large text and decoration.
 - **Type:** Nunito Sans only (loaded by `next/font`, fallback Trebuchet MS). Headlines Bold, sub-headlines SemiBold, section labels SemiBold capitals with 0.14em tracking, body Regular at 1.6 line height, never below 14px. The script tagline face is only ever seen inside the logo.
-- **Buttons and cards:** primary buttons are a green fill with a white SemiBold label and 8px radius; secondary buttons a blue outline on white (`src/components/ui/Button.tsx`). Cards are white with a 1px `#E4E8F2` border, 8px radius and navy titles. Icons are white line glyphs in a solid blue, green or navy circle (`IconCircle`).
+- **Buttons and cards:** primary buttons are a green fill with a white SemiBold label, fully rounded (pill) like the EzyCredits "Pay now" pill (team decision, 26 Oct 2026, instead of the guide's 8px radius); secondary buttons a blue outline on white (`src/components/ui/Button.tsx`). Cards are white with a 1px `#E4E8F2` border, 8px radius and navy titles. Icons are white line glyphs in a solid blue, green or navy circle (`IconCircle`).
 - **Logo:** the logo and its tagline are one unit, so the site only uses the full lockup (`public/images/brand/ezyagric-logo.svg`; reversed white version `ezyagric-logo-white.svg` on navy, blue, green, the gradient and photos), through `src/components/layout/Logo.tsx`. At least 140px wide on screen; clear space of half the circular mark's height on every side; never stretched, recoloured, re-typeset, given effects or put in colour on a brand colour. `ezyagric-wordmark.svg` (no tagline) is kept in the repo but must not be used.
 - **Naming:** always *EzyAgric* (one word, capital E and A) and *the EzyAgric App*.
 - **Share images** follow the guide's link/X post layout: 1200x630, blue headline (two lines at most), product names in green, the logo bottom left at 180px, 60px margins.
+
+---
+
+## Theming
+
+Every UI component takes its look from a **theme**. Components only use semantic token names — `bg-primary`, `text-heading`, `rounded-button`, `shadow-card` — never a colour, size or shape directly. To restyle the whole site you change the theme, not the components.
+
+- **Where the values live:** `src/theme/themes.css`. Each theme is a block of `--theme-*` variables. `src/app/globals.css` maps them to the token names below (and switches off Tailwind's default colour palette, so nothing else can creep in).
+- **Switch theme:** set `theme:` in `content/site.yaml`. It becomes `<html data-theme="…">`. Two themes ship today:
+  - `ezyagric` (default): the logo blue and pill buttons, as decided by the EzyAgric team.
+  - `ezyagric-guide`: the Brand Guide as written (Primary Blue `#0043C0`, 8px buttons).
+- **Change a value:** edit it in the theme's block, e.g. `--theme-radius-button: 8px;` or `--theme-primary: #0a7f3d;`. Keep radii in `px` and colours as plain hex values (share images read them as numbers/strings).
+- **Add a theme:** copy a block in `themes.css`, give it a new `[data-theme="name"]`, override only the values that differ, and add the name to `THEMES` in `src/theme/themes.ts`.
+- **Share images and the Android browser colour** follow the active theme too: they read `themes.css` at build time through `src/theme/server.ts`.
+- **Not part of a theme:** the logo files, the app screenshots and artwork, and the bundled share-image fonts are fixed brand assets.
+
+| Token (use as `bg-…`, `text-…`, `border-…`, `ring-…`, `outline-…`) | Role |
+|---|---|
+| `canvas`, `subtle`, `card`, `inverse` | Page background, tinted bands, cards, dark bands/footer |
+| `on-inverse`, `on-primary`, `on-brand`, `on-accent`, `on-secondary` | Text or icons on those fills |
+| `heading`, `title`, `body`, `muted`, `label`, `link` | Headlines (h1/h2), card titles (h3), body copy, secondary text, section labels, links |
+| `primary`, `primary-hover`, `secondary`, `secondary-hover` | Primary (filled) and secondary (outline) buttons |
+| `brand`, `brand-soft`, `brand-soft-strong` | Brand-blue fills (icon circles, step numbers) and tints |
+| `accent`, `accent-hover`, `accent-bright`, `accent-soft`, `accent-soft-strong` | Green highlights: small text, hover, icons/large text, tints |
+| `line`, `shade`, `focus`, `focus-inverse` | Borders, shadow/overlay colour, focus rings |
+| `review`, `review-soft` | "To confirm" badges only (preview builds) |
+
+| Other tokens | Role |
+|---|---|
+| `rounded-button`, `rounded-card`, `rounded-media`, `rounded-control`, `rounded-pill` | Buttons, cards, photos/screens, nav links and small controls, badges/chips. `rounded-full` is only for real circles. |
+| `shadow-card`, `shadow-raised`, `shadow-device` | Cards, floating panels and hover, phone mock-ups |
+| `font-heading`, `font-label`, `font-caption` | Headline, label/button and caption weights |
+| `text-label-style`, `tracking-label`, `tracking-heading` | Section-label style (weight + 0.14em + capitals), letter-spacing |
+| `gradient-brand`, `gradient-brand-decor` | Signature gradient behind text; decorative waves and stripes |
+
+Product colours in `content/products/*.yaml` are roles too: `accent: brand | accent | deep`.
 
 ---
 
@@ -251,6 +287,10 @@ src/
     ui/                   Buttons, icons, badges, video player, …
     analytics/            GA4 consent banner and "Cookie settings" button
     seo/                  JSON-LD and share-image renderer
+  theme/
+    themes.css            THE THEMES: every colour, radius, shadow and type value
+    themes.ts             List of theme names (content/site.yaml picks one)
+    server.ts             Reads themes.css at build time (share images, browser colour)
   lib/
     content.ts            YAML schemas and loaders
     env.ts                Build-time settings
@@ -265,7 +305,7 @@ Notes for engineers:
 - This Next.js version may differ from what you know. Read `AGENTS.md` and the docs in `node_modules/next/dist/docs/` before using an unfamiliar API.
 - Pages are Server Components; add `"use client"` only where interaction needs it. Menus and accordions use `<details>` so they work without JavaScript.
 - Static export means no redirects, headers or rewrites in `next.config.ts`; those live in `nginx/nginx.conf`.
-- Colours: small text and buttons use the `brand-700` / `leaf-700` / `ink` / `muted` tokens (they pass contrast checks); `leaf-500` (exact Vibrant Green) is for icons, highlights, large text and decoration. `review-*` is only for the "To confirm" badges. Tokens are in `src/app/globals.css`; see [Brand](#brand).
+- Design values: components use only the semantic theme tokens (see [Theming](#theming)). Never use a hex value, a Tailwind palette colour (Tailwind's default palette is switched off), a sized `rounded-*` or `shadow-*`, or `font-bold`/`font-semibold` in a component. `review` / `review-soft` are only for the "To confirm" badges.
 
 ## The `legacy/` folder
 

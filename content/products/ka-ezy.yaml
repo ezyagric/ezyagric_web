@@ -7,7 +7,7 @@ slug: ka-ezy
 order: 1
 name: Ka-Ezy
 appTagline: Your 24/7 farm expert
-accent: blue
+accent: brand
 icon: bot
 
 card:
@@ -77,6 +77,13 @@ demoVideos:
   title: See Ka-Ezy in action
   intro: Short videos of what Ka-Ezy does. Each video only downloads when you tap play.
   items:
+    # "Demo Video For Ka-Ezy" from the Creative & Content Pack (portrait, 607x1080).
+    - src: /videos/kaezy-demo.mp4
+      orientation: portrait
+      title: The Ka-Ezy demo
+      text: "A short tour of Ka-Ezy in the EzyAgric App: spot problems on your farm early, map your garden and get advice made for your farm."
+      meta: 1 min 24 s · 11 MB
+      poster: { src: /images/videos/kaezy-demo.webp, alt: "", width: 540, height: 961 }
     - src: /videos/kaezy-expert-advice.mp4
       title: Expert farm advice
       text: Ask me anything about your crops or livestock, any time of day.

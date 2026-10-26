@@ -5,7 +5,7 @@ import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 
 /**
  * Partner logos grouped as in the Business Profile (commercial, financial,
- * funding and strategic). Every logo sits in the same white tile so logos of
+ * funding and strategic). Every logo sits in the same card tile so logos of
  * very different shapes line up; images are lazy-loaded below the fold.
  */
 export function Partners() {
@@ -16,7 +16,7 @@ export function Partners() {
   if (groups.length === 0) return null;
 
   return (
-    <Section id="partners" tone="surface" labelledBy="partners-title">
+    <Section id="partners" tone="subtle" labelledBy="partners-title">
       <SectionHeader id="partners-title" title={partners.title} intro={partners.intro} align="center">
         {partners.notice && isVisible(partners.notice) ? (
           <p className="mt-3 text-base text-muted">
@@ -28,14 +28,14 @@ export function Partners() {
       <div className="space-y-10">
         {groups.map((group) => (
           <div key={group.title}>
-            <h3 className="mb-4 text-center text-sm font-semibold tracking-[0.14em] text-muted uppercase">
+            <h3 className="mb-4 text-center text-sm text-label-style text-muted">
               {group.title}
             </h3>
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {group.items.map(({ name, logo, pending, note }) => (
                 <li
                   key={name}
-                  className="flex h-24 flex-col items-center justify-center gap-1 rounded-lg border border-line bg-white px-4 py-3"
+                  className="flex h-24 flex-col items-center justify-center gap-1 rounded-card border border-line bg-card px-4 py-3"
                 >
                   <Image
                     src={logo.src}

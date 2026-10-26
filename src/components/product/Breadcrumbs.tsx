@@ -6,8 +6,8 @@ import { Container } from "@/components/ui/Container";
 
 /**
  * Home › Product, plus the same trail as BreadcrumbList structured data so
- * search results can show it. White, like the hero below it, so the two
- * read as one block.
+ * search results can show it. On the canvas colour, like the hero below
+ * it, so the two read as one block.
  */
 export function Breadcrumbs({ product }: { product: Product }) {
   const jsonLd = {
@@ -26,20 +26,20 @@ export function Breadcrumbs({ product }: { product: Product }) {
 
   return (
     <>
-      <nav aria-label="Breadcrumb" className="bg-white">
+      <nav aria-label="Breadcrumb" className="bg-canvas">
         <Container>
           <ol className="flex flex-wrap items-center gap-x-1.5 text-sm">
             <li className="flex items-center gap-1.5">
               <Link prefetch={false}
                 href="/"
-                className="-mx-2 inline-flex min-h-12 items-center rounded px-2 font-semibold text-muted underline-offset-4 hover:text-brand-700 hover:underline"
+                className="-mx-2 inline-flex min-h-12 items-center rounded-control px-2 font-label text-muted underline-offset-4 hover:text-link hover:underline"
               >
                 Home
               </Link>
               <ChevronRight aria-hidden="true" className="size-4 text-muted" />
             </li>
             <li>
-              <span aria-current="page" className="font-bold text-ink">
+              <span aria-current="page" className="font-heading text-body">
                 {product.name}
               </span>
             </li>

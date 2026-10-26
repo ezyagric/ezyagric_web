@@ -3,6 +3,7 @@ import path from "node:path";
 import { parse } from "yaml";
 import { z } from "zod";
 import { SHOW_PENDING } from "./env";
+import { THEMES } from "@/theme/themes";
 
 // All website copy lives in content/*.yaml so the product team can edit it
 // without touching layout code. Every file is validated here at build time:
@@ -95,8 +96,9 @@ export type Step = z.infer<typeof Step>;
 const Faq = z.object({ q: z.string(), a: z.string(), ...pendingFields });
 export type Faq = z.infer<typeof Faq>;
 
-// Product accents use the three brand colours (Brand Guide v1.0).
-const Accent = z.enum(["blue", "green", "navy"]);
+// Product accents are theme roles, not colours: "brand" (the brand blue in
+// the default theme), "accent" (green) and "deep" (dark navy).
+const Accent = z.enum(["brand", "accent", "deep"]);
 export type Accent = z.infer<typeof Accent>;
 
 const ProductSchema = z.object({
@@ -182,6 +184,10 @@ const ProductSchema = z.object({
           poster: Image,
           title: z.string(),
           text: z.string(),
+          /** Portrait (phone-shaped) videos get a tall player in a featured card. */
+          orientation: z.enum(["landscape", "portrait"]).default("landscape"),
+          /** Length and size, e.g. "1 min 24 s · 11 MB", so visitors on mobile data can decide. */
+          meta: z.string().optional(),
         }),
       ),
     })
@@ -195,11 +201,15 @@ export type Product = z.infer<typeof ProductSchema>;
 const Video = z.object({
   id: z.string(),
   title: z.string(),
-  topic: z.enum(["farmers", "agents", "ezycredits", "company"]),
+  topic: z.enum(["farmers", "agents", "app", "ezycredits", "company", "media"]),
+  /** Shown in the home page's first row of stories (before "More videos"). */
+  featured: z.boolean().default(false),
 });
 export type Video = z.infer<typeof Video>;
 
 const SiteSchema = z.object({
+  /** Which theme in src/theme/themes.css styles the site. */
+  theme: z.enum(THEMES).default("ezyagric"),
   name: z.string(),
   legalName: z.string(),
   slogan: z.string(),
@@ -251,7 +261,12 @@ const SiteSchema = z.object({
       })
       .optional(),
   }),
-  stories: z.object({ title: z.string(), intro: z.string() }),
+  stories: z.object({
+    title: z.string(),
+    intro: z.string(),
+    /** Link to the full YouTube channel. */
+    channel: z.object({ label: z.string(), url: z.string().url() }).optional(),
+  }),
   videos: z.array(Video),
   organisations: z.object({
     eyebrow: z.string(),

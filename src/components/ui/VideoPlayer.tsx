@@ -17,9 +17,9 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    // Brand guide card: white, 1px #E4E8F2 border, 8px radius.
-    <figure className="overflow-hidden rounded-lg border border-line bg-white">
-      <div className="relative aspect-video bg-ink">
+    // Card: bg-card, 1px border-line, rounded-card.
+    <figure className="overflow-hidden rounded-card border border-line bg-card">
+      <div className="relative aspect-video bg-inverse">
         {playing ? (
           <iframe
             // Move focus to the player: the link that had focus is gone now.
@@ -45,8 +45,8 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
               track("video_play", { video_id: id });
             }}
             // The figure clips anything outside it, so the focus ring is
-            // drawn inside the thumbnail (white, to show on the photo).
-            className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-white"
+            // drawn inside the thumbnail (focus-inverse, to show on the photo).
+            className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-focus-inverse"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised thumbnail */}
             <img
@@ -57,10 +57,10 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
               loading="lazy"
               className="size-full object-cover"
             />
-            <span className="absolute inset-0 flex items-center justify-center bg-ink/20 transition-colors group-hover:bg-ink/35">
-              {/* Play in the guide's icon style: white glyph in a solid
-                  green circle (a white ring instead of a drop shadow). */}
-              <span className="flex size-16 items-center justify-center rounded-full bg-leaf-500 text-white ring-4 ring-white transition-colors group-hover:bg-leaf-700 group-focus-visible:bg-leaf-700">
+            <span className="absolute inset-0 flex items-center justify-center bg-shade/20 transition-colors group-hover:bg-shade/35">
+              {/* Play in the guide's icon style: on-primary glyph in a solid
+                  accent-bright circle (an on-inverse ring instead of a drop shadow). */}
+              <span className="flex size-16 items-center justify-center rounded-full bg-accent-bright text-on-accent ring-4 ring-on-inverse transition-colors group-hover:bg-accent group-focus-visible:bg-accent">
                 <Play aria-hidden="true" className="ml-1 size-7 fill-current" />
               </span>
             </span>
@@ -68,7 +68,7 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
           </a>
         )}
       </div>
-      <figcaption className="px-4 py-3 text-sm font-semibold text-ink">{title}</figcaption>
+      <figcaption className="px-4 py-3 text-sm font-label text-title">{title}</figcaption>
     </figure>
   );
 }

@@ -47,6 +47,8 @@ const IMAGES = [
   ["video-posters/kaezy-disease-diagnosis.png", "videos/kaezy-disease-diagnosis.webp", 900],
   ["video-posters/kaezy-garden-mapping.png", "videos/kaezy-garden-mapping.webp", 900],
   ["video-posters/kaezy-farm-records.png", "videos/kaezy-farm-records.webp", 900],
+  // Portrait Ka-Ezy demo ("Demo Video For Ka-Ezy", Creative & Content Pack): frame at 0:40
+  ["video-posters/kaezy-demo.png", "videos/kaezy-demo.webp", 540],
 
   // Payment marks
   ["brand/mtn.png", "brand/mtn.webp", 120],

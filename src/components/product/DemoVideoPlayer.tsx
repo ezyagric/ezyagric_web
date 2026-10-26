@@ -17,15 +17,18 @@ export function DemoVideoPlayer({
   src,
   poster,
   title,
+  portrait = false,
 }: {
   src: string;
   poster: ImageData;
   title: string;
+  /** Phone-shaped (9:16) video instead of 16:9. */
+  portrait?: boolean;
 }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="relative aspect-video bg-ink">
+    <div className={`relative bg-inverse ${portrait ? "aspect-[9/16]" : "aspect-video"}`}>
       {playing ? (
         <video
           // Move focus to the player: the link that had focus is gone now.
@@ -35,7 +38,7 @@ export function DemoVideoPlayer({
             el.focus();
             el.play().catch(() => {});
           }}
-          className="absolute inset-0 size-full focus-visible:-outline-offset-4 focus-visible:outline-white"
+          className="absolute inset-0 size-full focus-visible:-outline-offset-4 focus-visible:outline-focus-inverse"
           src={src}
           poster={poster.src}
           controls
@@ -57,7 +60,7 @@ export function DemoVideoPlayer({
             setPlaying(true);
             track("video_play", { video_id: src });
           }}
-          className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-white"
+          className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-focus-inverse"
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised poster */}
           <img
@@ -70,8 +73,8 @@ export function DemoVideoPlayer({
             className="size-full object-cover"
           />
           {/* Guide icon style: white glyph in a solid green circle. */}
-          <span className="absolute inset-0 flex items-center justify-center transition-colors group-hover:bg-ink/10">
-            <span className="flex size-16 items-center justify-center rounded-full bg-leaf-500 text-white ring-4 ring-white transition-colors group-hover:bg-leaf-700 group-focus-visible:bg-leaf-700 sm:size-20">
+          <span className="absolute inset-0 flex items-center justify-center transition-colors group-hover:bg-shade/10">
+            <span className="flex size-16 items-center justify-center rounded-full bg-accent-bright text-on-accent ring-4 ring-on-inverse transition-colors group-hover:bg-accent group-focus-visible:bg-accent sm:size-20">
               <Play aria-hidden="true" className="ml-1 size-7 fill-current sm:size-8" />
             </span>
           </span>

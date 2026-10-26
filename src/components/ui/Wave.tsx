@@ -1,5 +1,5 @@
 /**
- * The guide's signature wave: a logo-blue to Vibrant Green band along the
+ * The guide's signature wave: a gradient-start to gradient-decor-end band along the
  * bottom edge, as on the campaign visuals. Place it last inside a `relative`
  * parent; it sits in front of the artwork, so Ka-Ezy and the phone stand in it
  * (which also hides the flat crop of Ka-Ezy's legs). `id` must be unique per page.
@@ -15,8 +15,8 @@ export function Wave({ id, className = "h-16" }: { id: string; className?: strin
     >
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" style={{ stopColor: "var(--color-brand-700)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-leaf-500)" }} />
+          <stop offset="0" style={{ stopColor: "var(--theme-gradient-start)" }} />
+          <stop offset="1" style={{ stopColor: "var(--theme-gradient-decor-end)" }} />
         </linearGradient>
       </defs>
       <path
@@ -26,7 +26,7 @@ export function Wave({ id, className = "h-16" }: { id: string; className?: strin
       <path
         d="M0 96C320 122 560 118 800 86C1040 54 1240 34 1440 50"
         fill="none"
-        stroke="#fff"
+        className="stroke-on-inverse"
         strokeOpacity="0.28"
         strokeWidth="2"
         vectorEffect="non-scaling-stroke"

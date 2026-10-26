@@ -1,6 +1,6 @@
 /**
- * Product pages alternate white and near-white (#F7F9FC) bands below the
- * white hero. Per-product colour classes live in ui/accents.ts (ACCENTS);
- * the closing band uses the shared `.brand-gradient` for every product.
+ * Product pages alternate canvas and subtle (tinted) bands below the canvas
+ * hero. The values are ui/Container's Section tone names. Per-product colour classes live in ui/accents.ts (ACCENTS);
+ * the closing band uses the shared `gradient-brand` for every product.
  */
-export type BandTone = "white" | "surface";
+export type BandTone = "canvas" | "subtle";

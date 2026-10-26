@@ -14,8 +14,8 @@ type FooterLink = {
 };
 
 // min-h-12 keeps every footer link a 48px tap target.
-const LINK = "inline-flex min-h-12 min-w-12 items-center text-white/90 hover:text-white hover:underline";
-const SMALL_LINK = "inline-flex min-h-12 min-w-12 items-center justify-center hover:text-white hover:underline";
+const LINK = "inline-flex min-h-12 min-w-12 items-center text-on-inverse/90 hover:text-on-inverse hover:underline";
+const SMALL_LINK = "inline-flex min-h-12 min-w-12 items-center justify-center hover:text-on-inverse hover:underline";
 
 export function Footer() {
   const site = getSite();
@@ -62,23 +62,23 @@ export function Footer() {
   return (
     // Brand guide: Dark Navy footer with the reversed (white) logo; green
     // highlights for the column labels ("navy with green highlight").
-    <footer className="bg-ink text-white">
-      {/* The signature blue-to-green stripe keeps the footer apart from a
+    <footer className="bg-inverse text-on-inverse">
+      {/* The signature blue-green stripe keeps the footer apart from a
           dark or gradient closing band above it. */}
-      <div aria-hidden="true" className="h-1.5 bg-linear-to-r from-brand-700 to-leaf-500" />
+      <div aria-hidden="true" className="h-1.5 gradient-brand-decor" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
         <div className="col-span-2 md:col-span-3 lg:col-span-1">
           {/* Full lockup with its tagline, 207px wide; mt-6 below is the
               logo's clear space (half the mark's height, about 21px). */}
           <Logo variant="white" loading="lazy" className="h-16 w-auto" />
-          <p className="mt-6 text-lg font-semibold">{site.slogan}</p>
+          <p className="mt-6 text-lg font-label">{site.slogan}</p>
           <div className="mt-6">
             <PlayBadge campaign="general" medium="footer" className="h-12 w-auto" />
           </div>
         </div>
         {columns.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <p className="text-sm font-semibold tracking-[0.14em] text-leaf-500 uppercase">{col.title}</p>
+            <p className="text-sm text-label-style text-accent-bright">{col.title}</p>
             <ul className="mt-2">
               {col.links.map((l) => (
                 <li key={l.label}>
@@ -98,8 +98,8 @@ export function Footer() {
           </nav>
         ))}
       </div>
-      <div className="border-t border-white/15">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-sm text-white/80 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-6">
+      <div className="border-t border-on-inverse/15">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-sm text-on-inverse/80 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-6">
           <p className="py-2">
             © {year} {site.legalName}
           </p>

@@ -14,13 +14,13 @@ export function Disclaimer({ product, className = "" }: { product: Product; clas
   return (
     <div
       role="note"
-      className={`flex items-start gap-4 rounded-lg border border-line bg-white p-5 sm:p-6 ${className}`}
+      className={`flex items-start gap-4 rounded-card border border-line bg-card p-5 sm:p-6 ${className}`}
     >
       <span className={`flex size-10 shrink-0 items-center justify-center rounded-full ${accent.icon}`}>
         <Info aria-hidden="true" className="size-5" strokeWidth={1.75} />
       </span>
-      <p className="text-base text-pretty text-ink">
-        <strong className="block font-bold">Please note</strong>
+      <p className="text-base text-pretty text-body">
+        <strong className="block font-heading">Please note</strong>
         {product.disclaimer}
       </p>
     </div>

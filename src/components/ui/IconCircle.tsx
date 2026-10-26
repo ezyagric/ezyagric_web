@@ -4,10 +4,10 @@ import { Icon } from "./Icon";
 // Brand guide: "Icons sit in a solid circle — blue, green or navy — with a
 // white glyph, or as an outline circle on light backgrounds."
 const FILLS: Record<Accent | "outline", string> = {
-  blue: "bg-brand-700 text-white",
-  green: "bg-leaf-500 text-white",
-  navy: "bg-ink text-white",
-  outline: "border-2 border-brand-700 text-brand-700",
+  brand: "bg-brand text-on-brand",
+  accent: "bg-accent-bright text-on-accent",
+  deep: "bg-inverse text-on-inverse",
+  outline: "border-2 border-secondary text-secondary",
 };
 
 const SIZES = {
@@ -18,7 +18,7 @@ const SIZES = {
 
 export function IconCircle({
   name,
-  color = "blue",
+  color = "brand",
   size = "md",
   className = "",
 }: {

@@ -10,11 +10,11 @@ const ROW_COLUMNS: Record<number, string> = {
   4: "lg:grid-cols-4",
 };
 
-// Number circles run through the three brand colours, white numbers on
-// each (guide: solid blue, green or navy circles). The numbers are large
-// bold text, so the exact Vibrant Green passes.
+// Number circles in the brand colours, white numbers on each (guide: solid
+// blue, green or navy circles). The numbers are large bold text, so
+// accent-bright (the exact Vibrant Green) passes.
 // Blue and green alternate (the logo blue and Dark Navy look too alike side by side).
-const CIRCLES = ["bg-brand-700", "bg-leaf-500"];
+const CIRCLES = ["bg-brand text-on-brand", "bg-accent-bright text-on-accent"];
 
 /**
  * How to get started, as a numbered timeline: vertical on phones, one row
@@ -40,13 +40,13 @@ export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
                   {/* Down to the next number. */}
                   <span
                     aria-hidden="true"
-                    className={`absolute top-14 bottom-2 left-6 w-0.5 -translate-x-1/2 rounded-full bg-brand-100 ${columns ? "lg:hidden" : ""}`}
+                    className={`absolute top-14 bottom-2 left-6 w-0.5 -translate-x-1/2 rounded-pill bg-brand-soft-strong ${columns ? "lg:hidden" : ""}`}
                   />
                   {/* Across to the next column (lg row layout only). */}
                   {columns ? (
                     <span
                       aria-hidden="true"
-                      className="absolute top-6 left-16 -right-2 hidden h-0.5 -translate-y-1/2 rounded-full bg-brand-100 lg:block"
+                      className="absolute top-6 left-16 -right-2 hidden h-0.5 -translate-y-1/2 rounded-pill bg-brand-soft-strong lg:block"
                     />
                   ) : null}
                 </>
@@ -54,13 +54,13 @@ export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
               {/* The <ol> already numbers the steps for screen readers. */}
               <span
                 aria-hidden="true"
-                className={`flex size-12 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white ${CIRCLES[i % CIRCLES.length]}`}
+                className={`flex size-12 shrink-0 items-center justify-center rounded-full text-xl font-heading ${CIRCLES[i % CIRCLES.length]}`}
               >
                 {i + 1}
               </span>
               <div className="min-w-0 pt-2 lg:pt-0">
-                <h3 className="text-xl font-bold text-ink">{step.title}</h3>
-                <p className="mt-1 text-base text-pretty text-ink">{step.text}</p>
+                <h3 className="text-xl font-heading text-title">{step.title}</h3>
+                <p className="mt-1 text-base text-pretty text-body">{step.text}</p>
               </div>
             </li>
           );

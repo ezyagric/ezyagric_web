@@ -1,0 +1,109 @@
+/*
+ * THEMES — the only place design values live.
+ *
+ * Every UI component uses semantic tokens (bg-primary, text-heading,
+ * rounded-button, shadow-card, ...) defined in src/app/globals.css, which
+ * point at the --theme-* variables below. To restyle the site, change a value
+ * here; to switch themes, set `theme:` in content/site.yaml (it becomes
+ * <html data-theme="...">). Share images and the browser theme colour read
+ * this file too (src/theme/server.ts).
+ *
+ * To add a theme: copy a block, give it a new data-theme name, add the name to
+ * THEMES in src/theme/themes.ts, and override only the values that differ.
+ */
+
+/* ── EzyAgric (default) ─────────────────────────────────────────────────
+ * Brand Guide v1.0 (2026) with the EzyAgric team's decisions of 26 Oct 2026:
+ * the logo wordmark blue #05377E instead of the guide's Primary Blue, and
+ * fully rounded (pill) buttons instead of 8px.
+ * Vibrant Green #0C9548 with white text is 3.9:1, below WCAG AA for
+ * button-size text, so buttons and small green text use #0A7F3D (5.1:1). */
+:root,
+[data-theme="ezyagric"] {
+  /* Surfaces */
+  --theme-canvas: #ffffff; /* page background */
+  --theme-subtle: #f7f9fc; /* tinted bands (guide's near-white) */
+  --theme-card: #ffffff; /* cards */
+  --theme-inverse: #05103b; /* Dark Navy: dark bands, footer */
+  --theme-on-inverse: #ffffff; /* text on dark bands and the gradient */
+  --theme-line: #e4e8f2; /* borders and dividers */
+
+  /* Text */
+  --theme-heading: #05377e; /* h1/h2: logo blue (11.3:1) */
+  --theme-title: #05103b; /* card titles, h3 */
+  --theme-body: #05103b; /* body copy (18.4:1) */
+  --theme-muted: #3b4668; /* secondary text (9.3:1) */
+  --theme-label: #05377e; /* section labels (eyebrows) */
+  --theme-link: #05377e;
+
+  /* Actions */
+  --theme-primary: #0a7f3d; /* primary button fill (white text 5.1:1) */
+  --theme-primary-hover: #08692f;
+  --theme-on-primary: #ffffff;
+  --theme-on-brand: #ffffff; /* glyphs/numbers on brand fills */
+  --theme-on-accent: #ffffff; /* glyphs on Vibrant Green fills */
+  --theme-on-secondary: #ffffff; /* glyphs on secondary fills */
+  --theme-secondary: #05377e; /* outline buttons, chevrons, outline icons */
+  --theme-secondary-hover: #042c66;
+  --theme-focus: #05377e; /* focus ring on light backgrounds */
+  --theme-focus-inverse: #ffffff; /* focus ring on dark/gradient */
+
+  /* Brand accents */
+  --theme-brand: #05377e; /* blue fills: icon circles, step numbers */
+  --theme-brand-soft: #ebf0f7;
+  --theme-brand-soft-strong: #d5dfee;
+  --theme-accent: #0a7f3d; /* green highlight for small text: product names, prices, offers */
+  --theme-accent-hover: #08692f; /* hover for green text links */
+  --theme-accent-bright: #0c9548; /* Vibrant Green: icons, large text, decoration */
+  --theme-accent-soft: #e7f5ed;
+  --theme-accent-soft-strong: #c9ead7;
+  --theme-shade: #05103b; /* shadows and photo overlays */
+  --theme-gradient-start: #05377e;
+  --theme-gradient-end: #0a7f3d; /* accessible green so white text passes */
+  --theme-gradient-decor-end: #0c9548; /* decorative waves and stripes (no text on them) */
+
+  /* Review-only: "To confirm" badges and the preview banner (never in production) */
+  --theme-review: #b45309;
+  --theme-review-soft: #fdf3e7;
+
+  /* Shape (radii in px: share images read the card radius as a number) */
+  --theme-radius-button: 9999px; /* pills, like the EzyCredits "Pay now" pill */
+  --theme-radius-card: 8px;
+  --theme-radius-media: 8px; /* photos and screenshots in frames */
+  --theme-radius-control: 8px; /* nav links, small hover areas */
+  --theme-radius-pill: 9999px; /* badges and chips */
+
+  /* Elevation */
+  /* Shadows are tinted with --theme-shade, so changing the shade recolours them. */
+  --theme-shadow-card: 0 1px 3px 0 color-mix(in srgb, var(--theme-shade) 10%, transparent),
+    0 1px 2px -1px color-mix(in srgb, var(--theme-shade) 10%, transparent); /* cards, tiles */
+  --theme-shadow-raised: 0 20px 25px -5px color-mix(in srgb, var(--theme-shade) 10%, transparent),
+    0 8px 10px -6px color-mix(in srgb, var(--theme-shade) 10%, transparent); /* menus, floating panels, hover */
+  --theme-shadow-device: 0 25px 50px -12px color-mix(in srgb, var(--theme-shade) 30%, transparent); /* phone mock-ups */
+
+  /* Type */
+  --theme-font-body: var(--font-nunito-sans), "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+  --theme-weight-heading: 700; /* guide: headlines Bold */
+  --theme-weight-label: 600; /* guide: labels SemiBold */
+  --theme-weight-caption: 300; /* guide: caption/legal Light */
+  --theme-tracking-heading: -0.025em;
+  --theme-tracking-label: 0.14em;
+  --theme-leading-body: 1.6;
+}
+
+/* ── EzyAgric, Brand Guide as written ──────────────────────────────────
+ * The guide's original Primary Blue #0043C0 and 8px buttons. Kept as an
+ * example of switching themes: set `theme: ezyagric-guide` in site.yaml. */
+[data-theme="ezyagric-guide"] {
+  --theme-heading: #0043c0;
+  --theme-label: #0043c0;
+  --theme-link: #0043c0;
+  --theme-secondary: #0043c0;
+  --theme-secondary-hover: #00359a;
+  --theme-focus: #0043c0;
+  --theme-brand: #0043c0;
+  --theme-brand-soft: #ebf1fc;
+  --theme-brand-soft-strong: #d6e3f9;
+  --theme-gradient-start: #0043c0;
+  --theme-radius-button: 8px;
+}

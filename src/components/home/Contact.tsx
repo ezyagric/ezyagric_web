@@ -20,12 +20,12 @@ function CardTitle({
   return (
     <div className="flex items-center gap-3">
       <IconCircle name={icon} color={color} />
-      <h3 className="text-lg font-bold text-ink">{children}</h3>
+      <h3 className="text-lg font-heading text-title">{children}</h3>
     </div>
   );
 }
 
-const CARD = "rounded-lg border border-line bg-white p-5 sm:p-6";
+const CARD = "rounded-card border border-line bg-card p-5 sm:p-6";
 
 /**
  * Contact details. WhatsApp leads (most farmers' first choice), then call,
@@ -46,9 +46,9 @@ export function Contact() {
 
           {isVisible(whatsapp) ? (
             // The lead option (most farmers' first choice), so a green tint
-            // instead of the plain white card.
-            <div className="rounded-lg border border-leaf-100 bg-leaf-50 p-5 sm:p-6">
-              <CardTitle icon="message-circle" color="green">
+            // instead of the plain card.
+            <div className="rounded-card border border-accent-soft-strong bg-accent-soft p-5 sm:p-6">
+              <CardTitle icon="message-circle" color="accent">
                 WhatsApp
                 {whatsapp.pending ? <PendingBadge note={whatsapp.note} /> : null}
               </CardTitle>
@@ -71,7 +71,7 @@ export function Contact() {
         <ul className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
           {phones.length > 0 ? (
             <li className={CARD}>
-              <CardTitle icon="phone" color="blue">Call us</CardTitle>
+              <CardTitle icon="phone" color="brand">Call us</CardTitle>
               <ul className="mt-4 space-y-3">
                 {phones.map((phone) => (
                   <li key={phone.number} className="flex flex-wrap items-center gap-2">
@@ -101,7 +101,7 @@ export function Contact() {
                   <li key={email.address}>
                     {/* With one address the card title says it all; label several. */}
                     {emails.length > 1 ? (
-                      <p className="mb-1 text-sm font-semibold text-muted">{email.label}</p>
+                      <p className="mb-1 text-sm font-label text-muted">{email.label}</p>
                     ) : null}
                     <div className="flex flex-wrap items-center gap-2">
                       <ButtonLink
@@ -124,8 +124,8 @@ export function Contact() {
           ) : null}
 
           <li className={`${CARD} sm:col-span-2 lg:col-span-1`}>
-            <CardTitle icon="map-pin" color="green">Office</CardTitle>
-            <address className="mt-4 text-base text-ink not-italic">
+            <CardTitle icon="map-pin" color="accent">Office</CardTitle>
+            <address className="mt-4 text-base text-body not-italic">
               {address.lines.map((line) => (
                 <span key={line} className="block">
                   {line}

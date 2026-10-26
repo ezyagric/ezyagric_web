@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 function PolicySection({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
     <section aria-labelledby={id} className="mt-8">
-      <h2 id={id} className="text-xl font-bold text-brand-700 sm:text-2xl">
+      <h2 id={id} className="text-xl font-heading text-heading sm:text-2xl">
         {title}
       </h2>
       <div className="mt-3 space-y-3">{children}</div>
@@ -51,7 +51,7 @@ function PolicySection({ id, title, children }: { id: string; title: string; chi
 
 function List({ items }: { items: string[] }) {
   return (
-    <ul className="list-disc space-y-2 pl-6 marker:text-leaf-500">
+    <ul className="list-disc space-y-2 pl-6 marker:text-accent-bright">
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -61,14 +61,14 @@ function List({ items }: { items: string[] }) {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="bg-surface py-8 sm:py-14">
+    <div className="bg-subtle py-8 sm:py-14">
       <Container>
-        {/* Brand guide card: white, 1px #E4E8F2 border, 8px radius. */}
-        <article className="mx-auto max-w-3xl rounded-lg border border-line bg-white p-5 leading-relaxed text-ink sm:p-10">
+        {/* Card: bg-card, 1px border-line, rounded-card. */}
+        <article className="mx-auto max-w-3xl rounded-card border border-line bg-card p-5 text-body sm:p-10">
           <div className="flex flex-wrap items-center justify-between gap-x-6">
             <Link prefetch={false}
               href="/"
-              className="inline-flex min-h-12 items-center gap-2 font-semibold text-brand-700 hover:underline"
+              className="inline-flex min-h-12 items-center gap-2 font-label text-link hover:underline"
             >
               <ArrowLeft aria-hidden="true" className="size-5" />
               Home
@@ -76,14 +76,14 @@ export default function PrivacyPolicyPage() {
             <a
               href="/docs/privacy-policy.pdf"
               type="application/pdf"
-              className="inline-flex min-h-12 items-center gap-2 font-semibold text-brand-700 hover:underline"
+              className="inline-flex min-h-12 items-center gap-2 font-label text-link hover:underline"
             >
               <FileDown aria-hidden="true" className="size-5" />
               Download PDF version (110 KB)
             </a>
           </div>
 
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-brand-700 sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-heading tracking-heading text-heading sm:text-4xl">
             Privacy Policy
           </h1>
           <p className="mt-2 text-muted">
@@ -183,7 +183,7 @@ export default function PrivacyPolicyPage() {
                 href="mailto:info@ezyagric.com"
                 data-track="email_click"
                 data-track-position="privacy_policy"
-                className="font-semibold text-brand-700 underline"
+                className="font-label text-link underline"
               >
                 info@ezyagric.com
               </a>
@@ -194,11 +194,11 @@ export default function PrivacyPolicyPage() {
           {/* New for the rebuilt site; not in the PDF yet. */}
           <section
             aria-labelledby="analytics-and-embedded-videos"
-            className="mt-10 rounded-lg border-2 border-dashed border-line bg-surface p-5 sm:p-6"
+            className="mt-10 rounded-card border-2 border-dashed border-line bg-subtle p-5 sm:p-6"
           >
             <h2
               id="analytics-and-embedded-videos"
-              className="text-xl font-bold text-brand-700 sm:text-2xl"
+              className="text-xl font-heading text-heading sm:text-2xl"
             >
               Analytics and embedded videos
               <PendingBadge note="New section — legal to review before launch" />

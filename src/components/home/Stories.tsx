@@ -1,9 +1,12 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import { getSite, type Video } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { ButtonLink, buttonClasses } from "@/components/ui/Button";
 
-const FEATURED_TOPICS: Video["topic"][] = ["farmers", "agents"];
+// The first row: videos marked `featured` in content/site.yaml, then farmer
+// and agent stories. Everything else waits behind "More videos".
+const STORY_TOPICS: Video["topic"][] = ["farmers", "agents"];
 
 function VideoGrid({ videos }: { videos: Video[] }) {
   return (
@@ -18,13 +21,17 @@ function VideoGrid({ videos }: { videos: Video[] }) {
 }
 
 /**
- * Farmer and agent stories first. Product how-tos and company videos sit in
- * a closed <details>, so phones don't fetch every thumbnail up front.
+ * Featured videos and farmer/agent stories first. Product how-tos and company
+ * videos sit in a closed <details>, so phones don't fetch every thumbnail up
+ * front. A link to the YouTube channel closes the section.
  */
 export function Stories() {
   const { stories, videos } = getSite();
-  const featured = videos.filter((v) => FEATURED_TOPICS.includes(v.topic));
-  const more = videos.filter((v) => !FEATURED_TOPICS.includes(v.topic));
+  const featured = [
+    ...videos.filter((v) => v.featured),
+    ...videos.filter((v) => !v.featured && STORY_TOPICS.includes(v.topic)),
+  ];
+  const more = videos.filter((v) => !featured.includes(v));
 
   return (
     <Section id="stories" labelledBy="stories-title">
@@ -36,8 +43,8 @@ export function Stories() {
 
       {more.length > 0 ? (
         <details className="group mt-10">
-          {/* Styled as the guide's secondary button: Primary Blue outline on white. */}
-          <summary className="inline-flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-lg border-2 border-brand-700 bg-white px-5 font-semibold text-brand-700 transition-colors hover:bg-brand-50 [&::-webkit-details-marker]:hidden">
+          {/* Styled as the guide's secondary button: secondary outline on canvas. */}
+          <summary className={`${buttonClasses("secondary")} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
             More videos ({more.length})
             <ChevronDown
               aria-hidden="true"
@@ -48,6 +55,15 @@ export function Stories() {
             <VideoGrid videos={more} />
           </div>
         </details>
+      ) : null}
+
+      {stories.channel ? (
+        <div className="mt-8">
+          <ButtonLink href={stories.channel.url} variant="secondary" track="youtube_channel_click">
+            {stories.channel.label}
+            <ExternalLink aria-hidden="true" className="size-4" />
+          </ButtonLink>
+        </div>
       ) : null}
     </Section>
   );

@@ -39,7 +39,7 @@ export function MobileMenu({ children }: { children: ReactNode }) {
       }}
     >
       <summary
-        className="flex size-12 cursor-pointer list-none items-center justify-center rounded-full text-ink hover:bg-brand-50 [&::-webkit-details-marker]:hidden"
+        className="flex size-12 cursor-pointer list-none items-center justify-center rounded-button text-body hover:bg-brand-soft [&::-webkit-details-marker]:hidden"
         aria-label="Menu"
       >
         <Menu className="size-6 group-open:hidden" aria-hidden="true" />

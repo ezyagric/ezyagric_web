@@ -5,9 +5,9 @@ import { Icon } from "./Icon";
 
 /**
  * A product's artwork from the app when it has one (Ka-Ezy, Agrishop,
- * Produce Market), on a white tile with the card border. Otherwise
+ * Produce Market), on a card tile (bg-card, border-line). Otherwise
  * (EzyCredits) its icon in the guide's icon style, like IconCircle: a white
- * glyph in a solid circle of the product's colour (navy for EzyCredits),
+ * glyph in a solid circle of the product's accent (inverse for EzyCredits),
  * here the same size as the artwork tiles.
  */
 export function ProductMark({
@@ -22,8 +22,8 @@ export function ProductMark({
 
   if (image) {
     return (
-      // The artwork is drawn on white, so the tile is white too.
-      <div className={`${box} shrink-0 overflow-hidden rounded-lg border border-line bg-white`}>
+      // The artwork is drawn on white, so the tile uses the card colour (white).
+      <div className={`${box} shrink-0 overflow-hidden rounded-card border border-line bg-card`}>
         <Image
           src={image.src}
           alt=""

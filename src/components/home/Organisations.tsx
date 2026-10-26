@@ -9,7 +9,7 @@ export function Organisations() {
   const { organisations: org } = getSite();
 
   return (
-    <Section id="organisations" tone="surface" labelledBy="organisations-title">
+    <Section id="organisations" tone="subtle" labelledBy="organisations-title">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div>
           <SectionHeader
@@ -20,7 +20,7 @@ export function Organisations() {
           />
           <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
             {org.points.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-base text-ink">
+              <li key={point} className="flex items-start gap-3 text-base text-body">
                 <CheckDot />
                 <span>{point}</span>
               </li>
@@ -36,7 +36,7 @@ export function Organisations() {
           </ButtonLink>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-line bg-white shadow-xl shadow-brand-900/10">
+        <div className="overflow-hidden rounded-media border border-line bg-card shadow-raised">
           <Image
             src={org.image.src}
             alt={org.image.alt}

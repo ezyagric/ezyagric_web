@@ -30,13 +30,13 @@ export function ProductPhoto({ product, tone }: { product: Product; tone: BandTo
                 ? "(min-width: 640px) 384px, calc(100vw - 32px)"
                 : "(min-width: 1152px) 528px, (min-width: 768px) calc(50vw - 72px), calc(100vw - 32px)"
             }
-            className="h-auto w-full rounded-lg"
+            className="h-auto w-full rounded-media"
           />
         </div>
         <figcaption className="max-w-md">
           {/* A short green accent rule (decorative). */}
-          <span aria-hidden="true" className="mb-4 block h-1 w-12 rounded-full bg-leaf-500" />
-          <span className="block text-2xl leading-snug font-semibold text-balance text-ink sm:text-3xl">
+          <span aria-hidden="true" className="mb-4 block h-1 w-12 rounded-pill bg-accent-bright" />
+          <span className="block text-2xl leading-snug font-label text-balance text-body sm:text-3xl">
             {caption}
           </span>
         </figcaption>

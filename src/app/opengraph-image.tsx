@@ -20,7 +20,7 @@ export default function Image() {
     eyebrow: site.hero.eyebrow,
     headline: site.slogan,
     subline: tagline,
-    accent: "blue",
+    accent: "brand",
     // Ka-Ezy, as in the home page hero (site.hero.mascot).
     artwork: "ka-ezy-full",
     chips: products.map((p) => p.name),

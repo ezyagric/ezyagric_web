@@ -20,17 +20,17 @@ export function ProductHero({ product }: { product: Product }) {
   const { hero, cta, availability } = product;
 
   return (
-    <section aria-labelledby="product-title" className="overflow-hidden bg-white">
+    <section aria-labelledby="product-title" className="overflow-hidden bg-canvas">
       <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
         <div>
           <Eyebrow product={product} />
           <h1
             id="product-title"
-            className="mt-4 text-4xl font-bold tracking-tight text-balance text-brand-700 sm:text-5xl lg:text-6xl"
+            className="mt-4 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl lg:text-6xl"
           >
             {hero.headline}
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-pretty text-ink sm:text-xl">{hero.intro}</p>
+          <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl">{hero.intro}</p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3">
             {/* Guide: primary buttons are a green fill, whatever the product. */}
@@ -49,7 +49,7 @@ export function ProductHero({ product }: { product: Product }) {
 
           {availability && isVisible(availability) ? (
             <p className="mt-5 flex items-start gap-2 text-base text-muted">
-              <Icon name="map-pin" className="mt-0.5 size-5 shrink-0 text-leaf-500" />
+              <Icon name="map-pin" className="mt-0.5 size-5 shrink-0 text-accent-bright" />
               <span>
                 <ClaimText claim={availability} />
               </span>
@@ -76,17 +76,17 @@ function Eyebrow({ product }: { product: Product }) {
   const rest = split > 0 ? eyebrow.slice(split + 3) : "";
 
   return (
-    <p className="flex items-center gap-3 text-base font-semibold">
+    <p className="flex items-center gap-3 text-base font-label">
       <IconCircle name={product.icon} color={product.accent} size="sm" />
       <span>
-        <span className="font-bold text-leaf-700">{name}</span>
+        <span className="font-heading text-accent">{name}</span>
         {rest ? (
           <>
             {" "}
-            <span aria-hidden="true" className="text-leaf-500">
+            <span aria-hidden="true" className="text-accent-bright">
               ·
             </span>{" "}
-            <span className="text-ink">{rest}</span>
+            <span className="text-body">{rest}</span>
           </>
         ) : null}
       </span>

@@ -6,7 +6,7 @@ import { Highlight } from "./parts";
 
 // Icon circles take turns in the three brand colours.
 // Blue and green alternate (the logo blue and Dark Navy look too alike side by side).
-const CIRCLES: Accent[] = ["blue", "green"];
+const CIRCLES: Accent[] = ["brand", "accent"];
 
 /** The free farm-management tools that sit alongside the four products. */
 export function AlsoInApp() {
@@ -17,13 +17,13 @@ export function AlsoInApp() {
       <SectionHeader id="also-in-the-app-title" title={alsoInApp.title} intro={alsoInApp.intro} />
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {visible(alsoInApp.items).map((item, i) => (
-          <li key={item.title} className="rounded-lg border border-line bg-white p-5 sm:p-6">
+          <li key={item.title} className="rounded-card border border-line bg-card p-5 sm:p-6">
             <IconCircle name={item.icon ?? "sprout"} color={CIRCLES[i % CIRCLES.length]} />
-            <h3 className="mt-4 text-lg font-bold text-ink">
+            <h3 className="mt-4 text-lg font-heading text-title">
               {item.title}
               {item.pending ? <PendingBadge note={item.note} /> : null}
             </h3>
-            <p className="mt-1 text-base text-pretty text-ink">
+            <p className="mt-1 text-base text-pretty text-body">
               <Highlight text={item.text} />
             </p>
           </li>

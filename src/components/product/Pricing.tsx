@@ -53,34 +53,34 @@ export function Pricing({ product, tone }: { product: Product; tone: BandTone })
           return (
             <li
               key={tier.name}
-              className={`relative flex flex-col overflow-hidden rounded-lg bg-white p-6 pt-8 ${
-                tier.highlight ? "ring-2 ring-leaf-500" : "border border-line"
+              className={`relative flex flex-col overflow-hidden rounded-card bg-card p-6 pt-8 ${
+                tier.highlight ? "ring-2 ring-accent-bright" : "border border-line"
               }`}
             >
-              {/* Signature blue-to-green ribbon along the top of the highlighted tier. */}
+              {/* Signature blue-green ribbon along the top of the highlighted tier. */}
               {tier.highlight ? (
-                <span aria-hidden="true" className="brand-gradient absolute inset-x-0 top-0 h-2" />
+                <span aria-hidden="true" className="gradient-brand absolute inset-x-0 top-0 h-2" />
               ) : null}
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-ink">
+                <h3 className="text-lg font-heading text-title">
                   {tier.name}
                   {tier.pending ? <PendingBadge note={tier.note} /> : null}
                 </h3>
                 {tier.badge ? (
-                  <span className="rounded-full bg-leaf-700 px-2.5 py-0.5 text-sm font-semibold text-white">
+                  <span className="rounded-pill bg-accent px-2.5 py-0.5 text-sm font-label text-on-primary">
                     {tier.badge}
                   </span>
                 ) : null}
               </div>
               {/* One text run, so it reads as "UGX 4,750 / month". */}
-              <p className="mt-3 text-leaf-500">
-                <span className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-3xl">
+              <p className="mt-3 text-accent-bright">
+                <span className="text-3xl font-heading tracking-heading sm:text-4xl lg:text-3xl">
                   {amount}
                 </span>
                 {unit ? (
                   <>
                     {" "}
-                    <span className="text-base font-semibold text-leaf-700">{unit}</span>
+                    <span className="text-base font-label text-accent">{unit}</span>
                   </>
                 ) : null}
               </p>
@@ -93,8 +93,8 @@ export function Pricing({ product, tone }: { product: Product; tone: BandTone })
       {notes.length > 0 ? (
         <ul className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
           {notes.map((note) => (
-            <li key={note.text} className="flex items-start gap-2.5 text-base text-ink">
-              <Icon name="check-circle" className="mt-0.5 size-5 shrink-0 text-leaf-500" />
+            <li key={note.text} className="flex items-start gap-2.5 text-base text-body">
+              <Icon name="check-circle" className="mt-0.5 size-5 shrink-0 text-accent-bright" />
               <span>
                 <ClaimText claim={note} />
               </span>

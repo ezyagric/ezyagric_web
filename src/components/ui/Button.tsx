@@ -2,16 +2,17 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { playStoreUrl } from "@/lib/links";
 
-// Brand guide: primary buttons are a green fill with a white SemiBold label
-// and an 8px radius; secondary buttons are a Primary Blue outline on white.
+// Brand guide: primary buttons are a green fill with a white SemiBold label;
+// secondary buttons are a blue outline on white. Corners come from the theme's
+// rounded-button: pills in the default theme, like the "Pay now" / "Pay later"
+// pills on the EzyCredits page (the EzyAgric team's choice, 26 Oct 2026), and
+// the guide's 8px in the ezyagric-guide theme.
+const PRIMARY = "bg-primary text-on-primary hover:bg-primary-hover";
 const VARIANTS = {
-  primary: "bg-leaf-700 text-white hover:bg-leaf-800",
-  secondary: "border-2 border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
-  ghost: "text-brand-700 hover:bg-brand-50",
-  whatsapp: "bg-leaf-700 text-white hover:bg-leaf-800",
-  light: "bg-white text-ink hover:bg-brand-50",
-  // White outline, for buttons on the blue-green gradient or navy.
-  outlineLight: "border-2 border-white text-white hover:bg-white/10",
+  primary: PRIMARY,
+  secondary: "border-2 border-secondary bg-canvas text-secondary hover:bg-brand-soft",
+  // WhatsApp buttons share the primary look (the theme decides it).
+  whatsapp: PRIMARY,
 } as const;
 
 export type ButtonVariant = keyof typeof VARIANTS;
@@ -22,7 +23,7 @@ export type ButtonVariant = keyof typeof VARIANTS;
  */
 export function buttonClasses(variant: ButtonVariant = "primary", size: "md" | "lg" = "md"): string {
   const sizing = size === "lg" ? "min-h-14 px-6 text-lg" : "min-h-12 px-5 text-base";
-  return `inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors ${sizing} ${VARIANTS[variant]}`;
+  return `inline-flex items-center justify-center gap-2 rounded-button font-label transition-colors ${sizing} ${VARIANTS[variant]}`;
 }
 
 /**
@@ -95,7 +96,7 @@ export function PlayBadge({
       data-track="get_app_click"
       data-track-product={campaign}
       data-track-position={medium}
-      className="inline-block rounded-lg"
+      className="inline-block rounded-control"
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- static SVG badge */}
       <img
