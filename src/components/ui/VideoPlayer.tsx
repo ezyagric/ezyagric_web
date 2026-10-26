@@ -8,6 +8,10 @@ import { track } from "@/lib/track";
  * Shows a self-hosted thumbnail and only loads YouTube (youtube-nocookie.com)
  * after the visitor taps play. This saves data on mobile and sets no YouTube
  * cookies for people who never watch.
+ *
+ * The thumbnail is a real link to the video on YouTube, so it still works
+ * with JavaScript off (or before the page has loaded); with JavaScript on,
+ * a plain tap plays the video in place instead.
  */
 export function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
@@ -17,6 +21,8 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
       <div className="relative aspect-video bg-ink">
         {playing ? (
           <iframe
+            // Move focus to the player: the link that had focus is gone now.
+            ref={(el) => el?.focus()}
             className="absolute inset-0 size-full"
             src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
             title={title}
@@ -24,13 +30,20 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
             allowFullScreen
           />
         ) : (
-          <button
-            type="button"
-            onClick={() => {
+          <a
+            href={`https://www.youtube.com/watch?v=${id}`}
+            target="_blank"
+            rel="noopener"
+            onClick={(event) => {
+              // Let ctrl/cmd/shift/middle clicks open YouTube as usual.
+              if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                return;
+              }
+              event.preventDefault();
               setPlaying(true);
               track("video_play", { video_id: id });
             }}
-            className="group absolute inset-0 size-full"
+            className="group absolute inset-0 block size-full"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised thumbnail */}
             <img
@@ -47,7 +60,7 @@ export function VideoPlayer({ id, title }: { id: string; title: string }) {
               </span>
             </span>
             <span className="sr-only">Play video: {title}</span>
-          </button>
+          </a>
         )}
       </div>
       <figcaption className="px-4 py-3 text-sm font-semibold text-ink">{title}</figcaption>

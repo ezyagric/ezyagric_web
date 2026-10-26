@@ -1,15 +1,18 @@
 import Image from "next/image";
 import type { ImageData } from "@/lib/content";
 
-/** A simple phone outline around an app screenshot. */
+/**
+ * A simple phone outline around an app screenshot. `preload` (Next 16's
+ * replacement for the deprecated `priority`) is for the hero image only.
+ */
 export function PhoneFrame({
   image,
-  priority = false,
+  preload = false,
   className = "w-64",
   sizes = "(min-width: 640px) 288px, 256px",
 }: {
   image: ImageData;
-  priority?: boolean;
+  preload?: boolean;
   className?: string;
   sizes?: string;
 }) {
@@ -23,7 +26,7 @@ export function PhoneFrame({
           alt={image.alt}
           width={image.width}
           height={image.height}
-          priority={priority}
+          preload={preload}
           sizes={sizes}
           className="h-auto w-full"
         />

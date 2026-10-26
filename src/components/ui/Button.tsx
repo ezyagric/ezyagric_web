@@ -6,8 +6,12 @@ const VARIANTS = {
   primary: "bg-brand-700 text-white hover:bg-brand-900",
   secondary: "border-2 border-brand-700 bg-white text-brand-700 hover:bg-brand-50",
   ghost: "text-brand-700 hover:bg-brand-50",
-  whatsapp: "bg-whatsapp text-white hover:bg-[#0d6e3a]",
+  whatsapp: "bg-whatsapp text-white hover:bg-[#0b5f32]",
   light: "bg-white text-brand-900 hover:bg-brand-50",
+  // No colours of its own: pass a product's ACCENTS[accent].button in
+  // className. (Tailwind orders same-property utilities by name, not by
+  // class order, so overriding another variant's colours does not work.)
+  accent: "",
 } as const;
 
 export type ButtonVariant = keyof typeof VARIANTS;
@@ -59,7 +63,7 @@ export function ButtonLink({
     );
   }
   return (
-    <Link href={href} className={classes} {...data}>
+    <Link prefetch={false} href={href} className={classes} {...data}>
       {children}
     </Link>
   );
@@ -93,6 +97,7 @@ export function PlayBadge({
         height={53}
         className={className}
       />
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );
 }

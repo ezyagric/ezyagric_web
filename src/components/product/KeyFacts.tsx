@@ -1,0 +1,65 @@
+import { isVisible, visible, type Product } from "@/lib/content";
+import { Container, Section } from "@/components/ui/Container";
+import { ClaimText, PendingBadge } from "@/components/ui/Pending";
+import { SectionTitle } from "./SectionTitle";
+import { TONES, type BandTone } from "./tones";
+
+/** True when the page has a key facts box or a lender line to show. */
+export function hasKeyFacts(product: Product): boolean {
+  return isVisible(product.keyFacts) || isVisible(product.lenderLine);
+}
+
+/**
+ * Credit key facts (EzyCredits Pay Later) in a bordered box, like a
+ * lender's key facts statement, with the lender line as small print.
+ * Pending rows show in preview with a badge and drop out in production.
+ */
+export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }) {
+  const { keyFacts, lenderLine } = product;
+  const colours = TONES[product.accent];
+
+  const smallPrint =
+    lenderLine && isVisible(lenderLine) ? (
+      <p className="mt-4 max-w-3xl text-sm text-pretty text-muted">
+        <ClaimText claim={lenderLine} />
+      </p>
+    ) : null;
+
+  if (!keyFacts || !isVisible(keyFacts)) {
+    return smallPrint ? (
+      <div className={tone === "surface" ? "bg-surface py-10" : "bg-white py-10"}>
+        <Container>{smallPrint}</Container>
+      </div>
+    ) : null;
+  }
+
+  return (
+    <Section id="key-facts" tone={tone} labelledBy="key-facts-title">
+      <SectionTitle
+        id="key-facts-title"
+        title={keyFacts.title}
+        intro={keyFacts.intro}
+        badge={keyFacts.pending ? <PendingBadge note={keyFacts.note} /> : null}
+      />
+
+      <div className={`max-w-3xl overflow-hidden rounded-2xl border-2 bg-white ${colours.strongBorder}`}>
+        <dl className="divide-y divide-line">
+          {visible(keyFacts.items).map((item) => (
+            <div
+              key={item.label}
+              className="grid gap-1 px-5 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6 sm:px-6"
+            >
+              <dt className="font-bold text-ink">{item.label}</dt>
+              <dd className="text-ink">
+                {item.value ?? <span className="font-semibold text-muted">To be confirmed</span>}
+                {item.pending ? <PendingBadge note={item.note} /> : null}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      {smallPrint}
+    </Section>
+  );
+}

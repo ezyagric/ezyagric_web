@@ -134,17 +134,18 @@ const ProductSchema = z.object({
     .object({
       title: z.string(),
       intro: z.string(),
-      currency: z.string().default("UGX"),
-      plans: z.array(
-        z.object({
-          months: z.number().int().positive(),
-          name: z.string(),
-          tagline: z.string(),
-          pricePerMonth: z.number().positive().nullable(),
-          discountPercent: z.number().min(0).max(100).optional(),
-          popular: z.boolean().default(false),
-        }),
-      ),
+      /** Price cards, e.g. "Start free" / "Renew: UGX 5,000". `price` is display text. */
+      tiers: z
+        .array(
+          z.object({
+            name: z.string(),
+            price: z.string(),
+            text: z.string(),
+            highlight: z.boolean().default(false),
+            ...pendingFields,
+          }),
+        )
+        .min(1),
       notes: z.array(Claim),
       ...pendingFields,
     })
@@ -210,8 +211,23 @@ const SiteSchema = z.object({
     title: z.string(),
     asOf: Claim,
     items: z.array(
-      z.object({ value: z.number(), label: z.string(), ...pendingFields }),
+      z.object({
+        value: z.number(),
+        /** Shown after the number, e.g. "+" for "550,000+". */
+        suffix: z.string().default(""),
+        label: z.string(),
+        ...pendingFields,
+      }),
     ),
+    /** Findings from independent studies, e.g. "86%" of farmers report... */
+    evidence: z
+      .object({
+        title: z.string(),
+        items: z.array(
+          z.object({ value: z.string(), label: z.string(), source: z.string() }),
+        ),
+      })
+      .optional(),
   }),
   stories: z.object({ title: z.string(), intro: z.string() }),
   videos: z.array(Video),
@@ -245,9 +261,15 @@ const SiteSchema = z.object({
   }),
   partners: z.object({
     title: z.string(),
+    intro: z.string().optional(),
     notice: Claim.optional(),
-    items: z.array(
-      z.object({ name: z.string(), logo: Image, ...pendingFields }),
+    groups: z.array(
+      z.object({
+        title: z.string(),
+        items: z.array(
+          z.object({ name: z.string(), logo: Image, ...pendingFields }),
+        ),
+      }),
     ),
   }),
   social: z.array(
@@ -275,15 +297,21 @@ function validate<T>(schema: z.ZodType<T>, data: unknown, file: string): T {
   return result.data;
 }
 
+// Cache parsed content for the build. In `next dev` re-read the files on every
+// request, so edits to content/*.yaml show up with a browser refresh.
+const CACHE = process.env.NODE_ENV === "production";
+
 let siteCache: Site | undefined;
 export function getSite(): Site {
-  siteCache ??= validate(SiteSchema, readYaml("site.yaml"), "site.yaml");
+  if (siteCache && CACHE) return siteCache;
+  siteCache = validate(SiteSchema, readYaml("site.yaml"), "site.yaml");
   return siteCache;
 }
 
 let productsCache: Product[] | undefined;
 export function getProducts(): Product[] {
-  productsCache ??= PRODUCT_SLUGS.map((slug) => {
+  if (productsCache && CACHE) return productsCache;
+  productsCache = PRODUCT_SLUGS.map((slug) => {
     const file = `products/${slug}.yaml`;
     const product = validate(ProductSchema, readYaml(file), file);
     if (product.slug !== slug) {

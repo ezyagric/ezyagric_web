@@ -11,7 +11,7 @@ slogan: Farm the Ezy way.
 
 seo:
   title: "EzyAgric – Farm the Ezy way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
-  description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and sell on Produce Market."
+  description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and list your harvest on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
 hero:
@@ -20,7 +20,7 @@ hero:
   subline: "One app to plan, buy, pay and sell. Ask Ka-Ezy, shop on Agrishop, pay with EzyCredits and sell on Produce Market."
   smallPrint:
     - Free to download on Android
-    - Shopping, Pay Later and selling available in Uganda
+    - Shopping, vet services, Pay Later and selling available in Uganda
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric app home screen showing Agrishop, Ka-Ezy and Produce Market"
@@ -35,7 +35,7 @@ hero:
 products:
   eyebrow: One app, four tools
   title: Everything your farm needs, in your pocket
-  intro: "Get advice, buy inputs, pay your way and sell your harvest — all from the EzyAgric app."
+  intro: "Get advice, buy inputs, pay your way and list your harvest for sale — all in the EzyAgric app."
 
 journey:
   title: How the four tools work together
@@ -49,14 +49,14 @@ journey:
       text: Order genuine inputs and vet services on Agrishop.
     - verb: Pay
       product: ezycredits
-      text: Pay now from your EzyCredits Wallet, or later with EzyCredits Pay Later.
+      text: Pay now from your EzyCredits Wallet, or later with EzyCredits Pay Later (credit from Pezesha, if you qualify).
     - verb: Sell
       product: produce-market
       text: Post your harvest on Produce Market at your own asking price.
 
 alsoInApp:
   title: Also in the app
-  intro: Free tools that help you run your farm like a business.
+  intro: Tools that help you run your farm like a business.
   items:
     - title: Farm records
       text: Track your farm income and expenses to know if your farm is making a profit.
@@ -71,21 +71,35 @@ alsoInApp:
       text: Read practical information on the crops and animals you keep.
       icon: book-open
 
+# Figures from the EzyAgric Business Profile 2026 (October 2026).
 impact:
   title: Our impact
-  asOf:
-    text: Figures from the previous website
-    pending: true
-    note: Send current figures and the date they were measured.
+  asOf: As of October 2026
   items:
-    - value: 106018
-      label: Farmers served
-      pending: true
-      note: Figure carried over from the old site — confirm or update.
-    - value: 8107
-      label: Jobs created
-      pending: true
-      note: Figure carried over from the old site — confirm or update.
+    - value: 550000
+      suffix: "+"
+      label: Farmers and agribusinesses served since 2015
+    - value: 145000
+      label: Registered app users
+    - value: 72
+      label: Districts across Uganda
+    - value: 15000
+      suffix: "+"
+      label: Input orders delivered
+    - value: 12500
+      label: Full and part-time jobs created
+  evidence:
+    title: What farmers and merchants report
+    items:
+      - value: 86%
+        label: of farmers report increased production
+        source: 60 Decibels impact audit
+      - value: 88%
+        label: of merchants say their way of doing business has improved
+        source: 60 Decibels impact audit
+      - value: 85%
+        label: of West Nile farmers report higher income
+        source: 2025 impact assessment, West Nile refugee settlements
 
 stories:
   title: Stories from the field
@@ -107,7 +121,7 @@ videos:
     title: How to pay for your inputs using EzyCredits
     topic: ezycredits
   - id: jiSQJP99bGQ
-    title: How to buy EzyCredits in the EzyAgric app
+    title: How to top up EzyCredits in the EzyAgric app
     topic: ezycredits
   - id: QNSfJhYhIqA
     title: Digitizing agriculture in Africa
@@ -125,47 +139,50 @@ videos:
     title: EzyAgric CEO William Luyinda on the MFS Africa and K+S joint investment
     topic: company
 
+# EzyProduce is named in the Business Profile 2026 as EzyAgric's produce
+# marketplace and business management platform for agribusinesses.
 organisations:
-  eyebrow: For organisations
-  title: Manage and stay in touch with your farmers
-  intro: "Cooperatives, off-takers and agribusinesses use the EzyAgric web portal to run their farmer networks."
+  eyebrow: For agribusinesses · EzyProduce
+  title: Run your agribusiness and farmer network on EzyProduce
+  intro: "EzyProduce is EzyAgric's produce marketplace and business management platform for cooperatives, off-takers and agribusinesses."
   points:
-    - Real-time farmer profiling and traceability
-    - Track farmer training
-    - Distribute inputs efficiently
-    - Monitor produce bulking
-    - Accurate farm records and analysis
-    - Manage your farmers' advances
+    - Bulk produce and trace it back to each farmer
+    - Pay farmers instantly
+    - Connect with ready buyers and off-takers
+    - Profile your farmers and track their training
+    - Manage suppliers, sales, purchases and expenses
+    - Accounting, quality and compliance, and business reports
   cta:
     label: Partner login
     url: https://sso.ezyagric.com
   image:
     src: /images/photos/web-portal.webp
-    alt: EzyAgric web portal dashboard on a laptop and tablet
+    alt: EzyAgric web platform dashboard on a laptop and tablet
     width: 1080
     height: 660
 
+# The Business Profile 2026 calls field agents Digital Agriculture Champions (DACs).
 agents:
-  eyebrow: Become a village agent
-  title: Earn extra income as an EzyAgric agent
-  intro: Village agents bring EzyAgric services to farmers in their area.
+  eyebrow: Become a Digital Agriculture Champion
+  title: Earn commissions bringing EzyAgric to farmers
+  intro: "Digital Agriculture Champions (DACs) take EzyAgric's services to farmers in their area — including farmers without smartphones."
   steps:
     - Download the EzyAgric Agent app
     - Register with your phone number
     - The EzyAgric team contacts you to get you started
     - Get trained to deliver EzyAgric services in your area
   roles:
-    - Register and profile farmers
-    - Order and deliver agro-inputs
-    - Give extension advice to farmer groups and cooperatives
-    - Link farmers to markets
-    - Appraise and follow up farmer credit
+    - Register farmers
+    - Map farmers' gardens
+    - Give farming advice
+    - Take orders for inputs and services
+    - Earn commissions on the services you deliver
   cta:
     label: Get the Agent app
     campaign: agents
   image:
     src: /images/photos/village-agent.webp
-    alt: An EzyAgric village agent with a farmer in a vegetable garden
+    alt: An EzyAgric field agent with a farmer in a vegetable garden
     width: 900
     height: 675
 
@@ -173,15 +190,15 @@ faq:
   title: Questions farmers ask
   items:
     - q: Is the EzyAgric app free?
-      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to try, then you choose a paid plan."
+      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, renew for UGX 5,000."
     - q: Where does EzyAgric work?
-      a: "Shopping on Agrishop, EzyCredits Pay Later and selling on Produce Market are available in Uganda for now."
+      a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
     - q: Can I use Ka-Ezy outside Uganda?
       a: "Yes. Ka-Ezy works wherever you can use the EzyAgric app."
       pending: true
       note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
     - q: How do I pay?
-      a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later, or cash when your order is delivered."
+      a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
     - q: Is there an iPhone app?
       a: "Right now the EzyAgric app is available on Android from Google Play."
       pending: true
@@ -192,62 +209,119 @@ faq:
 contact:
   title: Talk to us
   intro: "Questions about an order, Pay Later or your account? We're on WhatsApp."
+  # Confirmed by the EzyAgric team, 26 Oct 2026.
   whatsapp:
-    number: "+256 708 383 845"
+    number: "+256 787 991 262"
     message: "Hello EzyAgric, I have a question:"
-    pending: true
-    note: "The app uses this number; the old website used +256 787 991 262. Confirm which one to publish."
   phones:
-    - number: "+256 787 267 100"
-      pending: true
-      note: Listed on the old site — confirm it is still answered.
     - number: "+256 708 383 845"
-      pending: true
-      note: Listed on the old site — confirm it is still answered.
-    - number: "+256 780 574 506"
-      pending: true
-      note: Listed on the old site — confirm it is still answered.
-    - number: "+256 709 614 462"
-      pending: true
-      note: Listed on the old site — confirm it is still answered.
   emails:
-    - address: customercare@ezyagric.com
-      label: Farmer support
-      pending: true
-      note: Support address used in the app — confirm.
     - address: info@ezyagric.com
-      label: Partnerships and general enquiries
+      label: Email
+  # Office address from the Business Profile 2026.
   address:
     lines:
-      - Plot 29A, Lower Kololo Terrace, Kololo
+      - Plot 5-7 Coral Crescent, Kololo
       - P.O. Box 6638, Kampala, Uganda
-    mapUrl: https://www.google.com/maps/place/EzyAgric/@0.3238724,32.5933349,17z/data=!3m1!4b1!4m5!3m4!1s0x177dbb73efbc0795:0xc955f5a7901ea19c!8m2!3d0.3238724!4d32.5955236
+    mapUrl: https://www.google.com/maps/search/?api=1&query=Plot+5-7+Coral+Crescent%2C+Kololo%2C+Kampala%2C+Uganda
 
+# Partner logos from the partners slide of "EzyAgric - Business profile 2026.pptx".
 partners:
   title: Our partners
-  notice:
-    text: Partner list carried over from the old site
-    pending: true
-    note: Send the current partner list.
-  items:
-    - name: K+S
-      logo: { src: /images/partners/k-s.webp, alt: K+S, width: 316, height: 96 }
-    - name: Bukoola Chemical Industries
-      logo: { src: /images/partners/bukoola.webp, alt: Bukoola Chemical Industries, width: 180, height: 49 }
-    - name: Grainpulse
-      logo: { src: /images/partners/grainpulse.webp, alt: Grainpulse, width: 206, height: 96 }
-    - name: MFS Africa
-      logo: { src: /images/partners/mfs-africa.webp, alt: MFS Africa, width: 321, height: 96 }
-      pending: true
-      note: MFS Africa rebranded as Onafriq in 2024 — send the current logo.
-    - name: Naseco Seeds
-      logo: { src: /images/partners/naseco.webp, alt: Naseco Seeds, width: 200, height: 67 }
-    - name: Ankole Coffee Producers Co-operative Union
-      logo: { src: /images/partners/ankole-coffee.webp, alt: Ankole Coffee Producers Co-operative Union, width: 400, height: 71 }
-    - name: Simlaw Seeds
-      logo: { src: /images/partners/simlaw-seeds.webp, alt: Simlaw Seeds, width: 337, height: 96 }
-    - name: East African Seed
-      logo: { src: /images/partners/east-african-seed.webp, alt: East African Seed, width: 67, height: 96 }
+  intro: Working with input suppliers, lenders, government and development partners across Uganda.
+  groups:
+    - title: Commercial partners
+      items:
+        - name: "GrainPulse"
+          logo: { src: /images/partners/grainpulse.webp, alt: "GrainPulse", width: 275, height: 128 }
+        - name: "Bukoola Chemical Industries"
+          logo: { src: /images/partners/bukoola.webp, alt: "Bukoola Chemical Industries", width: 128, height: 128 }
+        - name: "Syngenta"
+          logo: { src: /images/partners/syngenta.webp, alt: "Syngenta", width: 174, height: 51 }
+        - name: "Osho Chemical Industries"
+          logo: { src: /images/partners/osho.webp, alt: "Osho Chemical Industries", width: 128, height: 128 }
+        - name: "Grow More Seeds"
+          logo: { src: /images/partners/grow-more-seeds.webp, alt: "Grow More Seeds", width: 181, height: 124 }
+        - name: "Balton Uganda"
+          logo: { src: /images/partners/balton.webp, alt: "Balton Uganda", width: 120, height: 128 }
+        - name: "Simlaw Seeds"
+          logo: { src: /images/partners/simlaw-seeds.webp, alt: "Simlaw Seeds", width: 320, height: 68 }
+        - name: "Pearl Seeds"
+          logo: { src: /images/partners/pearl-seeds.webp, alt: "Pearl Seeds", width: 138, height: 128 }
+        - name: "Jubaili Agrotec"
+          logo: { src: /images/partners/jubaili-agrotec.webp, alt: "Jubaili Agrotec", width: 189, height: 97 }
+        - name: "Biyinzika Poultry International"
+          logo: { src: /images/partners/biyinzika-poultry.webp, alt: "Biyinzika Poultry International", width: 174, height: 83 }
+        - name: "Mandela Millers"
+          logo: { src: /images/partners/mandela-millers.webp, alt: "Mandela Millers", width: 320, height: 61 }
+        - name: "NASECO Seeds"
+          logo: { src: /images/partners/naseco.webp, alt: "NASECO Seeds", width: 114, height: 100 }
+        - name: "Syova Seeds"
+          logo: { src: /images/partners/syova.webp, alt: "Syova Seeds", width: 320, height: 110 }
+        - name: "Uganda Crop Care"
+          logo: { src: /images/partners/uganda-crop-care.webp, alt: "Uganda Crop Care", width: 121, height: 128 }
+        - name: "Agro Supply Uganda"
+          logo: { src: /images/partners/agro-supply-uganda.webp, alt: "Agro Supply Uganda", width: 115, height: 128 }
+        - name: "Norbrook"
+          logo: { src: /images/partners/norbrook.webp, alt: "Norbrook", width: 203, height: 88 }
+        - name: "SunCulture"
+          logo: { src: /images/partners/sunculture.webp, alt: "SunCulture", width: 320, height: 121 }
+        - name: "Ensibuuko"
+          logo: { src: /images/partners/ensibuuko.webp, alt: "Ensibuuko", width: 190, height: 128 }
+    - title: Financial partners
+      items:
+        - name: "Pezesha"
+          logo: { src: /images/partners/pezesha.webp, alt: "Pezesha", width: 198, height: 61 }
+        - name: "Equity Bank"
+          logo: { src: /images/partners/equity-bank.webp, alt: "Equity Bank", width: 196, height: 128 }
+    - title: Funding and strategic partners
+      items:
+        - name: "Mastercard Foundation"
+          logo: { src: /images/partners/mastercard-foundation.webp, alt: "Mastercard Foundation", width: 135, height: 128 }
+        - name: "IFC – International Finance Corporation"
+          logo: { src: /images/partners/ifc.webp, alt: "IFC – International Finance Corporation", width: 320, height: 81 }
+        - name: "Heifer International"
+          logo: { src: /images/partners/heifer-international.webp, alt: "Heifer International", width: 166, height: 128 }
+        - name: "Mercy Corps"
+          logo: { src: /images/partners/mercy-corps.webp, alt: "Mercy Corps", width: 320, height: 113 }
+        - name: "USAID"
+          logo: { src: /images/partners/usaid.webp, alt: "USAID", width: 160, height: 128 }
+        - name: "World Food Programme (WFP)"
+          logo: { src: /images/partners/wfp.webp, alt: "World Food Programme (WFP)", width: 133, height: 128 }
+          pending: true
+          note: This logo came from a stock-photo site (watermark cropped). Get the official WFP logo file before launch.
+        - name: "Ministry of Agriculture, Animal Industry and Fisheries (MAAIF)"
+          logo: { src: /images/partners/maaif.webp, alt: "Ministry of Agriculture, Animal Industry and Fisheries (MAAIF)", width: 320, height: 113 }
+        - name: "National Agricultural Research Organisation (NARO)"
+          logo: { src: /images/partners/naro.webp, alt: "National Agricultural Research Organisation (NARO)", width: 105, height: 127 }
+        - name: "Uganda Coffee Development Authority"
+          logo: { src: /images/partners/ucda.webp, alt: "Uganda Coffee Development Authority", width: 185, height: 128 }
+        - name: "K+S"
+          logo: { src: /images/partners/k-s.webp, alt: "K+S", width: 320, height: 111 }
+        - name: "Onafriq"
+          logo: { src: /images/partners/onafriq.webp, alt: "Onafriq", width: 320, height: 92 }
+        - name: "Airtel"
+          logo: { src: /images/partners/airtel.webp, alt: "Airtel", width: 111, height: 128 }
+        - name: "Google for Startups Black Founders Fund Africa"
+          logo: { src: /images/partners/black-founders-fund-africa.webp, alt: "Google for Startups Black Founders Fund Africa", width: 320, height: 128 }
+        - name: "Digital Africa"
+          logo: { src: /images/partners/digital-africa.webp, alt: "Digital Africa", width: 270, height: 128 }
+        - name: "SAIS"
+          logo: { src: /images/partners/sais.webp, alt: "SAIS", width: 208, height: 128 }
+        - name: "Disruptive Agricultural Technology – One Million Farmer Platform"
+          logo: { src: /images/partners/disruptive-agricultural-technology.webp, alt: "Disruptive Agricultural Technology – One Million Farmer Platform", width: 239, height: 128 }
+        - name: "Alliance of Bioversity International and CIAT"
+          logo: { src: /images/partners/alliance-bioversity-ciat.webp, alt: "Alliance of Bioversity International and CIAT", width: 178, height: 90 }
+        - name: "Catholic Relief Services (CRS)"
+          logo: { src: /images/partners/crs.webp, alt: "Catholic Relief Services (CRS)", width: 195, height: 128 }
+        - name: "GOAL"
+          logo: { src: /images/partners/goal.webp, alt: "GOAL", width: 320, height: 122 }
+        - name: "Sasakawa Africa Association"
+          logo: { src: /images/partners/sasakawa-africa.webp, alt: "Sasakawa Africa Association", width: 169, height: 128 }
+        - name: "TechnoServe"
+          logo: { src: /images/partners/technoserve.webp, alt: "TechnoServe", width: 320, height: 53 }
+        - name: "University of Illinois"
+          logo: { src: /images/partners/university-of-illinois.webp, alt: "University of Illinois", width: 320, height: 55 }
 
 social:
   - name: Facebook

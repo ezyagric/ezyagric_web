@@ -6,7 +6,7 @@
 slug: ezycredits
 order: 3
 name: EzyCredits
-appTagline: Pay now, or buy now and pay later
+appTagline: Wallet and Pay Later
 accent: teal
 icon: wallet
 
@@ -14,13 +14,13 @@ card:
   summary: Pay for your farm now from your wallet, or later with Pay Later.
   points:
     - "Wallet: top up with Mobile Money and pay instantly"
-    - "Pay Later: get inputs today, repay after delivery"
+    - "Pay Later: if approved, get inputs now and repay after delivery"
     - Pay Later credit provided by Pezesha
 
 hero:
   eyebrow: EzyCredits · Wallet and Pay Later
   headline: Pay for your farm now, or later
-  intro: "Top up when you have cash. Use Pay Later when you don't. EzyCredits gives you two ways to pay for inputs, feeds and vet care on Agrishop."
+  intro: "Top up when you have cash. If you qualify, use Pay Later when you don't. EzyCredits gives you two ways to pay for inputs, feeds and vet care on Agrishop."
 
 cta:
   label: See if you qualify
@@ -43,7 +43,7 @@ comparison:
     - label: How it works
       values:
         - Top up with MTN or Airtel Mobile Money
-        - Complete a short profile, get verified and receive your personal offer
+        - Complete a short profile and get verified. If approved, you get a personal offer
     - label: How you use it
       values:
         - Pay instantly at Agrishop checkout
@@ -55,7 +55,13 @@ comparison:
     - label: Good to know
       values:
         - See and download your transaction history
-        - One Pay Later at a time. Your limit can grow as you keep buying and repaying
+        - One Pay Later loan at a time. Your limit can grow as you keep buying and repaying on time
+    - label: Collateral
+      values:
+        - Not needed
+        - text: Not needed. Your offer is based on your purchases and farm records in the app
+          pending: true
+          note: From the Business Profile 2026 — Pezesha/legal to approve this wording.
 
 features:
   title: What you can pay for
@@ -76,15 +82,18 @@ steps:
     - title: Complete your profile
       text: In the app, fill in your ID, personal, business, contact and next-of-kin details.
     - title: Get verified
-      text: We check your details. This can take a little time.
-    - title: Receive your offer
-      text: See your personal Pay Later offer, including how much you can borrow and for how long.
+      text: Your details are checked. This can take a little time. Not everyone is approved.
+    - title: Get your offer
+      text: If you are approved, see your personal offer — how much you can borrow and for how long.
     - title: Shop and pay later
       text: "At Agrishop checkout, choose Pay Later. Your order is delivered first, then you repay with Mobile Money."
 
 keyFacts:
   title: Pay Later key facts
   intro: Read these before you accept a Pay Later offer. Your offer in the app shows the exact amounts.
+  # The whole box waits for Pezesha/legal approval, so production never shows a partial statement.
+  pending: true
+  note: Pezesha and legal to approve the whole key-facts box before launch.
   items:
     - label: Lender
       value: Pezesha
@@ -98,6 +107,8 @@ keyFacts:
       note: Pezesha/legal to confirm whether a rate or range must be published here.
     - label: Total to repay
       value: Shown in the app before you accept, including interest.
+      pending: true
+      note: Pezesha/legal to confirm, together with "Interest and fees".
     - label: Repayment period
       value: "Set in your offer. It starts when your order is delivered."
     - label: How to repay
@@ -130,11 +141,11 @@ faq:
   - q: How do I top up my Wallet?
     a: With MTN or Airtel Mobile Money, from your profile in the app.
   - q: Who can use Pay Later?
-    a: "Farmers who complete their profile and pass verification receive a personal offer."
+    a: "Farmers in Uganda who complete their profile can apply. Pezesha decides who gets credit, so not everyone is approved. Limits and terms are different for each farmer."
   - q: How much can I borrow?
     a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying."
-  - q: Can I have two Pay Later orders at once?
-    a: No. Repay your current Pay Later before you use it again.
+  - q: Can I have two Pay Later loans at once?
+    a: No. Repay your current Pay Later loan before you use Pay Later again.
   - q: In the app I see "BNPL". Is that Pay Later?
     a: Yes. BNPL (buy now, pay later) in the app is EzyCredits Pay Later.
 

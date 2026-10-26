@@ -36,7 +36,7 @@
   --color-amber-500: #f57c00; /* decoration only */
   --color-amber-700: #b45309; /* text (5.0:1) */
 
-  --color-whatsapp: #128c4a; /* darker than WhatsApp green so white text passes */
+  --color-whatsapp: #0f7a40; /* darker than WhatsApp green so white text passes (5.4:1) */
 }
 
 @layer base {
@@ -62,5 +62,11 @@
 
   :focus-visible {
     @apply outline-3 outline-offset-2 outline-brand-700;
+  }
+
+  /* The brand-blue ring is too faint on the dark footer and dark bands. */
+  .bg-ink :focus-visible,
+  .bg-brand-900 :focus-visible {
+    @apply outline-white;
   }
 }

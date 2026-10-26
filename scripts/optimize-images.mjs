@@ -40,16 +40,12 @@ const IMAGES = [
   ["brand/mtn.png", "brand/mtn.webp", 120],
   ["brand/airtel.png", "brand/airtel.webp", 120],
 
-  // Partner logos are shown 48px tall
-  ["partners/k+s.png", "partners/k-s.webp", 0, { height: 96 }],
-  ["partners/bukoola.png", "partners/bukoola.webp", 0, { height: 96 }],
-  ["partners/Grainpulse-Logo.png", "partners/grainpulse.webp", 0, { height: 96 }],
-  ["partners/mfs.gif", "partners/mfs-africa.webp", 0, { height: 96 }],
-  ["partners/naseco.png", "partners/naseco.webp", 0, { height: 96 }],
-  ["partners/ankole.png", "partners/ankole-coffee.webp", 0, { height: 96 }],
-  ["partners/simlaw.png", "partners/simlaw-seeds.webp", 0, { height: 96 }],
-  ["partners/easeed.png", "partners/east-african-seed.webp", 0, { height: 96 }],
 ];
+
+// Partner logos, cut from the partners slide of "EzyAgric - Business profile
+// 2026.pptx" (assets-src/partners/<slug>.png). Shown inside 160x64 tiles, so
+// each is fitted into a 320x128 box for sharp screens.
+const PARTNER_BOX = { width: 320, height: 128 };
 
 /** SVGs are copied as-is. */
 const COPIES = [
@@ -71,6 +67,16 @@ async function main() {
       .resize(resize)
       .webp({ quality: 78, effort: 6 })
       .toFile(dest);
+    report.push({ out, w: info.width, h: info.height, kb: +(info.size / 1024).toFixed(1) });
+  }
+  const partnersDir = path.join(SRC, "partners");
+  await fs.mkdir(path.join(OUT, "partners"), { recursive: true });
+  for (const file of (await fs.readdir(partnersDir)).filter((f) => f.endsWith(".png"))) {
+    const out = `partners/${path.basename(file, ".png")}.webp`;
+    const info = await sharp(path.join(partnersDir, file))
+      .resize({ ...PARTNER_BOX, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 85, effort: 6 })
+      .toFile(path.join(OUT, out));
     report.push({ out, w: info.width, h: info.height, kb: +(info.size / 1024).toFixed(1) });
   }
   for (const [src, out] of COPIES) {

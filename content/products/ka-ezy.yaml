@@ -9,11 +9,11 @@ accent: kaezy
 icon: bot
 
 card:
-  summary: Your 24/7 farm expert. Ask by text or voice and get advice for your crops and animals.
+  summary: Ask by text or voice and get advice for your farm, in English or Luganda.
   points:
     - Diagnose problems from a crop photo or livestock symptoms
     - A farm plan with estimated costs, revenue and profit
-    - Free to try
+    - Free to start, then UGX 5,000 to renew
   image:
     src: /images/products/ka-ezy-wave.webp
     alt: Ka-Ezy waving
@@ -23,7 +23,7 @@ card:
 hero:
   eyebrow: Ka-Ezy · AI farm assistant
   headline: Meet Ka-Ezy, your 24/7 farm expert
-  intro: "Ka-Ezy is the AI agronomist inside the EzyAgric app. Ask it anything about your crops or animals — by typing or speaking — and get advice you can use today."
+  intro: "Ka-Ezy is the AI farm expert inside the EzyAgric app. It knows your gardens, crops and records, and gives advice for your farm — in English or Luganda, any time of day."
   image:
     src: /images/products/ka-ezy-phone.webp
     alt: Ka-Ezy holding a phone with the EzyAgric app
@@ -48,7 +48,7 @@ features:
   title: What Ka-Ezy can do for you
   items:
     - title: Ask by text or voice
-      text: Type your question or speak it. Ka-Ezy answers any time, day or night.
+      text: Type your question or tap the mic to speak. Ka-Ezy answers in English or Luganda, day or night.
       icon: mic
     - title: Diagnose crop and animal problems
       text: Snap a photo of a sick crop or describe your animal's symptoms, and get advice on what to do.
@@ -59,70 +59,64 @@ features:
     - title: Keep your records
       text: Record your farm income and expenses as you go.
       icon: line-chart
-    - title: Soil, fertilizer and seasonal advice
-      text: Know what your soil needs and what to do each season.
+    - title: Advice for 40+ crops and animals
+      text: Pick the crops and animals you keep. Ka-Ezy gives soil, fertilizer and seasonal advice for more than 40 of them.
       icon: sprout
+    - title: Satellite, soil and weather insights
+      text: Advice that takes your land, soil and the weather into account.
+      icon: globe
+      pending: true
+      note: In the Business Profile 2026, but the app review found no weather screen — confirm before launch.
     - title: Garden mapping
-      text: Map your gardens and see their size and details.
+      text: Map your gardens for free. See their size and details with Ka-Ezy.
       icon: map
     - title: Guides and videos
       text: Read crop and animal guides and watch recommended videos.
       icon: book-open
-    - title: Shop what it recommends
-      text: When Ka-Ezy suggests an input, add it straight to your Agrishop cart.
+    - title: Order what it recommends
+      text: When your farm plan or a diagnosis recommends an input, order it straight from Agrishop.
       icon: shopping-cart
-      pending: true
-      note: Depends on the backend — confirm this is live for all users.
 
 steps:
   title: How to start
   items:
     - title: Open Ka-Ezy
       text: Get the EzyAgric app and tap Ka-Ezy on the home screen.
-    - title: Try it free
-      text: Start with free, limited use — no payment needed.
-    - title: Choose a plan
-      text: When you're ready, pick a plan and pay with MTN or Airtel Mobile Money.
+    - title: Start free
+      text: Every farmer gets free Ka-Ezy tokens (credits for questions and advice). No payment needed.
+    - title: Renew when you need more
+      text: When your free tokens run out, renew for UGX 5,000 with MTN or Airtel Mobile Money.
 
+# Price from the EzyAgric Business Profile 2026: "Free to start. Farmers
+# renew for UGX 5,000 when their free tokens run out."
 pricing:
-  title: Ka-Ezy plans
-  intro: Start free. When you need more, choose how long you want Ka-Ezy working for you.
-  currency: UGX
-  plans:
-    - months: 1
-      name: 1 month
-      tagline: Start quickly with full assistant access
-      pricePerMonth: null
-    - months: 3
-      name: 3 months
-      tagline: Smart value for a full farming season
-      pricePerMonth: null
-      popular: true
-    - months: 6
-      name: 6 months
-      tagline: Support for two seasons
-      pricePerMonth: null
-    - months: 12
-      name: 12 months
-      tagline: Our best value for year-round farm support
-      pricePerMonth: null
+  title: What Ka-Ezy costs
+  intro: Start free. Renew only when you need more.
+  tiers:
+    - name: Start free
+      price: Free
+      text: Every farmer gets free Ka-Ezy tokens to start. No payment needed.
+    - name: Renew
+      price: UGX 5,000
+      text: When your free tokens run out, renew with MTN or Airtel Mobile Money.
+      highlight: true
   notes:
-    - Free to try before you pay.
     - Pay with MTN or Airtel Mobile Money.
-    - All value chains are included at no extra cost.
     - text: You can cancel anytime.
       pending: true
-      note: Confirm what cancelling means for a prepaid plan before publishing.
+      note: Confirm what cancelling means for a prepaid renewal before publishing.
   pending: true
-  note: "Send the current price per month for each plan, any discounts, and which plan is most popular."
+  note: "The app also shows 1, 3, 6 and 12-month plans. Confirm what one UGX 5,000 renewal gives a farmer (how many tokens or how long)."
 
 disclaimer: "Ka-Ezy is an AI assistant and its advice can sometimes be wrong. For serious crop or animal health problems, talk to an agronomist or a vet."
 
 faq:
   - q: Is Ka-Ezy free?
-    a: "You can try Ka-Ezy for free with limited use. After that, choose a paid plan."
-  - q: How do I pay for a plan?
+    a: "Ka-Ezy is free to start. When your free tokens run out, renew for UGX 5,000."
+  - q: How do I pay?
     a: With MTN or Airtel Mobile Money, inside the app.
+  - q: Does Ka-Ezy understand Luganda?
+    a: Yes. Ask Ka-Ezy in English or Luganda.
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
   - q: Does Ka-Ezy help with livestock too?
@@ -132,4 +126,4 @@ faq:
 
 seo:
   title: "Ka-Ezy – AI farm assistant for crops and livestock | EzyAgric"
-  description: "Ka-Ezy is your 24/7 farm expert: ask by text or voice, diagnose crop and livestock problems, and get a farm plan. Free to try in the EzyAgric app."
+  description: "Ka-Ezy is your 24/7 farm expert: ask in English or Luganda, diagnose crop and livestock problems and get a farm plan. Free to start in the EzyAgric app."
