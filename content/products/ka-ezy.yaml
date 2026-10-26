@@ -1,4 +1,4 @@
-# Ka-Ezy — the AI farm assistant in the EzyAgric App.
+# Ka-Ezy: the AI farm assistant in the EzyAgric App.
 # Facts checked against the farmer app (v4.8.2), the Business Profile 2026 and
 # the EzyAgric Creative & Content Pack (Ka-Ezy flier, "Renew & save" and
 # "Go Premium" visuals, campaign banners). See content/site.yaml for editing notes.
@@ -25,7 +25,7 @@ card:
 hero:
   eyebrow: Ka-Ezy · Your 24/7 farm expert
   headline: Hire Ka-Ezy, your personal farm expert
-  intro: "Just a tap of the screen and you have all the knowledge about your farm. Ka-Ezy knows your gardens, crops and records, and gives advice for your farm — in English or Luganda, day or night."
+  intro: "Just a tap of the screen and you have all the knowledge about your farm. Ka-Ezy knows your gardens, crops and records, and gives advice for your farm in English or Luganda, day or night."
   image:
     src: /images/products/ka-ezy-full.webp
     alt: Ka-Ezy, the EzyAgric farm expert, holding a phone with the EzyAgric App
@@ -54,16 +54,16 @@ features:
       text: "Trusted answers for every farming decision, personalised to your exact location. Ask by text or voice, in English or Luganda."
       icon: message-circle
     - title: Instant disease diagnosis
-      text: "Sick plant? Snap a photo and Ka-Ezy tells you what's wrong — spot crop diseases early and act before it is too late. You can also check livestock symptoms."
+      text: "Sick plant? Snap a photo and Ka-Ezy tells you what's wrong, so you can spot crop diseases early and act before it is too late. You can also check livestock symptoms."
       icon: camera
     - title: Garden mapping
-      text: "Walk your garden once and Ka-Ezy maps it — exact acreage, clear boundaries and the spots that need your inputs most."
+      text: "Walk your garden once and Ka-Ezy maps it: exact acreage, clear boundaries and the spots that need your inputs most."
       icon: map
     - title: Farm records
       text: "Keep your income and expenses in one place. Track activities, monitor progress and grow profitably."
       icon: line-chart
     - title: A farm plan for your budget
-      text: "Answer a few questions and Ka-Ezy builds a plan for your land, budget and goals — with estimated investment, revenue and profit."
+      text: "Answer a few questions and Ka-Ezy builds a plan for your land, budget and goals, with estimated investment, revenue and profit."
       icon: clipboard-list
     - title: Soil and weather insights
       text: Advice that takes your soil and the weather into account, for more than 40 crops and animals.
@@ -73,8 +73,11 @@ features:
       icon: shopping-cart
 
 # The four short feature videos from the Creative & Content Pack (Video Library).
+# Shown right after the hero, with a link to it under the hero buttons, so
+# visitors see Ka-Ezy at work among the first things on the page.
 demoVideos:
   title: See Ka-Ezy in action
+  heroLink: "Watch Ka-Ezy in action (1\_min\_24\_s)"
   intro: Short videos of what Ka-Ezy does. Each video only downloads when you tap play.
   items:
     # "Demo Video For Ka-Ezy" from the Creative & Content Pack (portrait, 607x1080).
@@ -101,6 +104,86 @@ demoVideos:
       text: Keep your income and expenses in one place and watch your profit grow.
       poster: { src: /images/videos/kaezy-farm-records.webp, alt: "", width: 900, height: 506 }
 
+# "Ask Ka-Ezy, then hire it", right below the videos. The answers are sample
+# answers written for the website (there is no safe way yet for a public web
+# page to reach the real Ka-Ezy or take payment: see README, "Ka-Ezy on the
+# website"). Preview builds simulate paying with Mobile Money; the live site
+# sends visitors to the app to pay.
+tryIt:
+  pending: true
+  note: "Agronomy team to check the four sample answers. Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
+  eyebrow: Try it now
+  title: Ask Ka-Ezy, then hire it
+  intro: "Tap a question to see how Ka-Ezy answers. When you're ready, choose a plan and pay with Mobile Money."
+  chat:
+    greeting: Hello farmer
+    subtitle: "Ask anything about your farm: crops, pests, planning or records."
+    tryAsking: Try asking
+    placeholder: Ask Ka-Ezy...
+    prompts:
+      - q: What should I plant this season?
+        a: |
+          The best crop depends on your district, your land and when the rains start. Here is how I would choose with you:
+
+          - **Quick income (about 3 months):** beans, or vegetables such as tomatoes, cabbages and onions if you are near a market.
+          - **Food and a steady market:** maize stores well and has ready buyers.
+          - **Long-term income:** coffee or bananas, if you can wait for the first harvest.
+
+          Plant at the start of the rains, so your crop has water when it needs it most. Tell me your district and how much land you have, and I'll suggest the best fit, with a budget.
+      - q: How do I prepare my soil?
+        a: |
+          Good preparation gives your seeds a strong start:
+
+          1. **Clear the land** of weeds, stumps and old crop remains.
+          2. **Dig or plough deep,** so roots grow down easily, then break up big clods.
+          3. **Add organic matter,** such as well-rotted manure or compost, a few weeks before planting.
+          4. **Test your soil.** A soil test shows which fertilizer your land needs, so you don't waste money.
+          5. **Make ridges or raised beds** where water collects, so roots don't rot.
+
+          In the EzyAgric App I can turn this into a step-by-step plan for your garden and crop.
+      - q: Recommend a farm record to keep
+        a: |
+          Start with an **income and expenses record**. It shows you whether your farm makes a profit.
+
+          For every entry, write down:
+
+          - the date
+          - what it was for (seed, fertilizer, labour, transport or a sale)
+          - the amount in UGX
+
+          At the end of the season, add up your income and take away your expenses: that is your profit. In the EzyAgric App you keep these records on your phone, and I use them to give you better advice.
+      - q: Tips to boost my yields
+        a: |
+          Five things that make the biggest difference:
+
+          1. **Use certified seed** from a trusted supplier. You can order genuine seed on Agrishop.
+          2. **Plant on time,** at the start of the rains, with the right spacing.
+          3. **Feed your soil** with manure, compost or the right fertilizer for your crop.
+          4. **Weed early.** Weeds steal water and food from young plants.
+          5. **Check for pests and diseases every week** and act early. Snap a photo in the app and I'll tell you what's wrong.
+
+          Tell me your crop and I'll give you a plan made for it.
+    ownQuestionReply: "On the website I can only answer the sample questions. Ask me about your own farm in the EzyAgric App, where your first questions are free."
+    # When the chat uses live Ka-Ezy answers (NEXT_PUBLIC_KAEZY_DEMO_API) and
+    # a question fails. The first two are the app's own messages.
+    errors:
+      offline: Unable to connect. Check your internet and try again.
+      busy: Server is busy right now. Please try again shortly.
+      limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
+    nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your gardens, day or night."
+    disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
+  hire:
+    title: Hire Ka-Ezy
+    intro: Choose a plan, then pay with MTN MoMo or Airtel Money.
+    # "Why farmers choose Ka-Ezy" in the app's plan screen.
+    benefits:
+      - Get instant guidance for your crops and livestock.
+      - Use photo diagnosis to spot farm problems early.
+      - Map your gardens and get soil, fertilizer and season plans.
+    accountHelp: Use the number you sign in to the EzyAgric App with. Your plan is added to that account.
+    policy: EzyAgric never asks for or stores your Mobile Money PIN.
+    appHandoff: "Paying on the website is coming soon. For now, hire Ka-Ezy in the EzyAgric App: open Ka-Ezy and tap View Ka-Ezy Plans."
+
 steps:
   title: Hire Ka-Ezy in 3 easy taps
   items:
@@ -123,15 +206,21 @@ pricing:
     - name: 1 month
       price: UGX 5,000 / month
       text: Full Ka-Ezy access.
+      months: 1
+      monthlyUgx: 5000
     - name: 3 months
       price: UGX 4,900 / month
       badge: 2% off
       text: Full Ka-Ezy access for a whole season.
+      months: 3
+      monthlyUgx: 4900
     - name: 6 months
       price: UGX 4,750 / month
       badge: 5% off
       text: Our best price for full Ka-Ezy access.
       highlight: true
+      months: 6
+      monthlyUgx: 4750
   notes:
     - Pay with MTN MoMo or Airtel Money, inside the app.
     - text: You can cancel anytime.
@@ -159,10 +248,10 @@ faq:
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
   - q: Does Ka-Ezy help with livestock too?
-    a: "Yes. Choose the crops and animals you keep, and Ka-Ezy gives advice for them — including checking livestock symptoms."
+    a: "Yes. Choose the crops and animals you keep, and Ka-Ezy gives advice for them. It can also check livestock symptoms."
   - q: Is Ka-Ezy always right?
     a: "Ka-Ezy is an AI assistant and can make mistakes. For serious problems, talk to an agronomist or a vet."
 
 seo:
-  title: "Ka-Ezy – your 24/7 AI farm expert | EzyAgric"
+  title: "Ka-Ezy: your 24/7 AI farm expert | EzyAgric"
   description: "Hire Ka-Ezy: expert farm advice, instant disease diagnosis, garden mapping and farm records in English or Luganda. Free to start, then from UGX 5,000 a month."

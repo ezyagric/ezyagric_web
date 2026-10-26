@@ -1,4 +1,4 @@
-# Agrishop — inputs and services in the EzyAgric App.
+# Agrishop: inputs and services in the EzyAgric App.
 # Facts checked against the farmer app (v4.8.2). See content/site.yaml for editing notes.
 
 slug: agrishop
@@ -23,7 +23,7 @@ card:
 hero:
   eyebrow: Agrishop · Inputs and services
   headline: Genuine inputs, delivered near you
-  intro: "Over 1,000 genuine products from more than 60 manufacturers and suppliers — seeds, fertilizers, crop protection, tools, animal feeds, vet products, fish fingerlings and day-old chicks."
+  intro: "Over 1,000 genuine products from more than 60 manufacturers and suppliers: seeds, fertilizers, crop protection, tools, animal feeds, vet products, fish fingerlings and day-old chicks."
   image:
     src: /images/products/agrishop.webp
     alt: A farmer pushing a shopping trolley of farm inputs
@@ -67,7 +67,7 @@ steps:
   title: How to order
   items:
     - title: Find what you need
-      text: Search or shop by category — seeds, fertilizers, pesticides, livestock and more.
+      text: "Search or shop by category: seeds, fertilizers, pesticides, livestock and more."
     - title: Confirm your order
       text: Add items to your cart, check your delivery address and confirm.
     - title: Choose how to pay
@@ -82,7 +82,7 @@ photo:
     alt: An EzyAgric bag among ripe red coffee cherries on the farm
     width: 1400
     height: 933
-  caption: From the input shop to the farm gate — EzyAgric on a Ugandan coffee farm.
+  caption: "From the input shop to the farm gate: EzyAgric on a Ugandan coffee farm."
 
 # YouTube videos (ids from content/site.yaml videos).
 videoIds:
@@ -101,5 +101,5 @@ faq:
     a: Agrishop is available in Uganda for now.
 
 seo:
-  title: "Agrishop – genuine farm inputs and vet services, delivered | EzyAgric"
+  title: "Agrishop: genuine farm inputs and vet services, delivered | EzyAgric"
   description: "Buy genuine seeds, feeds, fertilizers and vet supplies, book vet services and track delivery to your farm. Pay with Mobile Money, EzyCredits or on delivery."

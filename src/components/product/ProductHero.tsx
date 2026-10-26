@@ -1,19 +1,21 @@
 import Image from "next/image";
+import { PlayCircle } from "lucide-react";
 import { isVisible, type Product } from "@/lib/content";
 import { playStoreUrl } from "@/lib/links";
-import { ButtonLink, PlayBadge } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText } from "@/components/ui/Pending";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { PayWaysVisual } from "./PayWaysVisual";
 import { Wave } from "@/components/ui/Wave";
 
 /**
  * Product hero on plain white (brand guide: white carries the page, and the
  * product artwork is drawn on pure white). On a 360px phone the headline,
- * intro and both install buttons come first; the visual follows. Same layout
+ * intro and the install buttons come first; the visual follows. Same layout
  * as the home hero, so the four pages feel like one family.
  */
 export function ProductHero({ product }: { product: Product }) {
@@ -44,8 +46,18 @@ export function ProductHero({ product }: { product: Product }) {
               <Icon name={product.icon} className="size-5" />
               {cta.label}
             </ButtonLink>
-            <PlayBadge campaign={cta.campaign} medium="product-hero" />
+            <StoreBadges campaign={cta.campaign} medium="product-hero" />
           </div>
+
+          {product.demoVideos?.heroLink ? (
+            <a
+              href="#demo-videos"
+              className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-control text-lg font-heading text-link hover:underline"
+            >
+              <PlayCircle aria-hidden="true" className="size-7 text-accent-bright" />
+              {product.demoVideos.heroLink}
+            </a>
+          ) : null}
 
           {availability && isVisible(availability) ? (
             <p className="mt-5 flex items-start gap-2 text-base text-muted">

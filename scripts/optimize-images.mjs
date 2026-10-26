@@ -24,12 +24,14 @@ const IMAGES = [
   // Product artwork from the app
   ["app/ka-ezy-wave.png", "products/ka-ezy-wave.webp", 400],
   ["app/ka-ezy-phone.png", "products/ka-ezy-phone.webp", 520],
+  // Ka-Ezy waving, the farmer app's chat avatar (assets/ka-ezy.png), for the
+  // website's "Ask Ka-Ezy" chat header.
+  ["app/ka-ezy-avatar.png", "products/ka-ezy-avatar.webp", 200],
   ["app/agrishop.png", "products/agrishop.webp", 480],
   ["app/produce-market.png", "products/produce-market.webp", 480],
 
   // Photos
   ["photos/slide-1.jpg", "photos/farmers-with-phone.webp", 1200],
-  ["photos/village-agent.jpg", "photos/village-agent.webp", 900],
   ["photos/offtaker-ui.png", "photos/web-portal.webp", 1200],
   ["photos/inputs.jpg", "photos/inputs.webp", 1200],
   ["photos/market.jpg", "photos/market.webp", 1200],
@@ -39,7 +41,6 @@ const IMAGES = [
   // From the EzyAgric Creative & Content Pack (Google Drive, Oct 2026)
   ["app/ka-ezy-full.png", "products/ka-ezy-full.webp", 640],
   ["photos-2026/farmer-with-phone.jpg", "photos/farmer-with-phone.webp", 720],
-  ["photos-2026/agent-guiding-farmers.jpg", "photos/agent-guiding-farmers.webp", 1200],
   ["photos-2026/kaezy-exhibition.jpg", "photos/kaezy-exhibition.webp", 800],
   ["photos-2026/farmer-in-garden.jpg", "photos/farmer-in-garden.webp", 720],
   ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
@@ -69,6 +70,9 @@ const COPIES = [
   // Reversed (white) lockup for navy, blue or green backgrounds
   ["brand/ezyagric-logo-white.svg", "brand/ezyagric-logo-white.svg"],
   ["brand/google-play-badge.svg", "brand/google-play-badge.svg"],
+  // Apple's official black "Download on the App Store" badge (US-UK, 2017
+  // artwork from developer.apple.com/app-store/marketing/guidelines)
+  ["brand/app-store-badge.svg", "brand/app-store-badge.svg"],
 ];
 
 async function main() {

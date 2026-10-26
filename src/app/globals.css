@@ -55,6 +55,7 @@
   --color-gradient-decor-end: var(--theme-gradient-decor-end);
 
   /* Review-only */
+  --color-danger: var(--theme-danger);
   --color-review: var(--theme-review);
   --color-review-soft: var(--theme-review-soft);
 
@@ -98,9 +99,9 @@
     line-height: var(--theme-leading-body);
   }
 
-  /* Anchor targets clear the sticky header. */
+  /* Anchor targets clear the sticky header (84px, 96px from lg). */
   [id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 6.75rem;
   }
 
   :focus-visible {

@@ -47,6 +47,7 @@ export const ICON_NAMES = [
   "badge-percent",
   "bell",
   "piggy-bank",
+  "play-circle",
 ] as const;
 
 const IconName = z.enum(ICON_NAMES);
@@ -147,7 +148,16 @@ const ProductSchema = z.object({
             badge: z.string().optional(),
             text: z.string(),
             highlight: z.boolean().default(false),
+            /**
+             * For plans that can be bought ("Hire Ka-Ezy"): length and monthly
+             * price. As in the app, the total is months x monthly price; the
+             * badge is display only.
+             */
+            months: z.number().int().positive().optional(),
+            monthlyUgx: z.number().int().positive().optional(),
             ...pendingFields,
+          }).refine((t) => (t.months === undefined) === (t.monthlyUgx === undefined), {
+            message: "months and monthlyUgx go together",
           }),
         )
         .min(1),
@@ -178,6 +188,8 @@ const ProductSchema = z.object({
     .object({
       title: z.string(),
       intro: z.string().optional(),
+      /** A link under the hero buttons that jumps to the videos, e.g. "Watch Ka-Ezy in action (1 min 24 s)". */
+      heroLink: z.string().optional(),
       items: z.array(
         z.object({
           src: z.string().startsWith("/videos/"),
@@ -192,6 +204,45 @@ const ProductSchema = z.object({
       ),
     })
     .optional(),
+  /**
+   * "Ask Ka-Ezy, then hire it": a chat with sample answers beside a plan and
+   * Mobile Money flow (components/product/kaezy). There is no secure web API
+   * for Ka-Ezy or payments yet, so the chat answers from `prompts`, preview
+   * builds simulate the payment, and production sends visitors to the app to
+   * pay (README, "Ka-Ezy on the website").
+   */
+  tryIt: z
+    .object({
+      eyebrow: z.string(),
+      title: z.string(),
+      intro: z.string(),
+      chat: z.object({
+        greeting: z.string(),
+        subtitle: z.string(),
+        tryAsking: z.string(),
+        placeholder: z.string(),
+        /** Starter questions; `a` is the sample answer (paragraphs, "- " and "1. " lists, **bold**). */
+        prompts: z.array(z.object({ q: z.string(), a: z.string() })).min(1).max(6),
+        /** Sample answers only: the reply to a question the visitor types themselves. */
+        ownQuestionReply: z.string(),
+        /** Live answers only: what to say when Ka-Ezy can't answer. */
+        errors: z.object({ offline: z.string(), busy: z.string(), limit: z.string() }),
+        /** Shown after the second answer, with a link to the plans. */
+        nudge: z.string(),
+        disclaimer: z.string(),
+      }),
+      hire: z.object({
+        title: z.string(),
+        intro: z.string(),
+        benefits: z.array(z.string()),
+        accountHelp: z.string(),
+        policy: z.string(),
+        /** Production, until web payment is connected: how to hire in the app instead. */
+        appHandoff: z.string(),
+      }),
+      ...pendingFields,
+    })
+    .optional(),
   videoIds: z.array(z.string()).default([]),
   faq: z.array(Faq),
   seo: z.object({ title: z.string(), description: z.string().max(170) }),
@@ -201,7 +252,7 @@ export type Product = z.infer<typeof ProductSchema>;
 const Video = z.object({
   id: z.string(),
   title: z.string(),
-  topic: z.enum(["farmers", "agents", "app", "ezycredits", "company", "media"]),
+  topic: z.enum(["farmers", "app", "ezycredits", "company", "media"]),
   /** Shown in the home page's first row of stories (before "More videos"). */
   featured: z.boolean().default(false),
 });
@@ -213,6 +264,30 @@ const SiteSchema = z.object({
   name: z.string(),
   legalName: z.string(),
   slogan: z.string(),
+  /** The Ka-Ezy banner repeated across the site (components/promo/KaEzyBanner). */
+  kaezyBanner: z.object({
+    eyebrow: z.string(),
+    title: z.string(),
+    intro: z.string(),
+    watch: z.object({ title: z.string(), text: z.string(), link: z.string(), more: z.string() }),
+    try: z.object({
+      title: z.string(),
+      text: z.string(),
+      /** Used while the website demo is not shown (production, until it is approved). */
+      appText: z.string(),
+      link: z.string(),
+      appLink: z.string(),
+    }),
+    pay: z.object({ title: z.string(), text: z.string(), link: z.string() }),
+    app: z.object({ title: z.string(), text: z.string() }),
+    /** The one-line version for menus and the Ka-Ezy page. */
+    strip: z.object({ label: z.string(), watch: z.string(), try: z.string(), pay: z.string(), app: z.string() }),
+  }),
+  /** The iPhone app: the App Store badge appears once `url` is set (see StoreBadges). */
+  appStore: z.object({
+    url: z.string().url().nullable().default(null),
+    comingSoon: z.string(),
+  }),
   seo: z.object({
     title: z.string(),
     description: z.string().max(170),
@@ -239,7 +314,8 @@ const SiteSchema = z.object({
   alsoInApp: z.object({ title: z.string(), intro: z.string(), items: z.array(Feature) }),
   impact: z.object({
     title: z.string(),
-    asOf: Claim,
+    /** Optional date line under the title, e.g. "As of October 2026". */
+    asOf: Claim.optional(),
     /** A real farmer photo shown beside the figures. */
     image: Image.optional(),
     items: z.array(
@@ -256,7 +332,7 @@ const SiteSchema = z.object({
       .object({
         title: z.string(),
         items: z.array(
-          z.object({ value: z.string(), label: z.string(), source: z.string() }),
+          z.object({ value: z.string(), label: z.string(), source: z.string().optional() }),
         ),
       })
       .optional(),
@@ -274,15 +350,6 @@ const SiteSchema = z.object({
     intro: z.string(),
     points: z.array(z.string()),
     cta: z.object({ label: z.string(), url: z.string().url() }),
-    image: Image,
-  }),
-  agents: z.object({
-    eyebrow: z.string(),
-    title: z.string(),
-    intro: z.string(),
-    steps: z.array(z.string()),
-    roles: z.array(z.string()),
-    cta: z.object({ label: z.string(), campaign: z.string() }),
     image: Image,
   }),
   faq: z.object({ title: z.string(), items: z.array(Faq) }),

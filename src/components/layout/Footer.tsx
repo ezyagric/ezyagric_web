@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { getProducts, getSite } from "@/lib/content";
-import { AGENT_APP_ID, PORTAL_URL, playStoreUrl } from "@/lib/links";
-import { PlayBadge } from "@/components/ui/Button";
+import { PORTAL_URL, playStoreUrl } from "@/lib/links";
+import { StoreBadges } from "@/components/ui/StoreBadges";
+import { GET_THE_APP_ID } from "@/components/promo/KaEzyBanner";
 import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { GA_ENABLED } from "@/components/analytics/config";
 import { Logo } from "./Logo";
@@ -24,14 +25,13 @@ export function Footer() {
 
   const columns: { title: string; links: FooterLink[] }[] = [
     {
-      title: "Products",
+      title: "Our offer",
       links: products.map((p) => ({ href: `/${p.slug}/`, label: p.name })),
     },
     {
       title: "EzyAgric",
       links: [
         { href: "/#organisations", label: "For organisations" },
-        { href: "/#agents", label: "Become an agent" },
         { href: "/#stories", label: "Stories" },
         { href: "/#faq", label: "FAQ" },
         { href: "/#contact-us", label: "Contact us" },
@@ -40,15 +40,19 @@ export function Footer() {
     {
       title: "Apps and portal",
       links: [
+        ...(site.appStore.url
+          ? [
+              {
+                href: site.appStore.url,
+                label: "EzyAgric App for iPhone",
+                track: { "data-track": "get_app_click", "data-track-product": "general", "data-track-position": "footer", "data-track-store": "app_store" },
+              },
+            ]
+          : []),
         {
           href: playStoreUrl("general", "footer"),
-          label: "EzyAgric App",
-          track: { "data-track": "get_app_click", "data-track-product": "general", "data-track-position": "footer" },
-        },
-        {
-          href: playStoreUrl("agents", "footer", AGENT_APP_ID),
-          label: "EzyAgric Agent App",
-          track: { "data-track": "agent_app_click", "data-track-position": "footer" },
+          label: "EzyAgric App for Android",
+          track: { "data-track": "get_app_click", "data-track-product": "general", "data-track-position": "footer", "data-track-store": "google_play" },
         },
         {
           href: PORTAL_URL,
@@ -72,8 +76,9 @@ export function Footer() {
               logo's clear space (half the mark's height, about 21px). */}
           <Logo variant="white" loading="lazy" className="h-16 w-auto" />
           <p className="mt-6 text-lg font-label">{site.slogan}</p>
-          <div className="mt-6">
-            <PlayBadge campaign="general" medium="footer" className="h-12 w-auto" />
+          {/* "Download the App" in the Ka-Ezy banner and strip jumps here, on every page. */}
+          <div id={GET_THE_APP_ID}>
+            <StoreBadges campaign="general" medium="footer" size="md" onDark className="mt-6" />
           </div>
         </div>
         {columns.map((col) => (

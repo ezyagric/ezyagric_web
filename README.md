@@ -11,7 +11,7 @@ Its job is to make the app's four tools clear in a few seconds on a cheap Androi
 | **EzyCredits** | Wallet (pay now) and Pay Later (credit by Pezesha) | `/ezycredits/` |
 | **Produce Market** | Farmers list their produce for sale | `/produce-market/` |
 
-It also serves village agents (agent app) and partner organisations (web portal).
+It also serves partner organisations (EzyProduce web portal).
 
 The site is built with Next.js (App Router, TypeScript, Tailwind CSS) and exported as **plain static files** (`out/`) that nginx serves. There is no server code, database or contact form. Pages work with JavaScript turned off; JavaScript is only used for the video player and the analytics consent banner.
 
@@ -156,7 +156,7 @@ To add or replace an image:
 
 What is where:
 
-- `photos-2026/` — real photos from the Creative & Content Pack (a farmer with the EzyAgric App, an agent guiding farmers, Ka-Ezy at an exhibition, a farmer in his garden, an EzyAgric bag on a coffee farm), used on the home and product pages.
+- `photos-2026/` — real photos from the Creative & Content Pack (a farmer with the EzyAgric App, Ka-Ezy at an exhibition, a farmer in his garden, an EzyAgric bag on a coffee farm), used on the home and product pages.
 - `app/ka-ezy-full.png` — the full Ka-Ezy character on a pure white background. Place it on a pure white (`#FFFFFF`) area, or its background shows as a white box.
 - `videos/` — thumbnails for the YouTube videos; `video-posters/` — posters for the Ka-Ezy demo videos.
 - `public/videos/*.mp4` — the Ka-Ezy demo videos (about 4 MB each), served from this site and listed under `demoVideos` in `content/products/ka-ezy.yaml`. They use `preload="none"`, so nothing downloads until someone taps play. They are not processed by `npm run images`; keep new ones short and compressed (H.264, 720p or less).
@@ -177,6 +177,7 @@ These are read **at build time** and baked into the files, so each environment n
 | `NEXT_PUBLIC_SITE_ENV` | `preview`, `staging`, `production` | `preview` | Only `production` hides pending items, drops the preview banner and lets search engines index the site. |
 | `NEXT_PUBLIC_SITE_URL` | e.g. `https://ezyagric.com` | `https://ezyagric.com` | Used for canonical URLs, the sitemap, robots.txt, share images and structured data. No trailing slash. |
 | `NEXT_PUBLIC_GA_ID` | GA4 measurement ID, e.g. `G-XXXXXXXXXX` | empty | Empty = no analytics, no cookie banner, no "Cookie settings" link. |
+| `NEXT_PUBLIC_KAEZY_DEMO_API` | `/api/kaezy-demo` | empty | Live Ka-Ezy answers in "Try Ka-Ezy". Empty = sample answers. See "Ka-Ezy on the website". |
 
 For local work, put them in `.env.local` (git-ignored), for example:
 
@@ -190,8 +191,11 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - Google Analytics 4 loads **only after the visitor taps "Accept"** on the cookie banner. Before that, or after "No thanks", no Google script is requested and no cookie is set. The choice is stored in the browser; "Cookie settings" in the footer reopens the banner.
 - Google Consent Mode v2 is used with everything denied by default; accepting grants analytics storage only (ads features stay off).
 - Buttons and links send events through `data-track` attributes, picked up by one click listener in `src/components/analytics/Analytics.tsx`:
-  - `get_app_click` (`product`, `position`)
-  - `portal_login_click`, `agent_app_click`
+  - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`)
+  - `portal_login_click`
+  - `kaezy_banner_click` (`action`: watch, try, pay, app or all_videos; `position`)
+  - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
+  - `kaezy_hire_continue` (`plan`), `kaezy_hire_pay` (`plan`, `network`)
   - `whatsapp_click`, `tel_click`, `email_click`
   - `video_play` (`video_id`)
 - Play Store links also carry a referrer (`utm_source=website&utm_medium=<position>&utm_campaign=<product>`), so installs show up per page and button in Play Console even without cookies.
@@ -247,11 +251,43 @@ The build needs internet access (npm packages, and the Nunito Sans web font, whi
 
 ---
 
+## Ka-Ezy on the website
+
+Getting visitors to use Ka-Ezy is the main job of this site, so it appears in two forms:
+
+- **The Ka-Ezy banner** (`src/components/promo/KaEzyBanner.tsx`, copy in `kaezyBanner` in `content/site.yaml`): four actions, **See Ka-Ezy in action**, **Try Ka-Ezy**, **Pay** and **Download the App**. The full banner sits on the home page (after the hero and after the videos), on the Agrishop, EzyCredits and Produce Market pages and on the 404 page. A one-line strip version sits under the Ka-Ezy hero, in the "Our offer" menu and in the phone menu. "Download the App" jumps to the store badges in the footer, on every page.
+- **"Ask Ka-Ezy, then hire it"** on the Ka-Ezy page (`tryIt` in `content/products/ka-ezy.yaml`, components in `src/components/product/kaezy/`): the app's Ka-Ezy chat and its plan and Mobile Money screens, redrawn in the website's theme. While it is shown, it replaces the plain Ka-Ezy price cards (its plan picker uses the same `pricing.tiers`, which carry `months` and `monthlyUgx`; the total is months x monthly price, as in the app).
+
+The website never calls the farmer app's own Ka-Ezy or payment APIs. They are built for the signed-in app and are not safe to expose to a public web page; engineering has the details.
+
+### Try Ka-Ezy: live answers
+
+Set `NEXT_PUBLIC_KAEZY_DEMO_API` (build arg in the Dockerfile) to switch the chat from its sample answers to live Ka-Ezy answers. It should be the same-origin path `/api/kaezy-demo`, which nginx proxies to the backend (template commented out in `nginx/nginx.conf`, with a per-visitor rate limit). Same origin means no CORS and no change to the Content-Security-Policy.
+
+The endpoint engineering needs to provide (for example `POST /web/demo-query` on the Ka-Ezy backend):
+
+- **Request:** `multipart/form-data` with `question`, `thread_id` (a UUID the page makes; reuse it to continue the conversation) and `agent_mode=chat`. Nothing else: no phone number, name or location.
+- **Response:** JSON `{ "response": "<markdown>", "thread_id": "..." }`, like the app's chat.
+- **Server side:** answer as a dedicated demo account (never a real farmer), cap questions per visitor and per day, return `429` (or `402`) when the cap is hit, and accept requests only from the website. The chat shows the app's own "Unable to connect" and "Server is busy" messages on errors, and a "hire Ka-Ezy" message on `429`/`402`.
+
+### Pay: what each build does
+
+| Build | Chat | Pay |
+|---|---|---|
+| `preview` / `staging` | Live answers if the endpoint is set, else sample answers to the four starter questions | Full flow, simulated: plan, MTN MoMo or Airtel Money number, "approve on your phone", success or failure (a "Demo only" switch picks the ending). Nothing leaves the browser. |
+| `production` | Hidden while `tryIt` is `pending`. Once approved: as above | Choose a plan, then "Finish in the EzyAgric App" with the store badges. No payment form. |
+
+Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP), payment and plan activation that trust only that sign-in and the payment callback, rate limits and bot checks, and a plans endpoint (plans live in the app's database today). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
+
+---
+
 ## Hand-off checklist (before launch)
 
 - [ ] **GA4:** create the property and set `NEXT_PUBLIC_GA_ID` in the production build. Check the banner, "Accept", "No thanks" and "Cookie settings", and that events arrive in GA4 DebugView.
+- [ ] **Ka-Ezy try and hire:** have the agronomy team check the four sample answers in `content/products/ka-ezy.yaml`, then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
 - [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
 - [ ] **Legal review:** all EzyCredits / Pay Later wording, the Pezesha lender line and key-facts box (Pezesha and legal), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
+- [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
 - [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf`.
@@ -283,6 +319,7 @@ src/
   components/
     home/                 Home page sections
     product/              Product page sections
+      kaezy/              "Ask Ka-Ezy, then hire it" (chat, plans, Mobile Money demo)
     layout/               Header, footer, logo, preview banner
     ui/                   Buttons, icons, badges, video player, …
     analytics/            GA4 consent banner and "Cookie settings" button

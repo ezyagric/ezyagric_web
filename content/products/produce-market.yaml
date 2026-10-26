@@ -1,4 +1,4 @@
-# Produce Market — farmers list what they have to sell.
+# Produce Market: farmers list what they have to sell.
 # The app has no buyer side, offers or chat yet, so the copy makes no
 # promises about buyers, sales or prices.
 
@@ -93,5 +93,5 @@ faq:
     a: Produce Market is available in Uganda for now.
 
 seo:
-  title: "Produce Market – list your crops and livestock for sale | EzyAgric"
+  title: "Produce Market: list your crops and livestock for sale | EzyAgric"
   description: "Post your crops, livestock and farm products for sale in the EzyAgric App. Set your own units and asking price. Free to list, in Uganda."

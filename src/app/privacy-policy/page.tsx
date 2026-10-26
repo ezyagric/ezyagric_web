@@ -201,7 +201,7 @@ export default function PrivacyPolicyPage() {
               className="text-xl font-heading text-heading sm:text-2xl"
             >
               Analytics and embedded videos
-              <PendingBadge note="New section — legal to review before launch" />
+              <PendingBadge note="New section: legal to review before launch" />
             </h2>
             <div className="mt-3 space-y-3">
               <p>

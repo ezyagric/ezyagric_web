@@ -2,7 +2,6 @@
 // can attribute installs to the page and button that sent them.
 
 export const FARMER_APP_ID = "com.ezyagric.extension.android";
-export const AGENT_APP_ID = "com.ezyagric.extension.agent.android";
 export const PORTAL_URL = "https://sso.ezyagric.com";
 
 export function playStoreUrl(

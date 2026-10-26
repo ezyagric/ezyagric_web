@@ -33,14 +33,16 @@ export function Impact() {
           <h2 id="impact-title" className="text-3xl font-heading tracking-heading text-on-inverse sm:text-4xl">
             {impact.title}
           </h2>
-          {isVisible(impact.asOf) ? (
+          {impact.asOf && isVisible(impact.asOf) ? (
             <p className="mt-2 text-base text-on-inverse">
               <ClaimText claim={impact.asOf} />
             </p>
           ) : null}
 
           <dl
-            className={`mt-8 grid grid-cols-2 gap-x-4 gap-y-8 ${image ? "lg:grid-cols-3 lg:gap-x-8" : "sm:grid-cols-3 sm:gap-x-8"}`}
+            className={`mt-8 grid grid-cols-2 gap-x-4 gap-y-8 ${
+              items.length < 3 ? "sm:gap-x-8" : image ? "lg:grid-cols-3 lg:gap-x-8" : "sm:grid-cols-3 sm:gap-x-8"
+            }`}
           >
             {items.map((item) => (
               <div key={item.label} className="flex min-w-0 flex-col-reverse justify-end border-l-2 border-on-inverse/20 pl-3 lg:pl-4">
@@ -81,7 +83,9 @@ export function Impact() {
                 <li key={e.label} className="rounded-card bg-on-inverse/5 p-5 ring-1 ring-on-inverse/10">
                   <p className="text-4xl font-heading text-on-inverse tabular-nums">{e.value}</p>
                   <p className="mt-1 text-base text-on-inverse">{e.label}</p>
-                  <p className="mt-3 text-sm font-caption text-on-inverse/90">Source: {e.source}</p>
+                  {e.source ? (
+                    <p className="mt-3 text-sm font-caption text-on-inverse/90">Source: {e.source}</p>
+                  ) : null}
                 </li>
               ))}
             </ul>

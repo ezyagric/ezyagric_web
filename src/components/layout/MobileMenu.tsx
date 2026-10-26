@@ -14,7 +14,12 @@ export function MobileMenu({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
 
+  // Close on a real page change, not on mount: a visitor may have opened
+  // the native <details> before the scripts arrived.
+  const shownPath = useRef(pathname);
   useEffect(() => {
+    if (shownPath.current === pathname) return;
+    shownPath.current = pathname;
     if (ref.current) ref.current.open = false;
   }, [pathname]);
 

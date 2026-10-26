@@ -75,7 +75,7 @@ export function SiteJsonLd() {
           {
             "@type": "MobileApplication",
             name: "EzyAgric Farmer",
-            operatingSystem: "ANDROID",
+            operatingSystem: site.appStore.url ? "ANDROID, IOS" : "ANDROID",
             applicationCategory: "BusinessApplication",
             url: playUrl,
             installUrl: playUrl,

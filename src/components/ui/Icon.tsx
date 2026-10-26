@@ -33,6 +33,7 @@ import {
   Users,
   Wallet,
   type LucideIcon,
+  CirclePlay,
 } from "lucide-react";
 import type { IconName } from "@/lib/content";
 
@@ -72,6 +73,7 @@ const ICONS: Record<IconName, LucideIcon> = {
   "badge-percent": BadgePercent,
   bell: Bell,
   "piggy-bank": PiggyBank,
+  "play-circle": CirclePlay,
 };
 
 export function Icon({

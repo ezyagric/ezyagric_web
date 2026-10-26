@@ -27,9 +27,13 @@ COPY . .
 ARG NEXT_PUBLIC_SITE_ENV=preview
 ARG NEXT_PUBLIC_SITE_URL=https://ezyagric.com
 ARG NEXT_PUBLIC_GA_ID=
+# "/api/kaezy-demo" once the Ka-Ezy guest demo route exists (see the commented
+# proxy in nginx/nginx.conf); empty keeps "Try Ka-Ezy" on its sample answers.
+ARG NEXT_PUBLIC_KAEZY_DEMO_API=
 ENV NEXT_PUBLIC_SITE_ENV=$NEXT_PUBLIC_SITE_ENV \
     NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
     NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID \
+    NEXT_PUBLIC_KAEZY_DEMO_API=$NEXT_PUBLIC_KAEZY_DEMO_API \
     NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build

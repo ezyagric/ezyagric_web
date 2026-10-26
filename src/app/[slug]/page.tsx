@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/product/Breadcrumbs";
 import { ProductHero } from "@/components/product/ProductHero";
 import { FeatureGrid } from "@/components/product/FeatureGrid";
 import { DemoVideos, hasDemoVideos } from "@/components/product/DemoVideos";
+import { TryKaEzy, hasTryIt } from "@/components/product/kaezy/TryKaEzy";
 import { ProductPhoto } from "@/components/product/ProductPhoto";
 import { Comparison, comparisonRows } from "@/components/product/Comparison";
 import { Steps } from "@/components/product/Steps";
@@ -17,6 +18,8 @@ import { ProductFaq, hasFaq } from "@/components/product/ProductFaq";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
 import { ProductCtaBand } from "@/components/product/ProductCtaBand";
 import type { BandTone } from "@/components/product/tones";
+import { KaEzyBanner, KaEzyStrip } from "@/components/promo/KaEzyBanner";
+import { Container } from "@/components/ui/Container";
 
 // One static page per product: /ka-ezy/, /agrishop/, /ezycredits/,
 // /produce-market/. Any other slug is a 404 (required for static export).
@@ -56,12 +59,20 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
     if (show) list.push(render);
   };
 
+  // See it in action first, straight after the hero (the hero also links
+  // here), so the videos are among the first things a visitor sees.
+  add(hasDemoVideos(product), (tone) => (
+    <DemoVideos key="demo-videos" product={product} tone={tone} />
+  ));
+  // Then try it and hire it (Ka-Ezy). Its plan picker replaces the price cards.
+  const tryIt = hasTryIt(product);
+  add(tryIt, (tone) => <TryKaEzy key="try-it" product={product} tone={tone} />);
   add(visible(product.features.items).length > 0, (tone) => (
     <FeatureGrid key="features" product={product} tone={tone} />
   ));
-  // See it in action right after reading what it does.
-  add(hasDemoVideos(product), (tone) => (
-    <DemoVideos key="demo-videos" product={product} tone={tone} />
+  // On the other service pages, the Ka-Ezy banner after "what it does".
+  add(product.slug !== "ka-ezy", () => (
+    <KaEzyBanner key="kaezy-banner" id="kaezy-banner" position={`${product.slug}-page`} />
   ));
   add(!!product.comparison && comparisonRows(product.comparison).length > 0, (tone) => (
     <Comparison key="compare" product={product} tone={tone} />
@@ -69,7 +80,7 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
   // A real photo from the field, as a pause before "how to get started".
   add(!!product.photo, (tone) => <ProductPhoto key="photo" product={product} tone={tone} />);
   add(true, (tone) => <Steps key="steps" product={product} tone={tone} />);
-  add(!!product.pricing && visible(product.pricing.tiers).length > 0, (tone) => (
+  add(!tryIt && !!product.pricing && visible(product.pricing.tiers).length > 0, (tone) => (
     <Pricing key="pricing" product={product} tone={tone} />
   ));
   add(hasKeyFacts(product), (tone) => <KeyFacts key="key-facts" product={product} tone={tone} />);
@@ -90,6 +101,14 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
     <>
       <Breadcrumbs product={product} />
       <ProductHero product={product} />
+      {/* On the Ka-Ezy page the banner is a strip of jump links to the sections below. */}
+      {product.slug === "ka-ezy" ? (
+        <div className="bg-canvas pb-10">
+          <Container>
+            <KaEzyStrip position="ka-ezy-hero" />
+          </Container>
+        </div>
+      ) : null}
       {/* The hero is white, so the first band is tinted. */}
       {bands(product).map((render, i) => render(i % 2 === 0 ? "subtle" : "canvas"))}
       <ProductCtaBand product={product} />

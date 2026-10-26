@@ -5,8 +5,8 @@ import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { ButtonLink, buttonClasses } from "@/components/ui/Button";
 
 // The first row: videos marked `featured` in content/site.yaml, then farmer
-// and agent stories. Everything else waits behind "More videos".
-const STORY_TOPICS: Video["topic"][] = ["farmers", "agents"];
+// stories. Everything else waits behind "More videos".
+const STORY_TOPICS: Video["topic"][] = ["farmers"];
 
 function VideoGrid({ videos }: { videos: Video[] }) {
   return (
@@ -21,7 +21,7 @@ function VideoGrid({ videos }: { videos: Video[] }) {
 }
 
 /**
- * Featured videos and farmer/agent stories first. Product how-tos and company
+ * Featured videos and farmer stories first. Product how-tos and company
  * videos sit in a closed <details>, so phones don't fetch every thumbnail up
  * front. A link to the YouTube channel closes the section.
  */

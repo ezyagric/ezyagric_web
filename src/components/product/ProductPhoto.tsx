@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Container";
 import type { BandTone } from "./tones";
 
 /**
- * A real photo from the EzyAgric photo library (Ugandan farmers, agents and
+ * A real photo from the EzyAgric photo library (Ugandan farmers and
  * gardens) with its caption beside it from md up. Portrait photos are kept
  * narrower so they never fill a whole screen. Lazy-loaded: it is always
  * well below the fold.

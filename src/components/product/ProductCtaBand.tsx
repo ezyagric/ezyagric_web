@@ -1,11 +1,11 @@
 import type { Product } from "@/lib/content";
-import { PlayBadge } from "@/components/ui/Button";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Container } from "@/components/ui/Container";
 import { ProductMark } from "@/components/ui/ProductMark";
 
 /**
  * Closing band on the signature blue-green gradient (on-inverse text
- * passes across it): one line and the Play badge.
+ * passes across it): one line and the store badges.
  */
 export function ProductCtaBand({ product }: { product: Product }) {
   return (
@@ -30,7 +30,7 @@ export function ProductCtaBand({ product }: { product: Product }) {
           </div>
         </div>
         <div className="shrink-0">
-          <PlayBadge campaign={product.cta.campaign} medium="cta-band" />
+          <StoreBadges campaign={product.cta.campaign} medium="cta-band" onDark />
         </div>
       </Container>
     </section>

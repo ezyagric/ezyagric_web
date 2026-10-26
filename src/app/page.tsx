@@ -8,10 +8,10 @@ import { AlsoInApp } from "@/components/home/AlsoInApp";
 import { Impact } from "@/components/home/Impact";
 import { Stories } from "@/components/home/Stories";
 import { Organisations } from "@/components/home/Organisations";
-import { Agents } from "@/components/home/Agents";
 import { Faq } from "@/components/home/Faq";
 import { Contact } from "@/components/home/Contact";
 import { Partners } from "@/components/home/Partners";
+import { KaEzyBanner } from "@/components/promo/KaEzyBanner";
 
 const site = getSite();
 
@@ -30,13 +30,15 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      {/* The Ka-Ezy banner: straight after the hero, and again after the videos. */}
+      <KaEzyBanner id="kaezy-banner" position="home-top" />
       <ProductGrid />
       <Journey />
       <AlsoInApp />
       <Impact />
       <Stories />
+      <KaEzyBanner id="kaezy-banner-videos" position="home-videos" />
       <Organisations />
-      <Agents />
       <Faq />
       <Contact />
       <Partners />

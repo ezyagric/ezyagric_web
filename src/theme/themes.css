@@ -62,6 +62,8 @@
   --theme-gradient-end: #0a7f3d; /* accessible green so white text passes */
   --theme-gradient-decor-end: #0c9548; /* decorative waves and stripes (no text on them) */
 
+  /* Form errors, e.g. a phone number that is not valid (6.6:1 on white) */
+  --theme-danger: #b42318;
   /* Review-only: "To confirm" badges and the preview banner (never in production) */
   --theme-review: #b45309;
   --theme-review-soft: #fdf3e7;

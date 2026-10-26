@@ -2,12 +2,15 @@ import Link from "next/link";
 import { getProducts } from "@/lib/content";
 import { PORTAL_URL, playStoreUrl } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
+import { ServicesMenu } from "./ServicesMenu";
+import { IconCircle } from "@/components/ui/IconCircle";
+import { KaEzyStrip } from "@/components/promo/KaEzyBanner";
 
 const SECONDARY_LINKS = [
   { href: "/#organisations", label: "Organisations" },
-  { href: "/#agents", label: "Agents" },
   { href: "/#contact-us", label: "Contact" },
 ];
 
@@ -23,33 +26,36 @@ export function Header() {
       >
         Skip to content
       </a>
-      {/* 72px tall: the 44px logo (142px wide, above the guide's 140px
-          minimum for the full lockup) keeps 14px of clear space above and
-          below, and the page gutter (16px+) and gap-4 keep it at the sides. */}
-      <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      {/* The logo at 52px (168px wide) in an 84px header on phones, and
+          60px (194px wide) in a 96px header from lg (the EzyAgric team asked
+          for a bigger logo, 26 Oct 2026). Either way it keeps about a third
+          of its height clear above and below (the guide's clear space), and
+          the page gutter (16px+) and gap-4 keep it clear at the sides. */}
+      <div className="mx-auto flex h-21 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-24">
         <Link href="/" prefetch={false} className="shrink-0 rounded-control" aria-label="EzyAgric home">
-          <Logo className="h-11 w-auto" />
+          <Logo className="h-13 w-auto lg:h-15" />
         </Link>
 
-        {/* Names never wrap ("Ka-Ezy" would break at its hyphen). There is
-            room for the product links from lg; the secondary links join them
-            from xl (they are also in the footer). */}
+        {/* The four services share one "Our offer" dropdown, which leaves
+            room for the other links beside it from lg. Names never wrap
+            ("Ka-Ezy" would break at its hyphen). */}
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-0.5 text-[15px] font-label whitespace-nowrap">
-            {products.map((p) => (
-              <li key={p.slug}>
-                <Link
-                  prefetch={false}
-                  href={`/${p.slug}/`}
-                  className="inline-flex min-h-11 items-center rounded-control px-2.5 text-body transition-colors hover:bg-brand-soft hover:text-link"
-                >
-                  {p.name}
-                </Link>
-              </li>
-            ))}
-            <li aria-hidden="true" className="mx-1 hidden h-5 w-px bg-line xl:block" />
+            <li>
+              <ServicesMenu
+                label="Our offer"
+                items={products.map((p) => ({
+                  href: `/${p.slug}/`,
+                  name: p.name,
+                  tagline: p.appTagline,
+                  icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
+                }))}
+                footer={<KaEzyStrip position="menu-desktop" />}
+              />
+            </li>
+            <li aria-hidden="true" className="mx-1 h-5 w-px bg-line" />
             {SECONDARY_LINKS.map((l) => (
-              <li key={l.href} className="hidden xl:block">
+              <li key={l.href}>
                 <Link
                   prefetch={false}
                   href={l.href}
@@ -83,11 +89,11 @@ export function Header() {
         </div>
 
         <MobileMenu>
-          {/* top-18 / 4.5rem = the header's height (h-18). */}
-          <div className="fixed inset-x-0 top-18 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-line bg-canvas px-4 pt-2 pb-6 shadow-raised">
+          {/* top-21 / 5.25rem = the header's height below lg (h-21). */}
+          <div className="fixed inset-x-0 top-21 max-h-[calc(100dvh-5.25rem)] overflow-y-auto border-b border-line bg-canvas px-4 pt-2 pb-6 shadow-raised">
             <nav aria-label="Main">
               <p className="px-3 pt-3 pb-1 text-sm text-label-style text-label">
-                Products
+                Our offer
               </p>
               <ul className="grid grid-cols-2 gap-1">
                 {products.map((p) => (
@@ -102,6 +108,7 @@ export function Header() {
                   </li>
                 ))}
               </ul>
+              <KaEzyStrip position="menu-phone" className="mt-3" />
               <ul className="mt-2 border-t border-line pt-2">
                 {SECONDARY_LINKS.map((l) => (
                   <li key={l.href}>
@@ -116,14 +123,10 @@ export function Header() {
                 ))}
               </ul>
             </nav>
+            {/* On a phone, the store badges (App Store once the iPhone app is
+                live) beat a generic "Get the app" button. */}
+            <StoreBadges campaign="general" medium="menu" size="md" className="mt-4" />
             <div className="mt-4 grid gap-2">
-              <ButtonLink
-                href={playStoreUrl("general", "menu")}
-                track="get_app_click"
-                trackProps={{ product: "general", position: "menu" }}
-              >
-                Get the app
-              </ButtonLink>
               <ButtonLink href={PORTAL_URL} variant="secondary" track="portal_login_click">
                 Partner login
               </ButtonLink>

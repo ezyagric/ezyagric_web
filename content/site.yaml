@@ -13,8 +13,54 @@ name: EzyAgric
 legalName: Akorion Company Limited
 slogan: Farm the Ezy way.
 
+# The Ka-Ezy banner, repeated at key points across the site (home page, the
+# other service pages, the 404 page, the menus) so visitors can watch, try,
+# pay for and download Ka-Ezy from wherever they are. The "try" and "pay"
+# links go to the Ka-Ezy page's "Ask Ka-Ezy, then hire it" section when the
+# site shows it, else to the Ka-Ezy page and its plans.
+kaezyBanner:
+  eyebrow: Meet Ka-Ezy
+  title: Your 24/7 farm expert, ready when you are
+  intro: Watch Ka-Ezy at work, try it right here, pay with Mobile Money, or get the app.
+  watch:
+    title: See Ka-Ezy in action
+    text: A 1-minute tour of Ka-Ezy, plus short videos of each feature.
+    link: Watch now
+    more: Videos of all our services
+  try:
+    title: Try Ka-Ezy
+    text: Ask Ka-Ezy a farm question right here and see how it answers.
+    appText: Start free in the EzyAgric App. No payment needed.
+    link: Try it now
+    appLink: Start free
+  pay:
+    title: Pay
+    text: Hire Ka-Ezy for 1 month for UGX 5,000, or save with 3 or 6 months. Pay with MTN MoMo or Airtel Money.
+    link: See plans
+  app:
+    title: Download the App
+    text: Ka-Ezy lives in the EzyAgric App, free to download.
+  strip:
+    label: Ka-Ezy, your 24/7 farm expert
+    watch: See Ka-Ezy in action
+    try: Try Ka-Ezy
+    pay: Pay
+    app: Download the App
+
+# The iPhone app (launching on the App Store in late 2026). On launch day:
+#   1. Paste the app's App Store link into `url` (keep the quotes). The
+#      official "Download on the App Store" badge then appears first, next to
+#      Google Play, everywhere on the site.
+#   2. Update the hero small print and the two FAQ answers that say the
+#      iPhone app is coming soon.
+# Until then, preview builds show the badge marked "To confirm" and the live
+# site shows the `comingSoon` line next to the Google Play badge.
+appStore:
+  url: null
+  comingSoon: iPhone app coming soon
+
 seo:
-  title: "EzyAgric – Farm the Ezy way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
+  title: "EzyAgric: Farm the Ezy way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
   description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and list your harvest on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
@@ -23,7 +69,7 @@ hero:
   headline: Farm the Ezy way.
   subline: "One app to plan, buy, pay and sell. Ask Ka-Ezy, shop on Agrishop, pay with EzyCredits and sell on Produce Market."
   smallPrint:
-    - Free to download on Android
+    - Free to download on Android, coming soon to iPhone
     - Shopping, vet services, Pay Later and selling available in Uganda
   screenshot:
     src: /images/screens/home.webp
@@ -39,7 +85,7 @@ hero:
 products:
   eyebrow: One app, four tools
   title: Everything your farm needs, in your pocket
-  intro: "Get advice, buy inputs, pay your way and list your harvest for sale — all in the EzyAgric App."
+  intro: "Get advice, buy inputs, pay your way and list your harvest for sale, all in the EzyAgric App."
 
 journey:
   title: How the four tools work together
@@ -75,10 +121,11 @@ alsoInApp:
       text: Read practical information on the crops and animals you keep.
       icon: book-open
 
-# Figures from the EzyAgric Business Profile 2026 (October 2026).
+# Figures from the EzyAgric Business Profile 2026 (October 2026). The team
+# asked (26 Oct 2026) to show only the reach and jobs figures, without dates
+# or sources, and to fold "across Uganda" into the reach figure.
 impact:
   title: Our impact
-  asOf: As of October 2026
   image:
     src: /images/photos/farmer-with-phone.webp
     alt: A young Ugandan farmer smiling and holding his phone with the EzyAgric App
@@ -87,32 +134,25 @@ impact:
   items:
     - value: 550000
       suffix: "+"
-      label: Farmers and agribusinesses served since 2015
-    - value: 145000
-      label: Registered app users
-    - value: 72
-      label: Districts across Uganda
-    - value: 15000
-      suffix: "+"
-      label: Input orders delivered
+      label: Farmers and agribusinesses served across Uganda
     - value: 12500
       label: Full and part-time jobs created
   evidence:
-    title: What farmers and merchants report
+    title: What farmers and agribusinesses report
+    # Studies behind these figures (not shown on the site): the 60 Decibels
+    # impact audit (86%, 88%) and a 2025 impact assessment in West Nile
+    # refugee settlements (85%).
     items:
       - value: 86%
         label: of farmers report increased production
-        source: 60 Decibels impact audit
       - value: 88%
-        label: of merchants say their way of doing business has improved
-        source: 60 Decibels impact audit
+        label: of agribusinesses say their way of doing business has improved
       - value: 85%
-        label: of West Nile farmers report higher income
-        source: 2025 impact assessment, West Nile refugee settlements
+        label: of farmers report higher income
 
 stories:
   title: Stories from the field
-  intro: Hear from farmers, village agents and the EzyAgric team.
+  intro: Hear from farmers and the EzyAgric team.
   channel:
     label: See all our videos on YouTube
     url: https://www.youtube.com/@ezyagric8713/videos
@@ -132,12 +172,6 @@ videos:
   - id: WsKjvNgo9Ms
     title: A farmer in Luwero District on how the EzyAgric App changed his farming
     topic: farmers
-  - id: wZ1TVA9bUgQ
-    title: A village agent in Luwero District
-    topic: agents
-  - id: Tw2uWYTQZS4
-    title: Oboth Silive, EzyAgric village agent in Bugiri District
-    topic: agents
   - id: "-VhNuO4fzh0"
     title: Quick and safe delivery of farm inputs
     topic: app
@@ -185,36 +219,11 @@ organisations:
     width: 1080
     height: 660
 
-# The Business Profile 2026 calls field agents Digital Agriculture Champions (DACs).
-agents:
-  eyebrow: Become a Digital Agriculture Champion
-  title: Earn commissions bringing EzyAgric to farmers
-  intro: "Digital Agriculture Champions (DACs) take EzyAgric's services to farmers in their area — including farmers without smartphones."
-  steps:
-    - Download the EzyAgric Agent App
-    - Register with your phone number
-    - The EzyAgric team contacts you to get you started
-    - Get trained to deliver EzyAgric services in your area
-  roles:
-    - Register farmers
-    - Map farmers' gardens
-    - Give farming advice
-    - Take orders for inputs and services
-    - Earn commissions on the services you deliver
-  cta:
-    label: Get the EzyAgric Agent App
-    campaign: agents
-  image:
-    src: /images/photos/agent-guiding-farmers.webp
-    alt: An EzyAgric agent in a blue EzyAgric shirt showing two farmers how to use the EzyAgric App on a phone
-    width: 1200
-    height: 800
-
 faq:
   title: Questions farmers ask
   items:
     - q: Is the EzyAgric App free?
-      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
+      a: "Yes. The app is free to download on Android from Google Play (and soon on iPhone from the App Store), and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
     - q: Where does EzyAgric work?
       a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
     - q: Can I use Ka-Ezy outside Uganda?
@@ -224,11 +233,9 @@ faq:
     - q: How do I pay?
       a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
     - q: Is there an iPhone app?
-      a: "Right now the EzyAgric App is available on Android from Google Play."
-      pending: true
-      note: Confirm iPhone status — App Store screenshots exist in the app project.
+      a: "Coming soon. The EzyAgric App for iPhone launches on the App Store shortly. Until then, you can get it on Android from Google Play."
     - q: Can I get help from a person?
-      a: "Yes. Chat with our team on WhatsApp or call us — see the contact details below."
+      a: "Yes. Chat with our team on WhatsApp or call us. Our contact details are below."
 
 contact:
   title: Talk to us
@@ -302,8 +309,8 @@ partners:
       items:
         - name: "Mastercard Foundation"
           logo: { src: /images/partners/mastercard-foundation.webp, alt: "Mastercard Foundation", width: 135, height: 128 }
-        - name: "IFC – International Finance Corporation"
-          logo: { src: /images/partners/ifc.webp, alt: "IFC – International Finance Corporation", width: 320, height: 81 }
+        - name: "IFC (International Finance Corporation)"
+          logo: { src: /images/partners/ifc.webp, alt: "IFC (International Finance Corporation)", width: 320, height: 81 }
         - name: "Heifer International"
           logo: { src: /images/partners/heifer-international.webp, alt: "Heifer International", width: 166, height: 128 }
         - name: "Mercy Corps"
@@ -332,8 +339,8 @@ partners:
           logo: { src: /images/partners/digital-africa.webp, alt: "Digital Africa", width: 270, height: 128 }
         - name: "SAIS"
           logo: { src: /images/partners/sais.webp, alt: "SAIS", width: 208, height: 128 }
-        - name: "Disruptive Agricultural Technology – One Million Farmer Platform"
-          logo: { src: /images/partners/disruptive-agricultural-technology.webp, alt: "Disruptive Agricultural Technology – One Million Farmer Platform", width: 239, height: 128 }
+        - name: "Disruptive Agricultural Technology: One Million Farmer Platform"
+          logo: { src: /images/partners/disruptive-agricultural-technology.webp, alt: "Disruptive Agricultural Technology: One Million Farmer Platform", width: 239, height: 128 }
         - name: "Alliance of Bioversity International and CIAT"
           logo: { src: /images/partners/alliance-bioversity-ciat.webp, alt: "Alliance of Bioversity International and CIAT", width: 178, height: 90 }
         - name: "Catholic Relief Services (CRS)"

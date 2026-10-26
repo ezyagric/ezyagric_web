@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { playStoreUrl } from "@/lib/links";
 
 // Brand guide: primary buttons are a green fill with a white SemiBold label;
 // secondary buttons are a blue outline on white. Corners come from the theme's
@@ -75,38 +74,5 @@ export function ButtonLink({
     <Link prefetch={false} href={href} className={classes} {...data}>
       {children}
     </Link>
-  );
-}
-
-/** Official "Get it on Google Play" badge linking to the farmer app. */
-export function PlayBadge({
-  campaign,
-  medium,
-  className = "h-14 w-auto",
-}: {
-  campaign: string;
-  medium: string;
-  className?: string;
-}) {
-  return (
-    <a
-      href={playStoreUrl(campaign, medium)}
-      target="_blank"
-      rel="noopener"
-      data-track="get_app_click"
-      data-track-product={campaign}
-      data-track-position={medium}
-      className="inline-block rounded-control"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG badge */}
-      <img
-        src="/images/brand/google-play-badge.svg"
-        alt="Get it on Google Play"
-        width={180}
-        height={53}
-        className={className}
-      />
-      <span className="sr-only"> (opens in a new tab)</span>
-    </a>
   );
 }

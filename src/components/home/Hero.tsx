@@ -1,9 +1,10 @@
 import { getSite, isVisible, visible } from "@/lib/content";
 import { whatsappUrl } from "@/lib/links";
-import { ButtonLink, PlayBadge } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { ClaimText } from "@/components/ui/Pending";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { CheckDot, Highlight } from "./parts";
 import { Wave } from "@/components/ui/Wave";
 import { HeroSlider } from "./HeroSlider";
@@ -29,7 +30,7 @@ function Headline({ text }: { text: string }) {
 /**
  * Home hero on the canvas colour (the Ka-Ezy artwork has a white background),
  * with a heading-colour headline and product names in green. On a 360x740 phone the
- * headline, subline and Play badge sit above the fold; the service slider
+ * headline, subline and store badges sit above the fold; the service slider
  * (HeroSlider) follows below, and sits beside the text from lg up.
  */
 export function Hero() {
@@ -56,7 +57,7 @@ export function Hero() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <PlayBadge campaign="general" medium="hero" />
+            <StoreBadges campaign="general" medium="hero" />
             {isVisible(whatsapp) ? (
               <ButtonLink
                 href={whatsappUrl(whatsapp.number, whatsapp.message)}

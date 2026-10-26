@@ -1,4 +1,4 @@
-# EzyCredits — one name for two ways to pay:
+# EzyCredits: one name for two ways to pay:
 #   EzyCredits Wallet (pay now) and EzyCredits Pay Later (credit from Pezesha).
 # The app currently labels Pay Later as "BNPL".
 # All credit wording needs Pezesha and legal approval before production.
@@ -61,7 +61,7 @@ comparison:
         - Not needed
         - text: Not needed. Your offer is based on your purchases and farm records in the app
           pending: true
-          note: From the Business Profile 2026 — Pezesha/legal to approve this wording.
+          note: From the Business Profile 2026. Pezesha/legal to approve this wording.
 
 features:
   title: What you can pay for
@@ -84,7 +84,7 @@ steps:
     - title: Get verified
       text: Your details are checked. This can take a little time. Not everyone is approved.
     - title: Get your offer
-      text: If you are approved, see your personal offer — how much you can borrow and for how long.
+      text: "If you are approved, see your personal offer: how much you can borrow and for how long."
     - title: Shop and pay later
       text: "At Agrishop checkout, choose Pay Later. Your order is delivered first, then you repay with Mobile Money."
 
@@ -150,5 +150,5 @@ faq:
     a: Yes. BNPL (buy now, pay later) in the app is EzyCredits Pay Later.
 
 seo:
-  title: "EzyCredits – farm wallet and Pay Later for inputs | EzyAgric"
+  title: "EzyCredits: farm wallet and Pay Later for inputs | EzyAgric"
   description: "Pay for farm inputs, feeds and vet care now from your EzyCredits Wallet, or later with EzyCredits Pay Later, provided by Pezesha. Available in Uganda."
