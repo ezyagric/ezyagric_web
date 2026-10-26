@@ -1,0 +1,88 @@
+# Produce Market — farmers list what they have to sell.
+# The app has no buyer side, offers or chat yet, so the copy makes no
+# promises about buyers, sales or prices.
+
+slug: produce-market
+order: 4
+name: Produce Market
+appTagline: Sell crops & livestock
+accent: amber
+icon: store
+
+card:
+  summary: Post your harvest and animals for sale at your own asking price.
+  points:
+    - Free to list
+    - Crops, livestock, honey, flour and more
+    - Mark items as sold when they go
+  image:
+    src: /images/products/produce-market.webp
+    alt: A farmer at a market stall of fresh produce
+    width: 480
+    height: 480
+
+hero:
+  eyebrow: Produce Market · Sell your harvest
+  headline: Post your harvest on the EzyAgric market
+  intro: "List your crops, animals and farm products in a few taps. You choose the quantity, the unit and your asking price."
+  image:
+    src: /images/products/produce-market.webp
+    alt: A farmer at a market stall of fresh produce
+    width: 480
+    height: 480
+
+cta:
+  label: List your produce
+  campaign: produce-market
+
+availability: Available in Uganda. Free to list.
+
+features:
+  title: What you can do
+  items:
+    - title: List almost anything you produce
+      text: "Crops, livestock and other produce such as honey, manure, charcoal, maize and cassava flour, hides and skins."
+      icon: sprout
+    - title: Your units, your price
+      text: "Sell by kg, 50 or 100 kg bag, 20 litre tin, sack, bunch, piece or dozen, at your own asking price."
+      icon: tag
+    - title: Show where it is
+      text: Add your region, district and village.
+      icon: map-pin
+    - title: Save a draft first
+      text: Start a listing now and publish it when you're ready.
+      icon: clipboard-list
+    - title: Mark it as sold
+      text: Edit or remove a listing any time, and mark it sold when it's gone.
+      icon: check-circle
+    - title: Free to list
+      text: Posting your produce costs nothing.
+      icon: badge-percent
+
+steps:
+  title: How to list your produce
+  items:
+    - title: Post a new item
+      text: Open Produce Market in the app and tap Post New Item.
+    - title: Add the details
+      text: Choose the produce and variety, then add quantity, unit, price and location.
+    - title: Publish
+      text: Your produce is now live on the market.
+    - title: Mark it as sold
+      text: Update the listing when it's sold.
+
+faq:
+  - q: Does it cost anything to list?
+    a: No. Listing your produce is free.
+  - q: Who sets the price?
+    a: You do. Set your own asking price per unit.
+  - q: How do buyers contact me?
+    a: "Buyers who see your listing get in touch with you."
+    pending: true
+    note: Confirm how buyers find listings and reach sellers — the app has no buyer side or chat yet.
+  - q: Where can I sell?
+    a: Produce Market is available in Uganda for now.
+
+seo:
+  title: "Produce Market – list your crops and livestock for sale | EzyAgric"
+  description: "Post your crops, livestock and farm products for sale in the EzyAgric app. Set your own units and asking price. Free to list, in Uganda."

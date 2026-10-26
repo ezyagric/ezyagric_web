@@ -1,0 +1,262 @@
+# Site-wide copy for ezyagric.com.
+#
+# How to edit: change the text between quotes, keep the indentation.
+# Mark anything not yet confirmed with `pending: true` and a `note`.
+# Preview/staging builds show it with a "To confirm" badge; production
+# builds hide it. Validated by src/lib/content.ts at build time.
+
+name: EzyAgric
+legalName: Akorion Company Limited
+slogan: Farm the Ezy way.
+
+seo:
+  title: "EzyAgric – Farm the Ezy way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
+  description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and sell on Produce Market."
+  googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
+
+hero:
+  eyebrow: Built for Africa's farmers
+  headline: Farm the Ezy way.
+  subline: "One app to plan, buy, pay and sell. Ask Ka-Ezy, shop on Agrishop, pay with EzyCredits and sell on Produce Market."
+  smallPrint:
+    - Free to download on Android
+    - Shopping, Pay Later and selling available in Uganda
+  screenshot:
+    src: /images/screens/home.webp
+    alt: "EzyAgric app home screen showing Agrishop, Ka-Ezy and Produce Market"
+    width: 640
+    height: 1385
+  mascot:
+    src: /images/products/ka-ezy-phone.webp
+    alt: Ka-Ezy, the EzyAgric farm assistant, holding a phone
+    width: 520
+    height: 937
+
+products:
+  eyebrow: One app, four tools
+  title: Everything your farm needs, in your pocket
+  intro: "Get advice, buy inputs, pay your way and sell your harvest — all from the EzyAgric app."
+
+journey:
+  title: How the four tools work together
+  intro: From planning your season to selling your harvest.
+  steps:
+    - verb: Plan
+      product: ka-ezy
+      text: Ask Ka-Ezy for advice and a farm plan for your land and budget.
+    - verb: Buy
+      product: agrishop
+      text: Order genuine inputs and vet services on Agrishop.
+    - verb: Pay
+      product: ezycredits
+      text: Pay now from your EzyCredits Wallet, or later with EzyCredits Pay Later.
+    - verb: Sell
+      product: produce-market
+      text: Post your harvest on Produce Market at your own asking price.
+
+alsoInApp:
+  title: Also in the app
+  intro: Free tools that help you run your farm like a business.
+  items:
+    - title: Farm records
+      text: Track your farm income and expenses to know if your farm is making a profit.
+      icon: line-chart
+    - title: Garden mapping
+      text: Map your gardens. See their size and details with a Ka-Ezy plan.
+      icon: map
+    - title: Crop calendars
+      text: Know what to do on your farm, and when.
+      icon: calendar
+    - title: Crop and animal guides
+      text: Read practical information on the crops and animals you keep.
+      icon: book-open
+
+impact:
+  title: Our impact
+  asOf:
+    text: Figures from the previous website
+    pending: true
+    note: Send current figures and the date they were measured.
+  items:
+    - value: 106018
+      label: Farmers served
+      pending: true
+      note: Figure carried over from the old site — confirm or update.
+    - value: 8107
+      label: Jobs created
+      pending: true
+      note: Figure carried over from the old site — confirm or update.
+
+stories:
+  title: Stories from the field
+  intro: Hear from farmers, village agents and the EzyAgric team.
+
+# YouTube videos (titles fetched from YouTube, Oct 2026). Videos only load
+# when someone taps play.
+videos:
+  - id: WsKjvNgo9Ms
+    title: A farmer in Luwero District on how the EzyAgric app changed his farming
+    topic: farmers
+  - id: wZ1TVA9bUgQ
+    title: A village agent in Luwero District
+    topic: agents
+  - id: Tw2uWYTQZS4
+    title: Oboth Silive, EzyAgric village agent in Bugiri District
+    topic: agents
+  - id: _qxPHHbXf90
+    title: How to pay for your inputs using EzyCredits
+    topic: ezycredits
+  - id: jiSQJP99bGQ
+    title: How to buy EzyCredits in the EzyAgric app
+    topic: ezycredits
+  - id: QNSfJhYhIqA
+    title: Digitizing agriculture in Africa
+    topic: company
+  - id: YcgVkMRZhoQ
+    title: "#PMLive: Modernizing agriculture"
+    topic: company
+  - id: ACzIObvKkmw
+    title: "Webinar: Digitizing smallholder farming during and after COVID-19"
+    topic: company
+  - id: F7kHdMxCTNA
+    title: Investment in EzyAgric
+    topic: company
+  - id: 6MlubkjIP4E
+    title: EzyAgric CEO William Luyinda on the MFS Africa and K+S joint investment
+    topic: company
+
+organisations:
+  eyebrow: For organisations
+  title: Manage and stay in touch with your farmers
+  intro: "Cooperatives, off-takers and agribusinesses use the EzyAgric web portal to run their farmer networks."
+  points:
+    - Real-time farmer profiling and traceability
+    - Track farmer training
+    - Distribute inputs efficiently
+    - Monitor produce bulking
+    - Accurate farm records and analysis
+    - Manage your farmers' advances
+  cta:
+    label: Partner login
+    url: https://sso.ezyagric.com
+  image:
+    src: /images/photos/web-portal.webp
+    alt: EzyAgric web portal dashboard on a laptop and tablet
+    width: 1080
+    height: 660
+
+agents:
+  eyebrow: Become a village agent
+  title: Earn extra income as an EzyAgric agent
+  intro: Village agents bring EzyAgric services to farmers in their area.
+  steps:
+    - Download the EzyAgric Agent app
+    - Register with your phone number
+    - The EzyAgric team contacts you to get you started
+    - Get trained to deliver EzyAgric services in your area
+  roles:
+    - Register and profile farmers
+    - Order and deliver agro-inputs
+    - Give extension advice to farmer groups and cooperatives
+    - Link farmers to markets
+    - Appraise and follow up farmer credit
+  cta:
+    label: Get the Agent app
+    campaign: agents
+  image:
+    src: /images/photos/village-agent.webp
+    alt: An EzyAgric village agent with a farmer in a vegetable garden
+    width: 900
+    height: 675
+
+faq:
+  title: Questions farmers ask
+  items:
+    - q: Is the EzyAgric app free?
+      a: "Yes. The app is free to download on Android from Google Play, and listing your produce on Produce Market is free. Ka-Ezy is free to try, then you choose a paid plan."
+    - q: Where does EzyAgric work?
+      a: "Shopping on Agrishop, EzyCredits Pay Later and selling on Produce Market are available in Uganda for now."
+    - q: Can I use Ka-Ezy outside Uganda?
+      a: "Yes. Ka-Ezy works wherever you can use the EzyAgric app."
+      pending: true
+      note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
+    - q: How do I pay?
+      a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later, or cash when your order is delivered."
+    - q: Is there an iPhone app?
+      a: "Right now the EzyAgric app is available on Android from Google Play."
+      pending: true
+      note: Confirm iPhone status — App Store screenshots exist in the app project.
+    - q: Can I get help from a person?
+      a: "Yes. Chat with our team on WhatsApp or call us — see the contact details below."
+
+contact:
+  title: Talk to us
+  intro: "Questions about an order, Pay Later or your account? We're on WhatsApp."
+  whatsapp:
+    number: "+256 708 383 845"
+    message: "Hello EzyAgric, I have a question:"
+    pending: true
+    note: "The app uses this number; the old website used +256 787 991 262. Confirm which one to publish."
+  phones:
+    - number: "+256 787 267 100"
+      pending: true
+      note: Listed on the old site — confirm it is still answered.
+    - number: "+256 708 383 845"
+      pending: true
+      note: Listed on the old site — confirm it is still answered.
+    - number: "+256 780 574 506"
+      pending: true
+      note: Listed on the old site — confirm it is still answered.
+    - number: "+256 709 614 462"
+      pending: true
+      note: Listed on the old site — confirm it is still answered.
+  emails:
+    - address: customercare@ezyagric.com
+      label: Farmer support
+      pending: true
+      note: Support address used in the app — confirm.
+    - address: info@ezyagric.com
+      label: Partnerships and general enquiries
+  address:
+    lines:
+      - Plot 29A, Lower Kololo Terrace, Kololo
+      - P.O. Box 6638, Kampala, Uganda
+    mapUrl: https://www.google.com/maps/place/EzyAgric/@0.3238724,32.5933349,17z/data=!3m1!4b1!4m5!3m4!1s0x177dbb73efbc0795:0xc955f5a7901ea19c!8m2!3d0.3238724!4d32.5955236
+
+partners:
+  title: Our partners
+  notice:
+    text: Partner list carried over from the old site
+    pending: true
+    note: Send the current partner list.
+  items:
+    - name: K+S
+      logo: { src: /images/partners/k-s.webp, alt: K+S, width: 316, height: 96 }
+    - name: Bukoola Chemical Industries
+      logo: { src: /images/partners/bukoola.webp, alt: Bukoola Chemical Industries, width: 180, height: 49 }
+    - name: Grainpulse
+      logo: { src: /images/partners/grainpulse.webp, alt: Grainpulse, width: 206, height: 96 }
+    - name: MFS Africa
+      logo: { src: /images/partners/mfs-africa.webp, alt: MFS Africa, width: 321, height: 96 }
+      pending: true
+      note: MFS Africa rebranded as Onafriq in 2024 — send the current logo.
+    - name: Naseco Seeds
+      logo: { src: /images/partners/naseco.webp, alt: Naseco Seeds, width: 200, height: 67 }
+    - name: Ankole Coffee Producers Co-operative Union
+      logo: { src: /images/partners/ankole-coffee.webp, alt: Ankole Coffee Producers Co-operative Union, width: 400, height: 71 }
+    - name: Simlaw Seeds
+      logo: { src: /images/partners/simlaw-seeds.webp, alt: Simlaw Seeds, width: 337, height: 96 }
+    - name: East African Seed
+      logo: { src: /images/partners/east-african-seed.webp, alt: East African Seed, width: 67, height: 96 }
+
+social:
+  - name: Facebook
+    url: https://www.facebook.com/ezyagric
+  - name: Instagram
+    url: https://www.instagram.com/ezyagric/
+  - name: X
+    url: https://x.com/ezyagric
+  - name: LinkedIn
+    url: https://www.linkedin.com/company/akorion-company-limited/
+  - name: YouTube
+    url: https://www.youtube.com/channel/UCVW4MwDxy_xYpTni2B7J7sw

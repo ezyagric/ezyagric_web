@@ -1,0 +1,92 @@
+# Agrishop — inputs and services in the EzyAgric app.
+# Facts checked against the farmer app (v4.8.2). See content/site.yaml for editing notes.
+
+slug: agrishop
+order: 2
+name: Agrishop
+appTagline: Buy crop & livestock inputs and services
+accent: leaf
+icon: shopping-cart
+
+card:
+  summary: Genuine seeds, feeds, fertilizers and vet supplies, delivered to your farm.
+  points:
+    - Book vet services
+    - Track every order until it arrives
+    - Pay with Mobile Money, EzyCredits or on delivery
+  image:
+    src: /images/products/agrishop.webp
+    alt: A farmer pushing a shopping trolley of farm inputs
+    width: 480
+    height: 480
+
+hero:
+  eyebrow: Agrishop · Inputs and services
+  headline: Genuine inputs, delivered to your farm
+  intro: "Buy crop and livestock inputs and services from the EzyAgric app — seeds, feeds, fertilizers and vet supplies from credible suppliers."
+  image:
+    src: /images/products/agrishop.webp
+    alt: A farmer pushing a shopping trolley of farm inputs
+    width: 480
+    height: 480
+  screenshot:
+    src: /images/screens/agrishop.webp
+    alt: Agrishop in the app, with Shop, Services and Orders tabs and shop by category
+    width: 640
+    height: 1385
+
+cta:
+  label: Shop on Agrishop
+  campaign: agrishop
+
+availability: Available in Uganda. Prices don't include transport.
+
+features:
+  title: Why farmers shop on Agrishop
+  items:
+    - title: Genuine inputs
+      text: Seeds, feeds, fertilizers, pesticides, tools and vet supplies, in the pack sizes you need.
+      icon: shield-check
+    - title: Vet services
+      text: Book a vet through the app, then rate and review the service.
+      icon: stethoscope
+    - title: Delivered to your farm
+      text: Order from anywhere and we bring it to you.
+      icon: truck
+    - title: Track every order
+      text: "Follow your order from sent, to confirmed, to on the way, to delivered."
+      icon: package
+    - title: Receipts you can keep
+      text: Download a PDF receipt for every order.
+      icon: receipt
+    - title: Pay your way
+      text: "MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later, or cash on delivery."
+      icon: wallet
+
+steps:
+  title: How to order
+  items:
+    - title: Find what you need
+      text: Search or shop by category — seeds, fertilizers, pesticides, livestock and more.
+    - title: Confirm your order
+      text: Add items to your cart, check your delivery address and confirm.
+    - title: Choose how to pay
+      text: Mobile Money, EzyCredits Wallet, EzyCredits Pay Later, or pay on delivery.
+    - title: Track it to your farm
+      text: Watch your order move until it's delivered.
+
+faq:
+  - q: Are the products genuine?
+    a: "Agrishop sells inputs from credible suppliers, marked Genuine in the app."
+  - q: Do prices include delivery?
+    a: No. Prices don't include transport costs.
+  - q: Can I pay when my order arrives?
+    a: Yes. Choose Pay on Delivery at checkout.
+  - q: Can I buy now and pay later?
+    a: Yes, with EzyCredits Pay Later once you qualify.
+  - q: Where does Agrishop deliver?
+    a: Agrishop is available in Uganda for now.
+
+seo:
+  title: "Agrishop – genuine farm inputs and vet services, delivered | EzyAgric"
+  description: "Buy genuine seeds, feeds, fertilizers and vet supplies, book vet services and track delivery to your farm. Pay with Mobile Money, EzyCredits or on delivery."

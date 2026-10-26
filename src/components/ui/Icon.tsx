@@ -1,0 +1,86 @@
+import {
+  BadgePercent,
+  Bell,
+  BookOpen,
+  Bot,
+  Calendar,
+  CalendarClock,
+  Camera,
+  ChartLine,
+  CircleCheck,
+  ClipboardList,
+  Globe,
+  HandCoins,
+  Leaf,
+  Mail,
+  Map,
+  MapPin,
+  MessageCircle,
+  Mic,
+  Package,
+  Phone,
+  PiggyBank,
+  Receipt,
+  ShieldCheck,
+  ShoppingCart,
+  Smartphone,
+  Sprout,
+  Stethoscope,
+  Store,
+  Tag,
+  TrendingUp,
+  Truck,
+  Users,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
+import type { IconName } from "@/lib/content";
+
+// Content files name icons by string; this keeps the set closed so a typo
+// fails the build (see ICON_NAMES in lib/content.ts).
+const ICONS: Record<IconName, LucideIcon> = {
+  sprout: Sprout,
+  bot: Bot,
+  mic: Mic,
+  camera: Camera,
+  "clipboard-list": ClipboardList,
+  "book-open": BookOpen,
+  map: Map,
+  "shopping-cart": ShoppingCart,
+  package: Package,
+  truck: Truck,
+  receipt: Receipt,
+  stethoscope: Stethoscope,
+  wallet: Wallet,
+  "hand-coins": HandCoins,
+  "calendar-clock": CalendarClock,
+  "trending-up": TrendingUp,
+  store: Store,
+  tag: Tag,
+  "map-pin": MapPin,
+  "check-circle": CircleCheck,
+  smartphone: Smartphone,
+  users: Users,
+  "line-chart": ChartLine,
+  calendar: Calendar,
+  leaf: Leaf,
+  "shield-check": ShieldCheck,
+  "message-circle": MessageCircle,
+  phone: Phone,
+  mail: Mail,
+  globe: Globe,
+  "badge-percent": BadgePercent,
+  bell: Bell,
+  "piggy-bank": PiggyBank,
+};
+
+export function Icon({
+  name,
+  className = "size-6",
+}: {
+  name: IconName;
+  className?: string;
+}) {
+  const Component = ICONS[name];
+  return <Component aria-hidden="true" className={className} strokeWidth={1.75} />;
+}

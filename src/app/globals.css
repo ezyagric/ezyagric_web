@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+ * Brand tokens, taken from the farmer app (lib/styles/colors.dart).
+ * Rule: the *-500 colours are for decoration and large text only.
+ * Body text, links and buttons use the *-700 / ink colours, which pass
+ * WCAG AA (4.5:1) on white.
+ */
+@theme {
+  --font-sans: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #1e3a5c; /* headings, body text */
+  --color-muted: #475569; /* secondary text (7.6:1) */
+  --color-surface: #f4f8fb; /* tinted section background */
+  --color-line: #dbe5ee; /* borders */
+
+  --color-brand-50: #eaf3fa;
+  --color-brand-100: #d3e7f5;
+  --color-brand-500: #2f86c2; /* decoration only (3.9:1) */
+  --color-brand-700: #1f6da3; /* text, links, buttons (5.6:1) */
+  --color-brand-900: #16486c;
+
+  --color-leaf-50: #edf5ef;
+  --color-leaf-500: #589165; /* decoration only */
+  --color-leaf-700: #327a43; /* text, buttons (5.3:1) */
+
+  --color-teal-50: #e7f4f1;
+  --color-teal-500: #149078; /* decoration only */
+  --color-teal-700: #0e6e5c; /* text (6.2:1) */
+
+  --color-kaezy-50: #e9f1f9;
+  --color-kaezy-600: #2774b3; /* text (5.0:1) */
+  --color-kaezy-900: #1d4465;
+
+  --color-amber-50: #fdf3e7;
+  --color-amber-500: #f57c00; /* decoration only */
+  --color-amber-700: #b45309; /* text (5.0:1) */
+
+  --color-whatsapp: #128c4a; /* darker than WhatsApp green so white text passes */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+
+  /* Anchor targets clear the sticky header. */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-brand-700;
+  }
+}
