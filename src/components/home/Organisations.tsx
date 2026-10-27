@@ -74,7 +74,7 @@ function PortalVisual({ image }: { image: ImageData }) {
         width={image.width}
         height={image.height}
         sizes="(min-width: 1152px) 488px, (min-width: 1024px) 42vw, (min-width: 640px) calc(100vw - 112px), calc(100vw - 72px)"
-        className="h-auto w-full drop-shadow-xl"
+        className="h-auto w-full"
       />
       <Toast icon="package" color="brand" title="Bulk produce traced" text="Back to each farmer" className="self-end rotate-2" />
     </div>
@@ -97,7 +97,7 @@ function Toast({
   return (
     <div
       aria-hidden="true"
-      className={`hidden items-center gap-3 rounded-2xl bg-card py-2.5 pr-4 pl-2.5 shadow-raised ring-1 ring-line sm:flex ${className}`}
+      className={`hidden items-center gap-3 rounded-card bg-card py-2.5 pr-4 pl-2.5 shadow-raised ring-1 ring-line sm:flex ${className}`}
     >
       <IconCircle name={icon} color={color} size="sm" />
       <span>

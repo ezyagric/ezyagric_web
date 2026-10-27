@@ -128,7 +128,7 @@ Every UI component takes its look from a **theme**. Components only use semantic
 
 | Other tokens | Role |
 |---|---|
-| `rounded-button`, `rounded-card`, `rounded-media`, `rounded-control`, `rounded-pill` | Buttons, cards, photos/screens, nav links and small controls, badges/chips. `rounded-full` is only for real circles. |
+| `rounded-button`, `rounded-card`, `rounded-media`, `rounded-control`, `rounded-pill`, `rounded-tile` | Buttons, cards, photos/screens, nav links and small controls, badges/chips, app-icon tiles. `rounded-full` is only for real circles. |
 | `shadow-card`, `shadow-raised`, `shadow-device` | Cards, floating panels and hover, phone mock-ups |
 | `font-heading`, `font-label`, `font-caption` | Headline, label/button and caption weights |
 | `text-label-style`, `tracking-label`, `tracking-heading` | Section-label style (weight + 0.14em + capitals), letter-spacing |

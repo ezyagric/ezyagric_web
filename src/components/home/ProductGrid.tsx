@@ -71,8 +71,7 @@ function ServiceCard({ product }: { product: Product }) {
               {product.name}
             </Link>
           </h3>
-          {/* 15px corners: a pill on one line, a soft tag if a long tagline wraps. */}
-          <p className="mt-2 inline-flex items-center gap-2 rounded-[15px] bg-card px-3 py-1 text-sm font-label text-pretty text-accent shadow-card">
+          <p className="mt-2 inline-flex items-center gap-2 rounded-pill bg-card px-3 py-1 text-sm font-label text-pretty text-accent shadow-card">
             <span aria-hidden="true" className={`size-2 shrink-0 rounded-full ${ACCENTS[product.accent].bar}`} />
             {product.appTagline}
           </p>
@@ -130,7 +129,7 @@ function ServiceCard({ product }: { product: Product }) {
 function AppTile({ product }: { product: Product }) {
   const image = product.card.image;
   // One step smaller below lg, where the two columns are narrow.
-  const tile = "size-20 shrink-0 overflow-hidden rounded-[1.5rem] shadow-raised lg:size-24 lg:rounded-[1.75rem]";
+  const tile = "size-20 shrink-0 overflow-hidden rounded-tile shadow-raised lg:size-24";
 
   if (image) {
     return (

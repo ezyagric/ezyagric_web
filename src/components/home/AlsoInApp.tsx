@@ -84,7 +84,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 /** Farm records: income and expenses by month, and a profit trend. */
 function RecordsArt() {
   return (
-    <div className="w-full rounded-2xl bg-card p-4 shadow-card">
+    <div className="w-full rounded-card bg-card p-4 shadow-card">
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-label text-muted">
         <span className="flex items-center gap-3">
           <span className="flex items-center gap-1.5">
@@ -104,8 +104,8 @@ function RecordsArt() {
       <div className="mt-4 flex h-28 items-end gap-2 border-b border-line">
         {INCOME.map((height, i) => (
           <div key={MONTHS[i]} className="flex h-full flex-1 items-end justify-center gap-1">
-            <span className={`w-2.5 rounded-t-sm bg-accent-bright ${height}`} />
-            <span className={`w-2.5 rounded-t-sm bg-brand ${COSTS[i]}`} />
+            <span className={`w-2.5 rounded-t-control bg-accent-bright ${height}`} />
+            <span className={`w-2.5 rounded-t-control bg-brand ${COSTS[i]}`} />
           </div>
         ))}
       </div>
@@ -134,7 +134,7 @@ const GARDEN = [
 function MappingArt() {
   const [pinX, pinY] = GARDEN[1];
   return (
-    <div className="relative h-56 w-full overflow-hidden rounded-2xl border border-line bg-card md:h-full md:min-h-56">
+    <div className="relative h-56 w-full overflow-hidden rounded-card border border-line bg-card md:h-full md:min-h-56">
       <div className="absolute inset-0 bg-[linear-gradient(var(--color-line)_1px,transparent_1px),linear-gradient(90deg,var(--color-line)_1px,transparent_1px)] bg-[size:24px_24px]" />
       <svg viewBox="0 0 240 230" className="absolute inset-0 size-full">
         <polygon
@@ -174,12 +174,12 @@ const TASKS = [
 /** Crop calendars: this week, with today's task and the next ones. */
 function CalendarArt() {
   return (
-    <div className="w-full rounded-2xl bg-on-inverse/10 p-3 ring-1 ring-on-inverse/15">
+    <div className="w-full rounded-card bg-on-inverse/10 p-3 ring-1 ring-on-inverse/15">
       <div className="grid grid-cols-7 gap-1 text-center text-xs font-label">
         {DAYS.map((day, i) => (
           <span
             key={i}
-            className={`rounded-lg py-1.5 ${i === TODAY ? "bg-accent-bright text-on-accent" : "text-on-inverse/80"}`}
+            className={`rounded-control py-1.5 ${i === TODAY ? "bg-accent-bright text-on-accent" : "text-on-inverse/80"}`}
           >
             {day}
           </span>
@@ -187,7 +187,7 @@ function CalendarArt() {
       </div>
       <div className="mt-3 space-y-2">
         {TASKS.map((t) => (
-          <div key={t.task} className="flex items-center gap-2.5 rounded-lg bg-on-inverse/10 px-3 py-2 text-sm">
+          <div key={t.task} className="flex items-center gap-2.5 rounded-control bg-on-inverse/10 px-3 py-2 text-sm">
             <span className={`size-2 shrink-0 rounded-full ${t.dot}`} />
             <span className="min-w-0 flex-1 truncate font-label">{t.task}</span>
             <span className="shrink-0 text-xs text-on-inverse/80">{t.when}</span>
@@ -203,9 +203,9 @@ function GuidesArt() {
   return (
     <div className="relative mx-auto mt-3 h-44 w-full max-w-72">
       {/* Two guides fanned out behind the top one. */}
-      <div className="absolute inset-x-6 top-3 bottom-0 -rotate-[9deg] rounded-2xl bg-accent-soft-strong" />
-      <div className="absolute inset-x-4 top-2 bottom-1 rotate-[6deg] rounded-2xl bg-brand-soft-strong" />
-      <div className="absolute inset-x-1 top-0 bottom-4 rounded-2xl bg-card p-4 shadow-raised ring-1 ring-line">
+      <div className="absolute inset-x-6 top-3 bottom-0 -rotate-[9deg] rounded-card bg-accent-soft-strong" />
+      <div className="absolute inset-x-4 top-2 bottom-1 rotate-[6deg] rounded-card bg-brand-soft-strong" />
+      <div className="absolute inset-x-1 top-0 bottom-4 rounded-card bg-card p-4 shadow-raised ring-1 ring-line">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 items-center justify-center rounded-full bg-accent-bright text-on-accent">
             <Sprout className="size-[18px]" />

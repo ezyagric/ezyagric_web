@@ -74,6 +74,7 @@
   --theme-radius-media: 8px; /* photos and screenshots in frames */
   --theme-radius-control: 8px; /* nav links, small hover areas */
   --theme-radius-pill: 9999px; /* badges and chips */
+  --theme-radius-tile: 24px; /* app-icon tiles (the service cards' artwork) */
 
   /* Elevation */
   /* Shadows are tinted with --theme-shade, so changing the shade recolours them. */
@@ -108,4 +109,5 @@
   --theme-brand-soft-strong: #d6e3f9;
   --theme-gradient-start: #0043c0;
   --theme-radius-button: 8px;
+  --theme-radius-tile: 8px;
 }

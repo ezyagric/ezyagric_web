@@ -55,7 +55,8 @@ function targets() {
  *
  * From lg the video stands on the left, as tall as the heading and the steps
  * beside it: the label above it lines up with "Meet Ka-Ezy", and its bottom
- * edge with the steps card.
+ * edge with the steps card (the video is at least its 9:16 height and
+ * stretches when the steps run taller, e.g. a wrapped title).
  */
 export function KaEzyBanner({ id, position }: { id: string; position: string }) {
   const { kaezyBanner: copy } = getSite();
@@ -68,7 +69,7 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
       <div
         className={`grid grid-cols-1 gap-8 ${video ? "lg:grid-cols-[15rem_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12" : ""}`}
       >
-        <div className="lg:col-start-2 lg:row-start-1">
+        <div className={video ? "lg:col-start-2 lg:row-start-1" : ""}>
           <p className="flex min-h-11 items-center gap-3 text-sm text-label-style text-on-inverse">
             <span className="flex size-11 shrink-0 items-end justify-center overflow-hidden rounded-full bg-card shadow-raised">
               {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
@@ -87,24 +88,37 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
 
         {/* See Ka-Ezy in action: the demo plays in place (it downloads only on play). */}
         {video ? (
-          <figure className="mx-auto w-full max-w-[13rem] sm:max-w-[15rem] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:max-w-none">
+          <figure className="mx-auto w-full max-w-[13rem] sm:max-w-[15rem] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:flex lg:max-w-none lg:flex-col">
             <figcaption className="flex min-h-11 items-center justify-center gap-2 text-sm text-label-style text-on-inverse lg:justify-start">
               <Icon name="play-circle" className="size-5" />
               {copy.watch.title}
             </figcaption>
             {/* A soft glow lifts the phone-shaped video off the gradient. */}
-            <div className="relative isolate mt-3">
+            {/* From lg the box fills the rest of the figure, at least 9:16 (240 x 426.7px). */}
+            <div className="relative isolate mt-3 lg:min-h-[26.67rem] lg:flex-1">
               <span aria-hidden="true" className="absolute -inset-3 -z-10 rounded-card bg-on-inverse/15 blur-xl" />
-              <div className="overflow-hidden rounded-card shadow-raised ring-1 ring-on-inverse/30">
-                <DemoVideoPlayer src={video.src} poster={video.poster} title={video.title} portrait />
+              <div className="overflow-hidden rounded-card shadow-raised ring-1 ring-on-inverse/30 lg:absolute lg:inset-0">
+                <DemoVideoPlayer
+                  src={video.src}
+                  poster={video.poster}
+                  title={video.title}
+                  portrait
+                  className="lg:aspect-auto lg:h-full"
+                />
               </div>
             </div>
           </figure>
         ) : null}
 
         {/* The three steps in one white card, numbered in the order a visitor takes them.
+            role="list": Safari drops the list role from unstyled lists.
             [&_:focus-visible]:outline-focus: the band's white focus ring would vanish on white. */}
-        <ol className="self-end divide-y divide-line overflow-hidden rounded-card bg-card text-body shadow-raised lg:col-start-2 lg:row-start-2 [&_:focus-visible]:outline-focus">
+        <ol
+          role="list"
+          className={`self-end divide-y divide-line overflow-hidden rounded-card bg-card text-body shadow-raised [&_:focus-visible]:outline-focus ${
+            video ? "lg:col-start-2 lg:row-start-2" : ""
+          }`}
+        >
           <Step
             n={1}
             icon="message-circle"
@@ -168,7 +182,7 @@ function Step({
       className={`flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5 xl:py-5 ${highlight ? "bg-brand-soft" : ""}`}
     >
       <div className="flex min-w-0 flex-1 items-center gap-4">
-        {/* The step number rides on the icon (the <ol> numbers it for screen readers). */}
+        {/* The step number rides on the icon; screen readers get it from the heading. */}
         <span className="relative shrink-0">
           <IconCircle name={icon} color={color} />
           <span
@@ -179,7 +193,10 @@ function Step({
           </span>
         </span>
         <div className="min-w-0">
-          <h3 className="text-lg font-heading text-title">{title}</h3>
+          <h3 className="text-lg font-heading text-title">
+            <span className="sr-only">Step {n}: </span>
+            {title}
+          </h3>
           {/* A step smaller from lg to xl, where the card is narrowest beside the video. */}
           <p className="text-base text-pretty text-muted lg:text-sm xl:text-base">{text}</p>
         </div>

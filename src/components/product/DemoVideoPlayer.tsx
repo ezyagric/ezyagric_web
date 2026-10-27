@@ -18,17 +18,20 @@ export function DemoVideoPlayer({
   poster,
   title,
   portrait = false,
+  className = "",
 }: {
   src: string;
   poster: ImageData;
   title: string;
   /** Phone-shaped (9:16) video instead of 16:9. */
   portrait?: boolean;
+  /** Extra classes for the box, e.g. to let it fill a taller frame. */
+  className?: string;
 }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className={`relative bg-inverse ${portrait ? "aspect-[9/16]" : "aspect-video"}`}>
+    <div className={`relative bg-inverse ${portrait ? "aspect-[9/16]" : "aspect-video"} ${className}`}>
       {playing ? (
         <video
           // Move focus to the player: the link that had focus is gone now.

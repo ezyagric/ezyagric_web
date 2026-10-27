@@ -44,9 +44,16 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
     // them), so a caption that wraps never lifts the art off the wave.
     <div className="flex h-full flex-col">
       {/* Starts flush with the switcher's left edge above it. pr-14 keeps
-          the line clear of the pause button at the top right. */}
+          the line clear of the pause button at the top right. Without
+          JavaScript the switcher cannot follow a swipe, so the slide names
+          itself (noscript: hidden whenever scripts run). */}
       <p className="mt-2 flex min-h-11 flex-wrap items-center gap-x-3 gap-y-0 pr-14 text-base">
-        <span className="text-body">{product.appTagline}</span>
+        <span className="text-body">
+          <noscript>
+            <span className="font-heading text-title">{product.name}</span> ·{" "}
+          </noscript>
+          {product.appTagline}
+        </span>
         <Link
           prefetch={false}
           href={`/${product.slug}/`}

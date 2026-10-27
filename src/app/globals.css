@@ -65,6 +65,7 @@
   --radius-media: var(--theme-radius-media);
   --radius-control: var(--theme-radius-control);
   --radius-pill: var(--theme-radius-pill);
+  --radius-tile: var(--theme-radius-tile);
   --shadow-card: var(--theme-shadow-card);
   --shadow-raised: var(--theme-shadow-raised);
   --shadow-device: var(--theme-shadow-device);

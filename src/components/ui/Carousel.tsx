@@ -27,12 +27,14 @@ export type CarouselSlide = {
  *
  * - The switcher is one segmented pill as wide as the slides, so it lines
  *   up with the slide's text on the left and the pause button on the right.
- *   The current slide's segment takes the spare width and shows its icon and
- *   name (growing smoothly, unless reduced motion is on); the others show
- *   just their icon (with their name for screen readers and as a tooltip),
- *   so all of them fit on one line even on a phone (on the narrowest, the
- *   current name is shortened). Swiping and the switcher move between
- *   slides; there are no separate arrows.
+ *   Every segment starts at 44px; the current one grows into the spare width
+ *   (smoothly, unless reduced motion is on) and shows its icon and name. The
+ *   others show just their icon (with their name for screen readers and as a
+ *   tooltip). Below 352px the current segment drops its icon so the whole
+ *   name fits. Swiping and the switcher move between slides; there are no
+ *   separate arrows.
+ * - The name shows only once hydrated: without JavaScript `index` never
+ *   follows a swipe, so the slide names itself instead (see HeroSlider).
  * - Without JavaScript it is a native swipeable row (CSS scroll snap) and the
  *   switcher links jump to their slide, so nothing depends on scripts.
  * - Auto-advance never starts for people who prefer reduced motion, pauses
@@ -129,26 +131,27 @@ export function Carousel({
       <ul className="flex w-full items-center gap-1 rounded-pill border border-line bg-subtle p-1">
         {slides.map((slide, i) => {
           const current = i === index;
+          const showName = enhanced && current;
           return (
             <li
               key={slide.id}
-              className={`min-w-0 motion-safe:transition-[flex-grow] motion-safe:duration-300 motion-safe:ease-out ${current ? "grow" : "shrink-0 grow-0"}`}
+              className={`min-w-0 basis-11 motion-safe:transition-[flex-grow] motion-safe:duration-300 motion-safe:ease-out ${current ? "grow" : "shrink-0 grow-0"}`}
             >
               <a
                 href={`#${slide.id}`}
                 aria-controls={slide.id}
                 aria-current={current ? "true" : undefined}
-                title={current ? undefined : slide.name}
+                title={showName ? undefined : slide.name}
                 onClick={(event) => {
                   event.preventDefault();
                   goTo(i, true);
                 }}
                 className={`flex min-h-11 w-full min-w-11 items-center justify-center gap-2 rounded-pill p-1 text-sm font-label transition-colors ${
-                  current ? "bg-card pr-3.5 text-title shadow-card" : "text-muted hover:bg-card"
-                }`}
+                  current ? "bg-card text-title shadow-card" : "text-muted hover:bg-card"
+                } ${showName ? "pr-3.5" : ""}`}
               >
-                {slide.icon}
-                <span className={current ? "min-w-0 truncate" : "sr-only"}>{slide.name}</span>
+                <span className={showName ? "contents max-[22rem]:hidden" : "contents"}>{slide.icon}</span>
+                <span className={showName ? "min-w-0 truncate" : "sr-only"}>{slide.name}</span>
               </a>
             </li>
           );
@@ -161,10 +164,13 @@ export function Carousel({
       </p>
 
       <div className="relative">
+        {/* -mx-1.5 px-1.5: room inside the scrollport for focus rings at the
+            slides' edges (the slides still line up with the switcher); gap-3
+            keeps the neighbouring slides out of that room. */}
         <div
           ref={trackRef}
           onPointerDown={() => setPlaying(false)}
-          className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="-mx-1.5 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {slides.map((slide, i) => (
             <div
