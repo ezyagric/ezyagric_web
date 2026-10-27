@@ -519,6 +519,29 @@ const SiteSchema = z.object({
       }),
     ),
   }),
+  /**
+   * A poultry farmer's story (components/home/Poultry): his video, stills
+   * from it, and what each product does for poultry farmers. No section
+   * without it.
+   */
+  poultry: z
+    .object({
+      eyebrow: z.string(),
+      title: z.string(),
+      intro: z.string(),
+      /** Self-hosted (public/videos), like the Ka-Ezy demo videos. */
+      video: z.object({
+        src: z.string().regex(/^\/videos\/[a-z0-9-]+\.mp4$/),
+        title: z.string(),
+        /** How long it runs, e.g. "3 min". */
+        length: z.string(),
+        poster: Image,
+      }),
+      person: z.object({ name: z.string(), role: z.string(), photo: Image }),
+      points: z.array(z.object({ product: ProductSlug, text: z.string() })).min(1).max(4),
+      photos: z.array(Image).length(4),
+    })
+    .optional(),
   impact: z.object({
     title: z.string(),
     /** Optional date line under the title, e.g. "As of October 2026". */

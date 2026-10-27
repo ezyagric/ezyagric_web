@@ -6,6 +6,7 @@ import { ProductGrid } from "@/components/home/ProductGrid";
 import { Journey } from "@/components/home/Journey";
 import { AlsoInApp } from "@/components/home/AlsoInApp";
 import { Impact } from "@/components/home/Impact";
+import { Poultry } from "@/components/home/Poultry";
 import { Stories } from "@/components/home/Stories";
 import { Organisations } from "@/components/home/Organisations";
 import { Faq } from "@/components/home/Faq";
@@ -36,6 +37,7 @@ export default function HomePage() {
       <Journey />
       <AlsoInApp />
       <Impact />
+      <Poultry />
       <Stories />
       <Organisations />
       <Faq />

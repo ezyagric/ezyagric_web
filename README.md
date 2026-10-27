@@ -148,7 +148,7 @@ npm run images
 
 To add or replace an image:
 
-1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `photos-2026/`, `photos-field/`, `partners/`, `brand/`, `videos/`, `video-posters/`).
+1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `photos-2026/`, `photos-field/`, `photos-poultry/`, `partners/`, `brand/`, `videos/`, `video-posters/`).
 2. If it is a new file, add a line for it in `scripts/optimize-images.mjs` (source, output name, maximum width).
 3. Run `npm run images`. It prints the size of every output file.
 4. Use the output in the YAML: `src` (starting with `/images/`), `alt` (what the image shows; empty for decoration), and the output `width` and `height` printed by the script.
@@ -158,9 +158,10 @@ What is where:
 
 - `photos-2026/` — real photos from the Creative & Content Pack (a farmer with the EzyAgric App, Ka-Ezy at an exhibition, a farmer in his garden, an EzyAgric bag on a coffee farm), used on the home and product pages.
 - `photos-field/` — EzyAgric field photos (2015, 2016 and 2020) from the marketing team's Website folder, used on the home page's journey and impact sections and the EzyCredits page. They are saved at up to 2400px with their camera, owner and location data removed; the full-size originals stay in that folder, and `scripts/optimize-images.mjs` names each one's source file and credit (the 2020 photos are credited to Ronistar). Check a photo's credit before using it: `farmer 1.jpg` in that folder is a 2012 photo by another photographer, so it is not used.
+- `photos-poultry/` — stills from "EzyAgric Poultry Video.mp4" (Marvin Busulwa's poultry farm, in the marketing team's Website folder): the poster, his photo and the four stills of the home page's poultry section. `scripts/optimize-images.mjs` notes each one's time in the video. Ten full-size stills from it are in that folder, under "EzyAgric Poultry Video stills".
 - `app/ka-ezy-full.png` — the full Ka-Ezy character on a pure white background. Place it on a pure white (`#FFFFFF`) area, or its background shows as a white box.
 - `videos/` — thumbnails for the YouTube videos; `video-posters/` — posters for the Ka-Ezy demo videos.
-- `public/videos/*.mp4` — the Ka-Ezy demo videos (about 4 MB each), served from this site and listed under `demoVideos` in `content/products/ka-ezy.yaml`. They use `preload="none"`, so nothing downloads until someone taps play. They are not processed by `npm run images`; keep new ones short and compressed (H.264, 720p or less).
+- `public/videos/*.mp4` — videos served from this site: the Ka-Ezy demo videos (4 to 11 MB, listed under `demoVideos` in `content/products/ka-ezy.yaml`) and the poultry farmer's story (`poultry-marvin-busulwa.mp4`, 3 minutes, 28 MB, in `poultry` in `content/site.yaml`). They use `preload="none"`, so nothing downloads until someone taps play. They are not processed by `npm run images`; keep new ones short and compressed (H.264, 720p or less, about 1 Mbps, with the index at the start of the file so playback starts before the download ends). The poultry video was made from the 102 MB original at 1280x720, 1.1 Mbps video and 96 kbps audio. It has no captions yet (see the launch checklist), and its own caption at 0:07 to 0:13 misspells "POULTRY" as "POUTRY"; replace the file when marketing sends a corrected export, compressed the same way.
 - `brand/` — the logo SVGs (copied as they are) and the payment marks.
 
 Images are cached by browsers for 30 days. When you replace an image that is already live, give the new file a new name so visitors see it straight away.
@@ -199,6 +200,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
   - `kaezy_try_photo` (the photo buttons in Farm Expert), `kaezy_try_sample_photo` (`item`: the sample's crop, e.g. Maize)
   - `faq_action_click` (`action`): the other buttons under FAQ answers
+  - `poultry_product_click` (`product`): the product links in the home page's poultry section
   - `kaezy_hire_continue` (`plan`), `kaezy_hire_pay` (`plan`, `network`)
   - `whatsapp_click`, `tel_click`, `email_click`
   - `video_play` (`video_id`)
@@ -294,6 +296,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 
 - [ ] **GA4:** create the property and set `NEXT_PUBLIC_GA_ID` in the production build. Check the banner, "Accept", "No thanks" and "Cookie settings", and that events arrive in GA4 DebugView.
 - [ ] **Ka-Ezy try and hire:** have the agronomy team check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). Then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
+- [ ] **Poultry video captions:** Marvin Busulwa's video on the home page is 3 minutes of speech with no captions (WCAG 1.2.2). Get an English transcript or WebVTT file from marketing or the video's editor, then add it as `public/videos/poultry-marvin-busulwa.vtt` with a `<track kind="captions">` in `DemoVideoPlayer` and a captions path in `poultry.video`. Ask for a corrected export at the same time ("POUTRY FARMER" in its caption).
 - [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
 - [ ] **Legal review:** all EzyCredits / Pay Later wording, the Pezesha lender line and key-facts box (Pezesha and legal), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
 - [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.

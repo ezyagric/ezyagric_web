@@ -7,7 +7,7 @@ import { track } from "@/lib/track";
 
 /**
  * A self-hosted product video that downloads nothing but its poster until
- * the visitor taps play (the MP4s are a few MB each, a lot on mobile data).
+ * the visitor taps play (the MP4s run from 4 to 28 MB, a lot on mobile data).
  *
  * The poster is a real link to the MP4, so it still plays in the browser's
  * own player with JavaScript off (or before the page has loaded); with

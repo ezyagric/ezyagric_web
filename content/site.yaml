@@ -146,6 +146,56 @@ alsoInApp:
       icon: book-open
       visual: guides
 
+# A poultry farmer's story: "EzyAgric Poultry Video.mp4" from the marketing
+# team's Website folder (Oct 2026), compressed to 720p (28 MB, plays only
+# when tapped), with stills from it (assets-src/photos-poultry). Still to
+# come from marketing: an English captions file, and a corrected export (the
+# video's own caption misspells POULTRY). See the README launch checklist.
+poultry:
+  eyebrow: Poultry
+  title: Poultry farming, the Ezy Way
+  intro: Marvin Busulwa keeps layers. Watch how he runs his poultry farm with the EzyAgric App.
+  video:
+    src: /videos/poultry-marvin-busulwa.mp4
+    title: Marvin Busulwa, poultry farmer, on the EzyAgric App
+    length: 3 min
+    poster: { src: /images/photos/poultry-app-among-hens.webp, alt: "", width: 1400, height: 788 }
+  person:
+    name: Marvin Busulwa
+    role: Poultry farmer
+    photo: { src: /images/photos/poultry-marvin-avatar.webp, alt: "", width: 160, height: 160 }
+  # Each links to its product page. Product names turn green on their own.
+  points:
+    - product: ka-ezy
+      text: Ask Ka-Ezy about feeding, vaccination and sick birds, or send it a photo of a hen.
+    - product: agrishop
+      text: Order day-old chicks, feeds and vet products on Agrishop.
+    - product: ezycredits
+      text: Pay for feeds and vet care with EzyCredits, now or later if you qualify.
+    - product: produce-market
+      text: Sell your eggs and birds on Produce Market, at your own price.
+  # Stills from the video, in a row under it.
+  photos:
+    - src: /images/photos/poultry-eggs-tray.webp
+      alt: Marvin Busulwa smiles as he holds up a full tray of eggs in his poultry house
+      width: 600
+      height: 810
+      focus: "50% 5%"
+    - src: /images/photos/poultry-feeding-time.webp
+      alt: A woman pours feed into a hanging feeder among hundreds of brown layers
+      width: 800
+      height: 450
+      focus: "55% 50%"
+    - src: /images/photos/poultry-kaezy-photo-check.webp
+      alt: A phone held among the birds shows Ka-Ezy checking a photo of a hen
+      width: 800
+      height: 450
+      focus: "45% 40%"
+    - src: /images/photos/poultry-layers-feeder.webp
+      alt: Brown layers crowd round an orange feeder in the poultry house
+      width: 800
+      height: 450
+
 # Figures from the EzyAgric Business Profile 2026 (October 2026). The team
 # asked (26 Oct 2026) to show only the reach and jobs figures, without dates
 # or sources, and to fold "across Uganda" into the reach figure.

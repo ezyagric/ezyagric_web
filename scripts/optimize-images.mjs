@@ -58,6 +58,18 @@ const IMAGES = [
   ["photos-field/farmer-coffee-cherries.jpg", "photos/farmer-coffee-cherries.webp", 600], // DSC_0196.JPG, July 2016
   // EzyCredits "How Pay Later works".
   ["photos-field/agent-helps-farmer-phone.jpg", "photos/agent-helps-farmer-phone.webp", 1400], // IMG_0398.JPG, 2020, credit: Ronistar
+
+  // Stills from "EzyAgric Poultry Video.mp4" (marketing team's Website folder,
+  // Oct 2026): Marvin Busulwa's poultry farm, for the home page's poultry
+  // section. Frame times: app-among-hens 1:04, avatar 0:06 (before the
+  // caption), eggs-tray 1:23 (the inset panel, x 560-1360), feeding-time 0:46,
+  // kaezy-photo-check 2:14, layers-feeder 0:16.
+  ["photos-poultry/app-among-hens.jpg", "photos/poultry-app-among-hens.webp", 1400],
+  ["photos-poultry/marvin-avatar.jpg", "photos/poultry-marvin-avatar.webp", 160],
+  ["photos-poultry/eggs-tray.jpg", "photos/poultry-eggs-tray.webp", 600],
+  ["photos-poultry/feeding-time.jpg", "photos/poultry-feeding-time.webp", 800],
+  ["photos-poultry/kaezy-photo-check.jpg", "photos/poultry-kaezy-photo-check.webp", 800],
+  ["photos-poultry/layers-feeder.jpg", "photos/poultry-layers-feeder.webp", 800],
   ["video-posters/kaezy-expert-advice.png", "videos/kaezy-expert-advice.webp", 900],
   ["video-posters/kaezy-disease-diagnosis.png", "videos/kaezy-disease-diagnosis.webp", 900],
   ["video-posters/kaezy-garden-mapping.png", "videos/kaezy-garden-mapping.webp", 900],
