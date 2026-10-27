@@ -493,14 +493,23 @@ photo:
 faq:
   - q: Is Ka-Ezy free?
     a: "Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
+    actions:
+      - { kind: try-kaezy, label: "Try it now" }
+      - { kind: pay-kaezy, label: "See plans" }
   - q: How do I pay?
     a: With MTN MoMo or Airtel Money, inside the app.
+    actions:
+      - { kind: pay-kaezy, label: "Pay for Ka-Ezy" }
   - q: Does Ka-Ezy understand Luganda?
     a: Yes. Ask Ka-Ezy in English or Luganda.
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
+    actions:
+      - { kind: get-app, label: "Download the App" }
   - q: Does Ka-Ezy help with livestock too?
     a: "Yes. Choose the crops and animals you keep, and Ka-Ezy gives advice for them. It can also check livestock symptoms."
+    actions:
+      - { kind: try-kaezy, label: "Try Ka-Ezy" }
   - q: Is Ka-Ezy always right?
     a: "Ka-Ezy is an AI assistant and can make mistakes. For serious problems, talk to an agronomist or a vet."
 

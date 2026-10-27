@@ -90,14 +90,20 @@ videoIds:
 faq:
   - q: Are the products genuine?
     a: "Yes. Agrishop sells genuine products from more than 60 manufacturers and suppliers."
+    actions:
+      - { kind: get-app, label: "Shop on Agrishop" }
   - q: Do prices include delivery?
     a: No. Prices don't include transport costs.
   - q: Can I pay when my order arrives?
     a: Yes. Choose Pay on Delivery at checkout.
   - q: Can I buy now and pay later?
     a: Yes, with EzyCredits Pay Later if you qualify. Pay Later credit is provided by Pezesha.
+    actions:
+      - { kind: page, label: "About Pay Later", href: "/ezycredits/" }
   - q: Where does Agrishop deliver?
     a: Agrishop is available in Uganda for now.
+    actions:
+      - { kind: whatsapp, label: "Ask us on WhatsApp" }
 
 seo:
   title: "Agrishop: genuine farm inputs and vet services, delivered | EzyAgric"

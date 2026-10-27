@@ -82,6 +82,8 @@ photo:
 faq:
   - q: Does it cost anything to list?
     a: No. Listing your produce is free.
+    actions:
+      - { kind: get-app, label: "List your produce" }
   - q: Who sets the price?
     a: You do. Set your own asking price per unit.
   - q: How do buyers contact me?

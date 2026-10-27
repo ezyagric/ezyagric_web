@@ -140,8 +140,12 @@ faq:
     a: "The Wallet holds money you've already topped up. Pay Later lets you get your order now and repay after it's delivered."
   - q: How do I top up my Wallet?
     a: With MTN or Airtel Mobile Money, from your profile in the app.
+    actions:
+      - { kind: get-app, label: "Download the App" }
   - q: Who can use Pay Later?
     a: "Farmers in Uganda who complete their profile can apply. Pezesha decides who gets credit, so not everyone is approved. Limits and terms are different for each farmer."
+    actions:
+      - { kind: get-app, label: "See if you qualify" }
   - q: How much can I borrow?
     a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying."
   - q: Can I have two Pay Later loans at once?

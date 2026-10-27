@@ -97,7 +97,27 @@ export type Feature = z.infer<typeof Feature>;
 const Step = z.object({ title: z.string(), text: z.string() });
 export type Step = z.infer<typeof Step>;
 
-const Faq = z.object({ q: z.string(), a: z.string(), ...pendingFields });
+/**
+ * A button under a FAQ answer. `kind` says where it goes (resolved in
+ * ui/faqActions.ts, so links follow the build): the Ka-Ezy demo or its plans,
+ * the store badges, WhatsApp or a call to the team, or a site page (`href`).
+ */
+const FaqAction = z
+  .object({
+    kind: z.enum(["try-kaezy", "pay-kaezy", "get-app", "whatsapp", "call", "page"]),
+    label: z.string(),
+    href: z.string().startsWith("/").optional(),
+  })
+  .refine((a) => a.kind !== "page" || !!a.href, { message: 'A "page" action needs an href' });
+export type FaqAction = z.infer<typeof FaqAction>;
+
+const Faq = z.object({
+  q: z.string(),
+  a: z.string(),
+  /** Up to two buttons under the answer; the first is the main one. */
+  actions: z.array(FaqAction).max(2).default([]),
+  ...pendingFields,
+});
 export type Faq = z.infer<typeof Faq>;
 
 // Product accents are theme roles, not colours: "brand" (the brand blue in

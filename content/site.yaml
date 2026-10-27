@@ -233,18 +233,32 @@ faq:
   items:
     - q: Is the EzyAgric App free?
       a: "Yes. The app is free to download on Android from Google Play (and soon on iPhone from the App Store), and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
+      actions:
+        - { kind: try-kaezy, label: "Try it now" }
+        - { kind: get-app, label: "Download the App" }
     - q: Where does EzyAgric work?
       a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
+      actions:
+        - { kind: page, label: "Explore our services", href: "/#solutions" }
     - q: Can I use Ka-Ezy outside Uganda?
       a: "Yes. Ka-Ezy works wherever you can use the EzyAgric App."
       pending: true
       note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
+      actions:
+        - { kind: try-kaezy, label: "Try Ka-Ezy" }
     - q: How do I pay?
       a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
+      actions:
+        - { kind: page, label: "About EzyCredits", href: "/ezycredits/" }
     - q: Is there an iPhone app?
       a: "Coming soon. The EzyAgric App for iPhone launches on the App Store shortly. Until then, you can get it on Android from Google Play."
+      actions:
+        - { kind: get-app, label: "Download the App" }
     - q: Can I get help from a person?
       a: "Yes. Chat with our team on WhatsApp or call us. Our contact details are below."
+      actions:
+        - { kind: whatsapp, label: "Chat on WhatsApp" }
+        - { kind: call, label: "Call us" }
 
 contact:
   title: Talk to us
