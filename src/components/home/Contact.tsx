@@ -6,6 +6,7 @@ import { ButtonLink, type ButtonVariant } from "@/components/ui/Button";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { PendingBadge } from "@/components/ui/Pending";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 /**
  * Contact details: WhatsApp, call, email and our social pages merged into
@@ -15,7 +16,9 @@ import { PendingBadge } from "@/components/ui/Pending";
  * targets, so people can copy them or dial from another phone.
  */
 export function Contact() {
-  const { contact, social } = getSite();
+  const { contact } = getSite();
+  const social = visible(getSite().social);
+  const pendingSocial = social.find((s) => s.pending);
   const { whatsapp, address } = contact;
   const phones = visible(contact.phones);
   const emails = visible(contact.emails);
@@ -72,31 +75,38 @@ export function Contact() {
           ))}
 
           {social.length > 0 ? (
+            // The marks sit where the other rows' buttons sit: the last one
+            // ends level with them. On phones they take a full-width line
+            // (40px each below 352px, where six 44px marks would not fit).
             <Channel
               icon="globe"
               color="brand"
               label="Follow us"
-              value={
-                <ul aria-label="Social media" className="mt-1 flex flex-wrap gap-2">
-                  {social.map((s) => (
-                    <li key={s.name}>
-                      <a
-                        href={s.url}
-                        target="_blank"
-                        rel="noopener"
-                        data-track="social_click"
-                        data-track-network={s.name}
-                        data-track-position="contact"
-                        className="inline-flex min-h-11 items-center rounded-pill border border-line bg-card px-3.5 text-sm font-label text-title transition-colors hover:border-secondary hover:text-link"
-                      >
-                        {s.name}
-                        <span className="sr-only"> (opens in a new tab)</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              }
-            />
+              badge={pendingSocial ? <PendingBadge note={pendingSocial.note} /> : null}
+            >
+              <ul aria-label="Social media" className="flex w-full justify-between gap-2 max-[22rem]:gap-0 sm:w-auto">
+                {social.map((s) => (
+                  <li key={s.name}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener"
+                      title={s.name}
+                      aria-label={`${s.name} (opens in a new tab)`}
+                      data-track="social_click"
+                      data-track-network={s.name}
+                      data-track-position="contact"
+                      // A link still to confirm gets the review colour's dashed ring (preview only).
+                      className={`flex size-11 items-center justify-center rounded-full border bg-card text-title transition-colors hover:border-secondary hover:text-link max-[22rem]:size-10 ${
+                        s.pending ? "border-dashed border-review" : "border-line"
+                      }`}
+                    >
+                      <SocialIcon name={s.name} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Channel>
           ) : null}
         </ul>
 
@@ -153,7 +163,8 @@ function Channel({
   color: Accent;
   label: string;
   badge?: ReactNode;
-  value: ReactNode;
+  /** The number or address; none for the social row (its marks sit on the right). */
+  value?: ReactNode;
   /** The first choice, on a green tint. */
   lead?: boolean;
   /** The row's button; none for the social row (its links are the value). */
@@ -167,7 +178,7 @@ function Channel({
           {label}
           {badge}
         </h3>
-        <div className="text-lg font-heading text-title">{value}</div>
+        {value ? <div className="text-lg font-heading text-title">{value}</div> : null}
       </div>
       {children}
     </li>

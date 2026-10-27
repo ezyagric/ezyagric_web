@@ -60,6 +60,9 @@ export const PRODUCT_SLUGS = [
   "produce-market",
 ] as const;
 const ProductSlug = z.enum(PRODUCT_SLUGS);
+
+const SocialNetwork = z.enum(["Facebook", "Instagram", "X", "LinkedIn", "YouTube", "TikTok"]);
+export type SocialNetwork = z.infer<typeof SocialNetwork>;
 export type ProductSlug = z.infer<typeof ProductSlug>;
 
 const pendingFields = {
@@ -507,8 +510,9 @@ const SiteSchema = z.object({
   }),
   social: z.array(
     z.object({
-      name: z.enum(["Facebook", "Instagram", "X", "LinkedIn", "YouTube"]),
+      name: SocialNetwork,
       url: z.string().url(),
+      ...pendingFields,
     }),
   ),
 });

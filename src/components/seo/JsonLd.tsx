@@ -59,7 +59,8 @@ export function SiteJsonLd() {
             url: `${SITE_URL}/`,
             logo: `${SITE_URL}/images/brand/ezyagric-logo.svg`,
             slogan: site.slogan,
-            sameAs: site.social.map((s) => s.url),
+            // Confirmed profiles only (a pending link may be a guess).
+            sameAs: site.social.filter((s) => !s.pending).map((s) => s.url),
             address: postalAddress(site.contact.address.lines),
             ...(phone || email
               ? {
