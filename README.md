@@ -194,7 +194,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - Buttons and links send events through `data-track` attributes, picked up by one click listener in `src/components/analytics/Analytics.tsx`:
   - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`)
   - `portal_login_click`
-  - `kaezy_try_click` (`position`): every "Try Ka-Ezy" button, the one button reused across the site: `home-hero`, `home-top`, `home-videos`, `404`, `<slug>-page` (each service page's banner), `ka-ezy-page`, `product-hero`, `faq` and `faq-<slug>` (the help cards), `faq-answer` and `faq-answer-<slug>` (buttons under FAQ answers)
+  - `kaezy_try_click` (`position`): every "Try Ka-Ezy" button, the one button reused across the site: `home-hero`, `home-top`, `home-videos`, `also-in-the-app`, `404`, `<slug>-page` (each service page's banner), `ka-ezy-page`, `product-hero`, `faq` and `faq-<slug>` (the help cards), `faq-answer` and `faq-answer-<slug>` (buttons under FAQ answers)
   - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay) and the menus' Ka-Ezy card and strip (watch, try, pay)
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
   - `kaezy_try_photo` (the photo buttons in Farm Expert), `kaezy_try_sample_photo` (`item`: the sample's crop, e.g. Maize)

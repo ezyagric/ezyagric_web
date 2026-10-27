@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { PawPrint, Ruler, Sprout, TrendingUp } from "lucide-react";
 import { getSite, visible, type Accent } from "@/lib/content";
+import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { PendingBadge } from "@/components/ui/Pending";
@@ -32,7 +33,15 @@ export function AlsoInApp() {
 
   return (
     <Section id="also-in-the-app" labelledBy="also-in-the-app-title">
-      <SectionHeader id="also-in-the-app-title" title={alsoInApp.title} intro={alsoInApp.intro} />
+      {/* The Try Ka-Ezy button at the top right from sm, level with the title;
+          on phones under the intro, full width. */}
+      <div className="sm:flex sm:items-start sm:justify-between sm:gap-8">
+        <SectionHeader id="also-in-the-app-title" title={alsoInApp.title} intro={alsoInApp.intro} />
+        <TryKaEzyButton
+          position="also-in-the-app"
+          className="-mt-4 mb-8 w-full sm:mt-0 sm:mb-0 sm:w-auto sm:shrink-0"
+        />
+      </div>
       {/* dense: tiles fill the gaps left by the wide and tall ones. */}
       <ul className="grid grid-cols-1 gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {visible(alsoInApp.items).map((item) => {
