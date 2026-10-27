@@ -11,7 +11,7 @@ accent: brand
 icon: bot
 
 card:
-  summary: Your personal farm expert. Ask by text or voice, in English or Luganda, any time of day.
+  summary: Your personal farm expert. Ask by text or voice, in English, Luganda or other local languages, any time of day.
   points:
     - Spot crop diseases early from a photo
     - Map your garden and keep your farm records
@@ -25,7 +25,7 @@ card:
 hero:
   eyebrow: Ka-Ezy · Your 24/7 farm expert
   headline: Hire Ka-Ezy, your personal farm expert
-  intro: "Just a tap of the screen and you have all the knowledge about your farm. Ka-Ezy knows your gardens, crops and records, and gives advice for your farm in English or Luganda, day or night."
+  intro: "Just a tap of the screen and you have all the knowledge about your farm. Ka-Ezy knows your gardens, crops and records, and gives advice for your farm in English, Luganda and other local languages, day or night."
   image:
     src: /images/products/ka-ezy-full.webp
     alt: Ka-Ezy, the EzyAgric farm expert, holding a phone with the EzyAgric App
@@ -47,7 +47,7 @@ features:
   title: Everything in one app
   items:
     - title: Expert farm advice
-      text: "Trusted answers for every farming decision, personalised to your exact location. Ask by text or voice, in English or Luganda."
+      text: "Trusted answers for every farming decision, personalised to your exact location. Ask by text or voice, in English, Luganda or other local languages."
       icon: message-circle
     # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
@@ -500,8 +500,8 @@ faq:
     a: With MTN MoMo or Airtel Money, inside the app.
     actions:
       - { kind: pay-kaezy, label: "Pay for Ka-Ezy" }
-  - q: Does Ka-Ezy understand Luganda?
-    a: Yes. Ask Ka-Ezy in English or Luganda.
+  - q: Which languages does Ka-Ezy understand?
+    a: English, Luganda and other local languages. Ask Ka-Ezy in the language you are most comfortable with.
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
     actions:
@@ -515,4 +515,4 @@ faq:
 
 seo:
   title: "Ka-Ezy: your 24/7 AI farm expert | EzyAgric"
-  description: "Hire Ka-Ezy: expert farm advice, instant disease diagnosis, garden mapping and farm records in English or Luganda. Free to start, then from UGX 5,000 a month."
+  description: "Hire Ka-Ezy: farm advice, disease diagnosis, garden mapping and farm records in English, Luganda and other local languages. Free to start, from UGX 5,000 a month."
