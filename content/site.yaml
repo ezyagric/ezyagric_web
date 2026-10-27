@@ -328,9 +328,9 @@ partners:
         - name: "USAID"
           logo: { src: /images/partners/usaid.webp, alt: "USAID", width: 160, height: 128 }
         - name: "World Food Programme (WFP)"
+          # Shown live at the team's request (27 Oct 2026). The file came from a
+          # stock-photo site (watermark cropped): swap in WFP's official logo when available.
           logo: { src: /images/partners/wfp.webp, alt: "World Food Programme (WFP)", width: 133, height: 128 }
-          pending: true
-          note: This logo came from a stock-photo site (watermark cropped). Get the official WFP logo file before launch.
         - name: "Ministry of Agriculture, Animal Industry and Fisheries (MAAIF)"
           logo: { src: /images/partners/maaif.webp, alt: "Ministry of Agriculture, Animal Industry and Fisheries (MAAIF)", width: 320, height: 113 }
         - name: "National Agricultural Research Organisation (NARO)"

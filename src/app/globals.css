@@ -83,6 +83,18 @@
   --text-xl--line-height: 1.55;
 }
 
+/* The partner logo rails: each rail holds its logos twice and slides by
+   half its width, so the loop is seamless (speed and direction are set per
+   rail in components/home/Partners). */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
