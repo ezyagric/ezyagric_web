@@ -8,6 +8,8 @@ import { playStoreUrl } from "@/lib/links";
 // with clear space of a quarter of their height around them (gap-3 = 12px at
 // 48px). When both appear, the App Store badge comes first (Apple's rule).
 const HEIGHT = {
+  // 40px, Apple's minimum: for compact places such as the footer.
+  sm: "h-10 w-auto",
   // 48px: both badges fit side by side on a 360px phone.
   md: "h-12 w-auto",
   lg: "h-12 w-auto sm:h-14",

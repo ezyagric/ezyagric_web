@@ -186,6 +186,31 @@ function ConsentManager() {
 
   const showBanner = consent === "unset" || (reopened > 0 && consent !== "unknown");
 
+  // While the banner is open, keep the end of the page clear of it: the page
+  // can scroll the footer above it, and a link that gets keyboard focus is
+  // brought into view above it, not under it (WCAG 2.4.11).
+  const bannerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const banner = bannerRef.current;
+    if (!showBanner || !banner) return;
+    const root = document.documentElement;
+    const update = () => {
+      const space = `${banner.offsetHeight + parseFloat(getComputedStyle(banner).bottom) + 8}px`;
+      root.style.scrollPaddingBottom = space;
+      document.body.style.paddingBottom = space;
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(banner);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+      root.style.scrollPaddingBottom = "";
+      document.body.style.paddingBottom = "";
+    };
+  }, [showBanner]);
+
   return (
     <>
       {consent === "granted" ? (
@@ -198,6 +223,7 @@ function ConsentManager() {
 
       {showBanner ? (
         <div
+          ref={bannerRef}
           role="region"
           aria-label="Cookie choice"
           className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-xl rounded-card bg-card p-4 text-body shadow-raised ring-1 ring-line sm:bottom-5 sm:p-5"

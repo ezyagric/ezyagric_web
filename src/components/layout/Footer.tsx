@@ -9,15 +9,19 @@ import { Logo } from "./Logo";
 
 type FooterLink = { href: string; label: string };
 
-// min-h-12 keeps every footer link a 48px tap target.
-const LINK = "inline-flex min-h-12 min-w-12 items-center text-on-inverse/90 hover:text-on-inverse hover:underline";
-const SMALL_LINK = "inline-flex min-h-12 min-w-12 items-center justify-center hover:text-on-inverse hover:underline";
+// Column links are 44px tap targets, and 36px from md with a mouse or
+// trackpad (pointer-fine), so the columns stay short; touch tablets keep 44px.
+// The bar's legal links stay 44px.
+const LINK =
+  "inline-flex min-h-11 items-center text-on-inverse/90 hover:text-on-inverse hover:underline md:pointer-fine:min-h-9";
+const SMALL_LINK = "inline-flex min-h-11 items-center hover:text-on-inverse hover:underline";
 
 /**
- * Dark Navy footer: the brand block (logo, slogan, store badges and our
- * social pages as round marks) beside two link columns, then a slim legal
- * bar. The app and partner portal live in the header and the badges, so
- * there is no separate column for them.
+ * A compact Dark Navy footer: the brand block (logo, slogan and store
+ * badges) beside two short link columns, then one bar with our social
+ * pages as round marks, the copyright and the legal links. The app and
+ * partner portal live in the header and the badges, so there is no
+ * separate column for them.
  */
 export function Footer() {
   const site = getSite();
@@ -48,21 +52,48 @@ export function Footer() {
       {/* The signature blue-green stripe keeps the footer apart from a
           dark or gradient closing band above it. */}
       <div aria-hidden="true" className="h-1.5 gradient-brand-decor" />
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-10 px-4 py-14 sm:px-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-8 px-4 py-8 sm:px-6 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-12">
         <div className="col-span-2 md:col-span-1">
-          {/* Full lockup with its tagline, 207px wide; mt-6 below is the
-              logo's clear space (half the mark's height, about 21px). */}
-          <Logo variant="white" loading="lazy" className="h-16 w-auto" />
-          <p className="mt-6 text-lg font-label">{site.slogan}</p>
+          {/* Full lockup with its tagline at h-12 (155px wide, above the
+              140px minimum); mt-4 below is the logo's clear space (half the
+              mark's height, about 16px). */}
+          <Logo variant="white" loading="lazy" className="h-12 w-auto" />
+          <p className="mt-4 text-base font-label">{site.slogan}</p>
           {/* The id keeps /#get-the-app working for links from outside the site
               (campaigns, messages); on the site, store badges sit where they're needed. */}
           <div id={GET_THE_APP_ID}>
-            <StoreBadges campaign="general" medium="footer" size="md" onDark className="mt-6" />
+            <StoreBadges campaign="general" medium="footer" size="sm" onDark className="mt-5" />
           </div>
+        </div>
+        {columns.map((col) => (
+          <nav key={col.title} aria-label={col.title}>
+            <p className="text-sm text-label-style text-accent-bright">{col.title}</p>
+            <ul className="mt-1 md:mt-2">
+              {col.links.map((l) => (
+                <li key={l.label}>
+                  <Link prefetch={false} href={l.href} className={LINK}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+      {/* One bar: our social pages (first on phones), then the copyright and
+          the legal links; from md the social pages sit at the right, and the
+          two groups wrap as wholes when "Cookie settings" leaves no room. The
+          "Follow us" label (the list's name gives it to screen readers) shows
+          only where it fits: from sm, but not from md to lg. Below 360px the
+          marks are 40px, so all six fit on one row. */}
+      <div className="border-t border-on-inverse/15">
+        <div className="mx-auto flex max-w-6xl flex-col gap-x-8 gap-y-3 px-4 py-4 text-sm text-on-inverse/80 sm:px-6 md:flex-row md:flex-wrap md:items-center md:justify-between">
           {social.length > 0 ? (
-            <div className="mt-8">
-              <p className="text-sm text-label-style text-accent-bright">Follow us</p>
-              <ul aria-label="Social media" className="mt-3 flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:order-last">
+              <p aria-hidden="true" className="hidden text-label-style text-accent-bright sm:block md:hidden lg:block">
+                Follow us
+              </p>
+              <ul aria-label="Social media" className="flex flex-wrap gap-2">
                 {social.map((s) => (
                   <li key={s.name}>
                     <a
@@ -75,7 +106,7 @@ export function Footer() {
                       data-track-network={s.name}
                       data-track-position="footer"
                       // A link still to confirm gets the review colour's dashed ring (preview only).
-                      className={`flex size-11 items-center justify-center rounded-full border text-on-inverse transition-colors hover:border-on-inverse hover:bg-on-inverse/10 ${
+                      className={`flex size-10 items-center justify-center rounded-full border min-[360px]:size-11 text-on-inverse transition-colors hover:border-on-inverse hover:bg-on-inverse/10 ${
                         s.pending ? "border-dashed border-review" : "border-on-inverse/25"
                       }`}
                     >
@@ -86,40 +117,24 @@ export function Footer() {
               </ul>
             </div>
           ) : null}
-        </div>
-        {columns.map((col) => (
-          <nav key={col.title} aria-label={col.title}>
-            <p className="text-sm text-label-style text-accent-bright">{col.title}</p>
-            <ul className="mt-2">
-              {col.links.map((l) => (
-                <li key={l.label}>
-                  <Link prefetch={false} href={l.href} className={LINK}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))}
-      </div>
-      <div className="border-t border-on-inverse/15">
-        <div className="mx-auto flex max-w-6xl flex-col gap-x-6 px-4 py-4 text-sm text-on-inverse/80 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="py-2">
-            © {year} {site.legalName}
-          </p>
-          <ul className="flex flex-wrap gap-x-5" aria-label="Legal">
-            <li>
-              <Link prefetch={false} href="/privacy-policy/" className={SMALL_LINK}>
-                Privacy policy
-              </Link>
-            </li>
-            {/* Reopens the analytics consent banner; only when GA is configured. */}
-            {GA_ENABLED ? (
+          <div className="flex flex-wrap items-center gap-x-5">
+            <p className="py-3">
+              © {year} {site.legalName}
+            </p>
+            <ul className="flex flex-wrap gap-x-5" aria-label="Legal">
               <li>
-                <CookieSettingsButton className={SMALL_LINK} />
+                <Link prefetch={false} href="/privacy-policy/" className={SMALL_LINK}>
+                  Privacy policy
+                </Link>
               </li>
-            ) : null}
-          </ul>
+              {/* Reopens the analytics consent banner; only when GA is configured. */}
+              {GA_ENABLED ? (
+                <li>
+                  <CookieSettingsButton className={SMALL_LINK} />
+                </li>
+              ) : null}
+            </ul>
+          </div>
         </div>
       </div>
     </footer>
