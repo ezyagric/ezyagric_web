@@ -523,7 +523,8 @@ const SiteSchema = z.object({
       z.object({
         title: z.string(),
         items: z.array(
-          z.object({ name: z.string(), logo: Image, ...pendingFields }),
+          // No logo yet: the tile shows the name (see Partners).
+          z.object({ name: z.string(), logo: Image.optional(), ...pendingFields }),
         ),
       }),
     ),

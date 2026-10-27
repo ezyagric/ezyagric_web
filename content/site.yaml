@@ -294,14 +294,8 @@ partners:
           logo: { src: /images/partners/syngenta.webp, alt: "Syngenta", width: 174, height: 51 }
         - name: "Osho Chemical Industries"
           logo: { src: /images/partners/osho.webp, alt: "Osho Chemical Industries", width: 128, height: 128 }
-        - name: "Grow More Seeds"
-          logo: { src: /images/partners/grow-more-seeds.webp, alt: "Grow More Seeds", width: 181, height: 124 }
-        - name: "Balton Uganda"
-          logo: { src: /images/partners/balton.webp, alt: "Balton Uganda", width: 120, height: 128 }
         - name: "Simlaw Seeds"
           logo: { src: /images/partners/simlaw-seeds.webp, alt: "Simlaw Seeds", width: 320, height: 68 }
-        - name: "Pearl Seeds"
-          logo: { src: /images/partners/pearl-seeds.webp, alt: "Pearl Seeds", width: 138, height: 128 }
         - name: "Jubaili Agrotec"
           logo: { src: /images/partners/jubaili-agrotec.webp, alt: "Jubaili Agrotec", width: 189, height: 97 }
         - name: "Biyinzika Poultry International"
@@ -327,6 +321,10 @@ partners:
           logo: { src: /images/partners/pezesha.webp, alt: "Pezesha", width: 198, height: 61 }
         - name: "Equity Bank"
           logo: { src: /images/partners/equity-bank.webp, alt: "Equity Bank", width: 196, height: 128 }
+        # Added at the team's request (27 Oct 2026). No logo file yet: the tile shows
+        # the name until the official logo is added (logo: { src, alt, width, height }).
+        - name: "Yara"
+        - name: "gnuGrid"
     - title: Strategic partners
       items:
         - name: "Mastercard Foundation"
@@ -337,8 +335,6 @@ partners:
           logo: { src: /images/partners/heifer-international.webp, alt: "Heifer International", width: 166, height: 128 }
         - name: "Mercy Corps"
           logo: { src: /images/partners/mercy-corps.webp, alt: "Mercy Corps", width: 320, height: 113 }
-        - name: "USAID"
-          logo: { src: /images/partners/usaid.webp, alt: "USAID", width: 160, height: 128 }
         - name: "World Food Programme (WFP)"
           # Shown live at the team's request (27 Oct 2026). The file came from a
           # stock-photo site (watermark cropped): swap in WFP's official logo when available.
@@ -375,6 +371,10 @@ partners:
           logo: { src: /images/partners/technoserve.webp, alt: "TechnoServe", width: 320, height: 53 }
         - name: "University of Illinois"
           logo: { src: /images/partners/university-of-illinois.webp, alt: "University of Illinois", width: 320, height: 55 }
+        # Added at the team's request (27 Oct 2026); names only until the logo files arrive.
+        - name: "UNCDF"
+        - name: "UNADA"
+        - name: "FSDU"
 
 social:
   - name: Facebook

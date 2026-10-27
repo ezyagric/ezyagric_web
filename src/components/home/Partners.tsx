@@ -104,18 +104,23 @@ function Rail({ items, reverse }: { items: Partner[]; reverse: boolean }) {
   );
 }
 
+/** A partner's logo tile; a partner without a logo file yet shows its name as a wordmark. */
 function Logo({ partner, copy = false }: { partner: Partner; copy?: boolean }) {
-  const { logo, pending, note } = partner;
+  const { name, logo, pending, note } = partner;
   return (
     <li className="flex h-20 w-40 shrink-0 flex-col items-center justify-center gap-1 rounded-card border border-line bg-card px-4 py-2">
-      <Image
-        src={logo.src}
-        alt={copy ? "" : logo.alt}
-        width={logo.width}
-        height={logo.height}
-        sizes="128px"
-        className="max-h-12 w-auto max-w-full object-contain"
-      />
+      {logo ? (
+        <Image
+          src={logo.src}
+          alt={copy ? "" : logo.alt}
+          width={logo.width}
+          height={logo.height}
+          sizes="128px"
+          className="max-h-12 w-auto max-w-full object-contain"
+        />
+      ) : (
+        <span className="text-center text-xl leading-tight font-heading tracking-heading text-brand">{name}</span>
+      )}
       {pending && !copy ? <PendingBadge note={note} /> : null}
     </li>
   );
