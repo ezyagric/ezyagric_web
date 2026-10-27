@@ -6,19 +6,23 @@ import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 /**
  * A Dark Navy (inverse) band of headline numbers with Vibrant Green
  * (accent-bright) highlights ("navy with green highlight" is one of the
- * guide's approved combinations; accent-bright on inverse is 4.7:1). The numbers are plain text (no animated counters) so
- * they show without JavaScript and never jump.
+ * guide's approved combinations; accent-bright on inverse is 4.7:1). The
+ * numbers are plain text (no animated counters) so they show without
+ * JavaScript and never jump.
  *
- * The real farmer photo sits beside the figures from sm and under them on
- * phones, cropped square; it is lazy-loaded, so only people who scroll this
- * far download it.
+ * One block beside the real farmer photo: the title at the top, the
+ * headline numbers, then what farmers and agribusinesses report, each
+ * percentage drawn as a ring. From sm the photo stretches to the block's
+ * height, so its top and bottom edges line up with the title and the last
+ * ring. On phones it sits under the figures (4:3). It is lazy-loaded, so
+ * only people who scroll this far download it.
  */
 export function Impact() {
   const { impact } = getSite();
   const items = visible(impact.items);
   // Production drops unconfirmed figures; an empty band would just be a heading.
   if (items.length === 0) return null;
-  const image = impact.image;
+  const { image, evidence } = impact;
 
   return (
     <section
@@ -27,7 +31,7 @@ export function Impact() {
       className="bg-inverse py-14 text-on-inverse sm:py-20"
     >
       <Container
-        className={`grid gap-10 ${image ? "sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-center sm:gap-8 lg:gap-14" : ""}`}
+        className={`grid gap-10 ${image ? "sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-8 lg:gap-14" : ""}`}
       >
         <div className="sm:order-last">
           <h2 id="impact-title" className="text-3xl font-heading tracking-heading text-on-inverse sm:text-4xl">
@@ -40,58 +44,87 @@ export function Impact() {
           ) : null}
 
           <dl
-            className={`mt-8 grid grid-cols-2 gap-x-4 gap-y-8 ${
+            className={`mt-6 grid grid-cols-2 gap-x-4 gap-y-8 ${
               items.length < 3 ? "sm:gap-x-8" : image ? "lg:grid-cols-3 lg:gap-x-8" : "sm:grid-cols-3 sm:gap-x-8"
             }`}
           >
             {items.map((item) => (
-              <div key={item.label} className="flex min-w-0 flex-col-reverse justify-end border-l-2 border-on-inverse/20 pl-3 lg:pl-4">
+              <div key={item.label} className="flex min-w-0 flex-col-reverse justify-end border-l-2 border-accent-bright pl-3 lg:pl-4">
                 {/* dt comes first in the DOM so screen readers say the label, then the number. */}
                 <dt className="mt-1 text-base text-on-inverse">
                   {item.label}
                   {item.pending ? <PendingBadge note={item.note} /> : null}
                 </dt>
-                <dd className={`text-3xl font-heading tracking-heading text-accent-bright tabular-nums ${image ? "xl:text-4xl" : "sm:text-4xl"}`}>
+                <dd className={`text-3xl font-heading tracking-heading text-accent-bright tabular-nums ${image ? "xl:text-5xl" : "sm:text-4xl"}`}>
                   {item.value.toLocaleString("en-US")}
                   {item.suffix}
                 </dd>
               </div>
             ))}
           </dl>
+
+          {evidence ? (
+            <div className="mt-8 border-t border-on-inverse/15 pt-6">
+              <h3 className="text-sm text-label-style text-on-inverse">{evidence.title}</h3>
+              {/* Ring beside its label until lg, then three columns with the label under it. */}
+              <ul className="mt-5 grid gap-4 lg:grid-cols-3 lg:gap-6">
+                {evidence.items.map((e) => (
+                  <li key={e.label} className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
+                    <Ring value={e.value} />
+                    <p className="text-base text-pretty text-on-inverse">{e.label}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
 
         {image ? (
-          <div className="overflow-hidden rounded-media">
+          // aspect-auto from sm: the grid row's height (the text block's) sets it.
+          <div className="relative aspect-[4/3] overflow-hidden rounded-media sm:aspect-auto sm:min-h-80">
             <Image
               src={image.src}
               alt={image.alt}
-              width={image.width}
-              height={image.height}
+              fill
               sizes="(min-width: 1152px) 420px, (min-width: 640px) 38vw, calc(100vw - 32px)"
-              className="aspect-square w-full object-cover object-[50%_25%] sm:aspect-[4/5]"
+              className="object-cover object-[50%_30%]"
             />
           </div>
         ) : null}
       </Container>
-
-      {impact.evidence ? (
-        <Container className="mt-12">
-          <div className="border-t border-on-inverse/15 pt-10">
-            <h3 className="text-lg font-heading text-on-inverse">{impact.evidence.title}</h3>
-            <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-              {impact.evidence.items.map((e) => (
-                <li key={e.label} className="rounded-card bg-on-inverse/5 p-5 ring-1 ring-on-inverse/10">
-                  <p className="text-4xl font-heading text-on-inverse tabular-nums">{e.value}</p>
-                  <p className="mt-1 text-base text-on-inverse">{e.label}</p>
-                  {e.source ? (
-                    <p className="mt-3 text-sm font-caption text-on-inverse/90">Source: {e.source}</p>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      ) : null}
     </section>
+  );
+}
+
+// The ring's radius in its 80x80 box, and its length.
+const RADIUS = 34;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+/**
+ * A study figure in a ring: a percentage ("86%") fills that share of the
+ * ring in green. Any other value shows on its own. The ring is decorative;
+ * the number inside is the text.
+ */
+function Ring({ value }: { value: string }) {
+  const percent = /^\d+(\.\d+)?%$/.test(value) ? parseFloat(value) : null;
+  return (
+    <span className="relative flex size-20 shrink-0 items-center justify-center">
+      {percent !== null ? (
+        <svg aria-hidden="true" viewBox="0 0 80 80" className="absolute inset-0 size-full -rotate-90">
+          <circle cx="40" cy="40" r={RADIUS} fill="none" strokeWidth="6" className="stroke-on-inverse/15" />
+          <circle
+            cx="40"
+            cy="40"
+            r={RADIUS}
+            fill="none"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={`${(Math.min(percent, 100) / 100) * CIRCUMFERENCE} ${CIRCUMFERENCE}`}
+            className="stroke-accent-bright"
+          />
+        </svg>
+      ) : null}
+      <span className="text-xl font-heading tracking-heading text-on-inverse tabular-nums">{value}</span>
+    </span>
   );
 }
