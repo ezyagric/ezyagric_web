@@ -49,8 +49,9 @@ features:
     - title: Expert farm advice
       text: "Trusted answers for every farming decision, personalised to your exact location. Ask by text or voice, in English or Luganda."
       icon: message-circle
+    # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
-      text: "Sick plant? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. It checks livestock symptoms too."
+      text: "Sick plant? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. It checks livestock symptoms too. Order what it recommends straight from Agrishop."
       icon: camera
     - title: Garden mapping
       text: "Walk your garden once and Ka-Ezy maps it: exact acreage, clear boundaries and the spots that need your inputs most."
@@ -58,9 +59,8 @@ features:
     - title: Farm records
       text: "Keep your income and expenses in one place. Track activities, monitor progress and grow profitably."
       icon: line-chart
-    # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: A farm plan for your budget
-      text: "Answer a few questions and Ka-Ezy builds a costed plan for your land and goals, with investment, revenue and profit. Order what it recommends straight from Agrishop."
+      text: "Answer a few questions and Ka-Ezy builds a costed plan for your land and goals, with investment, revenue and profit."
       icon: clipboard-list
     - title: Soil and weather insights
       text: Advice that takes your soil and the weather into account, for more than 40 crops and animals.
