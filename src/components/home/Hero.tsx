@@ -6,9 +6,9 @@ import { Highlight } from "./parts";
 import { Wave } from "@/components/ui/Wave";
 import { HeroSlider } from "./HeroSlider";
 
-/** "Farm the Ezy Way, the Smart Way." with the word Ezy in Vibrant Green (large text, so accent-bright passes). */
+/** "Farm the Ezy Way, the Smart Way." with the words Ezy and Smart in Vibrant Green (large text, so accent-bright passes). */
 function Headline({ text }: { text: string }) {
-  const parts = text.split(/\b(Ezy)\b/);
+  const parts = text.split(/\b(Ezy|Smart)\b/);
   return (
     <>
       {parts.map((part, i) =>
