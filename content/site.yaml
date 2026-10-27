@@ -23,8 +23,8 @@ kaezyBanner:
   eyebrow: Meet Ka-Ezy
   title: Your 24/7 farm expert, ready when you are
   intro: Watch Ka-Ezy at work, try it right here, pay with Mobile Money, or get the app.
-  # The banner plays the Ka-Ezy demo video (1 min 24 s) in place (the portrait video
-  # in content/products/ka-ezy.yaml); this captions it, with its length.
+  # The banner plays the Ka-Ezy demo video in place (the portrait video in
+  # content/products/ka-ezy.yaml); this is the label above it.
   watch:
     title: See Ka-Ezy in action
   try:

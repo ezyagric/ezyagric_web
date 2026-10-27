@@ -79,7 +79,6 @@ demoVideos:
       orientation: portrait
       title: The Ka-Ezy demo
       text: "A short tour of Ka-Ezy in the EzyAgric App: spot problems on your farm early, map your garden and get advice made for your farm."
-      meta: 1 min 24 s · 11 MB
       poster: { src: /images/videos/kaezy-demo.webp, alt: "", width: 540, height: 961 }
     - src: /videos/kaezy-expert-advice.mp4
       title: Expert farm advice

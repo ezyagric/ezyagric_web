@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
 import { hasTryIt } from "@/components/product/kaezy/TryKaEzy";
+import { ButtonLink } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
@@ -46,132 +47,146 @@ function targets() {
 }
 
 /**
- * The Ka-Ezy banner: the Ka-Ezy demo video (1 min 24 s), playable right here, beside
- * Try Ka-Ezy, Pay and Download the App. Placed at key points across the site
- * (home page, every service page, the 404 page), on the signature gradient
- * so it stands apart from the bands around it. `id` must be unique on the page.
+ * The Ka-Ezy banner: the Ka-Ezy demo video, playable right here, beside a
+ * three-step path: 1 Try Ka-Ezy, 2 Pay, 3 Download the App. Placed at key
+ * points across the site (home page, every service page, the 404 page), on
+ * the signature gradient so it stands apart from the bands around it. `id`
+ * must be unique on the page.
+ *
+ * From lg the video stands on the left, as tall as the heading and the steps
+ * beside it: the label above it lines up with "Meet Ka-Ezy", and its bottom
+ * edge with the steps card.
  */
 export function KaEzyBanner({ id, position }: { id: string; position: string }) {
   const { kaezyBanner: copy } = getSite();
   const video = bannerVideo(getProduct("ka-ezy"));
   const to = targets();
-  const track = (action: string) => ({
-    "data-track": "kaezy_banner_click",
-    "data-track-action": action,
-    "data-track-position": position,
-  });
+  const trackProps = (action: string) => ({ action, position });
 
   return (
     <Section id={id} tone="gradient" labelledBy={`${id}-title`}>
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-        <span className="flex size-20 shrink-0 items-end justify-center overflow-hidden rounded-full bg-card shadow-raised sm:size-24">
-          {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
-          <img src={AVATAR} alt="" width={200} height={178} loading="lazy" className="w-[4.5rem] sm:w-[5.5rem]" />
-        </span>
-        {/* Wide enough for the title on one line from about 1000px. */}
-        <div className="max-w-4xl">
-          <p className="text-sm text-label-style text-on-inverse">{copy.eyebrow}</p>
+      <div
+        className={`grid grid-cols-1 gap-8 ${video ? "lg:grid-cols-[15rem_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12" : ""}`}
+      >
+        <div className="lg:col-start-2 lg:row-start-1">
+          <p className="flex min-h-11 items-center gap-3 text-sm text-label-style text-on-inverse">
+            <span className="flex size-11 shrink-0 items-end justify-center overflow-hidden rounded-full bg-card shadow-raised">
+              {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
+              <img src={AVATAR} alt="" width={200} height={178} loading="lazy" className="w-10" />
+            </span>
+            {copy.eyebrow}
+          </p>
           <h2
             id={`${id}-title`}
-            className="mt-1 text-3xl font-heading tracking-heading text-balance text-on-inverse lg:text-4xl"
+            className="mt-3 text-3xl font-heading tracking-heading text-balance text-on-inverse lg:text-4xl"
           >
             {copy.title}
           </h2>
           <p className="mt-2 text-lg text-pretty text-on-inverse">{copy.intro}</p>
         </div>
-      </div>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-6">
         {/* See Ka-Ezy in action: the demo plays in place (it downloads only on play). */}
         {video ? (
-          <figure className="mx-auto w-full max-w-[15rem] lg:max-w-none">
-            <div className="overflow-hidden rounded-card shadow-raised">
-              <DemoVideoPlayer src={video.src} poster={video.poster} title={video.title} portrait />
+          <figure className="mx-auto w-full max-w-[13rem] sm:max-w-[15rem] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:max-w-none">
+            <figcaption className="flex min-h-11 items-center justify-center gap-2 text-sm text-label-style text-on-inverse lg:justify-start">
+              <Icon name="play-circle" className="size-5" />
+              {copy.watch.title}
+            </figcaption>
+            {/* A soft glow lifts the phone-shaped video off the gradient. */}
+            <div className="relative isolate mt-3">
+              <span aria-hidden="true" className="absolute -inset-3 -z-10 rounded-card bg-on-inverse/15 blur-xl" />
+              <div className="overflow-hidden rounded-card shadow-raised ring-1 ring-on-inverse/30">
+                <DemoVideoPlayer src={video.src} poster={video.poster} title={video.title} portrait />
+              </div>
             </div>
-            {video.meta ? (
-              <figcaption className="mt-2 text-center text-sm text-on-inverse">
-                {copy.watch.title} · {video.meta}
-              </figcaption>
-            ) : null}
           </figure>
         ) : null}
 
-        {/* Three compact rows that share the video's height (lg: one third each). */}
-        <ul className="grid gap-4 lg:grid-rows-3">
-          <ActionRow
+        {/* The three steps in one white card, numbered in the order a visitor takes them.
+            [&_:focus-visible]:outline-focus: the band's white focus ring would vanish on white. */}
+        <ol className="self-end divide-y divide-line overflow-hidden rounded-card bg-card text-body shadow-raised lg:col-start-2 lg:row-start-2 [&_:focus-visible]:outline-focus">
+          <Step
+            n={1}
             icon="message-circle"
             color="accent"
             title={copy.try.title}
             text={to.tryOnSite ? copy.try.text : copy.try.appText}
+            highlight
           >
-            <BannerLink href={to.try} track={track("try")}>
+            <ButtonLink
+              href={to.try}
+              track="kaezy_banner_click"
+              trackProps={trackProps("try")}
+              className="w-full whitespace-nowrap sm:w-auto"
+            >
               {to.tryOnSite ? copy.try.link : copy.try.appLink}
+              <ArrowRight aria-hidden="true" className="size-4" />
               <span className="sr-only">: {copy.try.title}</span>
-            </BannerLink>
-          </ActionRow>
-          <ActionRow icon="wallet" color="deep" title={copy.pay.title} text={copy.pay.text}>
-            <BannerLink href={to.pay} track={track("pay")}>
+            </ButtonLink>
+          </Step>
+          <Step n={2} icon="wallet" color="deep" title={copy.pay.title} text={copy.pay.text}>
+            <ButtonLink
+              href={to.pay}
+              variant="secondary"
+              track="kaezy_banner_click"
+              trackProps={trackProps("pay")}
+              className="w-full whitespace-nowrap sm:w-auto"
+            >
               {copy.pay.link}
               <span className="sr-only">: {copy.pay.title}</span>
-            </BannerLink>
-          </ActionRow>
-          <ActionRow icon="smartphone" color="brand" title={copy.app.title} text={copy.app.text}>
+            </ButtonLink>
+          </Step>
+          <Step n={3} icon="smartphone" color="brand" title={copy.app.title} text={copy.app.text}>
             <StoreBadges campaign="ka-ezy" medium={position} size="md" className="sm:justify-end" />
-          </ActionRow>
-        </ul>
+          </Step>
+        </ol>
       </div>
     </Section>
   );
 }
 
-function ActionRow({
+function Step({
+  n,
   icon,
   color,
   title,
   text,
+  highlight = false,
   children,
 }: {
+  n: number;
   icon: IconName;
   color: "brand" | "accent" | "deep";
   title: string;
   text: string;
+  /** The first step a visitor should take, on a soft tint. */
+  highlight?: boolean;
   children: ReactNode;
 }) {
   return (
     // One line from sm: icon, title and text, then the action on the right.
-    // [&_:focus-visible]:outline-focus: the band's white focus ring would vanish on these white tiles.
-    <li className="flex flex-col gap-3 rounded-card bg-card px-5 py-4 text-body shadow-raised sm:flex-row sm:items-center sm:gap-5 [&_:focus-visible]:outline-focus">
+    <li
+      className={`flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5 xl:py-5 ${highlight ? "bg-brand-soft" : ""}`}
+    >
       <div className="flex min-w-0 flex-1 items-center gap-4">
-        <IconCircle name={icon} color={color} />
+        {/* The step number rides on the icon (the <ol> numbers it for screen readers). */}
+        <span className="relative shrink-0">
+          <IconCircle name={icon} color={color} />
+          <span
+            aria-hidden="true"
+            className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-card text-xs font-heading text-title shadow-card ring-1 ring-line"
+          >
+            {n}
+          </span>
+        </span>
         <div className="min-w-0">
           <h3 className="text-lg font-heading text-title">{title}</h3>
-          <p className="text-base text-pretty text-muted">{text}</p>
+          {/* A step smaller from lg to xl, where the card is narrowest beside the video. */}
+          <p className="text-base text-pretty text-muted lg:text-sm xl:text-base">{text}</p>
         </div>
       </div>
-      <div className="shrink-0 pl-16 sm:pl-0">{children}</div>
+      <div className="shrink-0">{children}</div>
     </li>
-  );
-}
-
-function BannerLink({
-  href,
-  track,
-  children,
-}: {
-  href: string;
-  track: Record<string, string>;
-  children: ReactNode;
-}) {
-  return (
-    <Link
-      prefetch={false}
-      href={href}
-      {...track}
-      className="inline-flex min-h-11 items-center gap-1 rounded-control font-heading whitespace-nowrap text-link hover:underline"
-    >
-      {children}
-      <ArrowRight aria-hidden="true" className="size-4" />
-    </Link>
   );
 }
 

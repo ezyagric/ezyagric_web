@@ -15,7 +15,7 @@ const noSubscription = () => () => {};
 export type CarouselSlide = {
   /** Unique id: anchor target for the switcher links (works without JS). */
   id: string;
-  /** Name, e.g. "Ka-Ezy": announced, and the switcher icon's tooltip. The slide shows it itself. */
+  /** Name, e.g. "Ka-Ezy": shown in the switcher for the current slide, else announced. */
   name: string;
   /** The service's icon in the switcher. */
   icon: ReactNode;
@@ -25,11 +25,12 @@ export type CarouselSlide = {
 /**
  * A slider with a compact switcher and a gentle auto-advance.
  *
- * - The switcher is one segmented pill of icons, the current one ringed and
- *   raised on white. Every segment is the same 44px, so the icons never move when the
- *   slide changes and the pill fits even a 280px screen. Names are for screen
- *   readers and tooltips; each slide shows its own name. Swiping and the
- *   switcher move between slides; there are no separate arrows.
+ * - The switcher is one segmented pill, right-aligned so it lines up with
+ *   the pause button below it: the current slide shows its icon and name,
+ *   the others just their icon (with their name for screen readers and as a
+ *   tooltip), so all of them fit on one line even on a phone (on the
+ *   narrowest, the current name is shortened). Swiping and the switcher move
+ *   between slides; there are no separate arrows.
  * - Without JavaScript it is a native swipeable row (CSS scroll snap) and the
  *   switcher links jump to their slide, so nothing depends on scripts.
  * - Auto-advance never starts for people who prefer reduced motion, pauses
@@ -123,26 +124,26 @@ export function Carousel({
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
       }}
     >
-      <ul className="inline-flex items-center gap-1 rounded-pill border border-line bg-subtle p-1">
+      <ul className="ml-auto flex w-fit max-w-full items-center gap-1 rounded-pill border border-line bg-subtle p-1">
         {slides.map((slide, i) => {
           const current = i === index;
           return (
-            <li key={slide.id} className="shrink-0">
+            <li key={slide.id} className={current ? "min-w-0" : "shrink-0"}>
               <a
                 href={`#${slide.id}`}
                 aria-controls={slide.id}
                 aria-current={current ? "true" : undefined}
-                title={slide.name}
+                title={current ? undefined : slide.name}
                 onClick={(event) => {
                   event.preventDefault();
                   goTo(i, true);
                 }}
-                className={`flex size-11 items-center justify-center rounded-pill transition-colors ${
-                  current ? "bg-card shadow-card ring-2 ring-secondary" : "hover:bg-card"
+                className={`inline-flex min-h-11 max-w-full min-w-11 items-center justify-center gap-2 rounded-pill p-1 text-sm font-label transition-colors ${
+                  current ? "bg-card pr-3.5 text-title shadow-card" : "text-muted hover:bg-card"
                 }`}
               >
                 {slide.icon}
-                <span className="sr-only">{slide.name}</span>
+                <span className={current ? "min-w-0 truncate" : "sr-only"}>{slide.name}</span>
               </a>
             </li>
           );
