@@ -1,23 +1,20 @@
 import type { Product } from "@/lib/content";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
-import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Highlight, plainText } from "@/components/home/parts";
 import { AppTile } from "./RelatedProducts";
 
 /**
  * Closing band on the signature blue-green gradient (on-inverse text passes
- * across it): the product's app tile, the call to action with the product's
- * summary, and the store badges. Getting the app is the band's one action,
- * so the badges are its buttons (a green button beside them would only
- * repeat the Google Play link).
+ * across it): the product's app tile beside the call to action and the
+ * product's summary. No store badges: the footer right below has them (the
+ * team's call, 27 Oct 2026), and the hero has them too.
  *
- * From lg one row: tile, text and badges centred on one line. The summary
- * is narrowed there (max-w-md), so each product's runs to two lines and the
- * tile with its ring (104px) is as tall as the heading and summary beside
- * it (106px). On tablets the badges move under the text, level with the
- * heading's left edge; on phones the tile sits beside the heading, like an
- * app listing.
+ * From sm one row: tile and text centred on one line. From lg the summary is
+ * narrowed (max-w-md), so each product's runs to two lines and the tile
+ * with its ring (104px) is as tall as the heading and summary beside it
+ * (106px). On phones the tile sits beside the heading, like an app listing,
+ * and the summary runs the full width below.
  *
  * The decoration only lightens the blue end of the gradient (the rings and
  * glow round the tile, where white text has 11:1) and only darkens the
@@ -27,7 +24,7 @@ import { AppTile } from "./RelatedProducts";
 export function ProductCtaBand({ product }: { product: Product }) {
   return (
     <section
-      aria-labelledby="get-the-app-title"
+      aria-labelledby="closing-band-title"
       // globals.css switches the focus ring to focus-inverse on .gradient-brand.
       // overflow-clip (not hidden): the band clips its decoration without
       // becoming a box that focus could scroll sideways.
@@ -37,7 +34,7 @@ export function ProductCtaBand({ product }: { product: Product }) {
         name={product.icon}
         className="absolute -right-10 -bottom-16 -z-10 size-56 -rotate-12 text-inverse/15 sm:size-72"
       />
-      <Container className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3 py-10 sm:gap-x-8 sm:gap-y-6 sm:py-12 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-10">
+      <Container className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3 py-10 sm:gap-x-8 sm:py-12 lg:gap-x-10">
         <div className="relative">
           {/* Two thin rings and a soft glow radiate from the tile. The outer
               ring (from sm) ends at the column gap, so no line crosses the text. */}
@@ -61,7 +58,7 @@ export function ProductCtaBand({ product }: { product: Product }) {
             summary takes the full width below them. */}
         <div className="contents sm:block">
           <h2
-            id="get-the-app-title"
+            id="closing-band-title"
             className="text-3xl font-heading tracking-heading text-balance text-on-inverse sm:text-4xl"
           >
             {/* Product names stay whole ("Ka-Ezy" would otherwise break at its hyphen). */}
@@ -71,14 +68,6 @@ export function ProductCtaBand({ product }: { product: Product }) {
             {plainText(product.card.summary)}
           </p>
         </div>
-
-        <StoreBadges
-          campaign={product.cta.campaign}
-          medium="cta-band"
-          size="md"
-          onDark
-          className="col-span-2 mt-2 sm:col-span-1 sm:col-start-2 sm:mt-0 lg:col-start-3 lg:row-start-1"
-        />
       </Container>
     </section>
   );
