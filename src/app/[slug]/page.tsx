@@ -70,7 +70,7 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
   ));
   // On the other service pages, the Ka-Ezy banner after "what it does".
   add(product.slug !== "ka-ezy", () => (
-    <KaEzyBanner key="kaezy-banner" id="kaezy-banner" position={`${product.slug}-page`} />
+    <KaEzyBanner key="kaezy-banner" id="kaezy-banner" position={`${product.slug}-page`} page={product.slug} />
   ));
   add(!!product.comparison && comparisonRows(product.comparison).length > 0, (tone) => (
     <Comparison key="compare" product={product} tone={tone} />
@@ -100,7 +100,7 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
       <ProductHero product={product} />
       {/* On the Ka-Ezy page the banner comes straight after the hero: the demo
           video plays in it, beside Try, Pay and Download. */}
-      {product.slug === "ka-ezy" ? <KaEzyBanner id={KAEZY_BANNER_ID} position="ka-ezy-page" /> : null}
+      {product.slug === "ka-ezy" ? <KaEzyBanner id={KAEZY_BANNER_ID} position="ka-ezy-page" page="ka-ezy" /> : null}
       {/* The hero is white, so the first band is tinted. */}
       {bands(product).map((render, i) => render(i % 2 === 0 ? "subtle" : "canvas"))}
       <ProductCtaBand product={product} />

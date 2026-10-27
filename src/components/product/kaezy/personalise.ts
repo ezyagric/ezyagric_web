@@ -40,6 +40,20 @@ export function kindOf(valueChain: string, groups: TryIt["valueChains"]): TryIt[
   return groups.find((group) => group.items.includes(valueChain))?.kind ?? null;
 }
 
+// The birds among the app's value chains (the app checks them as "birds").
+const BIRDS = ["Poultry", "Duck", "Turkey", "Quail", "Ostrich"];
+
+/**
+ * The app's photo check category for the chosen value chain: crops, birds
+ * or animals ("" when none is chosen, or for fish, bees and mushrooms).
+ */
+export function diagnosisCategory(profile: Profile, groups: TryIt["valueChains"]): "crops" | "birds" | "animals" | "" {
+  const kind = kindOf(profile.valueChain, groups);
+  if (kind === "crop") return "crops";
+  if (kind === "livestock") return BIRDS.includes(profile.valueChain) ? "birds" : "animals";
+  return "";
+}
+
 /**
  * Fills {name}, {crop}, {location} and {acres} ("2 acres", "1 acre"; plus any `extra` values)
  * from the farm details. A [[ ]] part is dropped when one of the details in

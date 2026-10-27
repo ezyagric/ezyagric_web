@@ -14,10 +14,11 @@ import { TABS, demo, hasSavedData, useDemo, type Conversation, type Tab } from "
 import { KaEzyAvatar, type ThreadLabels } from "./Thread";
 
 /**
- * The Ka-Ezy demo: "Your farm" and past conversations beside the Ka-Ezy
- * window, whose tabs are the app's Farm Expert, Farm Plan, Farm Records and
- * Garden Mapping. Everything the visitor enters stays on their device; with
- * `endpoint` (the guest demo endpoint) the answers come from the real Ka-Ezy.
+ * The Ka-Ezy demo: one panel with "Your farm" and past conversations beside
+ * the Ka-Ezy window, whose tabs are the app's Farm Expert (with its photo
+ * check), Garden Mapping, Farm Plan and Farm Records. Everything the visitor
+ * enters stays on their device; with `endpoint` (the guest demo endpoint)
+ * the answers come from the real Ka-Ezy.
  */
 export function KaEzyDemo({
   copy,
@@ -46,6 +47,12 @@ export function KaEzyDemo({
     recordDismissed: copy.records.dismissed,
     mapUse: copy.mapping.useSize,
     mapPlan: copy.mapping.planIt,
+    pest: copy.diagnosis.pest,
+    disease: copy.diagnosis.disease,
+    signs: copy.diagnosis.signs,
+    steps: copy.diagnosis.steps,
+    diagnosisNote: copy.diagnosis.sampleNote,
+    diagnosisNudge: copy.diagnosis.nudge,
   };
   const current = (t: Tab) => state.conversations.find((c) => c.id === state.current[t]);
   const openIds = TABS.map((t) => state.current[t]).filter((id): id is string => !!id);
@@ -79,17 +86,28 @@ export function KaEzyDemo({
 
   return (
     // grid-cols-1 (minmax(0, 1fr)): no child can push the page wider than a phone.
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-8">
-      <FarmDetails
-        copy={copy}
-        profile={state.profile}
-        live={!!live}
-        valueChainRef={valueChainRef}
-        className="lg:col-start-1 lg:row-start-1"
-      />
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-8">
+      {/* "Your farm" and past conversations, one panel: stacked on phones,
+          side by side from md, and from lg down the side of the Ka-Ezy
+          window, as tall as it, past conversations filling the rest. Hire
+          Ka-Ezy's navy column below is as wide (HireKaEzy). */}
+      <div className="flex flex-col overflow-hidden rounded-card border border-line bg-card shadow-card md:max-lg:grid md:max-lg:grid-cols-2 lg:h-[44rem]">
+        <FarmDetails copy={copy} profile={state.profile} live={!!live} valueChainRef={valueChainRef} className="p-5" />
+        <PastConversations
+          copy={copy}
+          conversations={state.conversations}
+          openIds={openIds}
+          hasData={hasSavedData(state)}
+          onOpen={(conversation: Conversation) => {
+            demo.open(conversation);
+            show(conversation.tab, true);
+          }}
+          className="min-h-0 flex-1 border-t border-line bg-subtle p-5 md:max-lg:border-t-0 md:max-lg:border-l"
+        />
+      </div>
 
       {/* The Ka-Ezy window. */}
-      <div className="flex h-[44rem] flex-col overflow-hidden rounded-card border border-line bg-card shadow-raised lg:col-start-2 lg:row-span-2 lg:row-start-1">
+      <div className="flex h-[44rem] flex-col overflow-hidden rounded-card border border-line bg-card shadow-raised">
         <div className="flex items-center gap-3 bg-brand px-4 py-3 text-on-brand">
           <KaEzyAvatar src={avatar} size="lg" />
           <span className="min-w-0 flex-1">
@@ -168,18 +186,6 @@ export function KaEzyDemo({
           </div>
         ))}
       </div>
-
-      <PastConversations
-        copy={copy}
-        conversations={state.conversations}
-        openIds={openIds}
-        hasData={hasSavedData(state)}
-        onOpen={(conversation: Conversation) => {
-          demo.open(conversation);
-          show(conversation.tab, true);
-        }}
-        className="lg:col-start-1 lg:row-start-2 lg:self-start"
-      />
     </div>
   );
 }

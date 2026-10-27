@@ -23,7 +23,7 @@ card:
 hero:
   eyebrow: Agrishop · Inputs and services
   headline: Genuine inputs, delivered near you
-  intro: "Over 1,000 genuine products from more than 60 manufacturers and suppliers: seeds, fertilizers, crop protection, tools, animal feeds, vet products, fish fingerlings and day-old chicks."
+  intro: "Over ==1,000 genuine products== from more than ==60 manufacturers and suppliers==: seeds, fertilizers, crop protection, tools, animal feeds, vet products, fish fingerlings and ==day-old chicks==."
   image:
     src: /images/products/agrishop.webp
     alt: A farmer pushing a shopping trolley of farm inputs
@@ -91,7 +91,7 @@ faq:
   - q: Are the products genuine?
     a: "Yes. Agrishop sells genuine products from more than 60 manufacturers and suppliers."
     actions:
-      - { kind: get-app, label: "Shop on Agrishop" }
+      - { kind: get-app }
   - q: Do prices include delivery?
     a: No. Prices don't include transport costs.
   - q: Can I pay when my order arrives?

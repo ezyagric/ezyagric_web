@@ -1,35 +1,38 @@
 import { getSite, isVisible, visible, type FaqAction, type IconName } from "@/lib/content";
 import { telUrl, whatsappUrl } from "@/lib/links";
-import { GET_THE_APP_ID, kaezyPayHref, kaezyTryHref } from "@/components/promo/KaEzyBanner";
+import { kaezyPayHref } from "@/components/promo/KaEzyBanner";
 
-export type ResolvedFaqAction = { kind: FaqAction["kind"]; label: string; href: string; icon?: IconName };
+/** "try-kaezy" and "get-app" need nothing resolved: FaqList draws them itself. */
+export type ResolvedFaqAction =
+  | { kind: "try-kaezy" }
+  | { kind: "get-app" }
+  | { kind: Exclude<FaqAction["kind"], "try-kaezy" | "get-app">; label: string; href: string; icon?: IconName };
 
 const ICONS: Partial<Record<FaqAction["kind"], IconName>> = {
-  "try-kaezy": "bot",
   "pay-kaezy": "wallet",
-  "get-app": "smartphone",
   whatsapp: "message-circle",
   call: "phone",
 };
 
 /**
- * Where a FAQ button goes on this build. The Ka-Ezy links follow the banner's
- * targets (the demo and plans when shown, else the Ka-Ezy page). "get-app"
- * is drawn as the store badges by FaqList; its href (the footer's badges) is
- * only a fallback. An action whose target is hidden (an unconfirmed WhatsApp
- * number or phone) is dropped.
+ * Where a FAQ button goes on this build. "Pay for Ka-Ezy" follows the
+ * banner's target (the plans in the demo when shown, else the price cards).
+ * "try-kaezy" and "get-app" are drawn by FaqList as the site's one
+ * TryKaEzyButton and the store badges, which find their own targets. An
+ * action whose target is hidden (an unconfirmed WhatsApp number or phone)
+ * is dropped.
  */
 export function resolveFaqActions(actions: FaqAction[]): ResolvedFaqAction[] {
   const { contact } = getSite();
   const phone = visible(contact.phones)[0];
-  return actions.flatMap((action) => {
+  return actions.flatMap((action): ResolvedFaqAction[] => {
+    if (action.kind === "try-kaezy" || action.kind === "get-app") return [{ kind: action.kind }];
     const href =
-      action.kind === "try-kaezy" ? kaezyTryHref()
-      : action.kind === "pay-kaezy" ? kaezyPayHref()
-      : action.kind === "get-app" ? `#${GET_THE_APP_ID}`
+      action.kind === "pay-kaezy" ? kaezyPayHref()
       : action.kind === "whatsapp" ? (isVisible(contact.whatsapp) ? whatsappUrl(contact.whatsapp.number, contact.whatsapp.message) : null)
       : action.kind === "call" ? (phone ? telUrl(phone.number) : null)
       : (action.href ?? null);
-    return href ? [{ kind: action.kind, label: action.label, href, icon: ICONS[action.kind] }] : [];
+    // The content schema makes sure these kinds have a label.
+    return href ? [{ kind: action.kind, label: action.label ?? "", href, icon: ICONS[action.kind] }] : [];
   });
 }

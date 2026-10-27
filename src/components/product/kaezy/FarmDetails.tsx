@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type RefObject } from "react";
+import { History, MessageCircle, Sprout } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/lib/content";
 import type { Profile, TryIt } from "./personalise";
@@ -14,11 +15,14 @@ export const TAB_ICONS: Record<Tab, IconName> = {
 };
 
 const FIELD =
-  "mt-1 min-h-12 w-full rounded-control border-2 border-line bg-canvas px-3 text-base text-title placeholder:text-muted";
+  "min-h-12 w-full min-w-0 rounded-control border-2 border-line bg-canvas px-3 text-base text-title placeholder:text-muted";
+const LABEL = "block text-sm font-label text-title";
 
 /**
  * "Your farm": the value chain and optional farm details that personalise
  * every tab (starter questions, answers, the plan). Kept on this device.
+ * The top half of the panel beside the Ka-Ezy window (KaEzyDemo), so it has
+ * no card of its own; location and land size share a row to keep it short.
  */
 export function FarmDetails({
   copy,
@@ -35,15 +39,20 @@ export function FarmDetails({
 }) {
   const f = copy.farm;
   return (
-    <section
-      aria-labelledby="kaezy-farm-title"
-      className={`rounded-card border border-line bg-card p-5 shadow-card ${className}`}
-    >
-      <h3 id="kaezy-farm-title" className="text-lg font-heading text-title">
-        {f.title}
-      </h3>
+    <section aria-labelledby="kaezy-farm-title" className={className}>
+      <div className="flex items-center gap-3">
+        <span
+          aria-hidden="true"
+          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent"
+        >
+          <Sprout className="size-5" />
+        </span>
+        <h3 id="kaezy-farm-title" className="text-lg font-heading text-title">
+          {f.title}
+        </h3>
+      </div>
 
-      <label htmlFor="kaezy-farm-value-chain" className="mt-4 block text-base font-label text-title">
+      <label htmlFor="kaezy-farm-value-chain" className={`mt-4 ${LABEL}`}>
         {f.valueChain}
         <span aria-hidden="true"> *</span>
       </label>
@@ -53,7 +62,7 @@ export function FarmDetails({
         value={profile.valueChain}
         onChange={(event) => demo.setProfile({ valueChain: event.target.value })}
         aria-required="true"
-        className={FIELD}
+        className={`mt-1 ${FIELD}`}
       >
         <option value="">{f.valueChainPlaceholder}</option>
         {copy.valueChains.map((group) => (
@@ -67,35 +76,49 @@ export function FarmDetails({
         ))}
       </select>
 
-      <p className="mt-5 text-sm text-label-style text-label">{f.optionalTitle}</p>
-      <Field
-        id="kaezy-farm-location"
-        label={f.location}
-        hint={f.locationHint}
-        value={profile.location}
-        autoComplete="address-level2"
-        onChange={(location) => demo.setProfile({ location })}
-      />
-      <Field
-        id="kaezy-farm-acres"
-        label={f.landSize}
-        value={profile.acres}
-        inputMode="decimal"
-        onChange={(acres) => demo.setProfile({ acres })}
-      />
-      <Field
-        id="kaezy-farm-name"
-        label={f.firstName}
-        hint={f.firstNameHint}
-        value={profile.name}
-        autoComplete="given-name"
-        onChange={(name) => demo.setProfile({ name })}
-      />
+      <p className="mt-4 text-sm text-label-style text-label">{f.optionalTitle}</p>
+      {/* Location and land size side by side; their labels share a row
+          (subgrid), so the fields line up even if one label wraps. The
+          location hint runs under both. */}
+      <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
+        <Field
+          id="kaezy-farm-location"
+          label={f.location}
+          hint={f.locationHint}
+          value={profile.location}
+          autoComplete="address-level2"
+          onChange={(location) => demo.setProfile({ location })}
+        />
+        <Field
+          id="kaezy-farm-acres"
+          label={f.landSize}
+          value={profile.acres}
+          inputMode="decimal"
+          onChange={(acres) => demo.setProfile({ acres })}
+        />
+        <p id="kaezy-farm-location-hint" className="col-span-2 text-xs text-muted">
+          {f.locationHint}
+        </p>
+      </div>
+      <div className="mt-3 grid gap-y-1">
+        <Field
+          id="kaezy-farm-name"
+          label={f.firstName}
+          hint={f.firstNameHint}
+          value={profile.name}
+          autoComplete="given-name"
+          onChange={(name) => demo.setProfile({ name })}
+        />
+        <p id="kaezy-farm-name-hint" className="text-xs text-muted">
+          {f.firstNameHint}
+        </p>
+      </div>
       <p className="mt-4 text-xs text-muted">{live ? f.storageLive : f.storage}</p>
     </section>
   );
 }
 
+/** A label above its field, as two rows of the grid around it (subgrid). Its hint is the grid's. */
 function Field({
   id,
   label,
@@ -114,8 +137,8 @@ function Field({
   inputMode?: "decimal";
 }) {
   return (
-    <div className="mt-3">
-      <label htmlFor={id} className="block text-base font-label text-title">
+    <div className="row-span-2 grid grid-rows-subgrid gap-y-1">
+      <label htmlFor={id} className={`self-end ${LABEL}`}>
         {label}
       </label>
       <input
@@ -129,11 +152,6 @@ function Field({
         onChange={(event) => onChange(event.target.value)}
         className={FIELD}
       />
-      {hint ? (
-        <p id={`${id}-hint`} className="mt-1 text-sm text-muted">
-          {hint}
-        </p>
-      ) : null}
     </div>
   );
 }
@@ -148,7 +166,12 @@ function when(at: number): string {
   return day.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
 
-/** Past conversations on this device: open one to carry on, or delete them all. */
+/**
+ * Past conversations on this device: open one to carry on, or delete them
+ * all. The bottom half of the panel beside the Ka-Ezy window: from lg it
+ * fills the rest of the panel's height and the list scrolls inside it;
+ * elsewhere the list scrolls past a few conversations.
+ */
 export function PastConversations({
   copy,
   conversations,
@@ -172,15 +195,68 @@ export function PastConversations({
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   return (
-    <section
-      aria-labelledby="kaezy-past-title"
-      className={`rounded-card border border-line bg-card p-5 shadow-card ${className}`}
-    >
-      <div className="flex items-center justify-between gap-3">
-        <h3 ref={headingRef} tabIndex={-1} id="kaezy-past-title" className="text-sm text-label-style text-label">
-          {f.pastTitle}
-        </h3>
-        {hasData ? (
+    <section aria-labelledby="kaezy-past-title" className={`flex flex-col ${className}`}>
+      <h3
+        ref={headingRef}
+        tabIndex={-1}
+        id="kaezy-past-title"
+        className="flex items-center gap-2 text-sm text-label-style text-label"
+      >
+        <History aria-hidden="true" className="size-4 shrink-0" />
+        {f.pastTitle}
+      </h3>
+      <p role="status" className="sr-only">
+        {status}
+      </p>
+      {conversations.length === 0 ? (
+        // Just the line on phones, where the Ka-Ezy window comes next.
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 pt-3 text-center md:py-6">
+          <span
+            aria-hidden="true"
+            className="hidden size-10 items-center justify-center rounded-full bg-card text-muted ring-1 ring-line md:flex"
+          >
+            <MessageCircle className="size-5" />
+          </span>
+          <p className="text-sm text-muted">{f.pastEmpty}</p>
+        </div>
+      ) : (
+        // -mx-2 px-2: room for the open conversation's bar and the focus ring inside the scroll area.
+        <ul className="-mx-2 mt-2 max-h-72 min-h-0 space-y-1 overflow-y-auto px-2 py-1 lg:max-h-none lg:flex-1">
+          {conversations.map((conversation) => {
+            const open = openIds.includes(conversation.id);
+            return (
+              <li key={conversation.id}>
+                <button
+                  type="button"
+                  onClick={() => onOpen(conversation)}
+                  aria-current={open ? "true" : undefined}
+                  // The open one has a bar as well as the white (white alone is the hover look).
+                  className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 px-2 py-1.5 text-left transition-colors hover:bg-card ${
+                    open ? "border-secondary bg-card shadow-card" : "border-transparent"
+                  }`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card text-secondary ring-1 ring-line"
+                  >
+                    <Icon name={TAB_ICONS[conversation.tab]} className="size-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-label text-title">{conversation.title}</span>
+                    <span className="block text-xs text-muted">
+                      {copy.tabs[conversation.tab].title} · {when(conversation.at)}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {/* At the foot of the list (beside the title there's no room in the
+          narrow column), at the panel's bottom edge from lg. */}
+      {hasData ? (
+        <div className="mt-2 flex justify-end">
           <button
             type="button"
             // Two steps: the first press asks, the second deletes. Leaving the
@@ -201,41 +277,8 @@ export function PastConversations({
           >
             {confirming ? "Tap again to delete" : f.clear}
           </button>
-        ) : null}
-      </div>
-      <p role="status" className="sr-only">
-        {status}
-      </p>
-      {conversations.length === 0 ? (
-        <p className="py-6 text-center text-base text-muted">{f.pastEmpty}</p>
-      ) : (
-        <ul className="mt-2 space-y-1">
-          {conversations.map((conversation) => {
-            const open = openIds.includes(conversation.id);
-            return (
-              <li key={conversation.id}>
-                <button
-                  type="button"
-                  onClick={() => onOpen(conversation)}
-                  aria-current={open ? "true" : undefined}
-                  // The open one has a bar as well as the tint (the tint alone is the hover look).
-                  className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 px-2 py-1.5 text-left transition-colors hover:bg-brand-soft ${
-                    open ? "border-secondary bg-brand-soft" : "border-transparent"
-                  }`}
-                >
-                  <Icon name={TAB_ICONS[conversation.tab]} className="size-4 shrink-0 text-secondary" />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-label text-title">{conversation.title}</span>
-                    <span className="block text-xs text-muted">
-                      {copy.tabs[conversation.tab].title} · {when(conversation.at)}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+        </div>
+      ) : null}
     </section>
   );
 }

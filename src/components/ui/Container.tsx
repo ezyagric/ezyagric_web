@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { KeepHyphensTogether } from "./KeepHyphens";
 
 export function Container({
   children,
@@ -53,6 +54,7 @@ export function SectionHeader({
   align = "left",
   invert = false,
   wide = false,
+  full = false,
   children,
 }: {
   id: string;
@@ -65,11 +67,14 @@ export function SectionHeader({
   invert?: boolean;
   /** Room for a title and intro that should each stay on one line on desktop. */
   wide?: boolean;
+  /** The whole width of the section, so the intro runs to the right edge of what sits below. */
+  full?: boolean;
   children?: ReactNode;
 }) {
   const centered = align === "center" ? "mx-auto text-center" : "";
+  const width = full ? "" : wide ? "max-w-4xl" : "max-w-2xl";
   return (
-    <div className={`mb-10 ${wide ? "max-w-4xl" : "max-w-2xl"} ${centered}`}>
+    <div className={`mb-10 ${width} ${centered}`}>
       {eyebrow ? (
         <p
           className={`mb-2 text-sm text-label-style ${invert ? "text-on-inverse" : "text-label"}`}
@@ -81,11 +86,11 @@ export function SectionHeader({
         id={id}
         className={`text-3xl font-heading tracking-heading text-balance sm:text-4xl ${invert ? "text-on-inverse" : "text-heading"}`}
       >
-        {title}
+        <KeepHyphensTogether text={title} />
       </h2>
       {intro ? (
         <p className={`mt-3 text-lg text-pretty ${invert ? "text-on-inverse" : "text-muted"}`}>
-          {intro}
+          <KeepHyphensTogether text={intro} />
         </p>
       ) : null}
       {children}

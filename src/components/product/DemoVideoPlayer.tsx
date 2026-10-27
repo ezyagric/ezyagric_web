@@ -63,7 +63,7 @@ export function DemoVideoPlayer({
             setPlaying(true);
             track("video_play", { video_id: src });
           }}
-          className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-focus-inverse"
+          className="group absolute inset-0 block size-full focus-visible:-outline-offset-4 focus-visible:outline-transparent"
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised poster */}
           <img
@@ -75,8 +75,12 @@ export function DemoVideoPlayer({
             decoding="async"
             className="size-full object-cover"
           />
-          {/* Guide icon style: white glyph in a solid green circle. */}
-          <span className="absolute inset-0 flex items-center justify-center transition-colors group-hover:bg-shade/10">
+          {/* Guide icon style: white glyph in a solid green circle. On keyboard
+              focus the poster darkens and this overlay draws the white focus
+              ring over it (about 3.8:1 on the posters' near-white edges). The
+              link's own ring would sit under the overlay, so it is transparent
+              (still shown in forced-colours mode). */}
+          <span className="absolute inset-0 flex items-center justify-center transition-colors group-hover:bg-shade/10 group-focus-visible:bg-shade/50 group-focus-visible:outline-3 group-focus-visible:-outline-offset-4 group-focus-visible:outline-focus-inverse">
             <span className="flex size-16 items-center justify-center rounded-full bg-accent-bright text-on-accent ring-4 ring-on-inverse transition-colors group-hover:bg-accent group-focus-visible:bg-accent sm:size-20">
               <Play aria-hidden="true" className="ml-1 size-7 fill-current sm:size-8" />
             </span>

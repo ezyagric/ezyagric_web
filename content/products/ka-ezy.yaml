@@ -25,7 +25,7 @@ card:
 hero:
   eyebrow: Ka-Ezy · Your 24/7 farm expert
   headline: Hire Ka-Ezy, your personal farm expert
-  intro: "Just a tap of the screen and you have all the knowledge about your farm. Ka-Ezy knows your gardens, crops and records, and gives advice for your farm in English, Luganda and other local languages, day or night."
+  intro: "Just a tap of the screen and you have ==all the knowledge about your farm==. Ka-Ezy knows your ==gardens, crops and records==, and gives ==advice for your farm== in ==English, Luganda and other local languages==, ==day or night==."
   image:
     src: /images/products/ka-ezy-full.webp
     alt: Ka-Ezy, the EzyAgric farm expert, holding a phone with the EzyAgric App
@@ -38,7 +38,7 @@ hero:
     height: 1385
 
 cta:
-  label: Try Ka-Ezy free
+  label: Try Ka-Ezy
   campaign: ka-ezy
 
 
@@ -104,10 +104,10 @@ demoVideos:
 # sends visitors to the app to pay.
 tryIt:
   pending: true
-  note: "Agronomy team to check the sample answers (crops, animals, and fish, bees and mushrooms) and the sample plan figures (costs, yields and prices). Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
-  eyebrow: Try it now
+  note: "Agronomy team to check the sample answers (crops, animals, and fish, bees and mushrooms), the sample photo diagnoses and the sample plan figures (costs, yields and prices). Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
+  eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
-  intro: "Tell Ka-Ezy about your farm, then ask it, plan your season, keep records and map a garden. When you're ready, choose a plan and pay with Mobile Money."
+  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
   # Ka-Ezy's answers and plan figures below are samples written for the
   # website. They are personalised from "Your farm": {name}, {crop}, {location}
   # and {acres} are filled in, and a part in [[ ]] is left out when one of its
@@ -143,11 +143,12 @@ tryIt:
     - group: Fish, bees and mushrooms
       kind: other
       items: [Fish, Beekeeping, Mushroom]
+  # Shown in this order (TABS in components/product/kaezy/store.ts).
   tabs:
-    expert: { title: Farm Expert, text: Ask Ka-Ezy about a crop or animal. }
+    expert: { title: Farm Expert, text: "Ask Ka-Ezy about a crop or animal, or check a photo of a sick one." }
+    mapping: { title: Garden Mapping, text: The guide to mapping a garden by GPS. }
     plan: { title: Farm Plan, text: "A costed plan from setup to harvest, scaled to your farm." }
     records: { title: Farm Records, text: "Income, expenses and activities, with totals." }
-    mapping: { title: Garden Mapping, text: The guide to mapping a garden by GPS. }
   chat:
     greeting: Hello farmer
     greetingNamed: "Hello, {name}"
@@ -335,6 +336,88 @@ tryIt:
       limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
     nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your gardens, day or night."
     disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
+  # Farm Expert's photo check, like the app's diagnosis mode. The sample
+  # photos are drawings made for the website, and their diagnoses are samples
+  # (see note). {name} is filled in as in the answers above.
+  diagnosis:
+    title: Check a sick crop or animal
+    text: Add a photo and Ka-Ezy tells you what's wrong and what to do.
+    upload: Add a photo
+    samplesTitle: "Or try a sample photo:"
+    sampleLabel: Sample photo
+    attach: Add a photo of a sick crop or animal
+    remove: Remove the photo
+    added: Photo added. Add a question, or send it as it is.
+    unreadable: "That photo couldn't be opened. Try a JPG or PNG photo."
+    placeholder: Describe the problem (optional)
+    question: What's wrong in this photo?
+    photoAlt: Your photo
+    privacy: Your photo stays on this device.
+    privacyLive: Your photo is sent to Ka-Ezy to check it.
+    ownPhotoReply: "[[{name}, ]]thanks for the photo. On the website I can only check the sample photos, so I can't tell you what's in yours. In the EzyAgric App, snap the sick leaf, fruit or animal and I'll tell you what's wrong and how to treat it."
+    pest: Pest detected
+    disease: Disease detected
+    signs: What I see
+    steps: What to do
+    sampleNote: A sample diagnosis for this demo. In the EzyAgric App, Ka-Ezy checks your own photos.
+    nudge: Hire Ka-Ezy to check your own crops and animals
+    samples:
+      - crop: Maize
+        kind: pest
+        name: Fall armyworm
+        photo:
+          src: /images/diagnosis/maize-fall-armyworm.svg
+          alt: "Sample photo: a maize leaf with ragged holes, droppings and a caterpillar"
+          width: 400
+          height: 400
+        question: What is eating my maize leaves?
+        intro: "[[{name}, ]]this looks like fall armyworm. Its caterpillars feed in the funnel of young maize and can strip a garden fast, so act this week."
+        signs:
+          - Ragged holes and see-through patches on the young leaves
+          - Droppings like sawdust on the leaf, near the caterpillar
+          - A caterpillar with a pale upside-down Y on its head
+        steps:
+          - At least once a week, check 20 plants across the garden, looking into the funnel.
+          - On a small garden, crush the egg masses and caterpillars you find.
+          - If many plants are hit, spray a pesticide approved for fall armyworm into the funnel, early in the morning or late in the evening, following the label.
+          - Next season, plant early, at the start of the rains, and keep the garden weeded.
+      - crop: Cassava
+        kind: disease
+        name: Cassava mosaic disease
+        photo:
+          src: /images/diagnosis/cassava-mosaic.svg
+          alt: "Sample photo: a cassava leaf with yellow and green patches and twisted leaflets"
+          width: 400
+          height: 400
+        question: Why are my cassava leaves yellow and twisted?
+        intro: "[[{name}, ]]this looks like cassava mosaic disease. Whiteflies and cuttings from sick plants spread it, and no spray cures it."
+        signs:
+          - Yellow and pale-green patches across the leaves
+          - Leaflets twisted, narrow and smaller than normal
+        steps:
+          - Uproot sick plants early and destroy them, so the disease doesn't spread.
+          - Never take cuttings from sick plants.
+          - Plant clean cuttings of a mosaic-resistant variety from a trusted supplier.
+          - Check under the leaves for whiteflies, and keep the garden weeded.
+      - crop: Coffee
+        kind: disease
+        name: Coffee leaf rust
+        photo:
+          src: /images/diagnosis/coffee-leaf-rust.svg
+          alt: "Sample photo: a coffee leaf with orange powdery spots"
+          width: 400
+          height: 400
+        question: What are these orange spots on my coffee leaves?
+        intro: "[[{name}, ]]this looks like coffee leaf rust, a fungus. It makes the leaves fall early, which weakens the trees and cuts next season's harvest."
+        signs:
+          - Orange, powdery spots on the leaves
+          - Pale yellow patches around the spots
+          - Spots joining up into larger patches
+        steps:
+          - Prune and remove extra suckers, so light and air get into the trees.
+          - Rake up fallen leaves and destroy them.
+          - Spray a copper fungicide approved for coffee at the start of the rains, following the label.
+          - Feed the trees well, and plant a rust-resistant variety when you replant.
   # Farm Plan: the app's plan form (crop, variety, land size, start date,
   # services) and a costed plan. Costs are per acre and the yields and prices
   # are SAMPLE FIGURES for the website demo, to be checked by the agronomy team.
@@ -494,7 +577,7 @@ faq:
   - q: Is Ka-Ezy free?
     a: "Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
     actions:
-      - { kind: try-kaezy, label: "Try it now" }
+      - { kind: try-kaezy }
       - { kind: pay-kaezy, label: "See plans" }
   - q: How do I pay?
     a: With MTN MoMo or Airtel Money, inside the app.
@@ -505,11 +588,11 @@ faq:
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
     actions:
-      - { kind: get-app, label: "Download the App" }
+      - { kind: get-app }
   - q: Does Ka-Ezy help with livestock too?
     a: "Yes. Choose the crops and animals you keep, and Ka-Ezy gives advice for them. It can also check livestock symptoms."
     actions:
-      - { kind: try-kaezy, label: "Try Ka-Ezy" }
+      - { kind: try-kaezy }
   - q: Is Ka-Ezy always right?
     a: "Ka-Ezy is an AI assistant and can make mistakes. For serious problems, talk to an agronomist or a vet."
 

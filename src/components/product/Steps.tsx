@@ -1,109 +1,245 @@
 import Image from "next/image";
-import type { Product } from "@/lib/content";
+import type { Product, Step } from "@/lib/content";
+import { Highlight } from "@/components/home/parts";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import type { BandTone } from "./tones";
 
-// Full class names so Tailwind can find them. More than four steps stay a
-// vertical list: narrower columns would wrap into tall, hard-to-scan blocks.
-const ROW_COLUMNS: Record<number, string> = {
-  2: "lg:grid-cols-2",
-  3: "lg:grid-cols-3",
-  4: "lg:grid-cols-4",
+// Number chips in the brand colours, white numbers on each (guide: solid
+// blue, green or navy circles), each in a halo of its own tint: the stronger
+// tint on the tinted band, where the soft one would all but vanish. The
+// numbers are large bold text, so accent-bright (the exact Vibrant Green)
+// passes. Blue and green alternate (the logo blue and Dark Navy look too
+// alike side by side). Full class strings so Tailwind can find them.
+const CHIPS: Record<BandTone, string[]> = {
+  canvas: ["bg-brand text-on-brand ring-brand-soft", "bg-accent-bright text-on-accent ring-accent-soft"],
+  subtle: [
+    "bg-brand text-on-brand ring-brand-soft-strong",
+    "bg-accent-bright text-on-accent ring-accent-soft-strong",
+  ],
 };
 
-// Number circles in the brand colours, white numbers on each (guide: solid
-// blue, green or navy circles). The numbers are large bold text, so
-// accent-bright (the exact Vibrant Green) passes.
-// Blue and green alternate (the logo blue and Dark Navy look too alike side by side).
-const CIRCLES = ["bg-brand text-on-brand", "bg-accent-bright text-on-accent"];
+// The line from one chip to the next fades from its colour into the next
+// one's (the line adds the direction: down a column, or across the row).
+const LINKS = ["from-brand to-accent-bright", "from-accent-bright to-brand"];
+
+// How the steps run from md up. Below md every list is the vertical stepper:
+// one card under another, the chips joined by a line down the left.
+// `columnEnd` hides that line under the last step of a column.
+const FLOWS = {
+  // One column (beside a portrait photo, or a single step).
+  stack: { columns: 1, list: "", columnEnd: "" },
+  // Two columns from md, filled top to bottom (1 and 2 on the left, 3 and
+  // 4 on the right), so the line still runs down each column. Without a
+  // photo this is about half the height of one column, and each text runs
+  // about twice as wide as in a row of four.
+  pairs: {
+    columns: 2,
+    list: "md:grid md:grid-flow-col md:grid-cols-2 md:gap-x-6",
+    columnEnd: "md:hidden",
+  },
+  // The same from md to lg only, above a landscape photo; from lg the steps
+  // stand in one column beside the photo.
+  pairsUntilLg: {
+    columns: 2,
+    list: "md:max-lg:grid md:max-lg:grid-flow-col md:max-lg:grid-cols-2 md:max-lg:gap-x-6",
+    columnEnd: "md:max-lg:hidden",
+  },
+  // Three in a row from lg (three steps, no photo), the chips on a line
+  // across the top of their cards.
+  row: { columns: 3, list: "lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-8", columnEnd: "lg:hidden" },
+} as const;
+
+type Flow = keyof typeof FLOWS;
+
+// Where the header, the steps and the photo sit. Stacked, they come in that
+// order, the photo cropped to a fixed ratio. Side by side, the photo fills
+// (object-cover) the height the steps give it, so its top and bottom edges
+// line up with the cards beside it.
+const LAYOUTS = {
+  // Portrait (or square). Below md: the photo square, a crop that keeps the
+  // subject of each portrait photo in frame (Ka-Ezy's faces sit in the top
+  // third, Produce Market's farmer in the lower half; a wider crop cuts one
+  // or the other). md to lg: the header across the top, then the photo
+  // beside the steps, half and half, which keeps the photo close to its own
+  // shape. From lg: the photo on the left, as tall as the eyebrow, title and
+  // steps on the right.
+  portrait: {
+    grid: "md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-x-12",
+    header: "md:col-span-2 md:row-start-1 lg:col-span-1 lg:col-start-2",
+    list: "-mt-2 md:col-start-2 md:row-start-2",
+    flow: "stack",
+    photo:
+      "aspect-square md:col-start-1 md:row-start-2 md:-mt-2 md:aspect-auto md:min-h-96 lg:row-span-2 lg:row-start-1 lg:mt-0",
+    // A little above centre, for the faces in the Ka-Ezy photo.
+    position: "object-[50%_35%]",
+    // Filling its box, the photo is drawn up to about 470px wide from md.
+    sizes: "(min-width: 768px) 480px, calc(100vw - 32px)",
+  },
+  // Landscape. Stacked, the photo is cropped wider at each step up (3:2,
+  // 2:1, then 5:2 under the two columns of steps from md). From lg: the
+  // eyebrow, title and photo on the left, the steps down the right. The
+  // first card is level with the eyebrow, the last card's bottom with the
+  // photo's. The photo's column is the wider, so beside the steps it keeps
+  // close to its own shape.
+  landscape: {
+    grid: "lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12",
+    header: "lg:col-start-1 lg:row-start-1",
+    list: "-mt-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0",
+    flow: "pairsUntilLg",
+    photo:
+      "aspect-[3/2] sm:aspect-[2/1] md:aspect-[5/2] lg:col-start-1 lg:row-start-2 lg:-mt-2 lg:aspect-auto lg:min-h-64",
+    // Right of centre, where the logo is on the bag in Agrishop's photo (the
+    // only landscape one): from 1024px to about 1130px the box is narrower
+    // than the photo, and a centred crop would put the wordmark's end on
+    // the edge. Elsewhere the crop is top and bottom only.
+    position: "object-[65%_50%]",
+    // Filling its box, the photo is drawn up to about 620px wide from lg.
+    sizes: "(min-width: 1024px) 620px, calc(100vw - 32px)",
+  },
+} as const;
 
 /**
- * How to get started, as a numbered timeline. With the product's photo (a
- * real photo from the field), the two share one band: the photo on the
- * left, the steps listed down the right. Without one, the steps run in a
- * row with connecting lines from lg up (vertical on phones).
+ * How to get started, as a numbered stepper: each step a white card beside
+ * a big number chip, the chips joined by a line that fades from one chip's
+ * colour into the next. Product names in the steps are green (on white).
+ *
+ * With the product's photo (a real photo from the field), the two share one
+ * band and their edges line up (see LAYOUTS). Without one, the steps fill
+ * two columns from md (see FLOWS); three steps run in a row from lg, the
+ * chips on a line across the top of their cards, and the titles and texts
+ * start level across the row (subgrid), however they wrap.
  */
 export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
   const { steps, photo } = product;
-  // Beside a photo the column is narrow, so the steps always stack.
-  const columns = photo ? undefined : ROW_COLUMNS[steps.items.length];
-
-  const list = (
-    <ol className={`grid ${columns ? `${columns} lg:gap-6` : ""}`}>
-      {steps.items.map((step, i) => {
-        const last = i === steps.items.length - 1;
-        return (
-          <li
-            key={step.title}
-            className={`relative flex gap-4 ${last ? "" : "pb-8"} ${columns ? "lg:flex-col lg:pb-0" : ""}`}
-          >
-            {last ? null : (
-              <>
-                {/* Down to the next number. */}
-                <span
-                  aria-hidden="true"
-                  className={`absolute top-14 bottom-2 left-6 w-0.5 -translate-x-1/2 rounded-pill bg-brand-soft-strong ${columns ? "lg:hidden" : ""}`}
-                />
-                {/* Across to the next column (lg row layout only). */}
-                {columns ? (
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-6 left-16 -right-2 hidden h-0.5 -translate-y-1/2 rounded-pill bg-brand-soft-strong lg:block"
-                  />
-                ) : null}
-              </>
-            )}
-            {/* The <ol> already numbers the steps for screen readers. */}
-            <span
-              aria-hidden="true"
-              className={`flex size-12 shrink-0 items-center justify-center rounded-full text-xl font-heading ${CIRCLES[i % CIRCLES.length]}`}
-            >
-              {i + 1}
-            </span>
-            <div className={`min-w-0 pt-2 ${columns ? "lg:pt-0" : ""}`}>
-              <h3 className="text-xl font-heading text-title">{step.title}</h3>
-              <p className="mt-1 text-base text-pretty text-body">{step.text}</p>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+  const count = steps.items.length;
+  const header = (
+    <SectionHeader id="how-it-works-title" eyebrow="How it works" title={steps.title} wide={!photo} />
   );
 
   if (!photo) {
     return (
       <Section id="how-it-works" tone={tone} labelledBy="how-it-works-title">
-        <SectionHeader id="how-it-works-title" eyebrow="How it works" title={steps.title} />
-        {list}
+        {header}
+        <StepList
+          items={steps.items}
+          tone={tone}
+          flow={count === 3 ? "row" : count > 1 ? "pairs" : "stack"}
+          className="-mt-2"
+        />
       </Section>
     );
   }
 
   const { image } = photo;
-  const portrait = image.height > image.width;
+  const layout = LAYOUTS[image.height >= image.width ? "portrait" : "landscape"];
   return (
     <Section id="how-it-works" tone={tone} labelledBy="how-it-works-title">
-      <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-        {/* Lazy-loaded: always well below the fold. Portrait photos stay narrow. */}
-        <div className={portrait ? "mx-auto w-full max-w-sm md:mr-0" : "w-full"}>
+      <div className={`grid grid-cols-1 ${layout.grid}`}>
+        <div className={layout.header}>{header}</div>
+        <StepList
+          items={steps.items}
+          tone={tone}
+          flow={count > 1 ? layout.flow : "stack"}
+          stretch
+          className={layout.list}
+        />
+        {/* Lazy-loaded: always well below the fold. */}
+        <div className={`relative mt-8 overflow-hidden rounded-media ${layout.photo}`}>
           <Image
             src={image.src}
             alt={image.alt}
-            width={image.width}
-            height={image.height}
-            sizes={
-              portrait
-                ? "(min-width: 640px) 384px, calc(100vw - 32px)"
-                : "(min-width: 1152px) 528px, (min-width: 768px) calc(50vw - 72px), calc(100vw - 32px)"
-            }
-            className="h-auto w-full rounded-media"
+            fill
+            sizes={layout.sizes}
+            className={`object-cover ${layout.position}`}
           />
-        </div>
-        <div>
-          <SectionHeader id="how-it-works-title" eyebrow="How it works" title={steps.title} />
-          {list}
         </div>
       </div>
     </Section>
+  );
+}
+
+function StepList({
+  items,
+  tone,
+  flow,
+  stretch = false,
+  className,
+}: {
+  items: Step[];
+  tone: BandTone;
+  flow: Flow;
+  /** Share out any spare height of the list between the cards, so the last
+   *  card's bottom still meets the photo's when the photo is the taller. */
+  stretch?: boolean;
+  className: string;
+}) {
+  const { columns, list, columnEnd } = FLOWS[flow];
+  const row = flow === "row";
+  // Steps per column (in the lg row, one each).
+  const perColumn = Math.ceil(items.length / columns);
+
+  return (
+    // role="list": Safari drops the list role from unstyled lists.
+    <ol
+      role="list"
+      className={`flex flex-col gap-3 sm:gap-4 ${list} ${className}`}
+      // Filled column by column, two columns need their row count. Only read
+      // where the list is that grid (see FLOWS); a flex column ignores it.
+      style={columns === 2 ? { gridTemplateRows: `repeat(${perColumn}, auto)` } : undefined}
+    >
+      {items.map((step, i) => {
+        const last = i === items.length - 1;
+        return (
+          <li
+            key={step.title}
+            // In the lg row each step spans three rows of the list's grid
+            // (chip, title, text) and its card the last two, so across the
+            // row the titles share a line and the texts start level.
+            className={`relative flex gap-3 sm:gap-4 ${stretch ? "flex-auto" : ""} ${
+              row ? "lg:row-span-3 lg:grid lg:grid-cols-1 lg:grid-rows-subgrid" : ""
+            }`}
+          >
+            {last ? null : (
+              // Down to the next chip, through the gap between the cards.
+              <span
+                aria-hidden="true"
+                className={`absolute top-12 -bottom-3 left-6 w-0.5 -translate-x-1/2 rounded-pill bg-linear-to-b ${LINKS[i % 2]} sm:top-14 sm:-bottom-4 sm:left-7 ${
+                  (i + 1) % perColumn === 0 ? columnEnd : ""
+                }`}
+              />
+            )}
+            {row && !last ? (
+              // Across to the next chip (lg row only).
+              <span
+                aria-hidden="true"
+                className={`absolute top-7 left-14 -right-6 hidden h-0.5 -translate-y-1/2 rounded-pill bg-linear-to-r ${LINKS[i % 2]} lg:block`}
+              />
+            ) : null}
+            {/* Beside its card: top level with the card's, centre on the
+                title's first line. In the lg row it heads the card.
+                Screen readers get the number from the heading. */}
+            <span
+              aria-hidden="true"
+              className={`relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full text-xl font-heading tabular-nums ring-4 sm:size-14 sm:text-2xl ${CHIPS[tone][i % 2]}`}
+            >
+              {i + 1}
+            </span>
+            <div
+              className={`min-w-0 flex-1 rounded-card bg-card px-4 py-3 shadow-card ring-1 ring-line sm:px-5 sm:py-4 ${
+                row ? "lg:row-span-2 lg:grid lg:grid-rows-subgrid lg:gap-y-0" : ""
+              }`}
+            >
+              <h3 className="text-lg font-heading text-balance text-title">
+                <span className="sr-only">Step {i + 1}: </span>
+                {step.title}
+              </h3>
+              <p className="mt-1 text-base text-pretty text-body">
+                <Highlight text={step.text} />
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

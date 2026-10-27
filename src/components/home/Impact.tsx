@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getSite, isVisible, visible } from "@/lib/content";
 import { Container } from "@/components/ui/Container";
+import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 
 /**
@@ -52,7 +53,7 @@ export function Impact() {
               <div key={item.label} className="flex min-w-0 flex-col-reverse justify-end border-l-2 border-accent-bright pl-3 lg:pl-4">
                 {/* dt comes first in the DOM so screen readers say the label, then the number. */}
                 <dt className="mt-1 text-base text-on-inverse">
-                  {item.label}
+                  <KeepHyphensTogether text={item.label} />
                   {item.pending ? <PendingBadge note={item.note} /> : null}
                 </dt>
                 <dd className={`text-3xl font-heading tracking-heading text-accent-bright tabular-nums ${image ? "xl:text-5xl" : "sm:text-4xl"}`}>

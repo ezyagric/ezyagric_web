@@ -3,6 +3,7 @@ import { getSite, type IconName, type ImageData } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
+import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 
 /**
  * For cooperatives and agribusinesses: what the web portal does, and the way in.
@@ -33,7 +34,9 @@ export function Organisations() {
                 className="flex items-center gap-3 rounded-card bg-card px-3 py-2.5 text-base text-body shadow-card ring-1 ring-line lg:text-sm xl:text-base"
               >
                 <IconCircle name={point.icon} color={i % 2 ? "accent" : "brand"} size="sm" />
-                <span className="min-w-0">{point.text}</span>
+                <span className="min-w-0">
+                  <KeepHyphensTogether text={point.text} />
+                </span>
               </li>
             ))}
           </ul>

@@ -24,7 +24,7 @@ card:
 hero:
   eyebrow: Produce Market · Sell your harvest
   headline: Post your harvest on the EzyAgric market
-  intro: "List your crops, animals and farm products in a few taps. You choose the quantity, the unit and your asking price."
+  intro: "List your ==crops, animals and farm products== in ==a few taps==. You choose the quantity, the unit and ==your asking price==."
   image:
     src: /images/products/produce-market.webp
     alt: A farmer at a market stall of fresh produce
@@ -83,7 +83,7 @@ faq:
   - q: Does it cost anything to list?
     a: No. Listing your produce is free.
     actions:
-      - { kind: get-app, label: "List your produce" }
+      - { kind: get-app }
   - q: Who sets the price?
     a: You do. Set your own asking price per unit.
   - q: How do buyers contact me?

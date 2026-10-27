@@ -54,7 +54,8 @@ export function Footer() {
               logo's clear space (half the mark's height, about 21px). */}
           <Logo variant="white" loading="lazy" className="h-16 w-auto" />
           <p className="mt-6 text-lg font-label">{site.slogan}</p>
-          {/* "Download the App" links across the site jump here, on every page. */}
+          {/* The id keeps /#get-the-app working for links from outside the site
+              (campaigns, messages); on the site, store badges sit where they're needed. */}
           <div id={GET_THE_APP_ID}>
             <StoreBadges campaign="general" medium="footer" size="md" onDark className="mt-6" />
           </div>

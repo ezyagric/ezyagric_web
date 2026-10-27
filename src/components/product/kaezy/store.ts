@@ -8,7 +8,8 @@ import { EMPTY_PROFILE, type Profile } from "./personalise";
 // first client render see the empty state, then the saved one.
 
 export type Tab = "expert" | "plan" | "records" | "mapping";
-export const TABS: Tab[] = ["expert", "plan", "records", "mapping"];
+/** In the order the tabs show. */
+export const TABS: Tab[] = ["expert", "mapping", "plan", "records"];
 
 export type FarmRecord = {
   type: "income" | "expense" | "activity";
@@ -32,10 +33,29 @@ export type PlanResult = {
 
 export type MapResult = { acres: number; m2: number; perimeter: number };
 
+/**
+ * A photo in the visitor's message: a sample photo from the site, or a small
+ * JPEG copy of their own (see photo.ts), kept with the conversation. The
+ * size keeps its space in the conversation while it loads.
+ */
+export type Photo = { src: string; alt: string; width: number; height: number };
+
+/** Ka-Ezy's photo check of a sample photo, as the app shows it. */
+export type Diagnosis = {
+  kind: "pest" | "disease";
+  name: string;
+  crop: string;
+  intro: string;
+  signs: string[];
+  steps: string[];
+};
+
 type Base = { id: string };
 export type Message = Base &
   (
-    | { from: "you" | "kaezy" | "nudge" | "limit" | "error"; text: string }
+    | { from: "you"; text: string; photo?: Photo }
+    | { from: "kaezy" | "nudge" | "limit" | "error"; text: string }
+    | { from: "diagnosis"; diagnosis: Diagnosis }
     | { from: "plan"; plan: PlanResult }
     | { from: "record"; text: string; records: FarmRecord[]; status: "pending" | "saved" | "dismissed" }
     | { from: "map"; text: string; map: MapResult }
@@ -95,17 +115,52 @@ const isRecord = (r: unknown): r is FarmRecord => {
   );
 };
 
+// Only these can be shown as a photo: a JPEG data URL (the visitor's own
+// photo, at most a few hundred KB) or one of the site's sample photos.
+const OWN_PHOTO = /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/;
+const SAMPLE_PHOTO = /^\/images\/diagnosis\/[a-z0-9-]+\.svg$/;
+export const MAX_PHOTO_LENGTH = 400_000;
+
+const isSize = (value: unknown) => typeof value === "number" && value >= 1 && value <= 4000;
+const isPhoto = (p: unknown): p is Photo => {
+  const v = p as Photo | null;
+  return (
+    !!v &&
+    isString(v.alt) &&
+    isSize(v.width) &&
+    isSize(v.height) &&
+    isString(v.src) &&
+    v.src.length <= MAX_PHOTO_LENGTH &&
+    (OWN_PHOTO.test(v.src) || SAMPLE_PHOTO.test(v.src))
+  );
+};
+
+const isStrings = (value: unknown): value is string[] => Array.isArray(value) && value.every(isString);
+
 /** A saved message that could not render (old version, edited by hand) is dropped. */
 function isMessage(m: unknown): m is Message {
   const v = m as Record<string, unknown> | null;
   if (!v || !isString(v.id)) return false;
   switch (v.from) {
     case "you":
+      return isString(v.text) && (v.photo === undefined || isPhoto(v.photo));
     case "kaezy":
     case "nudge":
     case "limit":
     case "error":
       return isString(v.text);
+    case "diagnosis": {
+      const d = v.diagnosis as Diagnosis | undefined;
+      return (
+        !!d &&
+        (d.kind === "pest" || d.kind === "disease") &&
+        isString(d.name) &&
+        isString(d.crop) &&
+        isString(d.intro) &&
+        isStrings(d.signs) &&
+        isStrings(d.steps)
+      );
+    }
     case "plan": {
       const plan = v.plan as PlanResult | undefined;
       return !!plan && isString(plan.title) && Array.isArray(plan.rows) && !!plan.harvest;
@@ -156,13 +211,35 @@ function load(): DemoState {
   }
 }
 
-function set(next: DemoState) {
-  state = next;
+function save(next: DemoState): boolean {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(next));
+    return true;
   } catch {
-    // Storage full or blocked: the demo still works, it just won't remember.
+    return false;
   }
+}
+
+/** The state without the visitor's own photos (their messages keep the text). */
+function withoutOwnPhotos(s: DemoState): DemoState {
+  return {
+    ...s,
+    conversations: s.conversations.map((c) => ({
+      ...c,
+      messages: c.messages.map((m) => {
+        if (m.from !== "you" || !m.photo || !OWN_PHOTO.test(m.photo.src)) return m;
+        return { id: m.id, from: m.from, text: m.text };
+      }),
+    })),
+  };
+}
+
+function set(next: DemoState) {
+  state = next;
+  // Storage full (photos are the big part): keep everything but the
+  // visitor's photos, which still show until the page is left. Blocked
+  // storage: the demo still works, it just won't remember.
+  if (!save(next)) save(withoutOwnPhotos(next));
   for (const listener of listeners) listener();
 }
 

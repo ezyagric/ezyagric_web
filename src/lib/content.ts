@@ -101,14 +101,19 @@ export type Step = z.infer<typeof Step>;
  * A button under a FAQ answer. `kind` says where it goes (resolved in
  * ui/faqActions.ts, so links follow the build): the Ka-Ezy demo or its plans,
  * the store badges, WhatsApp or a call to the team, or a site page (`href`).
+ * "try-kaezy" is always the site's one Try Ka-Ezy button and "get-app" the
+ * store badges, so those two take no `label`; every other kind needs one.
  */
 const FaqAction = z
   .object({
     kind: z.enum(["try-kaezy", "pay-kaezy", "get-app", "whatsapp", "call", "page"]),
-    label: z.string(),
+    label: z.string().optional(),
     href: z.string().startsWith("/").optional(),
   })
-  .refine((a) => a.kind !== "page" || !!a.href, { message: 'A "page" action needs an href' });
+  .refine((a) => a.kind !== "page" || !!a.href, { message: 'A "page" action needs an href' })
+  .refine((a) => (a.kind === "try-kaezy" || a.kind === "get-app") === !a.label, {
+    message: '"try-kaezy" and "get-app" actions take no label; every other action needs one',
+  });
 export type FaqAction = z.infer<typeof FaqAction>;
 
 const Faq = z.object({
@@ -300,6 +305,52 @@ const ProductSchema = z.object({
         nudge: z.string(),
         disclaimer: z.string(),
       }),
+      /**
+       * Farm Expert's photo check (the app's diagnosis mode). Sample photos get
+       * their sample diagnosis; with sample answers, the visitor's own photo
+       * gets `ownPhotoReply`, since nothing on the page can check it.
+       */
+      diagnosis: z.object({
+        title: z.string(),
+        text: z.string(),
+        upload: z.string(),
+        samplesTitle: z.string(),
+        /** Names a sample photo button for screen readers, before its question. */
+        sampleLabel: z.string(),
+        attach: z.string(),
+        remove: z.string(),
+        added: z.string(),
+        unreadable: z.string(),
+        placeholder: z.string(),
+        /** Sent with a photo when the visitor types nothing. */
+        question: z.string(),
+        photoAlt: z.string(),
+        privacy: z.string(),
+        privacyLive: z.string(),
+        ownPhotoReply: z.string(),
+        pest: z.string(),
+        disease: z.string(),
+        signs: z.string(),
+        steps: z.string(),
+        sampleNote: z.string(),
+        nudge: z.string(),
+        samples: z
+          .array(
+            z.object({
+              crop: z.string(),
+              kind: z.enum(["pest", "disease"]),
+              name: z.string(),
+              // Only these paths can be shown from a saved conversation (kaezy/store.ts).
+              photo: Image.extend({ src: z.string().regex(/^\/images\/diagnosis\/[a-z0-9-]+\.svg$/) }),
+              question: z.string(),
+              intro: z.string(),
+              signs: z.array(z.string()).min(1).max(4),
+              steps: z.array(z.string()).min(1).max(5),
+            }),
+          )
+          .min(1)
+          .max(4),
+      }),
       plan: z.object({
         intro: z.string(),
         variety: z.string(),
@@ -409,8 +460,6 @@ const SiteSchema = z.object({
       text: z.string(),
       /** Used while the website demo is not shown (production, until it is approved). */
       appText: z.string(),
-      link: z.string(),
-      appLink: z.string(),
     }),
     pay: z.object({ title: z.string(), text: z.string(), link: z.string() }),
     app: z.object({ title: z.string(), text: z.string() }),
@@ -502,7 +551,7 @@ const SiteSchema = z.object({
     items: z.array(Faq),
     /** The card beside the questions: ask Ka-Ezy, or the team on WhatsApp. */
     help: z
-      .object({ title: z.string(), text: z.string(), kaezy: z.string(), whatsapp: z.string() })
+      .object({ title: z.string(), text: z.string(), whatsapp: z.string() })
       .optional(),
   }),
   contact: z.object({

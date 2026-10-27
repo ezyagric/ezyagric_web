@@ -46,12 +46,17 @@ export type KaEzyReply = {
 };
 
 export type AskOptions = {
-  /** The app's agent modes; "farm_plan" takes the plan form as a JSON question. */
-  mode?: "chat" | "farm_plan";
+  /**
+   * The app's agent modes; "farm_plan" takes the plan form as a JSON
+   * question, "diagnosis" a photo check ({type, symptoms, notes} as JSON).
+   */
+  mode?: "chat" | "farm_plan" | "diagnosis";
   /** "Your farm", so Ka-Ezy can tailor its answer. */
   profile?: Profile;
   /** The conversation's Ka-Ezy thread, so each conversation keeps its own context. */
   threadId?: string;
+  /** Photos for a photo check, as JPEG (see photo.ts). */
+  photos?: Blob[];
 };
 
 export interface KaEzyChatService {
@@ -72,7 +77,8 @@ export interface KaEzyService extends KaEzyChatService {
   ): Promise<PayResult>;
 }
 
-function wait(ms: number, signal: AbortSignal): Promise<void> {
+/** Waits `ms`, like an answer on its way; rejects if the visitor leaves (`signal`). */
+export function wait(ms: number, signal: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {
     if (signal.aborted) return reject(signal.reason);
     const timer = window.setTimeout(resolve, ms);
@@ -129,8 +135,9 @@ export function demoService({
 
 /**
  * Ka-Ezy's real answers through the website's guest demo endpoint. The page
- * sends the question, a conversation id, the mode, and whatever the visitor
- * gave in "Your farm" (first name, location, value chain, acres). Never a
+ * sends the question, a conversation id, the mode, whatever the visitor gave
+ * in "Your farm" (first name, location, value chain, acres) and, for a photo
+ * check, the photo (as the app does: JPEG files named `images`). Never a
  * phone number or account: the server answers as a demo identity, limits how
  * much each visitor can ask, and only accepts this site. Same request fields
  * as the app's POST /ai-query; same response shape ({response, thread_id,
@@ -138,7 +145,7 @@ export function demoService({
  */
 export function liveChatService({ endpoint }: { endpoint: string }): KaEzyChatService {
   return {
-    async ask(question, signal, { mode = "chat", profile, threadId = newThreadId() } = {}) {
+    async ask(question, signal, { mode = "chat", profile, threadId = newThreadId(), photos = [] } = {}) {
       const body = new FormData();
       body.set("question", question);
       body.set("thread_id", threadId);
@@ -149,6 +156,7 @@ export function liveChatService({ endpoint }: { endpoint: string }): KaEzyChatSe
       if (profile?.location.trim()) body.set("farmer_location", profile.location.trim());
       if (profile?.valueChain) body.set("value_chains", JSON.stringify([profile.valueChain]));
       if (acres) body.set("land_size_acres", formatAcres(acres));
+      for (const photo of photos) body.append("images", photo, "photo.jpg");
       // Ka-Ezy turns can take over a minute (the app allows 180 s).
       const timed = withTimeout(signal, 120_000);
       let response: Response;

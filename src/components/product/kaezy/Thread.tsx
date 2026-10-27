@@ -5,7 +5,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { formatUgx } from "./format";
 import { acresText } from "./personalise";
 import { MiniMarkdown } from "./MiniMarkdown";
-import type { FarmRecord, MapResult, Message, PlanResult } from "./store";
+import type { Diagnosis, FarmRecord, MapResult, Message, PlanResult } from "./store";
 
 /** Words the thread shows, from content/products/ka-ezy.yaml. */
 export type ThreadLabels = {
@@ -17,6 +17,13 @@ export type ThreadLabels = {
   /** "Use {mapped} acres in Your farm" */
   mapUse: string;
   mapPlan: string;
+  /** The photo check's card: "Pest detected", "Disease detected", "What I see", "What to do". */
+  pest: string;
+  disease: string;
+  signs: string;
+  steps: string;
+  diagnosisNote: string;
+  diagnosisNudge: string;
 };
 
 // The app's typing indicator cycles these while Ka-Ezy works.
@@ -112,14 +119,17 @@ export function Thread({
 }) {
   // Scroll inside the thread only, never the page. While Ka-Ezy thinks, show
   // the bottom; when an answer lands, put the question above it at the top,
-  // so a long answer is read from its start.
+  // so a long answer is read from its start. A tall question (one with a
+  // photo) goes up further, ending halfway down, so the answer still shows.
   useEffect(() => {
     const thread = threadRef.current;
     if (!thread) return;
     const questions = thread.querySelectorAll<HTMLElement>("[data-from='you']");
     const last = questions[questions.length - 1];
     if (!last) return;
-    thread.scrollTop = thinking ? thread.scrollHeight : last.offsetTop - 12;
+    thread.scrollTop = thinking
+      ? thread.scrollHeight
+      : Math.max(last.offsetTop - 12, last.offsetTop + last.offsetHeight - thread.clientHeight / 2);
   }, [messages, thinking, threadRef]);
 
   return (
@@ -137,10 +147,26 @@ export function Thread({
             case "you":
               return (
                 <div key={message.id} data-from="you" className="flex justify-end">
-                  <p className="max-w-[85%] rounded-card rounded-br-none bg-brand-soft px-4 py-2.5 text-base wrap-anywhere text-title">
-                    <span className="sr-only">You: </span>
-                    {message.text}
-                  </p>
+                  {message.photo ? (
+                    // The photo on top, the question under it, in one bubble.
+                    <div className="max-w-[85%] overflow-hidden rounded-card rounded-br-none bg-brand-soft">
+                      <span className="sr-only">You: </span>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- a sample photo, or the visitor's own as a data URL */}
+                      <img
+                        src={message.photo.src}
+                        alt={message.photo.alt}
+                        width={message.photo.width}
+                        height={message.photo.height}
+                        className="block h-auto max-h-64 w-52 max-w-full object-cover"
+                      />
+                      <p className="w-52 max-w-full px-4 py-2.5 text-base wrap-anywhere text-title">{message.text}</p>
+                    </div>
+                  ) : (
+                    <p className="max-w-[85%] rounded-card rounded-br-none bg-brand-soft px-4 py-2.5 text-base wrap-anywhere text-title">
+                      <span className="sr-only">You: </span>
+                      {message.text}
+                    </p>
+                  )}
                 </div>
               );
             case "kaezy":
@@ -156,6 +182,12 @@ export function Thread({
                 <KaEzyBubble key={message.id} avatar={avatar}>
                   <p>{message.text}</p>
                   <HireLink href={hireHref}>{labels.seePlans}</HireLink>
+                </KaEzyBubble>
+              );
+            case "diagnosis":
+              return (
+                <KaEzyBubble key={message.id} avatar={avatar}>
+                  <DiagnosisCard diagnosis={message.diagnosis} hireHref={hireHref} labels={labels} />
                 </KaEzyBubble>
               );
             case "plan":
@@ -279,6 +311,62 @@ function RecordCard({
           {message.status === "saved" ? labels.recordSaved : message.status === "dismissed" ? labels.recordDismissed : null}
         </p>
       )}
+    </div>
+  );
+}
+
+/**
+ * Ka-Ezy's photo check, as the app shows it: what it found, what it sees in
+ * the photo and what to do.
+ */
+function DiagnosisCard({
+  diagnosis,
+  hireHref,
+  labels,
+}: {
+  diagnosis: Diagnosis;
+  hireHref: string;
+  labels: ThreadLabels;
+}) {
+  return (
+    <div>
+      <p>{diagnosis.intro}</p>
+      <div className="mt-3 overflow-hidden rounded-control border border-line bg-card">
+        <p className="flex items-center gap-2 border-b border-line px-3 py-2 text-xs text-label-style text-label">
+          <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-danger" />
+          {diagnosis.kind === "pest" ? labels.pest : labels.disease}
+        </p>
+        <div className="px-3 py-3 text-sm">
+          <p className="text-lg font-heading text-title">{diagnosis.name}</p>
+          <p className="text-muted">{diagnosis.crop}</p>
+          <p className="mt-3 font-heading text-title">{labels.signs}</p>
+          {/* role="list": Safari drops the list role from unstyled lists. */}
+          <ul role="list" className="mt-1.5 space-y-1">
+            {diagnosis.signs.map((sign) => (
+              <li key={sign} className="flex gap-2">
+                <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-secondary" />
+                {sign}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 font-heading text-title">{labels.steps}</p>
+          <ol role="list" className="mt-1.5 space-y-2">
+            {diagnosis.steps.map((step, i) => (
+              <li key={step} className="flex gap-2">
+                <span
+                  aria-hidden="true"
+                  className="flex size-5 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-heading text-on-brand"
+                >
+                  {i + 1}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+      <p className="mt-3 text-sm text-muted">{labels.diagnosisNote}</p>
+      <HireLink href={hireHref}>{labels.diagnosisNudge}</HireLink>
     </div>
   );
 }

@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { Check, CheckCircle2, ChevronLeft, Loader2, ShieldCheck, XCircle } from "lucide-react";
+import { Check, ChevronLeft, Loader2, ShieldCheck, XCircle } from "lucide-react";
 import type { Product } from "@/lib/content";
+import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { buttonClasses } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
+import { IconCircle } from "@/components/ui/IconCircle";
 import {
   NETWORKS,
   formatUgPhone,
@@ -48,10 +51,33 @@ const monthsText = (months: number) => `${months} month${months === 1 ? "" : "s"
 /** "6-month plan" */
 const planLabel = (months: number) => `${months}-month plan`;
 
+// Plan cards side by side from md: three (the app's plans) in a row, two or
+// four as twos. Full class strings so Tailwind can find them.
+const PLAN_COLUMNS: Record<number, string> = {
+  1: "",
+  2: "md:grid-cols-2",
+  3: "md:grid-cols-3",
+  4: "md:grid-cols-2",
+};
+
+// The plan and network choices: whole-card radios, with a blue border and
+// tint once chosen and the focus ring on the card (the radio draws none).
+const RADIO_CARD =
+  "cursor-pointer rounded-card border-2 border-line transition-colors hover:border-secondary has-[:checked]:border-secondary has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus";
+
 /**
  * "Hire Ka-Ezy": choose a plan, pay with MTN MoMo or Airtel Money, approve
  * the prompt on the phone, done. Redrawn from the app's plan list, Mobile
  * Money sheet and progress messages, in the website's theme.
+ *
+ * One card in two parts: Hire Ka-Ezy on navy (the step, as words and a bar,
+ * and the demo note on preview builds), then the current step. Below lg the
+ * navy part is a short header, so the plans start near the card's top (the
+ * "Pay for Ka-Ezy" links land here), and why farmers hire Ka-Ezy follows the
+ * plans. From lg they sit side by side: the navy column is as wide as the
+ * demo's "Your farm" column above (20rem, less this card's 1px border), so
+ * their edges line up, and the reasons move to its foot, level with the
+ * step's buttons.
  */
 export function HireKaEzy({
   id,
@@ -158,322 +184,421 @@ export function HireKaEzy({
     <div
       id={id}
       tabIndex={-1}
-      className="rounded-card border border-line bg-card p-5 shadow-card sm:p-6"
+      className="grid grid-cols-1 overflow-hidden rounded-card border border-line bg-card shadow-card lg:grid-cols-[minmax(0,calc(20rem_-_1px))_minmax(0,1fr)]"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <h3 className="text-2xl font-heading tracking-heading text-heading">{hire.title}</h3>
-        <p className="text-sm text-label-style text-label">
-          Step {stepNumber} of {totalSteps}
-        </p>
+      {/* Hire Ka-Ezy on navy, with Ka-Ezy's icon as a faint watermark. */}
+      <div className="relative isolate flex flex-col overflow-hidden bg-inverse p-5 text-on-inverse sm:p-6">
+        <Icon name="bot" className="absolute -right-8 -bottom-10 -z-10 size-44 -rotate-12 text-on-inverse/10" />
+        <div className="flex items-center gap-3">
+          <IconCircle name="wallet" color="accent" />
+          <div className="min-w-0">
+            <h3 className="text-2xl font-heading tracking-heading text-on-inverse">{hire.title}</h3>
+            <p className="text-sm text-label-style text-on-inverse">
+              Step {stepNumber} of {totalSteps}
+            </p>
+          </div>
+        </div>
+        {/* The same progress as a bar, one segment per step (the line above says it in words). */}
+        <span aria-hidden="true" className="mt-4 flex max-w-sm gap-1.5">
+          {Array.from({ length: totalSteps }, (_, i) => (
+            <span
+              key={i}
+              className={`h-1.5 flex-1 rounded-pill ${i < stepNumber ? "bg-accent-bright" : "bg-on-inverse/20"}`}
+            />
+          ))}
+        </span>
+        {payMode === "demo" ? (
+          <p className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
+            Demo: no request leaves this page and no money is taken.
+          </p>
+        ) : null}
+        {/* Why farmers hire Ka-Ezy, from lg: beside every step, at the column's
+            foot. Below lg the plan step shows them under the plans instead. */}
+        <Benefits items={hire.benefits} invert className="max-lg:hidden lg:mt-auto lg:pt-6" />
       </div>
-      {payMode === "demo" ? (
-        <p className="mt-2 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
-          Demo: no request leaves this page and no money is taken.
-        </p>
-      ) : null}
 
-      {step === "plan" ? (
-        <form
-          // method="dialog": before the scripts load, Continue does nothing
-          // instead of reloading the page.
-          method="dialog"
-          className="mt-5"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setStep(payMode === "demo" ? "pay" : "app");
-          }}
-        >
-          <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-            Choose your plan
-          </h4>
-          <p className="mt-1 text-base text-muted">{hire.intro}</p>
-          <fieldset className="mt-4">
-            <legend className="sr-only">Ka-Ezy plan</legend>
-            <div className="grid gap-3 md:grid-cols-3">
-              {plans.map((p, i) => (
-                <label
-                  key={p.name}
-                  className="group flex cursor-pointer items-start gap-3 rounded-card border-2 border-line p-4 transition-colors hover:border-secondary has-[:checked]:border-secondary has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus"
-                >
-                  <input
-                    type="radio"
-                    name="kaezy-plan"
-                    checked={i === planIndex}
-                    onChange={() => setPlanIndex(i)}
-                    className="mt-1 size-5 shrink-0 accent-secondary focus-visible:outline-none"
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-center gap-2">
-                      <span className="font-heading text-title">{p.name}</span>
-                      {p.badge ? (
-                        <span className="rounded-pill bg-accent px-2 py-0.5 text-xs font-label text-on-primary">
-                          {p.badge}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="mt-0.5 block text-sm text-muted">{planLine(p.months)}</span>
-                    <span className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3">
-                      <span className="text-sm text-body">{formatUgx(p.monthlyUgx)} a month</span>
-                      {/* Darker green on the selected card's tint (4.5:1+). */}
-                      <span className="font-heading text-accent group-has-[:checked]:text-accent-hover">
-                        {formatUgx(p.months * p.monthlyUgx)}
-                        <span className="font-label text-sm text-muted"> for {monthsText(p.months)}</span>
+      {/* The current step. Steps with buttons fill the column, so the buttons sit at its foot. */}
+      <div className="flex min-w-0 flex-col p-5 sm:p-6">
+        {step === "plan" ? (
+          <form
+            // method="dialog": before the scripts load, Continue does nothing
+            // instead of reloading the page.
+            method="dialog"
+            className="flex flex-1 flex-col"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setStep(payMode === "demo" ? "pay" : "app");
+            }}
+          >
+            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+              Choose your plan
+            </h4>
+            <p className="mt-1 text-base text-muted">{hire.intro}</p>
+            <fieldset className="mt-4">
+              <legend className="sr-only">Ka-Ezy plan</legend>
+              <div className={`grid grid-cols-1 gap-3 ${PLAN_COLUMNS[plans.length] ?? "md:grid-cols-3"}`}>
+                {plans.map((p, i) => (
+                  // A card per plan: name and saving, the app's subtitle, then
+                  // the price. On phones they stack; from sm (one per row) the
+                  // price moves to the right. From md (side by side) each card
+                  // spans two rows of this grid (subgrid), so the prices share
+                  // a row and line up whatever wraps above or beside them.
+                  // A little less side padding from lg to xl, where the cards
+                  // are narrowest beside the navy column.
+                  <label
+                    key={p.name}
+                    className={`group relative flex flex-col gap-3 overflow-hidden p-4 sm:flex-row sm:items-center sm:justify-between md:row-span-2 md:grid md:grid-rows-subgrid md:items-start md:justify-normal lg:px-3.5 xl:px-4 ${RADIO_CARD}`}
+                  >
+                    {/* The plan the content highlights carries a thin signature
+                        gradient strip along its top (its price card in
+                        components/product/Pricing has a gradient header). */}
+                    {p.highlight ? (
+                      <span aria-hidden="true" className="gradient-brand-decor absolute inset-x-0 top-0 h-2" />
+                    ) : null}
+                    <span className="min-w-0">
+                      {/* The saving goes under the name only if a card is too narrow for both. */}
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <input
+                          type="radio"
+                          name="kaezy-plan"
+                          checked={i === planIndex}
+                          onChange={() => setPlanIndex(i)}
+                          className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
+                        />
+                        <span className="font-heading text-title">{p.name}</span>
+                        {p.badge ? (
+                          <span className="ml-auto rounded-pill bg-accent px-2 py-0.5 text-xs font-label text-on-primary sm:ml-0 md:ml-auto">
+                            {p.badge}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="mt-1 block text-sm text-muted">
+                        <KeepHyphensTogether text={planLine(p.months)} />
                       </span>
                     </span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+                    <span className="block shrink-0 sm:text-right md:text-left">
+                      {/* Darker green on the selected card's tint. One step smaller
+                          from lg to xl, so "a month" stays on the price's line. */}
+                      <span className="block text-2xl font-heading tracking-heading text-accent group-has-[:checked]:text-accent-hover lg:text-xl xl:text-2xl">
+                        {formatUgx(p.monthlyUgx)}
+                        <span className="text-sm font-label tracking-normal text-muted"> a month</span>
+                      </span>
+                      <span className="block text-sm text-muted">
+                        <span className="font-label text-title">{formatUgx(p.months * p.monthlyUgx)}</span>{" "}
+                        <span className="whitespace-nowrap">for {monthsText(p.months)}</span>
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
-          <ul className="mt-5 space-y-2">
-            {hire.benefits.map((benefit) => (
-              <li key={benefit} className="flex items-start gap-2 text-base text-body">
-                <CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-accent-bright" />
-                {benefit}
-              </li>
-            ))}
-          </ul>
+            {/* Below lg (where the navy part is only a header), the reasons
+                follow the plans; one copy or the other is display:none. */}
+            <Benefits items={hire.benefits} className="mt-5 lg:hidden" />
 
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
-            <p>
-              <span className="block text-sm text-muted">Pay today</span>
-              <span className="text-2xl font-heading tracking-heading text-accent">{formatUgx(total)}</span>
-            </p>
-            <button
-              type="submit"
-              data-track="kaezy_hire_continue"
-              data-track-plan={plan.name}
-              className={`${buttonClasses("primary")} cursor-pointer`}
-            >
-              Continue
-            </button>
-          </div>
-        </form>
-      ) : null}
+            <Actions className="justify-between">
+              <p>
+                <span className="block text-sm text-muted">Pay today</span>
+                <span className="text-2xl font-heading tracking-heading text-accent">{formatUgx(total)}</span>
+              </p>
+              {/* Fills the row beside the total on phones (full width once it wraps). */}
+              <button
+                type="submit"
+                data-track="kaezy_hire_continue"
+                data-track-plan={plan.name}
+                className={`${buttonClasses("primary")} grow cursor-pointer whitespace-nowrap sm:grow-0`}
+              >
+                Continue
+              </button>
+            </Actions>
+          </form>
+        ) : null}
 
-      {step === "pay" ? (
-        <form method="dialog" className="mt-5" onSubmit={onPay} noValidate>
-          <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-            Pay with Mobile Money
-          </h4>
-          <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
+        {step === "pay" ? (
+          <form method="dialog" className="flex flex-1 flex-col" onSubmit={onPay} noValidate>
+            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+              Pay with Mobile Money
+            </h4>
+            <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
 
-          <fieldset className="mt-5" aria-describedby={errors.network ? "kaezy-network-error" : undefined}>
-            <legend className="text-base font-label text-title">Mobile Money network</legend>
-            <div className="mt-2 grid grid-cols-2 gap-3">
-              {(Object.keys(NETWORKS) as Network[]).map((key) => (
-                <label
-                  key={key}
-                  className="flex min-h-14 cursor-pointer items-center gap-3 rounded-card border-2 border-line px-3 transition-colors hover:border-secondary has-[:checked]:border-secondary has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus"
-                >
-                  <input
-                    id={`kaezy-network-${key}`}
-                    type="radio"
-                    name="kaezy-network"
-                    checked={network === key}
-                    onChange={() => {
-                      setNetwork(key);
-                      setNetworkPicked(true);
-                      setErrors((e) => ({ ...e, network: undefined }));
-                    }}
-                    className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
-                  />
-                  {/* eslint-disable-next-line @next/next/no-img-element -- small static logo */}
-                  <img src={NETWORKS[key].logo} alt="" width={120} height={120} className="size-8 rounded-control" />
-                  <span className="text-base font-label text-title">{NETWORKS[key].name}</span>
-                </label>
-              ))}
-            </div>
-            {errors.network ? <FieldError id="kaezy-network-error">{errors.network}</FieldError> : null}
-          </fieldset>
+            <fieldset className="mt-4" aria-describedby={errors.network ? "kaezy-network-error" : undefined}>
+              <legend className="text-base font-label text-title">Mobile Money network</legend>
+              {/* One per row on phones, where two side by side are too narrow
+                  for the radio, the logo and the name. */}
+              <div className="mt-2 grid gap-2 sm:grid-cols-2 sm:gap-3">
+                {(Object.keys(NETWORKS) as Network[]).map((key) => (
+                  <label key={key} className={`flex min-h-12 items-center gap-3 px-3 py-1.5 ${RADIO_CARD}`}>
+                    <input
+                      id={`kaezy-network-${key}`}
+                      type="radio"
+                      name="kaezy-network"
+                      checked={network === key}
+                      onChange={() => {
+                        setNetwork(key);
+                        setNetworkPicked(true);
+                        setErrors((e) => ({ ...e, network: undefined }));
+                      }}
+                      className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
+                    />
+                    {/* eslint-disable-next-line @next/next/no-img-element -- small static logo */}
+                    <img
+                      src={NETWORKS[key].logo}
+                      alt=""
+                      width={120}
+                      height={120}
+                      className="size-8 shrink-0 rounded-control"
+                    />
+                    <span className="min-w-0 text-base font-label text-title">{NETWORKS[key].name}</span>
+                  </label>
+                ))}
+              </div>
+              {errors.network ? <FieldError id="kaezy-network-error">{errors.network}</FieldError> : null}
+            </fieldset>
 
-          <PhoneField
-            id="kaezy-paying"
-            label="Mobile Money number"
-            hint="The number that pays. You approve the payment on this phone."
-            value={paying}
-            onChange={onPayingChange}
-            error={errors.paying}
-          />
-
-          <label className="mt-4 flex min-h-11 cursor-pointer items-start gap-3 text-base text-body">
-            <input
-              type="checkbox"
-              checked={sameNumber}
-              onChange={(event) => setSameNumber(event.target.checked)}
-              className="mt-1 size-5 shrink-0 accent-secondary"
-            />
-            I use this number in the EzyAgric App
-          </label>
-          {sameNumber ? (
-            <p className="mt-1 pl-8 text-sm text-muted">{hire.accountHelp}</p>
-          ) : (
             <PhoneField
-              id="kaezy-account"
-              label="EzyAgric App number"
-              hint={hire.accountHelp}
-              value={account}
-              onChange={(value) => {
-                setAccount(value);
-                if (ugNationalNumber(value)) setErrors((e) => ({ ...e, account: undefined }));
-              }}
-              error={errors.account}
+              id="kaezy-paying"
+              label="Mobile Money number"
+              hint="The number that pays. You approve the payment on this phone."
+              value={paying}
+              onChange={onPayingChange}
+              error={errors.paying}
             />
-          )}
 
-          <p className="mt-5 flex items-start gap-2 text-sm text-muted">
-            <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
-            <span>
-              <span className="font-label text-title">100% safe.</span> {hire.policy}
-            </span>
-          </p>
+            {/* The padding makes the whole line a 44px+ tap target; the help
+                below follows it closely. */}
+            <label className="mt-2 flex min-h-11 cursor-pointer items-start gap-3 py-2.5 text-base text-body">
+              <input
+                type="checkbox"
+                checked={sameNumber}
+                onChange={(event) => setSameNumber(event.target.checked)}
+                className="mt-1 size-5 shrink-0 accent-secondary"
+              />
+              I use this number in the EzyAgric App
+            </label>
+            {sameNumber ? (
+              <p className="pl-8 text-sm text-muted">{hire.accountHelp}</p>
+            ) : (
+              <PhoneField
+                id="kaezy-account"
+                label="EzyAgric App number"
+                hint={hire.accountHelp}
+                value={account}
+                onChange={(value) => {
+                  setAccount(value);
+                  if (ugNationalNumber(value)) setErrors((e) => ({ ...e, account: undefined }));
+                }}
+                error={errors.account}
+              />
+            )}
 
-          <fieldset className="mt-5 rounded-control border border-dashed border-review bg-review-soft p-3">
-            <legend className="px-1 text-sm font-label text-review">Demo only: what happens next?</legend>
-            <div className="flex flex-wrap gap-x-4 gap-y-1">
-              {(
-                [
-                  ["approved", "Approved"],
-                  ["declined", "Declined"],
-                  ["timed_out", "Timed out"],
-                ] as const
-              ).map(([value, label]) => (
-                <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-body">
-                  <input
-                    type="radio"
-                    name="kaezy-demo-outcome"
-                    checked={outcome === value}
-                    onChange={() => setOutcome(value)}
-                    className="size-4 accent-secondary"
-                  />
-                  {label}
-                </label>
-              ))}
+            <p className="mt-4 flex items-start gap-2 text-sm text-muted">
+              <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
+              <span>
+                <span className="font-label text-title">100% safe.</span> {hire.policy}
+              </span>
+            </p>
+
+            <fieldset className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-1">
+              <legend className="px-1 text-sm font-label text-review">Demo only: what happens next?</legend>
+              <div className="flex flex-wrap gap-x-4 gap-y-1">
+                {(
+                  [
+                    ["approved", "Approved"],
+                    ["declined", "Declined"],
+                    ["timed_out", "Timed out"],
+                  ] as const
+                ).map(([value, label]) => (
+                  <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-body">
+                    <input
+                      type="radio"
+                      name="kaezy-demo-outcome"
+                      checked={outcome === value}
+                      onChange={() => setOutcome(value)}
+                      className="size-4 accent-secondary"
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            {/* nowrap: on the narrowest phones Pay takes its own full-width
+                line rather than breaking its amount over two. */}
+            <Actions>
+              <button
+                type="button"
+                onClick={() => restart("plan")}
+                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
+              >
+                <ChevronLeft aria-hidden="true" className="size-5" />
+                Back
+              </button>
+              <button
+                type="submit"
+                data-track="kaezy_hire_pay"
+                data-track-plan={plan.name}
+                data-track-network={network ?? "none"}
+                className={`${buttonClasses("primary")} flex-1 cursor-pointer whitespace-nowrap`}
+              >
+                Pay {formatUgx(total)}
+              </button>
+            </Actions>
+          </form>
+        ) : null}
+
+        {step === "progress" ? (
+          <div>
+            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+              Approve on your phone
+            </h4>
+            <ProgressList
+              status={status}
+              total={total}
+              phone={payingNational ? formatUgPhone(payingNational) : ""}
+              network={network ?? "mtn"}
+            />
+          </div>
+        ) : null}
+
+        {step === "done" ? (
+          <div className="flex flex-1 flex-col">
+            <div className="flex items-center gap-3">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent-bright text-on-accent">
+                <Check aria-hidden="true" className="size-7" />
+              </span>
+              <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
+                Ka-Ezy is hired!
+              </h4>
             </div>
-          </fieldset>
-
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => restart("plan")}
-              className={`${buttonClasses("secondary")} cursor-pointer`}
-            >
-              <ChevronLeft aria-hidden="true" className="size-5" />
-              Back
-            </button>
-            <button
-              type="submit"
-              data-track="kaezy_hire_pay"
-              data-track-plan={plan.name}
-              data-track-network={network ?? "none"}
-              className={`${buttonClasses("primary")} flex-1 cursor-pointer`}
-            >
-              Pay {formatUgx(total)}
-            </button>
+            <p className="mt-3 text-base text-body">
+              Your {planLabel(plan.months)} is active on{" "}
+              <span className="font-label text-title">
+                {accountNational ? formatUgPhone(accountNational) : ""}
+              </span>
+              . Open the EzyAgric App and sign in with this number to start asking Ka-Ezy.
+            </p>
+            <Actions>
+              {storeBadges}
+              <button
+                type="button"
+                onClick={() => restart("plan")}
+                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
+              >
+                Start again
+              </button>
+            </Actions>
           </div>
-        </form>
-      ) : null}
+        ) : null}
 
-      {step === "progress" ? (
-        <div className="mt-5">
-          <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-            Approve on your phone
-          </h4>
-          <ProgressList
-            status={status}
-            total={total}
-            phone={payingNational ? formatUgPhone(payingNational) : ""}
-            network={network ?? "mtn"}
-          />
-        </div>
-      ) : null}
-
-      {step === "done" ? (
-        <div className="mt-5">
-          <span className="flex size-14 items-center justify-center rounded-full bg-accent-bright text-on-accent">
-            <Check aria-hidden="true" className="size-8" />
-          </span>
-          <h4 ref={headingRef} tabIndex={-1} className="mt-4 text-2xl font-heading tracking-heading text-heading">
-            Ka-Ezy is hired!
-          </h4>
-          <p className="mt-2 text-base text-body">
-            Your {planLabel(plan.months)} is active on{" "}
-            <span className="font-label text-title">
-              {accountNational ? formatUgPhone(accountNational) : ""}
-            </span>
-            . Open the EzyAgric App and sign in with this number to start asking Ka-Ezy.
-          </p>
-          <div className="mt-5">{storeBadges}</div>
-          <button
-            type="button"
-            onClick={() => restart("plan")}
-            className={`${buttonClasses("secondary")} mt-6 cursor-pointer`}
-          >
-            Start again
-          </button>
-        </div>
-      ) : null}
-
-      {step === "failed" ? (
-        <div className="mt-5">
-          <XCircle aria-hidden="true" className="size-12 text-danger" />
-          <h4 ref={headingRef} tabIndex={-1} className="mt-3 text-2xl font-heading tracking-heading text-heading">
-            Payment not completed
-          </h4>
-          <p className="mt-2 text-base text-body">
-            {result === "expired"
-              ? "The prompt timed out before it was approved. No money was taken."
-              : "Your payment did not go through. No money was taken."}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" onClick={() => restart("pay")} className={`${buttonClasses("primary")} cursor-pointer`}>
-              Try again
-            </button>
-            <button
-              type="button"
-              onClick={() => restart("plan")}
-              className={`${buttonClasses("secondary")} cursor-pointer`}
-            >
-              Change plan
-            </button>
+        {step === "failed" ? (
+          <div className="flex flex-1 flex-col">
+            <div className="flex items-center gap-3">
+              <XCircle aria-hidden="true" className="size-12 shrink-0 text-danger" />
+              <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
+                Payment not completed
+              </h4>
+            </div>
+            <p className="mt-3 text-base text-body">
+              {result === "expired"
+                ? "The prompt timed out before it was approved. No money was taken."
+                : "Your payment did not go through. No money was taken."}
+            </p>
+            <Actions>
+              <button
+                type="button"
+                onClick={() => restart("pay")}
+                className={`${buttonClasses("primary")} cursor-pointer whitespace-nowrap`}
+              >
+                Try again
+              </button>
+              <button
+                type="button"
+                onClick={() => restart("plan")}
+                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
+              >
+                Change plan
+              </button>
+            </Actions>
           </div>
-        </div>
-      ) : null}
+        ) : null}
 
-      {step === "app" ? (
-        <div className="mt-5">
-          <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-            Finish in the EzyAgric App
-          </h4>
-          <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
-          <p className="mt-4 text-base text-body">{hire.appHandoff}</p>
-          <div className="mt-5">{storeBadges}</div>
-          <button
-            type="button"
-            onClick={() => restart("plan")}
-            className={`${buttonClasses("secondary")} mt-6 cursor-pointer`}
-          >
-            <ChevronLeft aria-hidden="true" className="size-5" />
-            Back
-          </button>
-        </div>
-      ) : null}
+        {step === "app" ? (
+          <div className="flex flex-1 flex-col">
+            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+              Finish in the EzyAgric App
+            </h4>
+            <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
+            <p className="mt-4 text-base text-body">{hire.appHandoff}</p>
+            <Actions>
+              {storeBadges}
+              <button
+                type="button"
+                onClick={() => restart("plan")}
+                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
+              >
+                <ChevronLeft aria-hidden="true" className="size-5" />
+                Back
+              </button>
+            </Actions>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
 
+/**
+ * A step's buttons, on a divided line at the foot of the step (from lg,
+ * level with the reasons at the foot of the navy column).
+ */
+function Actions({ className = "", children }: { className?: string; children: ReactNode }) {
+  return (
+    <div className="mt-auto pt-5">
+      <div className={`flex flex-wrap items-center gap-3 border-t border-line pt-5 ${className}`}>{children}</div>
+    </div>
+  );
+}
+
+/** Why farmers hire Ka-Ezy, ticked: white on the navy column, body text on the card. */
+function Benefits({ items, invert = false, className }: { items: string[]; invert?: boolean; className: string }) {
+  return (
+    <ul className={`space-y-2.5 ${className}`}>
+      {items.map((benefit) => (
+        <li
+          key={benefit}
+          className={`flex items-start gap-2.5 text-base ${invert ? "text-on-inverse" : "text-body"}`}
+        >
+          <span
+            aria-hidden="true"
+            className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent-bright text-on-accent"
+          >
+            <Check className="size-3.5" strokeWidth={3} />
+          </span>
+          <span className="min-w-0">{benefit}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** The chosen plan on one line ("6-month plan · UGX 28,500"; two on phones), with Change. */
 function PlanSummary({ plan, total, onChange }: { plan: HirePlan; total: number; onChange: () => void }) {
   return (
-    <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-control bg-subtle px-4 py-3">
-      <p>
-        <span className="block font-heading text-title">{planLabel(plan.months)}</span>
-        <span className="text-lg font-heading text-accent">{formatUgx(total)}</span>
+    <div className="mt-3 flex items-center justify-between gap-3 rounded-control bg-subtle py-1 pr-1 pl-4">
+      {/* The real spaces keep the plan and the amount apart for screen readers,
+          which skip the dot; with px-1 they space the dot as px-2 alone did. */}
+      <p className="min-w-0 py-1.5">
+        <span className="font-heading text-title">{planLabel(plan.months)}</span>{" "}
+        <span aria-hidden="true" className="px-1 text-muted max-sm:hidden">
+          ·
+        </span>{" "}
+        <span className="block font-heading text-accent sm:inline">{formatUgx(total)}</span>
       </p>
       <button
         type="button"
         onClick={onChange}
-        className="min-h-11 cursor-pointer rounded-control px-2 font-heading text-link hover:underline"
+        className="min-h-11 shrink-0 cursor-pointer rounded-control px-3 font-heading text-link hover:underline"
       >
         Change<span className="sr-only"> plan</span>
       </button>
@@ -497,7 +622,7 @@ function PhoneField({
   error?: string;
 }) {
   return (
-    <div className="mt-5">
+    <div className="mt-4">
       <label htmlFor={id} className="text-base font-label text-title">
         {label}
       </label>

@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
 import { hasTryIt } from "@/components/product/kaezy/TryKaEzy";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink, type ButtonVariant } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
@@ -13,15 +13,65 @@ import { StoreBadges } from "@/components/ui/StoreBadges";
 /** Ka-Ezy's face, for small round avatars. */
 export const KAEZY_AVATAR = "/images/products/ka-ezy-avatar.webp";
 
-/** The footer's store badges carry this id, so "Download the App" works on every page. */
+/** The footer's store badges carry this id, a jump target on every page for links from outside the site. */
 export const GET_THE_APP_ID = "get-the-app";
 
-/** The banner's id on the Ka-Ezy page, where the hero's "Watch" link and the menus' strip point. */
+/** The banner's id on the Ka-Ezy page, where the menus' "See Ka-Ezy in action" points. */
 export const KAEZY_BANNER_ID = "kaezy-banner";
 
-/** "Try Ka-Ezy": the demo on the Ka-Ezy page when it is shown, else the Ka-Ezy page. */
-export function kaezyTryHref(): string {
-  return targets().try;
+/** Each banner's "Download the App" step carries this id: `${banner id}-app`. */
+function appStepId(bannerId: string): string {
+  return `${bannerId}-app`;
+}
+
+/**
+ * "Try Ka-Ezy": the demo on the Ka-Ezy page when it is shown, else the Ka-Ezy
+ * page. `page` is the product page the link sits on: on the Ka-Ezy page itself
+ * the demo is a jump down the page, and without the demo (production) the
+ * link goes to the "Download the App" step of the banner under the hero
+ * instead of reloading the same page (its store badges carry the Ka-Ezy
+ * campaign, so installs from it still count for Ka-Ezy).
+ */
+export function kaezyTryHref(page?: string): string {
+  const to = targets();
+  if (page !== "ka-ezy") return to.try;
+  return to.tryOnSite ? "#try-ka-ezy" : `#${appStepId(KAEZY_BANNER_ID)}`;
+}
+
+/**
+ * The one "Try Ka-Ezy" button, reused wherever the site invites people to try
+ * Ka-Ezy (home hero, this banner, FAQ answers and help cards, the Ka-Ezy
+ * page): always the same label and robot icon, going to kaezyTryHref(), with
+ * the green fill unless a FAQ answer lists it second. `position` tells the
+ * clicks apart in analytics.
+ */
+export function TryKaEzyButton({
+  position,
+  page,
+  variant = "primary",
+  size = "md",
+  className = "",
+}: {
+  position: string;
+  /** The product page it sits on, if any (see kaezyTryHref). */
+  page?: string;
+  variant?: ButtonVariant;
+  size?: "md" | "lg";
+  className?: string;
+}) {
+  return (
+    <ButtonLink
+      href={kaezyTryHref(page)}
+      variant={variant}
+      size={size}
+      track="kaezy_try_click"
+      trackProps={{ position }}
+      className={`whitespace-nowrap ${className}`}
+    >
+      <Icon name="bot" className="size-5 shrink-0" />
+      {getSite().kaezyBanner.try.title}
+    </ButtonLink>
+  );
 }
 
 /** "Pay for Ka-Ezy": the hire section on the Ka-Ezy page when it is shown, else its price cards. */
@@ -63,7 +113,7 @@ function targets() {
  * edge with the steps card (the video is at least its 9:16 height and
  * stretches when the steps run taller, e.g. a wrapped title).
  */
-export function KaEzyBanner({ id, position }: { id: string; position: string }) {
+export function KaEzyBanner({ id, position, page }: { id: string; position: string; page?: string }) {
   const { kaezyBanner: copy } = getSite();
   const video = bannerVideo(getProduct("ka-ezy"));
   const to = targets();
@@ -132,15 +182,7 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
             text={to.tryOnSite ? copy.try.text : copy.try.appText}
             highlight
           >
-            <ButtonLink
-              href={to.try}
-              track="kaezy_banner_click"
-              trackProps={trackProps("try")}
-              className="w-full whitespace-nowrap sm:w-auto"
-            >
-              {to.tryOnSite ? copy.try.link : copy.try.appLink}
-              <span className="sr-only">: {copy.try.title}</span>
-            </ButtonLink>
+            <TryKaEzyButton position={position} page={page} className="w-full sm:w-auto" />
           </Step>
           <Step n={2} icon="wallet" color="deep" title={copy.pay.title} text={copy.pay.text}>
             <ButtonLink
@@ -154,7 +196,14 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
               <span className="sr-only">: {copy.pay.title}</span>
             </ButtonLink>
           </Step>
-          <Step n={3} icon="smartphone" color="brand" title={copy.app.title} text={copy.app.text}>
+          <Step
+            id={appStepId(id)}
+            n={3}
+            icon="smartphone"
+            color="brand"
+            title={copy.app.title}
+            text={copy.app.text}
+          >
             <StoreBadges campaign="ka-ezy" medium={position} size="md" className="sm:justify-end" />
           </Step>
         </ol>
@@ -164,6 +213,7 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
 }
 
 function Step({
+  id,
   n,
   icon,
   color,
@@ -180,10 +230,12 @@ function Step({
   /** The first step a visitor should take, on a soft tint. */
   highlight?: boolean;
   children: ReactNode;
+  id?: string;
 }) {
   return (
     // One line from sm: icon, title and text, then the action on the right.
     <li
+      id={id}
       className={`flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5 xl:py-5 ${highlight ? "bg-brand-soft" : ""}`}
     >
       <div className="flex min-w-0 flex-1 items-center gap-4">

@@ -20,7 +20,7 @@ card:
 hero:
   eyebrow: EzyCredits · Wallet and Pay Later
   headline: Pay for your farm now, or later
-  intro: "Top up when you have cash. If you qualify, use Pay Later when you don't. EzyCredits gives you two ways to pay for inputs, feeds and vet care on Agrishop."
+  intro: "==Top up== when you have cash. If you qualify, use ==Pay Later== when you don't. EzyCredits gives you ==two ways to pay== for ==inputs, feeds and vet care== on Agrishop."
 
 cta:
   label: See if you qualify
@@ -141,11 +141,11 @@ faq:
   - q: How do I top up my Wallet?
     a: With MTN or Airtel Mobile Money, from your profile in the app.
     actions:
-      - { kind: get-app, label: "Download the App" }
+      - { kind: get-app }
   - q: Who can use Pay Later?
     a: "Farmers in Uganda who complete their profile can apply. Pezesha decides who gets credit, so not everyone is approved. Limits and terms are different for each farmer."
     actions:
-      - { kind: get-app, label: "See if you qualify" }
+      - { kind: get-app }
   - q: How much can I borrow?
     a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying."
   - q: Can I have two Pay Later loans at once?

@@ -3,8 +3,10 @@ import { visible, type Faq } from "@/lib/content";
 import { ButtonLink } from "./Button";
 import { resolveFaqActions } from "./faqActions";
 import { Icon } from "./Icon";
+import { KeepHyphensTogether } from "./KeepHyphens";
 import { PendingBadge } from "./Pending";
 import { StoreBadges } from "./StoreBadges";
+import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
 
 /**
  * Accordion of questions built on <details>, so it works without JavaScript.
@@ -13,9 +15,17 @@ import { StoreBadges } from "./StoreBadges";
  * lifts: its border turns secondary, its number green, and the plus turns
  * into a cross on a filled circle. An answer can end with up to two actions
  * (try Ka-Ezy, WhatsApp the team, ...): the first button is the main (green)
- * one, and "get the app" shows the official store badges instead of a button.
+ * one. "Try Ka-Ezy" is the site's one TryKaEzyButton and "get the app" shows
+ * the official store badges instead of a button.
  */
-export function FaqList({ items }: { items: Faq[] }) {
+export function FaqList({
+  items,
+  page,
+}: {
+  items: Faq[];
+  /** The product page the list sits on, if any (for the Try Ka-Ezy button's target). */
+  page?: string;
+}) {
   return (
     <div className="space-y-3">
       {visible(items).map((item, i) => {
@@ -34,7 +44,7 @@ export function FaqList({ items }: { items: Faq[] }) {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="min-w-0 flex-1">
-                {item.q}
+                <KeepHyphensTogether text={item.q} />
                 {item.pending ? <PendingBadge note={item.note} /> : null}
               </span>
               <span
@@ -49,7 +59,9 @@ export function FaqList({ items }: { items: Faq[] }) {
             </summary>
             {/* pl-13: the answer and its buttons line up with the question, past the number. */}
             <div className="pb-5 sm:pl-13">
-              <p className="text-base text-pretty text-body">{item.a}</p>
+              <p className="text-base text-pretty text-body">
+                <KeepHyphensTogether text={item.a} />
+              </p>
               {actions.length > 0 ? (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   {actions.map((action, j) =>
@@ -59,6 +71,15 @@ export function FaqList({ items }: { items: Faq[] }) {
                         campaign="general"
                         medium="faq"
                         size="md"
+                      />
+                    ) : action.kind === "try-kaezy" ? (
+                      <TryKaEzyButton
+                        key={action.kind}
+                        // Not the help card's position ("faq", "faq-<page>"): the two are told apart.
+                        position={page ? `faq-answer-${page}` : "faq-answer"}
+                        page={page}
+                        variant={j === 0 ? "primary" : "secondary"}
+                        className="w-full sm:w-auto"
                       />
                     ) : (
                       <ButtonLink

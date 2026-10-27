@@ -1,69 +1,89 @@
 import Image from "next/image";
-import { isVisible, type Product } from "@/lib/content";
+import { isVisible, type Accent, type Product } from "@/lib/content";
 import { playStoreUrl } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
-import { ClaimText } from "@/components/ui/Pending";
+import { PendingBadge } from "@/components/ui/Pending";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StoreBadges } from "@/components/ui/StoreBadges";
-import { hasTryIt } from "./kaezy/TryKaEzy";
+import { Highlight } from "@/components/home/parts";
+import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
 import { PayWaysVisual } from "./PayWaysVisual";
 import { Wave } from "@/components/ui/Wave";
 
 /**
  * Product hero on plain white (brand guide: white carries the page, and the
  * product artwork is drawn on pure white). On a 360px phone the headline,
- * intro and the install buttons come first; the visual follows. Same layout
- * as the home hero, so the four pages feel like one family.
+ * intro, key facts and the install buttons come first; the visual follows.
+ * Same layout as the home hero, so the four pages feel like one family:
+ * product names in green, and from lg the intro centred between the
+ * headline and the buttons.
  */
 export function ProductHero({ product }: { product: Product }) {
-  const { hero, cta, availability } = product;
-  const tryHere = hasTryIt(product);
+  const { hero, cta } = product;
 
   return (
     <section aria-labelledby="product-title" className="overflow-hidden bg-canvas">
-      {/* 1.15fr: room for the try button and both store badges on one row at 1024px. */}
       {/* From lg the text column stretches to the visual's height: the eyebrow
           lines up with the top of the image and the button row with its
-          bottom. */}
-      <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch lg:gap-12">
+          bottom. 1.15fr and the 32px gap (as on the home hero) leave room
+          for the button and both store badges on one row at 1024px, even
+          beside a 17px scrollbar. Between lg and 72rem (where the container
+          stops growing) the visual is at its shortest, so the headline and
+          intro are a step smaller there to keep the text within its height
+          (10px to spare at worst: Agrishop at 1024px beside that scrollbar). */}
+      <Container className="grid items-center gap-8 pt-4 pb-12 sm:pt-5 sm:pb-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
         <div className="lg:flex lg:flex-col">
           <Eyebrow product={product} />
+          {/* Product names in Vibrant Green (large text, so accent-bright passes). */}
           <h1
             id="product-title"
-            className="mt-4 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl lg:text-6xl"
+            className="mt-3 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl min-[72rem]:text-6xl"
           >
-            {hero.headline}
+            <Highlight text={hero.headline} className="text-accent-bright" />
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl">{hero.intro}</p>
+          {/* From lg, centred between the headline and the buttons, as on the
+              home hero: the spare height goes evenly above and below it, and
+              py-2 is only the least it gets. */}
+          <p className="mt-3 max-w-xl text-lg text-pretty text-body sm:mt-4 sm:text-xl lg:my-auto lg:py-2 lg:text-lg min-[72rem]:text-xl">
+            <Highlight text={hero.intro} />
+          </p>
 
-          {/* The button and the store badges on one row, all 48px tall (full-width button on phones). */}
-          <div className="mt-7 flex flex-wrap items-center gap-3 lg:mt-auto lg:pt-7">
-            {/* Guide: primary buttons are a green fill, whatever the product. */}
-            {/* Ka-Ezy: "Try Ka-Ezy free" opens the demo on this page when it is
-                shown; otherwise (and for the other products) the app. */}
-            <ButtonLink
-              href={tryHere ? "#try-ka-ezy" : playStoreUrl(cta.campaign, "product-hero")}
-              track={tryHere ? "kaezy_try_hero" : "get_app_click"}
-              trackProps={{ product: product.slug, position: "product-hero" }}
-              className="w-full sm:w-auto"
-            >
-              <Icon name={product.icon} className="size-5" />
-              {cta.label}
-            </ButtonLink>
-            <StoreBadges campaign={cta.campaign} medium="product-hero" size="md" />
+          <div className="mt-6 lg:mt-0">
+            <FactChips product={product} />
+            {/* The button and the store badges on one row, all 48px tall
+                (full-width button on phones). From lg the row never wraps:
+                where it is tight (production, near 1024px) the "coming soon"
+                line beside the Google Play badge wraps instead, balanced so
+                no word is left on a line of its own. */}
+            <div className="flex flex-wrap items-center gap-3 lg:flex-nowrap">
+              {/* Guide: primary buttons are a green fill, whatever the product.
+                  Ka-Ezy: the site's one Try Ka-Ezy button (the demo on this
+                  page when it is shown, else the app); the other products
+                  open the app. */}
+              {product.slug === "ka-ezy" ? (
+                <TryKaEzyButton position="product-hero" page="ka-ezy" className="w-full sm:w-auto lg:shrink-0" />
+              ) : (
+                <ButtonLink
+                  href={playStoreUrl(cta.campaign, "product-hero")}
+                  track="get_app_click"
+                  trackProps={{ product: product.slug, position: "product-hero" }}
+                  className="w-full sm:w-auto lg:shrink-0"
+                >
+                  <Icon name={product.icon} className="size-5" />
+                  {cta.label}
+                </ButtonLink>
+              )}
+              <StoreBadges
+                campaign={cta.campaign}
+                medium="product-hero"
+                size="md"
+                className="min-w-0 lg:flex-nowrap [&>p]:text-balance"
+              />
+            </div>
           </div>
-
-          {availability && isVisible(availability) ? (
-            <p className="mt-5 flex items-start gap-2 text-base text-muted">
-              <Icon name="map-pin" className="mt-0.5 size-5 shrink-0 text-accent-bright" />
-              <span>
-                <ClaimText claim={availability} />
-              </span>
-            </p>
-          ) : null}
         </div>
 
         <HeroVisual product={product} />
@@ -103,11 +123,74 @@ function Eyebrow({ product }: { product: Product }) {
   );
 }
 
+// The place chip takes the product's soft tint (as on its card on the home
+// page) with the map pin in its colour. Full class strings so Tailwind finds
+// them.
+const CHIP: Record<Accent, { tint: string; glyph: string }> = {
+  brand: { tint: "bg-brand-soft", glyph: "text-brand" },
+  accent: { tint: "bg-accent-soft", glyph: "text-accent" },
+  deep: { tint: "bg-brand-soft-strong", glyph: "text-inverse" },
+};
+
+/** "Available in Uganda. Free to list." → ["Available in Uganda", "Free to list"]. */
+function sentences(text: string): string[] {
+  return text
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim().replace(/\.$/, ""))
+    .filter(Boolean);
+}
+
+/**
+ * The availability line as chips, one per sentence: where the product is
+ * available, in the product's tint with a map pin, then any note that goes
+ * with it as a quiet white chip in muted text. A note can be a caveat
+ * ("Prices don't include transport") as well as a benefit ("Free to list"),
+ * so it never takes the place chip's emphasis. Nothing when the product has
+ * no availability line, or while it waits for confirmation in production.
+ */
+function FactChips({ product }: { product: Product }) {
+  const { availability, accent } = product;
+  if (!availability || !isVisible(availability)) return null;
+  const chip = CHIP[accent];
+
+  return (
+    <ul className="mb-3 flex flex-wrap items-center gap-2">
+      {sentences(availability.text).map((fact, i) =>
+        i === 0 ? (
+          <li
+            key={fact}
+            className={`flex min-h-7 items-center gap-1.5 rounded-pill px-3 py-0.5 text-sm font-label text-title ${chip.tint}`}
+          >
+            <Icon name="map-pin" className={`size-4 shrink-0 ${chip.glyph}`} />
+            {fact}
+          </li>
+        ) : (
+          <li
+            key={fact}
+            className="flex min-h-7 items-center rounded-pill border border-line bg-card px-3 py-0.5 text-sm text-muted"
+          >
+            {fact}
+          </li>
+        ),
+      )}
+      {availability.pending ? (
+        <li className="flex items-center">
+          <PendingBadge note={availability.note} />
+        </li>
+      ) : null}
+    </ul>
+  );
+}
+
 /**
  * The app screenshot beside the product artwork (Ka-Ezy), else the artwork
  * on its own, else, for EzyCredits, an HTML illustration of its two ways to
  * pay. The artwork is drawn on a pure white background, so it never
  * overlaps the phone or sits on a tint: it would show as a white box.
+ *
+ * Each visual's top and bottom edges are the ones the text column lines up
+ * with from lg. Should the text ever run taller, the visual keeps to the
+ * bottom (level with the buttons), as the phone and artwork pair does.
  */
 function HeroVisual({ product }: { product: Product }) {
   const { screenshot, image } = product.hero;
@@ -151,7 +234,7 @@ function HeroVisual({ product }: { product: Product }) {
       <PhoneFrame
         image={screenshot}
         preload
-        className="mx-auto w-52 sm:w-64 lg:w-72"
+        className="mx-auto w-52 sm:w-64 lg:w-72 lg:self-end"
         sizes="(min-width: 1024px) 288px, (min-width: 640px) 256px, 208px"
       />
     );
@@ -159,7 +242,7 @@ function HeroVisual({ product }: { product: Product }) {
 
   if (image) {
     return (
-      <div className="mx-auto w-full max-w-xs sm:max-w-sm">
+      <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:self-end">
         <Image
           src={image.src}
           alt={image.alt}
@@ -173,5 +256,12 @@ function HeroVisual({ product }: { product: Product }) {
     );
   }
 
-  return <PayWaysVisual product={product} />;
+  // The illustration ends 24px (its own py-6) below the "Top up with" pill;
+  // -mb-6 takes that back, so the pill is the bottom edge the buttons meet
+  // and the hero ends the same distance below it as the others.
+  return (
+    <div className="-mb-6 w-full lg:self-end">
+      <PayWaysVisual product={product} />
+    </div>
+  );
 }

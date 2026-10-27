@@ -1,9 +1,7 @@
 import { getSite } from "@/lib/content";
-import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
 import { StoreBadges } from "@/components/ui/StoreBadges";
-import { kaezyTryHref } from "@/components/promo/KaEzyBanner";
+import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
 import { Highlight } from "./parts";
 import { Wave } from "@/components/ui/Wave";
 import { HeroSlider } from "./HeroSlider";
@@ -64,15 +62,7 @@ export function Hero() {
           {/* As on the service pages: the try button and the store badges on
               one row, all 48px tall (full-width button on phones). */}
           <div className="mt-6 flex flex-wrap items-center gap-3 lg:mt-0">
-            <ButtonLink
-              href={kaezyTryHref()}
-              track="kaezy_try_hero"
-              trackProps={{ position: "home-hero" }}
-              className="w-full sm:w-auto"
-            >
-              <Icon name="bot" className="size-5" />
-              Try Ka-Ezy free
-            </ButtonLink>
+            <TryKaEzyButton position="home-hero" className="w-full sm:w-auto" />
             <StoreBadges campaign="general" medium="hero" size="md" />
           </div>
         </div>

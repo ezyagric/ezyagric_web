@@ -31,8 +31,6 @@ kaezyBanner:
     title: Try Ka-Ezy
     text: Ask Ka-Ezy a farm question right here and see how it answers.
     appText: Start free in the EzyAgric App. No payment needed.
-    link: Try it now
-    appLink: Start free
   pay:
     title: Pay
     text: Hire Ka-Ezy for 1 month for UGX 5,000, or save with 3 or 6 months. Pay with MTN MoMo or Airtel Money.
@@ -228,14 +226,13 @@ faq:
   help:
     title: Still have a question?
     text: Ask Ka-Ezy any farm question, day or night, or chat with our team on WhatsApp.
-    kaezy: Ask Ka-Ezy
     whatsapp: Chat on WhatsApp
   items:
     - q: Is the EzyAgric App free?
       a: "Yes. The app is free to download on Android from Google Play (and soon on iPhone from the App Store), and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."
       actions:
-        - { kind: try-kaezy, label: "Try it now" }
-        - { kind: get-app, label: "Download the App" }
+        - { kind: try-kaezy }
+        - { kind: get-app }
     - q: Where does EzyAgric work?
       a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
       actions:
@@ -245,7 +242,7 @@ faq:
       pending: true
       note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
       actions:
-        - { kind: try-kaezy, label: "Try Ka-Ezy" }
+        - { kind: try-kaezy }
     - q: How do I pay?
       a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
       actions:
@@ -253,7 +250,7 @@ faq:
     - q: Is there an iPhone app?
       a: "Coming soon. The EzyAgric App for iPhone launches on the App Store shortly. Until then, you can get it on Android from Google Play."
       actions:
-        - { kind: get-app, label: "Download the App" }
+        - { kind: get-app }
     - q: Can I get help from a person?
       a: "Yes. Chat with our team on WhatsApp or call us. Our contact details are below."
       actions:
