@@ -392,7 +392,7 @@ const SiteSchema = z.object({
     pay: z.object({ title: z.string(), text: z.string(), link: z.string() }),
     app: z.object({ title: z.string(), text: z.string() }),
     /** The one-line version for menus and the Ka-Ezy page. */
-    strip: z.object({ label: z.string(), watch: z.string(), try: z.string(), pay: z.string(), app: z.string() }),
+    strip: z.object({ label: z.string(), watch: z.string(), try: z.string(), pay: z.string() }),
   }),
   /** The iPhone app: the App Store badge appears once `url` is set (see StoreBadges). */
   appStore: z.object({

@@ -31,7 +31,7 @@ export function Footer() {
     {
       title: "EzyAgric",
       links: [
-        { href: "/#organisations", label: "For organisations" },
+        { href: "/#organisations", label: "For agribusinesses" },
         { href: "/#stories", label: "Stories" },
         { href: "/#faq", label: "FAQ" },
         { href: "/#contact-us", label: "Contact us" },

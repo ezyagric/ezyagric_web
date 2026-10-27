@@ -112,9 +112,9 @@
     line-height: var(--theme-leading-body);
   }
 
-  /* Anchor targets clear the sticky header (84px, 96px from lg). */
+  /* Anchor targets clear the sticky header (88px, 112px from lg). */
   [id] {
-    scroll-margin-top: 6.75rem;
+    scroll-margin-top: 7.5rem;
   }
 
   :focus-visible {

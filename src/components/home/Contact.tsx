@@ -8,14 +8,14 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { PendingBadge } from "@/components/ui/Pending";
 
 /**
- * Contact details: WhatsApp, call and email merged into one card of rows
- * (WhatsApp leads on a green tint: most farmers' first choice), beside the
- * office on a faint map grid. Side by side from lg, stacked below. Numbers
- * and addresses are visible text, not just link targets, so people can
- * copy them or dial from another phone.
+ * Contact details: WhatsApp, call, email and our social pages merged into
+ * one card of rows (WhatsApp leads on a green tint: most farmers' first
+ * choice), beside the office on a faint map grid. Side by side from lg,
+ * stacked below. Numbers and addresses are visible text, not just link
+ * targets, so people can copy them or dial from another phone.
  */
 export function Contact() {
-  const { contact } = getSite();
+  const { contact, social } = getSite();
   const { whatsapp, address } = contact;
   const phones = visible(contact.phones);
   const emails = visible(contact.emails);
@@ -70,6 +70,34 @@ export function Contact() {
               </ChannelButton>
             </Channel>
           ))}
+
+          {social.length > 0 ? (
+            <Channel
+              icon="globe"
+              color="brand"
+              label="Follow us"
+              value={
+                <ul aria-label="Social media" className="mt-1 flex flex-wrap gap-2">
+                  {social.map((s) => (
+                    <li key={s.name}>
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener"
+                        data-track="social_click"
+                        data-track-network={s.name}
+                        data-track-position="contact"
+                        className="inline-flex min-h-11 items-center rounded-pill border border-line bg-card px-3.5 text-sm font-label text-title transition-colors hover:border-secondary hover:text-link"
+                      >
+                        {s.name}
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              }
+            />
+          ) : null}
         </ul>
 
         {/* The office on a faint map grid, with a pin. */}
@@ -128,7 +156,8 @@ function Channel({
   value: ReactNode;
   /** The first choice, on a green tint. */
   lead?: boolean;
-  children: ReactNode;
+  /** The row's button; none for the social row (its links are the value). */
+  children?: ReactNode;
 }) {
   return (
     <li className={`flex flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4 sm:px-6 ${lead ? "bg-accent-soft" : ""}`}>
@@ -138,7 +167,7 @@ function Channel({
           {label}
           {badge}
         </h3>
-        <p className="text-lg font-heading text-title">{value}</p>
+        <div className="text-lg font-heading text-title">{value}</div>
       </div>
       {children}
     </li>

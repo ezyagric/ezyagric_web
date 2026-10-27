@@ -44,8 +44,7 @@ kaezyBanner:
     label: Ka-Ezy, your 24/7 farm expert
     watch: See Ka-Ezy in action
     try: Try Ka-Ezy
-    pay: Pay
-    app: Download the App
+    pay: Pay for Ka-Ezy
 
 # The iPhone app (launching on the App Store in late 2026). On launch day:
 #   1. Paste the app's App Store link into `url` (keep the quotes). The
@@ -309,13 +308,12 @@ partners:
           logo: { src: /images/partners/sunculture.webp, alt: "SunCulture", width: 320, height: 121 }
         - name: "Ensibuuko"
           logo: { src: /images/partners/ensibuuko.webp, alt: "Ensibuuko", width: 190, height: 128 }
-    - title: Financial partners
-      items:
+        # Lenders, listed with the commercial partners (team request, 27 Oct 2026).
         - name: "Pezesha"
           logo: { src: /images/partners/pezesha.webp, alt: "Pezesha", width: 198, height: 61 }
         - name: "Equity Bank"
           logo: { src: /images/partners/equity-bank.webp, alt: "Equity Bank", width: 196, height: 128 }
-    - title: Funding and strategic partners
+    - title: Strategic partners
       items:
         - name: "Mastercard Foundation"
           logo: { src: /images/partners/mastercard-foundation.webp, alt: "Mastercard Foundation", width: 135, height: 128 }

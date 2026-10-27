@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
 import { hasTryIt } from "@/components/product/kaezy/TryKaEzy";
@@ -23,6 +24,11 @@ export function kaezyTryHref(): string {
   return targets().try;
 }
 
+/** "Pay for Ka-Ezy": the hire section on the Ka-Ezy page when it is shown, else its price cards. */
+export function kaezyPayHref(): string {
+  return targets().pay;
+}
+
 /** The phone-shaped Ka-Ezy demo (demoVideos in ka-ezy.yaml): it plays inside the banner. */
 function bannerVideo(kaezy: Product | undefined) {
   return kaezy?.demoVideos?.items.find((video) => video.orientation === "portrait");
@@ -41,7 +47,6 @@ function targets() {
     watch: bannerVideo(kaezy) ? `/ka-ezy/#${KAEZY_BANNER_ID}` : "/#stories",
     try: onSite ? "/ka-ezy/#try-ka-ezy" : "/ka-ezy/",
     pay: onSite ? "/ka-ezy/#hire-ka-ezy" : "/ka-ezy/#pricing",
-    app: `#${GET_THE_APP_ID}`,
     tryOnSite: onSite,
   };
 }
@@ -206,19 +211,64 @@ function Step({
   );
 }
 
-/**
- * The one-line Ka-Ezy banner: the same four actions as pills, for the menus.
- * "See Ka-Ezy in action" opens the Ka-Ezy page's banner, where the demo plays.
- */
-export function KaEzyStrip({ position, className = "" }: { position: string; className?: string }) {
+/** The Ka-Ezy actions in the menus: watch, try and pay (the app has its own badges). */
+function menuActions(): { key: string; href: string; label: string; icon: IconName }[] {
   const { kaezyBanner: copy } = getSite();
   const to = targets();
-  const actions: { key: string; href: string; label: string; icon: IconName }[] = [
+  return [
     { key: "watch", href: to.watch, label: copy.strip.watch, icon: "play-circle" },
     { key: "try", href: to.try, label: copy.strip.try, icon: "message-circle" },
     { key: "pay", href: to.pay, label: copy.strip.pay, icon: "wallet" },
-    { key: "app", href: to.app, label: copy.strip.app, icon: "smartphone" },
   ];
+}
+
+/**
+ * The Ka-Ezy card beside the services in the desktop "Our offer" menu: his
+ * face and line on navy, then the three actions as rows.
+ * "See Ka-Ezy in action" opens the Ka-Ezy page's banner, where the demo plays.
+ */
+export function KaEzyMenuCard({ position }: { position: string }) {
+  const { kaezyBanner: copy } = getSite();
+  return (
+    <div className="relative isolate flex h-full flex-col overflow-hidden rounded-card bg-inverse p-4 text-on-inverse">
+      <span aria-hidden="true" className="absolute -top-12 -right-12 -z-10 size-40 rounded-full bg-accent-bright/25" />
+      <span className="flex size-14 shrink-0 items-end justify-center overflow-hidden rounded-full bg-card">
+        {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
+        <img src={KAEZY_AVATAR} alt="" width={200} height={178} loading="lazy" className="w-12" />
+      </span>
+      <p className="mt-3 text-xs text-label-style text-on-inverse">{copy.eyebrow}</p>
+      <p className="mt-1 text-lg leading-snug font-heading text-on-inverse">{copy.strip.label}</p>
+      <ul className="mt-auto space-y-1.5 pt-4">
+        {menuActions().map((action) => (
+          <li key={action.key}>
+            <Link
+              prefetch={false}
+              href={action.href}
+              data-track="kaezy_banner_click"
+              data-track-action={action.key}
+              data-track-position={position}
+              className="group/action flex min-h-11 items-center gap-2.5 rounded-control bg-on-inverse/10 px-3 text-sm font-label text-on-inverse transition-colors hover:bg-on-inverse/20"
+            >
+              <Icon name={action.icon} className="size-4 shrink-0" />
+              {action.label}
+              <ArrowRight
+                aria-hidden="true"
+                className="ml-auto size-4 shrink-0 motion-safe:transition-transform motion-safe:group-hover/action:translate-x-0.5"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/**
+ * The one-line Ka-Ezy banner for the phone menu: the same actions as pills.
+ */
+export function KaEzyStrip({ position, className = "" }: { position: string; className?: string }) {
+  const { kaezyBanner: copy } = getSite();
+  const actions = menuActions();
 
   return (
     <div className={`rounded-card border border-line bg-brand-soft p-3 ${className}`}>
