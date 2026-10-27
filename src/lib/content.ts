@@ -104,7 +104,21 @@ const Feature = z.object({
 });
 export type Feature = z.infer<typeof Feature>;
 
-const Step = z.object({ title: z.string(), text: z.string() });
+/**
+ * Where a "how it works" step can take the visitor (resolved in
+ * product/Steps.tsx, so links follow the build): Google Play, the Ka-Ezy
+ * demo, or the demo's question box. `label` is the link's text. On builds
+ * without the Ka-Ezy demo, "try" goes to the banner's demo video and "ask"
+ * to the Ka-Ezy plans instead, labelled `appLabel`.
+ */
+const StepAction = z.object({
+  kind: z.enum(["get-app", "try-kaezy", "ask-kaezy"]),
+  label: z.string(),
+  appLabel: z.string().optional(),
+});
+export type StepAction = z.infer<typeof StepAction>;
+
+const Step = z.object({ title: z.string(), text: z.string(), action: StepAction.optional() });
 export type Step = z.infer<typeof Step>;
 
 /**

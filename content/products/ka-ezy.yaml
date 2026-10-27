@@ -11,9 +11,9 @@ accent: brand
 icon: bot
 
 card:
-  summary: Your personal farm expert. Ask by text or voice, in English, Luganda or other local languages, any time of day.
+  summary: Your personal expert for crops and livestock. Ask by text or voice, in English, Luganda or other local languages, any time of day.
   points:
-    - Spot crop diseases early from a photo
+    - Spot crop and livestock diseases early from a photo
     - Map your garden and keep your farm records
     - Free to start, then from UGX 5,000 a month
   image:
@@ -25,7 +25,7 @@ card:
 hero:
   eyebrow: Ka-Ezy · Your 24/7 farm expert
   headline: Hire Ka-Ezy, your personal farm expert
-  intro: "Just a tap of the screen and you have ==all the knowledge about your farm==. Ka-Ezy knows your ==gardens, crops and records==, and gives ==advice for your farm== in ==English, Luganda and other local languages==, ==day or night==."
+  intro: "Just a tap of the screen and you have ==all the knowledge about your farm==. Ka-Ezy knows your ==gardens, crops, livestock and records==, and gives ==advice for your farm or agribusiness== in ==English, Luganda and other local languages==, ==day or night==."
   image:
     src: /images/products/ka-ezy-full.webp
     alt: Ka-Ezy, the EzyAgric farm expert, holding a phone with the EzyAgric App
@@ -47,11 +47,11 @@ features:
   title: Everything in one app
   items:
     - title: Expert farm advice
-      text: "Trusted answers for every farming decision, personalised to your exact location. Ask by text or voice, in English, Luganda or other local languages."
+      text: "Trusted answers for every crop and livestock decision, personalised to your exact location. Ask by text or voice, in English, Luganda or other local languages."
       icon: message-circle
     # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
-      text: "Sick plant? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. It checks livestock symptoms too. Order what it recommends straight from Agrishop."
+      text: "Sick plant or animal? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. Order what it recommends straight from Agrishop."
       icon: camera
     - title: Garden mapping
       text: "Walk your garden once and Ka-Ezy maps it: exact acreage, clear boundaries and the spots that need your inputs most."
@@ -107,7 +107,7 @@ tryIt:
   note: "Agronomy team to check the sample answers (crops, animals, and fish, bees and mushrooms), the sample photo diagnoses and the sample plan figures (costs, yields and prices). Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
   eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
-  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
+  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
   # Ka-Ezy's answers and plan figures below are samples written for the
   # website. They are personalised from "Your farm": {name}, {crop}, {location}
   # and {acres} are filled in, and a part in [[ ]] is left out when one of its
@@ -120,7 +120,7 @@ tryIt:
     location: Location
     locationHint: For local weather and timing advice.
     landSize: Land size (acres)
-    firstName: Farmer's first name
+    firstName: Your first name
     firstNameHint: Used to personalise answers.
     storage: Saved on this device only, to tailor Ka-Ezy's answers.
     storageLive: Saved on this device only, and sent with your questions so Ka-Ezy can tailor its answers.
@@ -150,9 +150,9 @@ tryIt:
     plan: { title: Farm Plan, text: "A costed plan from setup to harvest, scaled to your farm." }
     records: { title: Farm Records, text: "Income, expenses and activities, with totals." }
   chat:
-    greeting: Hello farmer
+    greeting: Hello there
     greetingNamed: "Hello, {name}"
-    subtitle: "Ask anything about your farm: crops, pests, planning or records."
+    subtitle: "Ask anything about your farm: crops, livestock, pests, planning or records."
     personalised: "Answers for {crop}[[ in {location}]][[, {acres}]]"
     choosePrompt: Choose your value chain in Your farm for answers about your farm.
     tryAsking: Try asking
@@ -186,21 +186,21 @@ tryIt:
           For every entry, write down:
 
           - the date
-          - what it was for (seed, fertilizer, labour, transport or a sale)
+          - what it was for (seed, fertilizer, feed, labour, transport or a sale)
           - the amount in UGX
 
           At the end of the season, add up your income and take away your expenses: that is your profit. Try it in the Farm Records tab: tell me what happened and I'll keep the totals.
-      - q: Tips to boost my yields
+      - q: How do I keep my animals healthy?
         a: |
-          Five things that make the biggest difference:
+          Prevention costs far less than treatment. Five things that help most:
 
-          1. **Use certified seed** from a trusted supplier. You can order genuine seed on Agrishop.
-          2. **Plant on time,** at the start of the rains, with the right spacing.
-          3. **Feed your soil** with manure, compost or the right fertilizer for your crop.
-          4. **Weed early.** Weeds steal water and food from young plants.
-          5. **Check for pests and diseases every week** and act early. Snap a photo in the app and I'll tell you what's wrong.
+          1. **Buy good stock and quality feed** from trusted suppliers. You can order feeds on Agrishop.
+          2. **Give clean water all the time,** and keep housing clean, dry and well aired.
+          3. **Vaccinate on schedule,** and deworm as your vet advises.
+          4. **Keep new animals apart** for two weeks before mixing them in.
+          5. **Check your animals every day** and act early. Snap a photo in the app and I'll tell you what's wrong.
 
-          Tell me your crop in Your farm and I'll give you advice made for it.
+          Choose your animal in Your farm and I'll give you advice made for it.
     # When a crop is chosen (the app's own crop questions).
     cropPrompts:
       - q: "Best fertilizer schedule for {crop}"
@@ -334,7 +334,7 @@ tryIt:
       offline: Unable to connect. Check your internet and try again.
       busy: Server is busy right now. Please try again shortly.
       limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
-    nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your gardens, day or night."
+    nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your crops and livestock, day or night."
     disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
   # Farm Expert's photo check, like the app's diagnosis mode. The sample
   # photos are drawings made for the website, and their diagnoses are samples
@@ -482,9 +482,9 @@ tryIt:
       - Sold 5 bags of maize for 600,000
       - Bought 2 bags of DAP for 340,000
       - Paid 3 workers 45,000 for weeding
-      - Sprayed the beans for aphids
+      - Vaccinated the chickens
     prompt: Save this to your farm records?
-    notUnderstood: "I couldn't tell what happened from that. Try something like \"Sold 5 bags of maize for 600,000\" or \"Bought seed for 50,000\"."
+    notUnderstood: "I couldn't tell what happened from that. Try something like \"Sold 5 bags of maize for 600,000\" or \"Bought feed for 50,000\"."
     saved: Saved to your farm records.
     dismissed: Not saved.
     totals: { income: Income, expenses: Expenses, profit: Profit }
@@ -524,10 +524,13 @@ steps:
   items:
     - title: Install the EzyAgric App
       text: Get the EzyAgric App free from Google Play.
+      action: { kind: get-app, label: Open Google Play }
     - title: Tap Ka-Ezy
       text: Open Ka-Ezy from the home screen. Your free Ka-Ezy tokens let you start straight away.
+      action: { kind: try-kaezy, label: Try Ka-Ezy, appLabel: Watch Ka-Ezy in action }
     - title: Ask anything
       text: Type or speak your question. When your free tokens run out, pick a plan and pay with MTN MoMo or Airtel Money.
+      action: { kind: ask-kaezy, label: Ask Ka-Ezy a question, appLabel: See Ka-Ezy plans }
 
 # Prices from the "Renew & save" and "Go Premium" visuals in the Creative &
 # Content Pack (October 2026): "From UGX 5,000 a month", longer plan, lower price.
@@ -537,7 +540,7 @@ pricing:
   tiers:
     - name: Start free
       price: Free
-      text: Free Ka-Ezy tokens for every farmer. No payment needed.
+      text: Free Ka-Ezy tokens to get you started. No payment needed.
     - name: 1 month
       price: UGX 5,000 / month
       text: Full Ka-Ezy access.
@@ -562,13 +565,19 @@ pricing:
       pending: true
       note: Confirm what cancelling means for a prepaid plan before publishing.
 
-# A real photo from the EzyAgric photo library.
+# A real photo from the EzyAgric photo library: a village agent showing a
+# team member something he picked off a maize plant (what Ka-Ezy's photo
+# check is for).
 photo:
   image:
-    src: /images/photos/kaezy-exhibition.webp
-    alt: An EzyAgric team member at an exhibition stand, showing the EzyAgric App next to a Ka-Ezy banner
-    width: 800
-    height: 1067
+    src: /images/photos/team-village-agent-maize.webp
+    alt: A village agent shows an EzyAgric team member something he has picked off a maize plant, in a tall maize garden
+    width: 581
+    height: 1032
+    # A little above centre: where the box is wider than this tall photo
+    # (phones, and from lg), both heads stay in frame and, on phones, their
+    # hands stay clear of most of the fade into navy at the foot.
+    focus: "50% 24%"
 
 # No "Please note" box (removed to save space, 27 Oct 2026): the FAQ below
 # and the line under the demo's chat box say Ka-Ezy can make mistakes.
@@ -589,7 +598,7 @@ faq:
     a: Yes. Tap the microphone and speak your question.
     actions:
       - { kind: get-app }
-  - q: Does Ka-Ezy help with livestock too?
+  - q: Does Ka-Ezy help with livestock?
     a: "Yes. Choose the crops and animals you keep, and Ka-Ezy gives advice for them. It can also check livestock symptoms."
     actions:
       - { kind: try-kaezy }
@@ -598,4 +607,4 @@ faq:
 
 seo:
   title: "Ka-Ezy: your 24/7 AI farm expert | EzyAgric"
-  description: "Hire Ka-Ezy: farm advice, disease diagnosis, garden mapping and farm records in English, Luganda and other local languages. Free to start, from UGX 5,000 a month."
+  description: "Hire Ka-Ezy: crop and livestock advice, disease checks, garden maps and farm records in English, Luganda and other local languages. Free to start, from UGX 5,000 a month."

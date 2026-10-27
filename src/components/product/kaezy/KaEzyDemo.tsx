@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { flushSync } from "react-dom";
 import { Plus } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
-import { ExpertPanel } from "./ExpertPanel";
+import { ExpertPanel, QUESTION_ID } from "./ExpertPanel";
 import { FarmDetails, PastConversations, TAB_ICONS } from "./FarmDetails";
 import { MappingPanel } from "./MappingPanel";
 import type { TryIt } from "./personalise";
@@ -25,12 +26,15 @@ export function KaEzyDemo({
   tagline,
   avatar,
   hireHref,
+  askId,
   endpoint,
 }: {
   copy: TryIt;
   tagline: string;
   avatar: string;
   hireHref: string;
+  /** The Ka-Ezy window's id: links to it open Farm Expert, ready for a question. */
+  askId: string;
   endpoint: string;
 }) {
   const state = useDemo();
@@ -56,6 +60,37 @@ export function KaEzyDemo({
   };
   const current = (t: Tab) => state.conversations.find((c) => c.id === state.current[t]);
   const openIds = TABS.map((t) => state.current[t]).filter((id): id is string => !!id);
+
+  // "Ask Ka-Ezy" links (#askId) open Farm Expert with the cursor in its
+  // question box, on a click here or on arrival from another page. The box
+  // is at the foot of the 44rem window, so when the whole window doesn't fit
+  // under the sticky header the page scrolls to the window's foot, not its
+  // top. Modifier clicks (a new tab or window) are left to the browser, and
+  // on a reload or back/forward the browser's own scroll position stands.
+  useEffect(() => {
+    const hash = `#${askId}`;
+    function reveal() {
+      const win = document.getElementById(askId);
+      const input = document.getElementById(QUESTION_ID);
+      if (!win || !input) return;
+      input.focus({ preventScroll: true });
+      // The [id] rule's scroll margin clears the sticky header.
+      const margin = parseFloat(getComputedStyle(win).scrollMarginTop) || 0;
+      win.scrollIntoView({ block: win.offsetHeight + margin <= window.innerHeight ? "start" : "end" });
+    }
+    const [entry] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+    if (window.location.hash === hash && (!entry || entry.type === "navigate")) requestAnimationFrame(reveal);
+    function onClick(event: MouseEvent) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (!(event.target instanceof Element) || !event.target.closest(`a[href$="${hash}"]`)) return;
+      event.preventDefault();
+      if (window.location.hash !== hash) window.history.pushState(null, "", hash);
+      flushSync(() => setTab("expert"));
+      reveal();
+    }
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [askId]);
 
   function chooseValueChain() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -107,7 +142,7 @@ export function KaEzyDemo({
       </div>
 
       {/* The Ka-Ezy window. */}
-      <div className="flex h-[44rem] flex-col overflow-hidden rounded-card border border-line bg-card shadow-raised">
+      <div id={askId} className="flex h-[44rem] flex-col overflow-hidden rounded-card border border-line bg-card shadow-raised">
         <div className="flex items-center gap-3 bg-brand px-4 py-3 text-on-brand">
           <KaEzyAvatar src={avatar} size="lg" />
           <span className="min-w-0 flex-1">

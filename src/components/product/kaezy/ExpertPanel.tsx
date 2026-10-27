@@ -9,6 +9,9 @@ import { KaEzyAskError, demoService, normalise, wait, type KaEzyChatService } fr
 import { demo, newId, type Conversation, type Message, type Photo } from "./store";
 import { SMALL_PRIMARY, Thread, type ThreadLabels } from "./Thread";
 
+/** The question box's id ("Ask Ka-Ezy" links put the cursor in it: KaEzyDemo). */
+export const QUESTION_ID = "kaezy-question";
+
 /** After this many answers, Ka-Ezy suggests hiring it. */
 const NUDGE_AFTER = 2;
 
@@ -364,7 +367,7 @@ export function ExpertPanel({
           className="hidden"
         />
         <Composer
-          id="kaezy-question"
+          id={QUESTION_ID}
           label="Your question for Ka-Ezy"
           placeholder={waiting ? d.placeholder : chat.placeholder}
           disabled={thinking}

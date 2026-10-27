@@ -7,7 +7,7 @@ import { OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from "@/components/seo/OgImag
 // Drawn once at build time; static export writes it to out/opengraph-image.
 
 export const dynamic = "force-static";
-export const alt = "EzyAgric: Ka-Ezy, Agrishop, EzyCredits and Produce Market in one farming app";
+export const alt = "EzyAgric: Ka-Ezy, Agrishop, EzyCredits and Produce Market in one app for farmers and agribusinesses";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 

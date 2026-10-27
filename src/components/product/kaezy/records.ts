@@ -3,13 +3,15 @@ import type { FarmRecord } from "./store";
 
 // Turns "Sold 5 bags of maize for 600,000" into a farm record, for the demo
 // (the real Ka-Ezy does this with its language model). Categories are the
-// app's record categories, plus seeds and pest control.
+// app's record categories, plus seeds, chicks and fingerlings, and pest
+// control.
 
 const CATEGORIES: [RegExp, string][] = [
   [/\b(fertili[sz]er|dap|urea|npk|manure|compost|feeds?)\b/i, "Feeds & Fertilizer"],
-  [/\b(seeds?|seedlings?|suckers|cuttings|vines|chicks|fingerlings)\b/i, "Seeds & Planting"],
+  [/\b(seeds?|seedlings?|suckers|cuttings|vines)\b/i, "Seeds & Planting"],
   [/\b(spray(ed|ing)?|pesticides?|herbicides?|fungicides?|chemicals?)\b/i, "Pest & Disease Control"],
   [/\b(vet|vaccin\w*|deworm\w*|drugs?|medicines?|treat\w*)\b/i, "Veterinary & Health"],
+  [/\b(chicks|fingerlings)\b/i, "Chicks & Fingerlings"],
   [/\b(workers?|labou?r|weed(ed|ing)?|wages?|casuals?)\b/i, "Labour"],
   [/\b(plough(ed|ing)?|harrow\w*|clear(ed|ing)?|land preparation)\b/i, "Land Preparation"],
   [/\b(transport|boda|truck|lorry|delivery|fuel)\b/i, "Transport"],

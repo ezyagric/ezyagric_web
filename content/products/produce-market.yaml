@@ -22,9 +22,9 @@ card:
     height: 480
 
 hero:
-  eyebrow: Produce Market · Sell your harvest
-  headline: Post your harvest on the EzyAgric market
-  intro: "List your ==crops, animals and farm products== in ==a few taps==. You choose the quantity, the unit and ==your asking price==."
+  eyebrow: Produce Market · Sell crops & livestock
+  headline: Post your produce on the EzyAgric market
+  intro: "Farmer or agribusiness, list your ==crops, animals and farm products== in ==a few taps==. You choose the quantity, the unit and ==your asking price==."
   image:
     src: /images/products/produce-market.webp
     alt: A farmer at a market stall of fresh produce
@@ -78,6 +78,10 @@ photo:
     alt: A Ugandan farmer tending crops in his banana garden
     width: 720
     height: 1080
+    # Low: on phones the box is wider than this tall photo and fades into
+    # navy at the foot, and this keeps the farmer's head and his hands on
+    # the coffee above the fade.
+    focus: "50% 80%"
 
 faq:
   - q: Does it cost anything to list?
@@ -95,4 +99,4 @@ faq:
 
 seo:
   title: "Produce Market: list your crops and livestock for sale | EzyAgric"
-  description: "Post your crops, livestock and farm products for sale in the EzyAgric App. Set your own units and asking price. Free to list, in Uganda."
+  description: "Farmers and agribusinesses: post crops, livestock and farm products for sale in the EzyAgric App. Set your own units and asking price. Free to list, in Uganda."

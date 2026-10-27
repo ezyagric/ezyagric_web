@@ -11,7 +11,7 @@ accent: deep
 icon: wallet
 
 card:
-  summary: Pay for your farm now from your wallet, or later with Pay Later.
+  summary: Pay for inputs, feeds and vet care now from your wallet, or later with Pay Later.
   points:
     - "Wallet: top up with Mobile Money and pay instantly"
     - "Pay Later: if approved, get inputs now and repay after delivery"
@@ -19,7 +19,7 @@ card:
 
 hero:
   eyebrow: EzyCredits · Wallet and Pay Later
-  headline: Pay for your farm now, or later
+  headline: Pay for what you need now, or later
   intro: "==Top up== when you have cash. If you qualify, use ==Pay Later== when you don't. EzyCredits gives you ==two ways to pay== for ==inputs, feeds and vet care== on Agrishop."
 
 cta:
@@ -96,9 +96,9 @@ photo:
     alt: An EzyAgric agent in a branded helmet shows a farmer something on his phone, outside her home
     width: 1400
     height: 933
-    # High, so the agent's helmet stays in frame in the wide crop from md to
-    # lg; a little left of centre, so he and the farmer stay in where the
-    # box is narrower than the photo.
+    # High, so the agent's helmet stays in frame in the wide 16:9 crop on
+    # tablets; a little left of centre, so he and the farmer stay in from
+    # lg, where the box beside the steps is narrower than the photo.
     focus: "40% 15%"
 
 keyFacts:
@@ -167,5 +167,5 @@ faq:
     a: Yes. BNPL (buy now, pay later) in the app is EzyCredits Pay Later.
 
 seo:
-  title: "EzyCredits: farm wallet and Pay Later for inputs | EzyAgric"
+  title: "EzyCredits: Wallet and Pay Later for inputs and feeds | EzyAgric"
   description: "Pay for farm inputs, feeds and vet care now from your EzyCredits Wallet, or later with EzyCredits Pay Later, provided by Pezesha. Available in Uganda."

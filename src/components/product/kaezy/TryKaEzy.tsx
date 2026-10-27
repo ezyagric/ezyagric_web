@@ -10,6 +10,9 @@ import { KaEzyDemo } from "./KaEzyDemo";
 
 const HIRE_ID = "hire-ka-ezy";
 
+/** The Ka-Ezy window in the demo. Links here open Farm Expert, ready for a question. */
+export const KAEZY_ASK_ID = "ask-ka-ezy";
+
 /** The pricing tiers that can be bought (they have months and a monthly price). */
 function hirePlans(product: Product): HirePlan[] {
   return visible(product.pricing?.tiers ?? []).flatMap((tier) =>
@@ -70,6 +73,7 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
           tagline={product.appTagline}
           avatar="/images/products/ka-ezy-avatar.webp"
           hireHref={`#${HIRE_ID}`}
+          askId={KAEZY_ASK_ID}
           // Live Ka-Ezy answers once the guest demo endpoint is configured.
           endpoint={KAEZY_DEMO_API}
         />

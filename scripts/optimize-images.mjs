@@ -58,6 +58,8 @@ const IMAGES = [
   ["photos-field/farmer-coffee-cherries.jpg", "photos/farmer-coffee-cherries.webp", 600], // DSC_0196.JPG, July 2016
   // EzyCredits "How Pay Later works".
   ["photos-field/agent-helps-farmer-phone.jpg", "photos/agent-helps-farmer-phone.webp", 1400], // IMG_0398.JPG, 2020, credit: Ronistar
+  // Ka-Ezy "Hire Ka-Ezy in 3 easy taps".
+  ["photos-field/team-village-agent-maize.jpg", "photos/team-village-agent-maize.webp", 581], // "Akorion staff building capacity of VA to profile.jpg" (581px wide: no larger copy)
 
   // Stills from "EzyAgric Poultry Video.mp4" (marketing team's Website folder,
   // Oct 2026): Marvin Busulwa's poultry farm, for the home page's livestock

@@ -1,243 +1,220 @@
 import Image from "next/image";
-import type { Product, Step } from "@/lib/content";
+import { ArrowRight } from "lucide-react";
+import type { Product, Step, StepAction } from "@/lib/content";
+import { playStoreUrl } from "@/lib/links";
 import { Highlight } from "@/components/home/parts";
+import { kaezyAskHref, kaezyOnSite, kaezyPayHref, kaezyTryHref, kaezyWatchHref } from "@/components/promo/KaEzyBanner";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import type { BandTone } from "./tones";
 
-// Number chips in the brand colours, white numbers on each (guide: solid
-// blue, green or navy circles), each in a halo of its own tint: the stronger
-// tint on the tinted band, where the soft one would all but vanish. The
-// numbers are large bold text, so accent-bright (the exact Vibrant Green)
-// passes. Blue and green alternate (the logo blue and Dark Navy look too
-// alike side by side). Full class strings so Tailwind can find them.
-const CHIPS: Record<BandTone, string[]> = {
-  canvas: ["bg-brand text-on-brand ring-brand-soft", "bg-accent-bright text-on-accent ring-accent-soft"],
-  subtle: [
-    "bg-brand text-on-brand ring-brand-soft-strong",
-    "bg-accent-bright text-on-accent ring-accent-soft-strong",
-  ],
+// Where the photo goes beside the steps. In the 5/12 column the photo is as
+// tall as the steps, so a landscape photo there below lg would show only
+// about a third of its width: it stays across the top of the panel (16:9
+// from sm) until lg. A portrait photo goes beside the steps from md, and on
+// top it stays 4:3 (16:9 would leave a strip of it). Full class strings so
+// Tailwind can find them.
+const BESIDE = {
+  portrait: {
+    panel: "md:grid md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]",
+    box: "aspect-[4/3] md:aspect-auto md:min-h-[26rem]",
+    fade: "md:bg-linear-to-r md:from-75%",
+    sizes: "(min-width: 768px) 460px, calc(100vw - 32px)",
+    list: "md:self-center md:py-10 md:pr-8 md:pl-5 lg:py-12 lg:pr-12 lg:pl-6",
+  },
+  landscape: {
+    panel: "lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]",
+    box: "aspect-[4/3] sm:aspect-video lg:aspect-auto lg:min-h-[26rem]",
+    fade: "lg:bg-linear-to-r lg:from-75%",
+    sizes: "(min-width: 1024px) 460px, calc(100vw - 32px)",
+    list: "lg:self-center lg:py-12 lg:pr-12 lg:pl-6",
+  },
 };
 
-// The line from one chip to the next fades from its colour into the next
-// one's (the line adds the direction: down a column, or across the row).
-const LINKS = ["from-brand to-accent-bright", "from-accent-bright to-brand"];
-
-// How the steps run from md up. Below md every list is the vertical stepper:
-// one card under another, the chips joined by a line down the left.
-// `columnEnd` hides that line under the last step of a column.
-const FLOWS = {
-  // One column (beside a portrait photo, or a single step).
-  stack: { columns: 1, list: "", columnEnd: "" },
-  // Two columns from md, filled top to bottom (1 and 2 on the left, 3 and
-  // 4 on the right), so the line still runs down each column. Without a
-  // photo this is about half the height of one column, and each text runs
-  // about twice as wide as in a row of four.
-  pairs: {
-    columns: 2,
-    list: "md:grid md:grid-flow-col md:grid-cols-2 md:gap-x-6",
-    columnEnd: "md:hidden",
-  },
-  // The same from md to lg only, above a landscape photo; from lg the steps
-  // stand in one column beside the photo.
-  pairsUntilLg: {
-    columns: 2,
-    list: "md:max-lg:grid md:max-lg:grid-flow-col md:max-lg:grid-cols-2 md:max-lg:gap-x-6",
-    columnEnd: "md:max-lg:hidden",
-  },
-  // Three in a row from lg (three steps, no photo), the chips on a line
-  // across the top of their cards.
-  row: { columns: 3, list: "lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-8", columnEnd: "lg:hidden" },
-} as const;
-
-type Flow = keyof typeof FLOWS;
-
-// Where the header, the steps and the photo sit. Stacked, they come in that
-// order, the photo cropped to a fixed ratio. Side by side, the photo fills
-// (object-cover) the height the steps give it, so its top and bottom edges
-// line up with the cards beside it.
-const LAYOUTS = {
-  // Portrait (or square). Below md: the photo square, a crop that keeps the
-  // subject of each portrait photo in frame (Ka-Ezy's faces sit in the top
-  // third, Produce Market's farmer in the lower half; a wider crop cuts one
-  // or the other). md to lg: the header across the top, then the photo
-  // beside the steps, half and half, which keeps the photo close to its own
-  // shape. From lg: the photo on the left, as tall as the eyebrow, title and
-  // steps on the right.
-  portrait: {
-    grid: "md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-x-12",
-    header: "md:col-span-2 md:row-start-1 lg:col-span-1 lg:col-start-2",
-    list: "-mt-2 md:col-start-2 md:row-start-2",
-    flow: "stack",
-    photo:
-      "aspect-square md:col-start-1 md:row-start-2 md:-mt-2 md:aspect-auto md:min-h-96 lg:row-span-2 lg:row-start-1 lg:mt-0",
-    // A little above centre, for the faces in the Ka-Ezy photo.
-    position: "object-[50%_35%]",
-    // Filling its box, the photo is drawn up to about 470px wide from md.
-    sizes: "(min-width: 768px) 480px, calc(100vw - 32px)",
-  },
-  // Landscape. Stacked, the photo is cropped wider at each step up (3:2,
-  // 2:1, then 5:2 under the two columns of steps from md). From lg: the
-  // eyebrow, title and photo on the left, the steps down the right. The
-  // first card is level with the eyebrow, the last card's bottom with the
-  // photo's. The photo's column is the wider, so beside the steps it keeps
-  // close to its own shape.
-  landscape: {
-    grid: "lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)] lg:grid-rows-[auto_1fr] lg:gap-x-12",
-    header: "lg:col-start-1 lg:row-start-1",
-    list: "-mt-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0",
-    flow: "pairsUntilLg",
-    photo:
-      "aspect-[3/2] sm:aspect-[2/1] md:aspect-[5/2] lg:col-start-1 lg:row-start-2 lg:-mt-2 lg:aspect-auto lg:min-h-64",
-    // Centred. From lg the box's shape follows the height of the steps beside
-    // it, so a photo may lose its sides or its top and bottom; one whose
-    // subject sits off centre sets its own `focus` (Agrishop's keeps the logo
-    // on its bag in frame, EzyCredits' the agent's helmet).
-    position: "object-center",
-    // Filling its box, the photo is drawn up to about 620px wide from lg.
-    sizes: "(min-width: 1024px) 620px, calc(100vw - 32px)",
-  },
-} as const;
-
 /**
- * How to get started, as a numbered stepper: each step a white card beside
- * a big number chip, the chips joined by a line that fades from one chip's
- * colour into the next. Product names in the steps are green (on white).
+ * How to get started, as one Dark Navy story panel instead of cards: the
+ * product's photo from the field on one side, fading into the navy, and the
+ * steps on the other as a tap path. Each step is a big green number in a
+ * glassy disc with a soft ripple round it (a tap), joined to the next by a
+ * line that fades down from green; its title and text sit beside it in
+ * white. A step with an `action` is a link to where the visitor takes it
+ * (Google Play, the Ka-Ezy demo): the whole step is the target, lit on
+ * hover, with the link's label under the text.
  *
- * With the product's photo (a real photo from the field), the two share one
- * band and their edges line up (see LAYOUTS). Without one, the steps fill
- * two columns from md (see FLOWS); three steps run in a row from lg, the
- * chips on a line across the top of their cards, and the titles and texts
- * start level across the row (subgrid), however they wrap.
+ * Phones: the photo across the top of the panel, fading down into the
+ * steps. From md (a portrait photo) or lg (a landscape one) the photo takes
+ * the left 5/12, as tall as the steps (at least 26rem), cropped round its
+ * `focus`, fading to the right.
+ * Without a photo the steps fill the panel, two columns from md and no
+ * joining lines.
  */
 export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
   const { steps, photo } = product;
-  const count = steps.items.length;
-  const header = (
-    <SectionHeader id="how-it-works-title" eyebrow="How it works" title={steps.title} wide={!photo} />
-  );
+  const image = photo?.image;
+  const beside = image ? BESIDE[image.width > image.height ? "landscape" : "portrait"] : null;
 
-  if (!photo) {
-    return (
-      <Section id="how-it-works" tone={tone} labelledBy="how-it-works-title">
-        {header}
-        <StepList
-          items={steps.items}
-          tone={tone}
-          flow={count === 3 ? "row" : count > 1 ? "pairs" : "stack"}
-          className="-mt-2"
-        />
-      </Section>
-    );
-  }
-
-  const { image } = photo;
-  const layout = LAYOUTS[image.height >= image.width ? "portrait" : "landscape"];
   return (
     <Section id="how-it-works" tone={tone} labelledBy="how-it-works-title">
-      <div className={`grid grid-cols-1 ${layout.grid}`}>
-        <div className={layout.header}>{header}</div>
-        <StepList
-          items={steps.items}
-          tone={tone}
-          flow={count > 1 ? layout.flow : "stack"}
-          stretch
-          className={layout.list}
+      <SectionHeader id="how-it-works-title" eyebrow="How it works" title={steps.title} wide />
+      <div
+        className={`relative isolate overflow-hidden rounded-media bg-inverse text-on-inverse shadow-raised ${
+          beside ? beside.panel : ""
+        }`}
+      >
+        {/* A soft green glow behind the steps (decoration). */}
+        <span
+          aria-hidden="true"
+          className="absolute -right-24 -bottom-24 -z-10 size-80 rounded-full bg-accent-bright/15 blur-3xl"
         />
-        {/* Lazy-loaded: always well below the fold. */}
-        <div className={`relative mt-8 overflow-hidden rounded-media ${layout.photo}`}>
-          <Image
-            src={image.src}
-            alt={image.alt}
-            fill
-            sizes={layout.sizes}
-            // The photo's own focus point, if it has one, over the layout's.
-            className={`object-cover ${image.focus ? "" : layout.position}`}
-            style={image.focus ? { objectPosition: image.focus } : undefined}
-          />
-        </div>
+        {image && beside ? (
+          <div className={`relative ${beside.box}`}>
+            {/* Lazy-loaded: always well below the fold. */}
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              sizes={beside.sizes}
+              className="object-cover"
+              style={image.focus ? { objectPosition: image.focus } : undefined}
+            />
+            {/* Into the navy: downwards on top of the steps, to the right beside them. */}
+            <span
+              aria-hidden="true"
+              className={`absolute inset-0 bg-linear-to-b from-transparent from-60% to-inverse ${beside.fade}`}
+            />
+          </div>
+        ) : null}
+        <StepList items={steps.items} beside={beside?.list ?? null} product={product} />
       </div>
     </Section>
   );
 }
 
-function StepList({
-  items,
-  tone,
-  flow,
-  stretch = false,
-  className,
-}: {
-  items: Step[];
-  tone: BandTone;
-  flow: Flow;
-  /** Share out any spare height of the list between the cards, so the last
-   *  card's bottom still meets the photo's when the photo is the taller. */
-  stretch?: boolean;
-  className: string;
-}) {
-  const { columns, list, columnEnd } = FLOWS[flow];
-  const row = flow === "row";
-  // Steps per column (in the lg row, one each).
-  const perColumn = Math.ceil(items.length / columns);
+/**
+ * Where a step's link goes, its label, and the same analytics as the site's
+ * other links there. Without the Ka-Ezy demo on this build, "try" plays the
+ * banner's demo video and "ask" goes to the Ka-Ezy plans (`appLabel`).
+ */
+function actionLink(action: StepAction, product: Product) {
+  const position = "how-it-works";
+  const onSite = kaezyOnSite();
+  const appLabel = action.appLabel ?? action.label;
+  switch (action.kind) {
+    case "get-app":
+      return {
+        href: playStoreUrl(product.cta.campaign, position),
+        label: action.label,
+        external: true,
+        track: {
+          "data-track": "get_app_click",
+          "data-track-product": product.cta.campaign,
+          "data-track-position": position,
+          "data-track-store": "google_play",
+        },
+      };
+    case "try-kaezy":
+      return onSite
+        ? {
+            href: kaezyTryHref(product.slug),
+            label: action.label,
+            external: false,
+            track: { "data-track": "kaezy_try_click", "data-track-position": position },
+          }
+        : {
+            href: kaezyWatchHref(product.slug),
+            label: appLabel,
+            external: false,
+            track: { "data-track": "kaezy_banner_click", "data-track-action": "watch", "data-track-position": position },
+          };
+    case "ask-kaezy":
+      return onSite
+        ? {
+            href: kaezyAskHref(product.slug),
+            label: action.label,
+            external: false,
+            track: { "data-track": "kaezy_try_click", "data-track-position": `${position}-ask` },
+          }
+        : {
+            href: kaezyPayHref(product.slug),
+            label: appLabel,
+            external: false,
+            track: { "data-track": "kaezy_banner_click", "data-track-action": "pay", "data-track-position": position },
+          };
+  }
+}
 
+/** `beside`: the list's classes when it sits beside (or under) a photo, joined by lines. */
+function StepList({ items, beside, product }: { items: Step[]; beside: string | null; product: Product }) {
+  const joined = beside !== null;
   return (
     // role="list": Safari drops the list role from unstyled lists.
     <ol
       role="list"
-      className={`flex flex-col gap-3 sm:gap-4 ${list} ${className}`}
-      // Filled column by column, two columns need their row count. Only read
-      // where the list is that grid (see FLOWS); a flex column ignores it.
-      style={columns === 2 ? { gridTemplateRows: `repeat(${perColumn}, auto)` } : undefined}
+      className={`relative px-5 pb-8 sm:px-8 ${
+        joined
+          ? `pt-2 ${beside}`
+          : "pt-8 sm:py-10 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-8 lg:px-12"
+      }`}
     >
       {items.map((step, i) => {
         const last = i === items.length - 1;
+        const link = step.action ? actionLink(step.action, product) : null;
         return (
-          <li
-            key={step.title}
-            // In the lg row each step spans three rows of the list's grid
-            // (chip, title, text) and its card the last two, so across the
-            // row the titles share a line and the texts start level.
-            className={`relative flex gap-3 sm:gap-4 ${stretch ? "flex-auto" : ""} ${
-              row ? "lg:row-span-3 lg:grid lg:grid-cols-1 lg:grid-rows-subgrid" : ""
-            }`}
-          >
-            {last ? null : (
-              // Down to the next chip, through the gap between the cards.
+          // flow-root: the link wrapper's -m-3 stays inside the li instead of
+          // collapsing through it (which would lift the li, and the joining
+          // line with it, 12px into the disc's ripple).
+          <li key={step.title} className={`relative flow-root ${last ? "" : joined ? "pb-8" : "pb-8 md:pb-0"}`}>
+            {joined && !last ? (
+              // Down to the next disc, clear of both ripples.
               <span
                 aria-hidden="true"
-                className={`absolute top-12 -bottom-3 left-6 w-0.5 -translate-x-1/2 rounded-pill bg-linear-to-b ${LINKS[i % 2]} sm:top-14 sm:-bottom-4 sm:left-7 ${
-                  (i + 1) % perColumn === 0 ? columnEnd : ""
-                }`}
-              />
-            )}
-            {row && !last ? (
-              // Across to the next chip (lg row only).
-              <span
-                aria-hidden="true"
-                className={`absolute top-7 left-14 -right-6 hidden h-0.5 -translate-y-1/2 rounded-pill bg-linear-to-r ${LINKS[i % 2]} lg:block`}
+                className="absolute top-[4.25rem] bottom-2 left-7 w-0.5 -translate-x-1/2 rounded-pill bg-linear-to-b from-accent-bright/70 to-on-inverse/10 sm:top-[4.75rem] sm:left-8"
               />
             ) : null}
-            {/* Beside its card: top level with the card's, centre on the
-                title's first line. In the lg row it heads the card.
-                Screen readers get the number from the heading. */}
-            <span
-              aria-hidden="true"
-              className={`relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full text-xl font-heading tabular-nums ring-4 sm:size-14 sm:text-2xl ${CHIPS[tone][i % 2]}`}
-            >
-              {i + 1}
-            </span>
+            {/* With a link, the link's ::after covers the whole step; -m-3 p-3
+                gives the hover tint and the focus ring room round it. */}
             <div
-              className={`min-w-0 flex-1 rounded-card bg-card px-4 py-3 shadow-card ring-1 ring-line sm:px-5 sm:py-4 ${
-                row ? "lg:row-span-2 lg:grid lg:grid-rows-subgrid lg:gap-y-0" : ""
+              className={`relative grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-x-5 ${
+                link ? "group -m-3 rounded-card p-3 transition-colors hover:bg-on-inverse/5 has-focus-visible:bg-on-inverse/5" : ""
               }`}
             >
-              <h3 className="text-lg font-heading text-balance text-title">
-                <span className="sr-only">Step {i + 1}: </span>
-                {step.title}
-              </h3>
-              <p className="mt-1 text-base text-pretty text-body">
-                <Highlight text={step.text} />
-              </p>
+              {/* The tap: a glassy disc with a ripple (ring and outline), lit
+                  green when the step is a link and hovered. Screen readers get
+                  the number from the heading. */}
+              <span
+                aria-hidden="true"
+                className="relative flex size-14 items-center justify-center rounded-full bg-on-inverse/10 text-2xl font-heading text-accent-bright tabular-nums ring-1 ring-on-inverse/25 outline-8 outline-on-inverse/5 transition-colors group-hover:bg-accent-bright/20 group-hover:ring-accent-bright/70 sm:size-16 sm:text-3xl"
+              >
+                {i + 1}
+              </span>
+              <div className="min-w-0 pt-2.5 sm:pt-3">
+                <h3 className="text-xl font-heading text-balance text-on-inverse">
+                  <span className="sr-only">Step {i + 1}: </span>
+                  {step.title}
+                </h3>
+                {/* On navy, product names are white and a ==marked== phrase's
+                    stroke turns the accessible green (white on it is 5.1:1). */}
+                <p className="mt-1 text-base text-pretty text-on-inverse/85 [&_mark]:bg-[linear-gradient(transparent_55%,var(--color-accent)_55%)] [&_mark]:text-on-inverse">
+                  <Highlight text={step.text} className="font-heading text-on-inverse" />
+                </p>
+                {link ? (
+                  // White, underlined in green (the green alone is too close
+                  // to 4.5:1 on the hover tint). The focus ring is drawn
+                  // round the whole step, on the ::after.
+                  <a
+                    href={link.href}
+                    {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
+                    {...link.track}
+                    className="mt-2 inline-flex items-center gap-1.5 text-base font-label text-on-inverse underline decoration-accent-bright decoration-2 underline-offset-4 after:absolute after:inset-0 after:rounded-card focus-visible:outline-none focus-visible:after:outline-3 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus-inverse"
+                  >
+                    {link.label}
+                    {link.external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="size-4 shrink-0 text-accent-bright transition-transform motion-safe:group-hover:translate-x-0.5"
+                    />
+                  </a>
+                ) : null}
+              </div>
             </div>
           </li>
         );

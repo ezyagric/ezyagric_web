@@ -9,7 +9,7 @@ accent: accent
 icon: shopping-cart
 
 card:
-  summary: Genuine seeds, feeds, fertilizers and vet supplies, delivered to a shop near you or your farm gate.
+  summary: Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses, delivered near you.
   points:
     - Book vet services
     - Track every order until it arrives
@@ -39,28 +39,26 @@ cta:
   label: Shop on Agrishop
   campaign: agrishop
 
-availability: Available in Uganda. Prices don't include transport.
+# No availability chips under the intro (removed 27 Oct 2026): the FAQ
+# says prices don't include transport.
 
 features:
-  title: Why farmers shop on Agrishop
+  title: Why shop on Agrishop
   items:
     - title: Genuine inputs
       text: Over 1,000 genuine products from more than 60 manufacturers and suppliers, in the pack sizes you need.
       icon: shield-check
-    - title: Vet services
-      text: Book EzyVet veterinary services through the app, then rate and review the service.
-      icon: stethoscope
     - title: Delivered near you
-      text: Order from anywhere in Uganda. We deliver to your nearest EzyAgric merchant's shop or to your farm gate.
+      text: Order from anywhere in Uganda. We deliver to the doorstep of your shop, farm or office.
       icon: truck
     - title: Track every order
       text: "Follow your order from sent, to confirmed, to on the way, to delivered."
       icon: package
-    - title: Receipts you can keep
-      text: Download a PDF receipt for every order.
-      icon: receipt
+    - title: Smart ledger
+      text: Your orders are automatically posted to your expense ledgers.
+      icon: clipboard-list
     - title: Pay your way
-      text: "MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
+      text: "MTN or Airtel Mobile Money, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
       icon: wallet
 
 steps:
@@ -71,7 +69,7 @@ steps:
     - title: Confirm your order
       text: Add items to your cart, check your delivery address and confirm.
     - title: Choose how to pay
-      text: Mobile Money, EzyCredits Wallet, EzyCredits Pay Later, or pay on delivery.
+      text: Mobile Money, EzyCredits Pay Later, or pay on delivery.
     - title: Track your order
       text: Watch your order move until it's delivered.
 
@@ -82,9 +80,11 @@ photo:
     alt: An EzyAgric bag among ripe red coffee cherries on the farm
     width: 1400
     height: 933
-    # Right of centre, so the wordmark on the bag stays in frame where the
-    # box is narrower than the photo (about 1024px to 1130px wide).
-    focus: "65% 50%"
+    # Well right of centre: from lg the box is narrower than the photo and
+    # fades into navy on the right, and this keeps the logo and as much of
+    # the wordmark on the bag as fits in frame (below lg the photo runs
+    # across the top of the panel and nearly all of it shows).
+    focus: "85% 50%"
 
 # YouTube videos (ids from content/site.yaml videos).
 videoIds:
@@ -110,4 +110,4 @@ faq:
 
 seo:
   title: "Agrishop: genuine farm inputs and vet services, delivered | EzyAgric"
-  description: "Buy genuine seeds, feeds, fertilizers and vet supplies, book vet services and track delivery to your farm. Pay with Mobile Money, EzyCredits or on delivery."
+  description: "Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses. Book vet services, track orders and pay by Mobile Money, EzyCredits or on delivery."

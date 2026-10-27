@@ -29,7 +29,7 @@ kaezyBanner:
     title: See Ka-Ezy in action
   try:
     title: Try Ka-Ezy
-    text: Ask Ka-Ezy a farm question right here and see how it answers.
+    text: Ask Ka-Ezy about your crops or livestock right here and see how it answers.
     appText: Start free in the EzyAgric App. No payment needed.
   pay:
     title: Pay
@@ -57,14 +57,14 @@ appStore:
 
 seo:
   title: "EzyAgric: Farm the Ezy Way, the Smart Way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
-  description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and list your harvest on Produce Market."
+  description: "One app for farmers and agribusinesses: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and sell crops and livestock on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
 hero:
-  eyebrow: Built for Africa's farmers
+  eyebrow: Built for Africa's farmers and agribusinesses
   headline: Farm the Ezy Way, the Smart Way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
-  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==farm produce== on Produce Market."
+  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==crops and livestock== on Produce Market."
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"
@@ -78,17 +78,17 @@ hero:
 
 products:
   eyebrow: One app, four tools
-  title: Everything your farm needs, in your pocket
-  intro: "Get advice, buy inputs, pay your way and list your harvest for sale, all in the EzyAgric App."
+  title: Everything your farm or agribusiness needs
+  intro: "Get advice, buy inputs, pay your way and sell crops and livestock, all in the EzyAgric App."
 
 journey:
   title: How the four tools work together
-  intro: From planning your season to selling your harvest.
+  intro: From planning your farm to selling your crops and livestock.
   # Real photos from the field, one per step (assets-src/photos-field).
   steps:
     - verb: Plan
       product: ka-ezy
-      text: Ask Ka-Ezy for advice and a farm plan for your land and budget.
+      text: Ask Ka-Ezy for advice and a farm plan for your crops, animals and budget.
       image:
         src: /images/photos/agent-shows-farmers-phone.webp
         alt: A field agent shows two young farmers something on her phone
@@ -115,7 +115,7 @@ journey:
         focus: "60% 50%"
     - verb: Sell
       product: produce-market
-      text: Post your harvest on Produce Market at your own asking price.
+      text: Post your crops and livestock on Produce Market at your own asking price.
       image:
         src: /images/photos/farmer-produce-sacks.webp
         alt: A smiling farmer beside a tall stack of produce sacks ready for market
@@ -290,7 +290,7 @@ videos:
 organisations:
   eyebrow: For agribusinesses · EzyProduce
   title: Run your agribusiness and farmer network on EzyProduce
-  intro: "EzyProduce is EzyAgric's produce marketplace and business management platform for cooperatives, off-takers and agribusinesses."
+  intro: "Agribusinesses use Ka-Ezy, Agrishop, EzyCredits and Produce Market in the EzyAgric App too. EzyProduce adds a produce marketplace and business management platform for cooperatives, off-takers and agribusinesses."
   points:
     - { text: Bulk produce and trace it back to each farmer, icon: package }
     - { text: Pay farmers instantly, icon: hand-coins }
@@ -308,7 +308,7 @@ organisations:
     height: 660
 
 faq:
-  title: Questions farmers ask
+  title: Questions farmers and agribusinesses ask
   intro: Quick answers about the app, Ka-Ezy and paying.
   # The card beside the questions (on phones, under them).
   help:

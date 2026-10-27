@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
-import { hasTryIt } from "@/components/product/kaezy/TryKaEzy";
+import { KAEZY_ASK_ID, hasTryIt } from "@/components/product/kaezy/TryKaEzy";
 import { ButtonLink, type ButtonVariant } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
@@ -36,6 +36,16 @@ export function kaezyTryHref(page?: string): string {
   const to = targets();
   if (page !== "ka-ezy") return to.try;
   return to.tryOnSite ? "#try-ka-ezy" : `#${appStepId(KAEZY_BANNER_ID)}`;
+}
+
+/**
+ * "Ask Ka-Ezy": like kaezyTryHref, but straight to the Ka-Ezy window, where
+ * Farm Expert opens with the cursor in its question box.
+ */
+export function kaezyAskHref(page?: string): string {
+  const to = targets();
+  if (!to.tryOnSite) return kaezyTryHref(page);
+  return page === "ka-ezy" ? `#${KAEZY_ASK_ID}` : `/ka-ezy/#${KAEZY_ASK_ID}`;
 }
 
 /**
@@ -74,9 +84,27 @@ export function TryKaEzyButton({
   );
 }
 
-/** "Pay for Ka-Ezy": the hire section on the Ka-Ezy page when it is shown, else its price cards. */
-export function kaezyPayHref(): string {
-  return targets().pay;
+/**
+ * "Pay for Ka-Ezy": the hire section on the Ka-Ezy page when it is shown,
+ * else its price cards. On the Ka-Ezy page itself (`page`), a jump down it.
+ */
+export function kaezyPayHref(page?: string): string {
+  return onKaezyPage(targets().pay, page);
+}
+
+/** "See Ka-Ezy in action": the demo video in the Ka-Ezy page's banner. On that page (`page`), a jump down it. */
+export function kaezyWatchHref(page?: string): string {
+  return onKaezyPage(targets().watch, page);
+}
+
+/** True when this build shows the Ka-Ezy demo (the "Ask Ka-Ezy, then hire it" section). */
+export function kaezyOnSite(): boolean {
+  return targets().tryOnSite;
+}
+
+/** A link into the Ka-Ezy page, as just its #hash when it sits on that page. */
+function onKaezyPage(href: string, page?: string): string {
+  return page === "ka-ezy" && href.startsWith("/ka-ezy/#") ? href.slice("/ka-ezy/".length) : href;
 }
 
 /** The phone-shaped Ka-Ezy demo (demoVideos in ka-ezy.yaml): it plays inside the banner. */
