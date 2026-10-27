@@ -43,8 +43,9 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
     // h-full: every slide is as tall as the tallest (the track stretches
     // them), so a caption that wraps never lifts the art off the wave.
     <div className="flex h-full flex-col">
-      {/* pr-14 keeps the line clear of the pause button at the top right. */}
-      <p className="mt-2 flex min-h-11 flex-wrap items-center gap-x-3 gap-y-0 pr-14 pl-1 text-base">
+      {/* Starts flush with the switcher's left edge above it. pr-14 keeps
+          the line clear of the pause button at the top right. */}
+      <p className="mt-2 flex min-h-11 flex-wrap items-center gap-x-3 gap-y-0 pr-14 text-base">
         <span className="text-body">{product.appTagline}</span>
         <Link
           prefetch={false}
