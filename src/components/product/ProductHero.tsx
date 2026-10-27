@@ -24,7 +24,8 @@ export function ProductHero({ product }: { product: Product }) {
 
   return (
     <section aria-labelledby="product-title" className="overflow-hidden bg-canvas">
-      <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+      {/* 1.15fr: room for the try button and both store badges on one row at 1024px. */}
+      <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
         <div>
           <Eyebrow product={product} />
           <h1
@@ -35,6 +36,7 @@ export function ProductHero({ product }: { product: Product }) {
           </h1>
           <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl">{hero.intro}</p>
 
+          {/* The button and the store badges on one row, all 48px tall (full-width button on phones). */}
           <div className="mt-7 flex flex-wrap items-center gap-3">
             {/* Guide: primary buttons are a green fill, whatever the product. */}
             {/* Ka-Ezy: "Try Ka-Ezy free" opens the demo on this page when it is
@@ -43,13 +45,12 @@ export function ProductHero({ product }: { product: Product }) {
               href={tryHere ? "#try-ka-ezy" : playStoreUrl(cta.campaign, "product-hero")}
               track={tryHere ? "kaezy_try_hero" : "get_app_click"}
               trackProps={{ product: product.slug, position: "product-hero" }}
-              size="lg"
               className="w-full sm:w-auto"
             >
               <Icon name={product.icon} className="size-5" />
               {cta.label}
             </ButtonLink>
-            <StoreBadges campaign={cta.campaign} medium="product-hero" />
+            <StoreBadges campaign={cta.campaign} medium="product-hero" size="md" />
           </div>
 
           {availability && isVisible(availability) ? (
