@@ -322,11 +322,12 @@ partners:
         - name: "Equity Bank"
           logo: { src: /images/partners/equity-bank.webp, alt: "Equity Bank", width: 196, height: 128 }
         # Added at the team's request (27 Oct 2026). Yara's logo is the official PNG
-        # from yara.com/news-and-media/media-library/yara-logo. gnuGrid has no logo
-        # file yet: its tile shows the name until one is added (logo: { src, alt, width, height }).
+        # from yara.com/news-and-media/media-library/yara-logo; gnuGrid's came from
+        # the EzyAgric team.
         - name: "Yara"
           logo: { src: /images/partners/yara.webp, alt: "Yara", width: 166, height: 128 }
         - name: "gnuGrid"
+          logo: { src: /images/partners/gnugrid.webp, alt: "gnuGrid CRB", width: 127, height: 128 }
     - title: Strategic partners
       items:
         - name: "Mastercard Foundation"
@@ -374,10 +375,12 @@ partners:
         - name: "University of Illinois"
           logo: { src: /images/partners/university-of-illinois.webp, alt: "University of Illinois", width: 320, height: 55 }
         # Added at the team's request (27 Oct 2026). FSD Uganda's logo is rendered from
-        # the official SVG on fsduganda.or.ug; UNCDF and UNADA show their names until
-        # their logo files arrive.
+        # the official SVG on fsduganda.or.ug; UNCDF's and UNADA's came from the
+        # EzyAgric team.
         - name: "UNCDF"
+          logo: { src: /images/partners/uncdf.webp, alt: "UNCDF (United Nations Capital Development Fund)", width: 131, height: 128 }
         - name: "UNADA"
+          logo: { src: /images/partners/unada.webp, alt: "UNADA (Uganda National Agro-input Dealers Association)", width: 320, height: 113 }
         - name: "FSD Uganda"
           logo: { src: /images/partners/fsd-uganda.webp, alt: "FSD Uganda (Financial Sector Deepening Uganda)", width: 267, height: 128 }
 
