@@ -11,8 +11,8 @@ import { ClaimText, PendingBadge } from "@/components/ui/Pending";
  * JavaScript and never jump.
  *
  * One block beside the real farmer photo: the title at the top, the
- * headline numbers, then what farmers and agribusinesses report, each
- * percentage drawn as a ring. From sm the photo stretches to the block's
+ * headline numbers, then what farmers and agribusinesses report (its label
+ * for screen readers only), each percentage drawn as a ring. From sm the photo stretches to the block's
  * height, so its top and bottom edges line up with the title and the last
  * ring. On phones it sits under the figures (4:3). It is lazy-loaded, so
  * only people who scroll this far download it.
@@ -65,9 +65,11 @@ export function Impact() {
 
           {evidence ? (
             <div className="mt-8 border-t border-on-inverse/15 pt-6">
-              <h3 className="text-sm text-label-style text-on-inverse">{evidence.title}</h3>
+              {/* Screen readers only: the rings speak for themselves on screen
+                  (the team asked to drop the visible label, 27 Oct 2026). */}
+              <h3 className="sr-only">{evidence.title}</h3>
               {/* Ring beside its label until lg, then three columns with the label under it. */}
-              <ul className="mt-5 grid gap-4 lg:grid-cols-3 lg:gap-6">
+              <ul className="grid gap-4 lg:grid-cols-3 lg:gap-6">
                 {evidence.items.map((e) => (
                   <li key={e.label} className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
                     <Ring value={e.value} />
