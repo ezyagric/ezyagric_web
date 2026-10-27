@@ -8,7 +8,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { PendingBadge } from "@/components/ui/Pending";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StoreBadges } from "@/components/ui/StoreBadges";
-import { Highlight } from "@/components/home/parts";
+import { HeadlineText, Highlight } from "@/components/home/parts";
 import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
 import { PayLaterVisual } from "./PayLaterVisual";
 import { Wave } from "@/components/ui/Wave";
@@ -37,12 +37,12 @@ export function ProductHero({ product }: { product: Product }) {
       <Container className="grid items-center gap-8 pt-4 pb-12 sm:pt-5 sm:pb-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
         <div className="lg:flex lg:flex-col">
           <Eyebrow product={product} />
-          {/* Product names in Vibrant Green (large text, so accent-bright passes). */}
+          {/* Product names and ==key words== in Vibrant Green (large text, so accent-bright passes). */}
           <h1
             id="product-title"
             className="mt-3 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl min-[72rem]:text-6xl"
           >
-            <Highlight text={hero.headline} className="text-accent-bright" />
+            <HeadlineText text={hero.headline} className="text-accent-bright" />
           </h1>
           {/* From lg, centred between the headline and the buttons, as on the
               home hero: the spare height goes evenly above and below it, and
@@ -141,8 +141,9 @@ function sentences(text: string): string[] {
 }
 
 /**
- * The availability line as chips, one per sentence: where the product is
- * available, in the product's tint with a map pin, then any note that goes
+ * The availability line as chips, one per sentence: the first in the
+ * product's tint, with a map pin when it says where the product is
+ * available ("Available in ...") and a tick otherwise, then any note that goes
  * with it as a quiet white chip in muted text. A note can be a caveat
  * ("Prices don't include transport") as well as a benefit ("Free to list"),
  * so it never takes the place chip's emphasis. Nothing when the product has
@@ -161,7 +162,7 @@ function FactChips({ product }: { product: Product }) {
             key={fact}
             className={`flex min-h-7 items-center gap-1.5 rounded-pill px-3 py-0.5 text-sm font-label text-title ${chip.tint}`}
           >
-            <Icon name="map-pin" className={`size-4 shrink-0 ${chip.glyph}`} />
+            <Icon name={/^available/i.test(fact) ? "map-pin" : "check-circle"} className={`size-4 shrink-0 ${chip.glyph}`} />
             {fact}
           </li>
         ) : (

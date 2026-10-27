@@ -199,9 +199,10 @@ export function renderOgImage({ eyebrow, productName, headline, subline, chips, 
   const logo = { width: 180, height: Math.round((180 * 298.5) / 963.5) };
   // Long product names wrap onto two lines; shrink them a little.
   const nameSize = productName && productName.length > 11 ? 80 : 96;
-  // A long headline ("Farm the Ezy Way, the Smart Way.") steps down so it
-  // stays within two lines of the 560px column.
-  const headlineSize = productName ? 46 : headline.length > 20 ? 60 : 88;
+  // A long headline ("Farm the Ezy Way, the Smart Way.", or EzyCredits'
+  // "Get the genuine inputs for your farm or shop, Pay Later") steps down so
+  // it stays within two lines of the 560px column.
+  const headlineSize = productName ? (headline.length > 40 ? 38 : 46) : headline.length > 20 ? 60 : 88;
 
   return new ImageResponse(
     (

@@ -106,7 +106,7 @@ journey:
         focus: "55% 45%"
     - verb: Pay
       product: ezycredits
-      text: Get your inputs now and pay later with EzyCredits Pay Later (credit from Pezesha, if you qualify).
+      text: Get your inputs now and pay later with EzyCredits Pay Later (if you qualify).
       image:
         src: /images/photos/agro-dealer-phone.webp
         alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him

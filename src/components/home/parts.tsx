@@ -39,6 +39,28 @@ function Names({ text, className }: { text: string; className: string }) {
 }
 
 /**
+ * A headline with product names and any ==key words== in green, without the
+ * highlighter stroke: at headline size the colour carries it, as with the
+ * home hero's "Ezy" and "Smart". For large text only (text-accent-bright).
+ */
+export function HeadlineText({ text, className }: { text: string; className: string }) {
+  const runs = text.split(/==([^=]+)==/);
+  return (
+    <>
+      {runs.map((run, i) =>
+        i % 2 === 1 ? (
+          <span key={i} className={className}>
+            {run}
+          </span>
+        ) : (
+          <Names key={i} text={run} className={className} />
+        ),
+      )}
+    </>
+  );
+}
+
+/**
  * Brand guide: "Vibrant Green highlights product names, prices and offers."
  * Renders the copy with product names and UGX prices in green, and any
  * ==key phrase== in the copy with a soft green highlighter stroke behind its

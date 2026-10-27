@@ -1,5 +1,6 @@
 import path from "node:path";
 import { PRODUCT_SLUGS, getProduct } from "@/lib/content";
+import { plainText } from "@/components/home/parts";
 import {
   OG_ARTWORK,
   OG_CONTENT_TYPE,
@@ -40,7 +41,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
     // "Agrishop · Inputs and services" -> "Inputs and services"
     eyebrow: product.hero.eyebrow.split("·").at(-1)?.trim() ?? product.hero.eyebrow,
     productName: product.name,
-    headline: product.hero.headline,
+    headline: plainText(product.hero.headline),
     accent: product.accent,
     artwork: isArtwork(name) ? name : undefined,
   });

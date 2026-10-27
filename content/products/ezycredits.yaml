@@ -15,18 +15,17 @@ card:
   points:
     - "If approved, get your order now and repay after delivery"
     - Repay with MTN or Airtel Mobile Money
-    - Pay Later credit provided by Pezesha
+    - Choose Pay Later at Agrishop checkout
 
 hero:
   eyebrow: EzyCredits · Buy now, pay later
-  headline: Get what you need now, pay later
-  intro: "If you qualify, ==Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==. Pay Later credit is provided by Pezesha."
+  # ==key words== in green (large text, accent-bright).
+  headline: Get the ==genuine inputs== for your farm or shop, ==Pay Later==
+  intro: "If you qualify, ==Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==."
 
 cta:
   label: See if you qualify
   campaign: ezycredits
-
-availability: Available in Uganda.
 
 features:
   title: What you can pay for
@@ -111,7 +110,7 @@ lenderLine:
 
 faq:
   - q: Who can use Pay Later?
-    a: "Farmers in Uganda who complete their profile can apply. Pezesha decides who gets credit, so not everyone is approved. Limits and terms are different for each farmer."
+    a: "Farmers in Uganda who complete their profile can apply. Not everyone is approved. Limits and terms are different for each farmer."
     actions:
       - { kind: get-app }
   - q: How do I repay?
@@ -125,4 +124,4 @@ faq:
 
 seo:
   title: "EzyCredits: buy inputs and feeds now, pay later | EzyAgric"
-  description: "Get farm inputs, feeds and vet products on Agrishop now and pay later with EzyCredits Pay Later, credit provided by Pezesha, if you qualify. Available in Uganda."
+  description: "Get farm inputs, feeds and vet products on Agrishop now and pay later with EzyCredits Pay Later, if you qualify."
