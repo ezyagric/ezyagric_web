@@ -63,11 +63,12 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
           {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
           <img src={AVATAR} alt="" width={200} height={178} loading="lazy" className="w-[4.5rem] sm:w-[5.5rem]" />
         </span>
-        <div className="max-w-2xl">
+        {/* Wide enough for the title on one line from about 1000px. */}
+        <div className="max-w-4xl">
           <p className="text-sm text-label-style text-on-inverse">{copy.eyebrow}</p>
           <h2
             id={`${id}-title`}
-            className="mt-1 text-3xl font-heading tracking-heading text-balance text-on-inverse sm:text-4xl"
+            className="mt-1 text-3xl font-heading tracking-heading text-balance text-on-inverse lg:text-4xl"
           >
             {copy.title}
           </h2>
