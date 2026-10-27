@@ -4,15 +4,16 @@ import { ButtonLink } from "./Button";
 import { resolveFaqActions } from "./faqActions";
 import { Icon } from "./Icon";
 import { PendingBadge } from "./Pending";
+import { StoreBadges } from "./StoreBadges";
 
 /**
  * Accordion of questions built on <details>, so it works without JavaScript.
  * Each question is its own card (bg-card, border-line, rounded-card) with a
  * numbered circle and a plus in a secondary outline circle. An open question
  * lifts: its border turns secondary, its number green, and the plus turns
- * into a cross on a filled circle. An answer can end with up to two action
- * buttons (try Ka-Ezy, get the app, WhatsApp the team, ...): the first is the
- * main (green) one.
+ * into a cross on a filled circle. An answer can end with up to two actions
+ * (try Ka-Ezy, WhatsApp the team, ...): the first button is the main (green)
+ * one, and "get the app" shows the official store badges instead of a button.
  */
 export function FaqList({ items }: { items: Faq[] }) {
   return (
@@ -50,22 +51,34 @@ export function FaqList({ items }: { items: Faq[] }) {
             <div className="pb-5 sm:pl-13">
               <p className="text-base text-pretty text-body">{item.a}</p>
               {actions.length > 0 ? (
-                <div className="mt-4 flex flex-wrap gap-3">
-                  {actions.map((action, j) => (
-                    <ButtonLink
-                      key={action.kind + action.label}
-                      href={action.href}
-                      variant={j === 0 ? "primary" : "secondary"}
-                      track="faq_action_click"
-                      trackProps={{ action: action.kind }}
-                      className="w-full whitespace-nowrap sm:w-auto"
-                    >
-                      {action.icon ? (
-                        <Icon name={action.icon} className="size-5 shrink-0" />
-                      ) : null}
-                      {action.label}
-                    </ButtonLink>
-                  ))}
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  {actions.map((action, j) =>
+                    action.kind === "get-app" ? (
+                      <StoreBadges
+                        key={action.kind}
+                        campaign="general"
+                        medium="faq"
+                        size="md"
+                      />
+                    ) : (
+                      <ButtonLink
+                        key={action.kind + action.label}
+                        href={action.href}
+                        variant={j === 0 ? "primary" : "secondary"}
+                        track="faq_action_click"
+                        trackProps={{ action: action.kind }}
+                        className="w-full whitespace-nowrap sm:w-auto"
+                      >
+                        {action.icon ? (
+                          <Icon
+                            name={action.icon}
+                            className="size-5 shrink-0"
+                          />
+                        ) : null}
+                        {action.label}
+                      </ButtonLink>
+                    ),
+                  )}
                 </div>
               ) : null}
             </div>

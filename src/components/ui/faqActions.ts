@@ -14,9 +14,10 @@ const ICONS: Partial<Record<FaqAction["kind"], IconName>> = {
 
 /**
  * Where a FAQ button goes on this build. The Ka-Ezy links follow the banner's
- * targets (the demo and plans when shown, else the Ka-Ezy page); "get-app"
- * jumps to the store badges in the footer (every page has them). An action
- * whose target is hidden (an unconfirmed WhatsApp number or phone) is dropped.
+ * targets (the demo and plans when shown, else the Ka-Ezy page). "get-app"
+ * is drawn as the store badges by FaqList; its href (the footer's badges) is
+ * only a fallback. An action whose target is hidden (an unconfirmed WhatsApp
+ * number or phone) is dropped.
  */
 export function resolveFaqActions(actions: FaqAction[]): ResolvedFaqAction[] {
   const { contact } = getSite();
