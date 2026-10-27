@@ -49,7 +49,7 @@ const LAYOUTS: Record<2 | 4 | 6, Layout> = {
 
 /**
  * Real photos of the service at work, in their own band after "what it
- * does" (Agrishop: its delivery bikes and team, and orders handed over).
+ * does" (Agrishop: its delivery trucks and team, and orders handed over).
  * Two, four or six photos; each is cropped round its `focus` where its box has
  * another shape.
  */

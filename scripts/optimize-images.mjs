@@ -46,9 +46,9 @@ const IMAGES = [
   ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
   // Agrishop delivery, from the marketing team's Website folder (WhatsApp
   // images, 27 Oct 2026), each saved at its full size (no larger copies):
-  // "WhatsApp Image 2026-10-27 at 22.32.27.jpeg", then 22.33.30, 22.43.16,
+  // "WhatsApp Image 2026-10-27 at 22.58.27.jpeg", then 22.33.30, 22.43.16,
   // 22.45.19 and 22.47.04.
-  ["photos-2026/agrishop-delivery-fleet.jpg", "photos/agrishop-delivery-fleet.webp", 1400],
+  ["photos-2026/agrishop-delivery-trucks.jpg", "photos/agrishop-delivery-trucks.webp", 1280],
   ["photos-2026/agrishop-delivery-handover.jpg", "photos/agrishop-delivery-handover.webp", 768],
   ["photos-2026/agrishop-delivery-unloading.jpg", "photos/agrishop-delivery-unloading.webp", 567],
   ["photos-2026/agrishop-delivery-team.jpg", "photos/agrishop-delivery-team.webp", 1280],

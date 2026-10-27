@@ -42,18 +42,18 @@ cta:
 # Real photos of Agrishop deliveries (from the marketing team, 27 Oct 2026),
 # in a band after the feature tiles: a brick of six (see PhotoGallery).
 # From sm every box is 2:1 or nearly square, so each photo is cropped round
-# its focus: the bikes and van low in the frame, the shop's sign and front,
+# its focus: the trucks low in the frame, the shop's sign and front,
 # and the heads in the others.
 gallery:
   eyebrow: Delivery
   title: Delivered to your shop, farm or office
   intro: EzyAgric delivery bikes and trucks bring your order to your door.
   images:
-    - src: /images/photos/agrishop-delivery-fleet.webp
-      alt: Two EzyAgric delivery motorbikes with branded delivery boxes and a green EzyAgric delivery van, parked and ready to go
-      width: 1400
-      height: 934
-      focus: "50% 70%"
+    - src: /images/photos/agrishop-delivery-trucks.webp
+      alt: "Two EzyAgric delivery trucks, one branded \"All Genuine Agro-inputs Delivered\", parked under a large tree"
+      width: 1280
+      height: 960
+      focus: "50% 75%"
     - src: /images/photos/agrishop-delivery-handover.webp
       alt: An EzyAgric delivery agent in a high-visibility vest writes up a delivery beside the truck while the customer checks his phone, with sacks of DAP fertilizer and boxes of herbicide and foliar fertilizer at their feet
       width: 768
