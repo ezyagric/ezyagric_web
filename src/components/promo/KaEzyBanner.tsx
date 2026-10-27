@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
 import { hasTryIt } from "@/components/product/kaezy/TryKaEzy";
@@ -120,7 +119,6 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
               className="w-full whitespace-nowrap sm:w-auto"
             >
               {to.tryOnSite ? copy.try.link : copy.try.appLink}
-              <ArrowRight aria-hidden="true" className="size-4" />
               <span className="sr-only">: {copy.try.title}</span>
             </ButtonLink>
           </Step>

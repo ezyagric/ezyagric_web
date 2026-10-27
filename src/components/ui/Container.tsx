@@ -52,6 +52,7 @@ export function SectionHeader({
   intro,
   align = "left",
   invert = false,
+  wide = false,
   children,
 }: {
   id: string;
@@ -62,11 +63,13 @@ export function SectionHeader({
   /** On-inverse (white) text, for the navy and gradient bands (tinted whites fall
    *  below 4.5:1 on the green end of the gradient). */
   invert?: boolean;
+  /** Room for a title and intro that should each stay on one line on desktop. */
+  wide?: boolean;
   children?: ReactNode;
 }) {
   const centered = align === "center" ? "mx-auto text-center" : "";
   return (
-    <div className={`mb-10 max-w-2xl ${centered}`}>
+    <div className={`mb-10 ${wide ? "max-w-4xl" : "max-w-2xl"} ${centered}`}>
       {eyebrow ? (
         <p
           className={`mb-2 text-sm text-label-style ${invert ? "text-on-inverse" : "text-label"}`}
