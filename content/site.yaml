@@ -207,12 +207,12 @@ organisations:
   title: Run your agribusiness and farmer network on EzyProduce
   intro: "EzyProduce is EzyAgric's produce marketplace and business management platform for cooperatives, off-takers and agribusinesses."
   points:
-    - Bulk produce and trace it back to each farmer
-    - Pay farmers instantly
-    - Connect with ready buyers and off-takers
-    - Profile your farmers and track their training
-    - Manage suppliers, sales, purchases and expenses
-    - Accounting, quality and compliance, and business reports
+    - { text: Bulk produce and trace it back to each farmer, icon: package }
+    - { text: Pay farmers instantly, icon: hand-coins }
+    - { text: Connect with ready buyers and off-takers, icon: users }
+    - { text: Profile your farmers and track their training, icon: clipboard-list }
+    - { text: "Manage suppliers, sales, purchases and expenses", icon: receipt }
+    - { text: "Accounting, quality and compliance, and business reports", icon: shield-check }
   cta:
     label: Partner login
     url: https://sso.ezyagric.com

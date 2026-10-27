@@ -467,8 +467,10 @@ const SiteSchema = z.object({
     eyebrow: z.string(),
     title: z.string(),
     intro: z.string(),
-    points: z.array(z.string()),
+    /** What the platform does, each with its icon on its tile. */
+    points: z.array(z.object({ text: z.string(), icon: IconName })),
     cta: z.object({ label: z.string(), url: z.string().url() }),
+    /** The platform on a laptop and tablet: a transparent PNG/WebP, shown on a tinted panel. */
     image: Image,
   }),
   faq: z.object({ title: z.string(), items: z.array(Faq) }),
