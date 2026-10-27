@@ -421,7 +421,16 @@ const SiteSchema = z.object({
       )
       .length(4),
   }),
-  alsoInApp: z.object({ title: z.string(), intro: z.string(), items: z.array(Feature) }),
+  alsoInApp: z.object({
+    title: z.string(),
+    intro: z.string(),
+    items: z.array(
+      Feature.extend({
+        /** The small illustration on its tile (components/home/AlsoInApp); none for a plain tile. */
+        visual: z.enum(["records", "mapping", "calendar", "guides"]).optional(),
+      }),
+    ),
+  }),
   impact: z.object({
     title: z.string(),
     /** Optional date line under the title, e.g. "As of October 2026". */

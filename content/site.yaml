@@ -104,19 +104,25 @@ journey:
 alsoInApp:
   title: Also in the app
   intro: Tools that help you run your farm like a business.
+  # `visual` picks the small illustration on each tool's tile: records (a wide
+  # tile), mapping (a tall one), calendar or guides. Leave it out for a plain tile.
   items:
     - title: Farm records
       text: Track your farm income and expenses to know if your farm is making a profit.
       icon: line-chart
+      visual: records
     - title: Garden mapping
       text: Map your gardens. See their size and details with a Ka-Ezy plan.
       icon: map
+      visual: mapping
     - title: Crop calendars
       text: Know what to do on your farm, and when.
       icon: calendar
+      visual: calendar
     - title: Crop and animal guides
       text: Read practical information on the crops and animals you keep.
       icon: book-open
+      visual: guides
 
 # Figures from the EzyAgric Business Profile 2026 (October 2026). The team
 # asked (26 Oct 2026) to show only the reach and jobs figures, without dates
