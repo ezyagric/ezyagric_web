@@ -9,7 +9,8 @@ import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 
-const AVATAR = "/images/products/ka-ezy-avatar.webp";
+/** Ka-Ezy's face, for small round avatars. */
+export const KAEZY_AVATAR = "/images/products/ka-ezy-avatar.webp";
 
 /** The footer's store badges carry this id, so "Download the App" works on every page. */
 export const GET_THE_APP_ID = "get-the-app";
@@ -71,7 +72,7 @@ export function KaEzyBanner({ id, position }: { id: string; position: string }) 
           <p className="flex min-h-11 items-center gap-3 text-sm text-label-style text-on-inverse">
             <span className="flex size-11 shrink-0 items-end justify-center overflow-hidden rounded-full bg-card shadow-raised">
               {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
-              <img src={AVATAR} alt="" width={200} height={178} loading="lazy" className="w-10" />
+              <img src={KAEZY_AVATAR} alt="" width={200} height={178} loading="lazy" className="w-10" />
             </span>
             {copy.eyebrow}
           </p>
@@ -207,7 +208,7 @@ export function KaEzyStrip({ position, className = "" }: { position: string; cla
       <p className="flex items-center gap-2 text-base font-heading text-title">
         <span className="flex size-9 shrink-0 items-end justify-center overflow-hidden rounded-full border border-line bg-card">
           {/* eslint-disable-next-line @next/next/no-img-element -- small static avatar */}
-          <img src={AVATAR} alt="" width={200} height={178} loading="lazy" className="w-8" />
+          <img src={KAEZY_AVATAR} alt="" width={200} height={178} loading="lazy" className="w-8" />
         </span>
         {copy.strip.label}
       </p>

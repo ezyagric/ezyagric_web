@@ -224,6 +224,13 @@ organisations:
 
 faq:
   title: Questions farmers ask
+  intro: Quick answers about the app, Ka-Ezy and paying.
+  # The card beside the questions (on phones, under them).
+  help:
+    title: Still have a question?
+    text: Ask Ka-Ezy any farm question, day or night, or chat with our team on WhatsApp.
+    kaezy: Ask Ka-Ezy
+    whatsapp: Chat on WhatsApp
   items:
     - q: Is the EzyAgric App free?
       a: "Yes. The app is free to download on Android from Google Play (and soon on iPhone from the App Store), and listing your produce on Produce Market is free. Ka-Ezy is free to start. When your free tokens run out, plans start from UGX 5,000 a month."

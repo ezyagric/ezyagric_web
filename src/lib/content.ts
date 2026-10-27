@@ -473,7 +473,15 @@ const SiteSchema = z.object({
     /** The platform on a laptop and tablet: a transparent PNG/WebP, shown on a tinted panel. */
     image: Image,
   }),
-  faq: z.object({ title: z.string(), items: z.array(Faq) }),
+  faq: z.object({
+    title: z.string(),
+    intro: z.string().optional(),
+    items: z.array(Faq),
+    /** The card beside the questions: ask Ka-Ezy, or the team on WhatsApp. */
+    help: z
+      .object({ title: z.string(), text: z.string(), kaezy: z.string(), whatsapp: z.string() })
+      .optional(),
+  }),
   contact: z.object({
     title: z.string(),
     intro: z.string(),
