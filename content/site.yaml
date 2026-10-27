@@ -84,19 +84,44 @@ products:
 journey:
   title: How the four tools work together
   intro: From planning your season to selling your harvest.
+  # Real photos from the field, one per step (assets-src/photos-field).
   steps:
     - verb: Plan
       product: ka-ezy
       text: Ask Ka-Ezy for advice and a farm plan for your land and budget.
+      image:
+        src: /images/photos/agent-shows-farmers-phone.webp
+        alt: A field agent shows two young farmers something on her phone
+        width: 1000
+        height: 667
+        focus: "50% 30%"
     - verb: Buy
       product: agrishop
       text: Order genuine inputs and vet services on Agrishop.
+      image:
+        src: /images/photos/agro-shop-product-check.webp
+        alt: A young farmer in an agro-input shop checks a bottle of herbicide against his phone
+        width: 1000
+        height: 667
+        focus: "55% 45%"
     - verb: Pay
       product: ezycredits
       text: Pay now from your EzyCredits Wallet, or later with EzyCredits Pay Later (credit from Pezesha, if you qualify).
+      image:
+        src: /images/photos/agro-dealer-phone.webp
+        alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him
+        width: 1000
+        height: 667
+        focus: "60% 50%"
     - verb: Sell
       product: produce-market
       text: Post your harvest on Produce Market at your own asking price.
+      image:
+        src: /images/photos/farmer-produce-sacks.webp
+        alt: A smiling farmer beside a tall stack of produce sacks ready for market
+        width: 1000
+        height: 750
+        focus: "65% 50%"
 
 alsoInApp:
   title: Also in the app
@@ -131,6 +156,23 @@ impact:
     alt: A young Ugandan farmer smiling and holding his phone with the EzyAgric App
     width: 720
     height: 1280
+    focus: "50% 30%"
+  # Beside the first photo, a mosaic of farmers from EzyAgric's own field
+  # photos (assets-src/photos-field).
+  gallery:
+    - src: /images/photos/farmers-sorting-maize.webp
+      # The narrow cells from sm up show only the woman in front, so the alt
+      # text holds for every crop.
+      alt: A woman farmer sorts a large pile of harvested maize cobs
+      width: 640
+      height: 480
+      focus: "52% 40%"
+    - src: /images/photos/farmer-coffee-cherries.webp
+      alt: A coffee farmer smiling and holding out a handful of ripe red coffee cherries
+      width: 600
+      height: 903
+      # High, so his face stays in the near-square crop on phones.
+      focus: "50% 10%"
   items:
     - value: 550000
       suffix: "+"

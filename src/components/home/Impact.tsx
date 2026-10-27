@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getSite, isVisible, visible } from "@/lib/content";
+import { getSite, isVisible, visible, type ImageData } from "@/lib/content";
 import { Container } from "@/components/ui/Container";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
@@ -11,19 +11,23 @@ import { ClaimText, PendingBadge } from "@/components/ui/Pending";
  * numbers are plain text (no animated counters) so they show without
  * JavaScript and never jump.
  *
- * One block beside the real farmer photo: the title at the top, the
- * headline numbers, then what farmers and agribusinesses report (its label
- * for screen readers only), each percentage drawn as a ring. From sm the photo stretches to the block's
- * height, so its top and bottom edges line up with the title and the last
- * ring. On phones it sits under the figures (4:3). It is lazy-loaded, so
- * only people who scroll this far download it.
+ * One block beside real farmer photos: the title at the top, the headline
+ * numbers, then what farmers and agribusinesses report (its label for
+ * screen readers only), each percentage drawn as a ring. From sm the photos
+ * stretch to the block's height, so their top and bottom edges line up with
+ * the title and the last ring. On phones they sit under the figures (4:3).
+ * They are lazy-loaded, so only people who scroll this far download them.
+ *
+ * With a `gallery`, the photos form a mosaic: the first one tall, the others
+ * stacked beside it. From sm to md, where the column is narrowest, the first
+ * goes across the top and the others share the row under it.
  */
 export function Impact() {
   const { impact } = getSite();
   const items = visible(impact.items);
   // Production drops unconfirmed figures; an empty band would just be a heading.
   if (items.length === 0) return null;
-  const { image, evidence } = impact;
+  const { image, gallery, evidence } = impact;
 
   return (
     <section
@@ -84,18 +88,50 @@ export function Impact() {
 
         {image ? (
           // aspect-auto from sm: the grid row's height (the text block's) sets it.
-          <div className="relative aspect-[4/3] overflow-hidden rounded-media sm:aspect-auto sm:min-h-80">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              sizes="(min-width: 1152px) 420px, (min-width: 640px) 38vw, calc(100vw - 32px)"
-              className="object-cover object-[50%_30%]"
+          <div
+            className={`aspect-[4/3] sm:aspect-auto sm:min-h-80 ${
+              gallery.length > 0
+                ? "grid grid-cols-[3fr_2fr] grid-rows-2 gap-2 sm:grid-cols-2 sm:grid-rows-[3fr_2fr] sm:gap-3 md:grid-cols-[3fr_2fr] md:grid-rows-2"
+                : "grid"
+            }`}
+          >
+            <Photo
+              image={image}
+              sizes="(min-width: 1152px) 260px, (min-width: 640px) 38vw, 60vw"
+              className={
+                gallery.length > 0 ? "row-span-2 sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2" : ""
+              }
             />
+            {gallery.map((photo) => (
+              <Photo
+                key={photo.src}
+                image={photo}
+                sizes="(min-width: 1152px) 170px, (min-width: 640px) 19vw, 40vw"
+                // One extra photo fills the rest of the mosaic: the column
+                // beside the first, or from sm to md the row under it.
+                className={gallery.length === 1 ? "row-span-2 sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2" : ""}
+              />
+            ))}
           </div>
         ) : null}
       </Container>
     </section>
+  );
+}
+
+/** One photo of the mosaic, filling its cell, cropped round its focus point. */
+function Photo({ image, sizes, className }: { image: ImageData; sizes: string; className: string }) {
+  return (
+    <div className={`relative min-h-0 overflow-hidden rounded-media ${className}`}>
+      <Image
+        src={image.src}
+        alt={image.alt}
+        fill
+        sizes={sizes}
+        className="object-cover"
+        style={image.focus ? { objectPosition: image.focus } : undefined}
+      />
+    </div>
   );
 }
 

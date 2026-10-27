@@ -88,6 +88,19 @@ steps:
     - title: Shop and pay later
       text: "At Agrishop checkout, choose Pay Later. Your order is delivered first, then you repay with Mobile Money."
 
+# A real photo from the EzyAgric photo library: an agent helping a farmer in
+# the app (the first step, completing the profile, is often done with one).
+photo:
+  image:
+    src: /images/photos/agent-helps-farmer-phone.webp
+    alt: An EzyAgric agent in a branded helmet shows a farmer something on his phone, outside her home
+    width: 1400
+    height: 933
+    # High, so the agent's helmet stays in frame in the wide crop from md to
+    # lg; a little left of centre, so he and the farmer stay in where the
+    # box is narrower than the photo.
+    focus: "40% 15%"
+
 keyFacts:
   title: Pay Later key facts
   intro: Read these before you accept a Pay Later offer. Your offer in the app shows the exact amounts.

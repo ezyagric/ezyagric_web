@@ -82,6 +82,9 @@ photo:
     alt: An EzyAgric bag among ripe red coffee cherries on the farm
     width: 1400
     height: 933
+    # Right of centre, so the wordmark on the bag stays in frame where the
+    # box is narrower than the photo (about 1024px to 1130px wide).
+    focus: "65% 50%"
 
 # YouTube videos (ids from content/site.yaml videos).
 videoIds:

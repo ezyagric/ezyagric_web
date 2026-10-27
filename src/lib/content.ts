@@ -83,6 +83,16 @@ const Image = z.object({
   alt: z.string(),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
+  /**
+   * What to keep in frame where the photo is cropped to fit a box, as a CSS
+   * object-position ("50% 30%": the middle, near the top). If unset, the
+   * component's own crop applies (the centre, or a little above it for
+   * portrait photos in a product's "How it works").
+   */
+  focus: z
+    .string()
+    .regex(/^\d{1,3}% \d{1,3}%$/, 'focus is "x% y%", e.g. "50% 30%"')
+    .optional(),
 });
 export type ImageData = z.infer<typeof Image>;
 
@@ -489,7 +499,13 @@ const SiteSchema = z.object({
     intro: z.string(),
     steps: z
       .array(
-        z.object({ verb: z.string(), product: ProductSlug, text: z.string() }),
+        z.object({
+          verb: z.string(),
+          product: ProductSlug,
+          text: z.string(),
+          /** A real photo of the step from the field, on its card (components/home/Journey). */
+          image: Image,
+        }),
       )
       .length(4),
   }),
@@ -509,6 +525,8 @@ const SiteSchema = z.object({
     asOf: Claim.optional(),
     /** A real farmer photo shown beside the figures. */
     image: Image.optional(),
+    /** Up to two more farmer photos, beside the first in a mosaic (needs `image`). */
+    gallery: z.array(Image).max(2).default([]),
     items: z.array(
       z.object({
         value: z.number(),

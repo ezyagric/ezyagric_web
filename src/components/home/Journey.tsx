@@ -1,14 +1,20 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { getProduct, getSite, type Product } from "@/lib/content";
+import { getProduct, getSite, type ImageData, type Product } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
 
 /**
- * Plan -> Buy -> Pay -> Sell: how the four products connect. A vertical
- * timeline on phones, a single row with arrows from lg up. Each step's
- * product icon sits in a solid circle in the product's colour (blue, green,
- * navy, green), the guide's icon style.
+ * Plan -> Buy -> Pay -> Sell: how the four products connect, each step with
+ * a real photo of that moment from the field. Each step's product icon sits
+ * in a solid circle in the product's colour (blue, green, navy, green), the
+ * guide's icon style.
+ *
+ * Phones: a vertical timeline, the photo under each step's text. From sm the
+ * photo stands beside the text. From lg the steps run in one row of photo
+ * cards: the icon overlaps the foot of its photo, and an arrow on the seam
+ * between two photos leads to the next step.
  */
 export function Journey() {
   const { journey } = getSite();
@@ -28,6 +34,7 @@ export function Journey() {
             verb={step.verb}
             text={step.text}
             product={step.product}
+            image={step.image}
             last={i === steps.length - 1}
           />
         ))}
@@ -41,38 +48,67 @@ function JourneyStep({
   verb,
   text,
   product,
+  image,
   last,
 }: {
   number: number;
   verb: string;
   text: string;
   product: Product;
+  image: ImageData;
   last: boolean;
 }) {
   return (
-    <li className={`relative flex gap-4 lg:flex-col lg:pb-0 ${last ? "" : "pb-8"}`}>
+    // content-start: in the lg row the steps stretch to the tallest one; the
+    // spare height goes below the text, so photos, icons and titles line up.
+    <li
+      className={`relative grid content-start grid-cols-[auto_minmax(0,1fr)] gap-x-4 sm:grid-cols-[auto_minmax(0,1fr)_minmax(0,15rem)] sm:gap-x-6 lg:grid-cols-1 lg:gap-x-0 lg:pb-0 ${
+        last ? "" : "pb-8"
+      }`}
+    >
       {last ? null : (
-        <>
-          {/* Phones: a line down from this step's circle to the next one. */}
-          <span
-            aria-hidden="true"
-            className="absolute top-[4.5rem] bottom-1 left-8 flex -translate-x-1/2 flex-col items-center text-secondary lg:hidden"
-          >
-            <span className="w-0.5 flex-1 rounded-pill bg-brand-soft-strong" />
-            <ChevronDown className="-mt-1.5 size-5" />
-          </span>
-          {/* lg: a line across to the next column, ending in an arrow. */}
-          <span
-            aria-hidden="true"
-            className="absolute top-8 left-20 -right-4 hidden -translate-y-1/2 items-center text-secondary lg:flex"
-          >
-            <span className="h-0.5 flex-1 rounded-pill bg-brand-soft-strong" />
-            <ArrowRight className="-ml-1.5 size-5" />
-          </span>
-        </>
+        // Below lg: a line down from this step's circle to the next one.
+        <span
+          aria-hidden="true"
+          className="absolute top-[4.5rem] bottom-1 left-8 flex -translate-x-1/2 flex-col items-center text-secondary lg:hidden"
+        >
+          <span className="w-0.5 flex-1 rounded-pill bg-brand-soft-strong" />
+          <ChevronDown className="-mt-1.5 size-5" />
+        </span>
       )}
-      <IconCircle name={product.icon} color={product.accent} size="lg" />
-      <div className="min-w-0 pt-1 lg:pt-0">
+
+      {/* Phones: under the text. sm: beside it. lg: the top of the card. */}
+      <div className="relative col-start-2 row-start-2 mt-4 sm:col-start-3 sm:row-start-1 sm:mt-0 lg:col-start-1 lg:row-start-1">
+        <div className="relative aspect-video overflow-hidden rounded-media shadow-card sm:aspect-[4/3]">
+          {/* Lazy-loaded: below the fold. */}
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 1024px) 280px, (min-width: 640px) 240px, calc(100vw - 112px)"
+            className="object-cover"
+            style={image.focus ? { objectPosition: image.focus } : undefined}
+          />
+        </div>
+        {last ? null : (
+          // lg: on the seam between this photo and the next (the row's gap is 1.5rem).
+          <span
+            aria-hidden="true"
+            className="absolute top-1/2 -right-8 z-10 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card text-secondary shadow-raised ring-4 ring-subtle lg:flex"
+          >
+            <ArrowRight className="size-5" />
+          </span>
+        )}
+      </div>
+
+      {/* lg: half over the foot of the photo, cut out of it by a ring of the band's colour. */}
+      <IconCircle
+        name={product.icon}
+        color={product.accent}
+        size="lg"
+        className="relative z-10 col-start-1 row-start-1 ring-4 ring-subtle lg:row-start-2 lg:-mt-8 lg:ml-5"
+      />
+      <div className="col-start-2 row-start-1 min-w-0 pt-1 lg:col-start-1 lg:row-start-3 lg:pt-3">
         <p aria-hidden="true" className="text-sm text-label-style text-muted">
           Step {number}
         </p>

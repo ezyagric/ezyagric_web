@@ -88,11 +88,11 @@ const LAYOUTS = {
     flow: "pairsUntilLg",
     photo:
       "aspect-[3/2] sm:aspect-[2/1] md:aspect-[5/2] lg:col-start-1 lg:row-start-2 lg:-mt-2 lg:aspect-auto lg:min-h-64",
-    // Right of centre, where the logo is on the bag in Agrishop's photo (the
-    // only landscape one): from 1024px to about 1130px the box is narrower
-    // than the photo, and a centred crop would put the wordmark's end on
-    // the edge. Elsewhere the crop is top and bottom only.
-    position: "object-[65%_50%]",
+    // Centred. From lg the box's shape follows the height of the steps beside
+    // it, so a photo may lose its sides or its top and bottom; one whose
+    // subject sits off centre sets its own `focus` (Agrishop's keeps the logo
+    // on its bag in frame, EzyCredits' the agent's helmet).
+    position: "object-center",
     // Filling its box, the photo is drawn up to about 620px wide from lg.
     sizes: "(min-width: 1024px) 620px, calc(100vw - 32px)",
   },
@@ -150,7 +150,9 @@ export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
             alt={image.alt}
             fill
             sizes={layout.sizes}
-            className={`object-cover ${layout.position}`}
+            // The photo's own focus point, if it has one, over the layout's.
+            className={`object-cover ${image.focus ? "" : layout.position}`}
+            style={image.focus ? { objectPosition: image.focus } : undefined}
           />
         </div>
       </div>

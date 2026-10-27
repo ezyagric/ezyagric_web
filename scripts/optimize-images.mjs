@@ -44,6 +44,20 @@ const IMAGES = [
   ["photos-2026/kaezy-exhibition.jpg", "photos/kaezy-exhibition.webp", 800],
   ["photos-2026/farmer-in-garden.jpg", "photos/farmer-in-garden.webp", 720],
   ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
+
+  // EzyAgric field photos (2015, 2016 and 2020) from the marketing team's
+  // Website folder, saved at up to 2400px with no camera, owner or location
+  // data. The source file and any credit are noted on each line.
+  // Home "How the four tools work together": one per step.
+  ["photos-field/agent-shows-farmers-phone.jpg", "photos/agent-shows-farmers-phone.webp", 1000], // "Manafwa 26th July 2016 (22).JPG"
+  ["photos-field/agro-shop-product-check.jpg", "photos/agro-shop-product-check.webp", 1000], // "KKAMIKKA YOUTH 28th July 2016 (27).JPG"
+  ["photos-field/agro-dealer-phone.jpg", "photos/agro-dealer-phone.webp", 1000], // IMG_2736.JPG, 2020, credit: Ronistar
+  ["photos-field/farmer-produce-sacks.jpg", "photos/farmer-produce-sacks.webp", 1000], // DSCN8815.jpg, 2015
+  // Home "Our impact" mosaic, beside farmer-with-phone (cells about 300px wide at most).
+  ["photos-field/farmers-sorting-maize.jpg", "photos/farmers-sorting-maize.webp", 640], // "Manafwa 26th July 2016 (7).JPG"
+  ["photos-field/farmer-coffee-cherries.jpg", "photos/farmer-coffee-cherries.webp", 600], // DSC_0196.JPG, July 2016
+  // EzyCredits "How Pay Later works".
+  ["photos-field/agent-helps-farmer-phone.jpg", "photos/agent-helps-farmer-phone.webp", 1400], // IMG_0398.JPG, 2020, credit: Ronistar
   ["video-posters/kaezy-expert-advice.png", "videos/kaezy-expert-advice.webp", 900],
   ["video-posters/kaezy-disease-diagnosis.png", "videos/kaezy-disease-diagnosis.webp", 900],
   ["video-posters/kaezy-garden-mapping.png", "videos/kaezy-garden-mapping.webp", 900],
@@ -83,7 +97,8 @@ async function main() {
     const resize = opts.height
       ? { height: opts.height, withoutEnlargement: true }
       : { width, withoutEnlargement: true };
-    const info = await sharp(path.join(SRC, src), { animated: false })
+    // autoOrient: a camera photo held upright (EXIF orientation) stays upright.
+    const info = await sharp(path.join(SRC, src), { animated: false, autoOrient: true })
       .resize(resize)
       .webp({ quality: 78, effort: 6 })
       .toFile(dest);

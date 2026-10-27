@@ -148,7 +148,7 @@ npm run images
 
 To add or replace an image:
 
-1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `photos-2026/`, `partners/`, `brand/`, `videos/`, `video-posters/`).
+1. Put the original in the right folder of `assets-src/` (`screens/`, `app/`, `photos/`, `photos-2026/`, `photos-field/`, `partners/`, `brand/`, `videos/`, `video-posters/`).
 2. If it is a new file, add a line for it in `scripts/optimize-images.mjs` (source, output name, maximum width).
 3. Run `npm run images`. It prints the size of every output file.
 4. Use the output in the YAML: `src` (starting with `/images/`), `alt` (what the image shows; empty for decoration), and the output `width` and `height` printed by the script.
@@ -157,6 +157,7 @@ To add or replace an image:
 What is where:
 
 - `photos-2026/` — real photos from the Creative & Content Pack (a farmer with the EzyAgric App, Ka-Ezy at an exhibition, a farmer in his garden, an EzyAgric bag on a coffee farm), used on the home and product pages.
+- `photos-field/` — EzyAgric field photos (2015, 2016 and 2020) from the marketing team's Website folder, used on the home page's journey and impact sections and the EzyCredits page. They are saved at up to 2400px with their camera, owner and location data removed; the full-size originals stay in that folder, and `scripts/optimize-images.mjs` names each one's source file and credit (the 2020 photos are credited to Ronistar). Check a photo's credit before using it: `farmer 1.jpg` in that folder is a 2012 photo by another photographer, so it is not used.
 - `app/ka-ezy-full.png` — the full Ka-Ezy character on a pure white background. Place it on a pure white (`#FFFFFF`) area, or its background shows as a white box.
 - `videos/` — thumbnails for the YouTube videos; `video-posters/` — posters for the Ka-Ezy demo videos.
 - `public/videos/*.mp4` — the Ka-Ezy demo videos (about 4 MB each), served from this site and listed under `demoVideos` in `content/products/ka-ezy.yaml`. They use `preload="none"`, so nothing downloads until someone taps play. They are not processed by `npm run images`; keep new ones short and compressed (H.264, 720p or less).
