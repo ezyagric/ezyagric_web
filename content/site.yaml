@@ -146,34 +146,30 @@ alsoInApp:
       icon: book-open
       visual: guides
 
-# A poultry farmer's story: "EzyAgric Poultry Video.mp4" from the marketing
-# team's Website folder (Oct 2026), compressed to 720p (28 MB, plays only
-# when tapped), with stills from it (assets-src/photos-poultry). Still to
-# come from marketing: an English captions file, and a corrected export (the
-# video's own caption misspells POULTRY). See the README launch checklist.
-poultry:
-  eyebrow: Poultry
-  title: Poultry farming, the Ezy Way
-  intro: Marvin Busulwa keeps layers. Watch how he runs his poultry farm with the EzyAgric App.
+# Livestock, told through a poultry farmer's story: "EzyAgric Poultry
+# Video.mp4" from the marketing team's Website folder (Oct 2026), compressed
+# to 720p (28 MB, plays only when tapped), with stills from it
+# (assets-src/photos-poultry). Still to come from marketing: an English
+# captions file, and a corrected export (the video's own caption misspells
+# POULTRY). See the README launch checklist.
+livestock:
+  eyebrow: Livestock
+  title: Livestock farming, the Ezy Way
   video:
     src: /videos/poultry-marvin-busulwa.mp4
     title: Marvin Busulwa, poultry farmer, on the EzyAgric App
-    length: 3 min
     poster: { src: /images/photos/poultry-app-among-hens.webp, alt: "", width: 1400, height: 788 }
-  person:
-    name: Marvin Busulwa
-    role: Poultry farmer
-    photo: { src: /images/photos/poultry-marvin-avatar.webp, alt: "", width: 160, height: 160 }
-  # Each links to its product page. Product names turn green on their own.
+  # One tile each, under the product's name, linking to its page; so the
+  # text does not name the product again.
   points:
     - product: ka-ezy
-      text: Ask Ka-Ezy about feeding, vaccination and sick birds, or send it a photo of a hen.
+      text: Advice on feeding and vaccination, and a photo check of sick animals.
     - product: agrishop
-      text: Order day-old chicks, feeds and vet products on Agrishop.
+      text: Day-old chicks, feeds and vet products, delivered near you.
     - product: ezycredits
-      text: Pay for feeds and vet care with EzyCredits, now or later if you qualify.
+      text: Pay for feeds and vet care now, or later if you qualify.
     - product: produce-market
-      text: Sell your eggs and birds on Produce Market, at your own price.
+      text: Sell animals, birds and eggs at your own price.
   # Stills from the video, in a row under it.
   photos:
     - src: /images/photos/poultry-eggs-tray.webp
@@ -374,6 +370,7 @@ partners:
   intro: Working with input suppliers, lenders, government and development partners across Uganda.
   groups:
     - title: Commercial partners
+      icon: store
       items:
         - name: "GrainPulse"
           logo: { src: /images/partners/grainpulse.webp, alt: "GrainPulse", width: 275, height: 128 }
@@ -418,6 +415,7 @@ partners:
         - name: "gnuGrid"
           logo: { src: /images/partners/gnugrid.webp, alt: "gnuGrid CRB", width: 127, height: 128 }
     - title: Strategic partners
+      icon: globe
       items:
         - name: "Mastercard Foundation"
           logo: { src: /images/partners/mastercard-foundation.webp, alt: "Mastercard Foundation", width: 135, height: 128 }

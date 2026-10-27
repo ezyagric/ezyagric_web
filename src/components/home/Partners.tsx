@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { Pause, Play } from "lucide-react";
 import { getSite, isVisible, visible, type Site } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Container";
+import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 
 type Partner = Site["partners"]["groups"][number]["items"][number];
@@ -13,10 +14,21 @@ const MIN_FOR_RAIL = 8;
 // Seconds per logo, so every rail moves at the same speed.
 const SECONDS_PER_LOGO = 3.5;
 
+// Each group's row on a soft tint, alternating green and blue, with its icon
+// in the matching solid circle and a bar of that colour that grows under a
+// logo on hover. Full class strings so Tailwind can find them.
+const TONES = [
+  { row: "bg-accent-soft ring-accent-soft-strong", circle: "accent", bar: "after:bg-accent-bright" },
+  { row: "bg-brand-soft ring-brand-soft-strong", circle: "brand", bar: "after:bg-brand" },
+] as const;
+type Tone = (typeof TONES)[number];
+
 /**
- * Partner logos by group (commercial, strategic), one row per group: the
- * group's name on the left, its logos on the right. Long groups glide past
- * as a slow endless rail (alternating directions); short ones sit still.
+ * Partner logos by group (commercial, strategic), one tinted row per group:
+ * the group's icon and name on the left, its logos on raised white plates on
+ * the right. Long groups glide past as a slow endless rail (alternating
+ * directions); short ones sit still. Hovering a logo lifts its plate and
+ * grows a bar of the row's colour under it.
  *
  * Motion (WCAG 2.2.2): rails pause on hover and with the Pause button (a
  * checkbox, so it works without JavaScript), and never move for people who
@@ -52,30 +64,36 @@ export function Partners() {
       </div>
 
       <div className="space-y-4">
-        {groups.map((group) => (
-          <div
-            key={group.title}
-            className="grid items-center gap-3 rounded-card bg-card p-3 shadow-card ring-1 ring-line lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-5 lg:p-4"
-          >
-            <h3 className="px-1 text-sm text-label-style text-label">{group.title}</h3>
-            {rails.includes(group.title) ? (
-              <Rail items={group.items} reverse={rails.indexOf(group.title) % 2 === 1} />
-            ) : (
-              <ul className="flex flex-wrap gap-3">
-                {group.items.map((p) => (
-                  <Logo key={p.name} partner={p} />
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+        {groups.map((group, i) => {
+          const tone = TONES[i % TONES.length];
+          return (
+            <div
+              key={group.title}
+              className={`grid items-center gap-3 rounded-card p-3 ring-1 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-5 lg:p-4 ${tone.row}`}
+            >
+              <div className="flex items-center gap-3 px-1">
+                <IconCircle name={group.icon ?? "users"} color={tone.circle} size="sm" />
+                <h3 className="text-sm text-label-style text-title">{group.title}</h3>
+              </div>
+              {rails.includes(group.title) ? (
+                <Rail items={group.items} tone={tone} reverse={rails.indexOf(group.title) % 2 === 1} />
+              ) : (
+                <ul className="flex flex-wrap gap-3">
+                  {group.items.map((p) => (
+                    <Logo key={p.name} partner={p} tone={tone} />
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
       </div>
     </Section>
   );
 }
 
 /** A group's logos twice over, sliding by one copy's width, edges faded. */
-function Rail({ items, reverse }: { items: Partner[]; reverse: boolean }) {
+function Rail({ items, tone, reverse }: { items: Partner[]; tone: Tone; reverse: boolean }) {
   // Longhand animation properties (no shorthand), so the pause rules below
   // are never reset by it.
   const style: CSSProperties = {
@@ -83,7 +101,9 @@ function Rail({ items, reverse }: { items: Partner[]; reverse: boolean }) {
     animationDirection: reverse ? "reverse" : "normal",
   };
   return (
-    <div className="group/rail overflow-hidden motion-safe:[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+    // -my-3 py-3: room inside the clipped rail for a lifted plate and its
+    // shadow-lift (which ends about 10px below it; shadow-raised would be cut off).
+    <div className="group/rail -my-3 overflow-hidden py-3 motion-safe:[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
       <div
         style={style}
         className="flex w-max motion-safe:[animation-iteration-count:infinite] motion-safe:[animation-name:marquee] motion-safe:[animation-timing-function:linear] motion-reduce:w-full group-hover/rail:[animation-play-state:paused] group-has-[#partners-pause:checked]/partners:[animation-play-state:paused]"
@@ -91,12 +111,12 @@ function Rail({ items, reverse }: { items: Partner[]; reverse: boolean }) {
         {/* pr-3 on each copy (not a gap between them): -50% is exactly one copy. */}
         <ul className="flex gap-3 pr-3 motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:pr-0">
           {items.map((p) => (
-            <Logo key={p.name} partner={p} />
+            <Logo key={p.name} partner={p} tone={tone} />
           ))}
         </ul>
         <ul aria-hidden="true" className="flex gap-3 pr-3 motion-reduce:hidden">
           {items.map((p) => (
-            <Logo key={p.name} partner={p} copy />
+            <Logo key={p.name} partner={p} tone={tone} copy />
           ))}
         </ul>
       </div>
@@ -104,19 +124,26 @@ function Rail({ items, reverse }: { items: Partner[]; reverse: boolean }) {
   );
 }
 
-/** A partner's logo tile; a partner without a logo file yet shows its name as a wordmark. */
-function Logo({ partner, copy = false }: { partner: Partner; copy?: boolean }) {
+/**
+ * A partner's logo on a white plate (logos stay as supplied, in colour); a
+ * partner without a logo file yet shows its name as a wordmark. On hover
+ * the plate lifts and the row's colour grows along its foot; without
+ * motion, the bar just appears.
+ */
+function Logo({ partner, tone, copy = false }: { partner: Partner; tone: Tone; copy?: boolean }) {
   const { name, logo, pending, note } = partner;
   return (
-    <li className="flex h-20 w-40 shrink-0 flex-col items-center justify-center gap-1 rounded-card border border-line bg-card px-4 py-2">
+    <li
+      className={`group/logo relative flex h-20 w-44 shrink-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-card bg-card px-5 py-2 shadow-card ring-1 ring-line after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:origin-left after:scale-x-0 hover:shadow-lift hover:after:scale-x-100 motion-safe:transition motion-safe:after:transition-transform motion-safe:after:duration-300 motion-safe:hover:-translate-y-0.5 ${tone.bar}`}
+    >
       {logo ? (
         <Image
           src={logo.src}
           alt={copy ? "" : logo.alt}
           width={logo.width}
           height={logo.height}
-          sizes="128px"
-          className="max-h-12 w-auto max-w-full object-contain"
+          sizes="136px"
+          className="max-h-12 w-auto max-w-full object-contain motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover/logo:scale-105"
         />
       ) : (
         <span className="text-center text-xl leading-tight font-heading tracking-heading text-brand">{name}</span>

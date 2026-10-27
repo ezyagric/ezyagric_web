@@ -520,25 +520,22 @@ const SiteSchema = z.object({
     ),
   }),
   /**
-   * A poultry farmer's story (components/home/Poultry): his video, stills
-   * from it, and what each product does for poultry farmers. No section
-   * without it.
+   * Livestock (components/home/Livestock): a farmer's video, what each
+   * product does for livestock farmers, and stills from the video. No
+   * section without it.
    */
-  poultry: z
+  livestock: z
     .object({
       eyebrow: z.string(),
       title: z.string(),
-      intro: z.string(),
       /** Self-hosted (public/videos), like the Ka-Ezy demo videos. */
       video: z.object({
         src: z.string().regex(/^\/videos\/[a-z0-9-]+\.mp4$/),
         title: z.string(),
-        /** How long it runs, e.g. "3 min". */
-        length: z.string(),
         poster: Image,
       }),
-      person: z.object({ name: z.string(), role: z.string(), photo: Image }),
-      points: z.array(z.object({ product: ProductSlug, text: z.string() })).min(1).max(4),
+      /** One tile per product, under its name, so the text need not name it. */
+      points: z.array(z.object({ product: ProductSlug, text: z.string() })).length(4),
       photos: z.array(Image).length(4),
     })
     .optional(),
@@ -612,6 +609,8 @@ const SiteSchema = z.object({
     groups: z.array(
       z.object({
         title: z.string(),
+        /** Beside the group's name (components/home/Partners). */
+        icon: IconName.optional(),
         items: z.array(
           // No logo yet: the tile shows the name (see Partners).
           z.object({ name: z.string(), logo: Image.optional(), ...pendingFields }),

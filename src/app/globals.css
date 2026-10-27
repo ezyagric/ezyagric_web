@@ -69,6 +69,7 @@
   --shadow-card: var(--theme-shadow-card);
   --shadow-raised: var(--theme-shadow-raised);
   --shadow-device: var(--theme-shadow-device);
+  --shadow-lift: var(--theme-shadow-lift);
 
   /* Type */
   --font-sans: var(--theme-font-body);

@@ -83,6 +83,7 @@
   --theme-shadow-raised: 0 20px 25px -5px color-mix(in srgb, var(--theme-shade) 10%, transparent),
     0 8px 10px -6px color-mix(in srgb, var(--theme-shade) 10%, transparent); /* menus, floating panels, hover */
   --theme-shadow-device: 0 25px 50px -12px color-mix(in srgb, var(--theme-shade) 30%, transparent); /* phone mock-ups */
+  --theme-shadow-lift: 0 4px 8px -2px color-mix(in srgb, var(--theme-shade) 12%, transparent); /* a small lift on hover, inside tight clipped rows (partner logos) */
 
   /* Type */
   --theme-font-body: var(--font-nunito-sans), "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
