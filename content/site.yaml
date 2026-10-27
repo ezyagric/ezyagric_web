@@ -11,7 +11,7 @@ theme: ezyagric
 
 name: EzyAgric
 legalName: Akorion Company Limited
-slogan: Farm the Ezy way.
+slogan: Farm the Ezy Way, the Smart Way.
 
 # The Ka-Ezy banner, repeated at key points across the site (home page, every
 # service page including Ka-Ezy's, the 404 page; a one-line strip in the
@@ -56,13 +56,13 @@ appStore:
   comingSoon: iPhone app coming soon
 
 seo:
-  title: "EzyAgric: Farm the Ezy way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
+  title: "EzyAgric: Farm the Ezy Way, the Smart Way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
   description: "One farming app to plan, buy, pay and sell: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and list your harvest on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
 hero:
   eyebrow: Built for Africa's farmers
-  headline: Farm the Ezy way.
+  headline: Farm the Ezy Way, the Smart Way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
   subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==farm produce== on Produce Market."
   screenshot:
