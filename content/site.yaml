@@ -373,7 +373,6 @@ social:
     url: https://www.linkedin.com/company/akorion-company-limited/
   - name: YouTube
     url: https://www.youtube.com/@ezyagric8713
+  # Confirmed by the EzyAgric team, 27 Oct 2026 (share parameters dropped).
   - name: TikTok
     url: https://www.tiktok.com/@ezyagric
-    pending: true
-    note: "Confirm EzyAgric's TikTok link: @ezyagric is a guess (no public account was found)."
