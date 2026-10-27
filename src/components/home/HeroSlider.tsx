@@ -60,7 +60,9 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
       </p>
 
       {/* Same height for every slide, art aligned to the bottom (the wave). */}
-      <div className="flex h-80 items-end justify-center sm:h-[26rem] lg:h-[29rem]">
+      {/* Full size from xl; one step smaller at lg, where the hero gives the
+          slider a narrower column (about 400px at 1024). */}
+      <div className="flex h-80 items-end justify-center sm:h-[26rem] xl:h-[29rem]">
         {!image && !screenshot ? (
           // The two cards are ~420px tall at full size: scaled so they fit
           // the slide above the wave at every width.
@@ -78,19 +80,19 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
                     width={image.width}
                     height={image.height}
                     preload={first}
-                    sizes="(min-width: 1024px) 310px, (min-width: 640px) 280px, 192px"
+                    sizes="(min-width: 1280px) 310px, (min-width: 640px) 280px, 192px"
                     className="size-full object-cover object-[50%_53.7%]"
                   />
                 </div>
               ) : (
-                <div className="mb-14 w-36 shrink-0 sm:mb-20 sm:w-56 lg:mb-28 lg:w-60">
+                <div className="mb-14 w-36 shrink-0 sm:mb-20 sm:w-56 lg:mb-28 xl:w-60">
                   <Image
                     src={image.src}
                     alt={image.alt}
                     width={image.width}
                     height={image.height}
                     preload={first}
-                    sizes="(min-width: 1024px) 240px, (min-width: 640px) 224px, 144px"
+                    sizes="(min-width: 1280px) 240px, (min-width: 640px) 224px, 144px"
                     className="h-auto w-full"
                   />
                 </div>
@@ -100,8 +102,8 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
               <div className="relative -ml-10 shrink-0 sm:-ml-12">
                 <PhoneFrame
                   image={screen}
-                  className="w-28 sm:w-40 lg:w-44"
-                  sizes="(min-width: 1024px) 176px, (min-width: 640px) 160px, 112px"
+                  className="w-28 sm:w-40 xl:w-44"
+                  sizes="(min-width: 1280px) 176px, (min-width: 640px) 160px, 112px"
                 />
               </div>
             ) : null}

@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { ClaimText } from "@/components/ui/Pending";
 import { StoreBadges } from "@/components/ui/StoreBadges";
+import { kaezyTryHref } from "@/components/promo/KaEzyBanner";
 import { CheckDot, Highlight } from "./parts";
 import { Wave } from "@/components/ui/Wave";
 import { HeroSlider } from "./HeroSlider";
@@ -41,8 +42,12 @@ export function Hero() {
   // focus or scrollIntoView, which would shift the hero next to the slider.
   return (
     <section aria-labelledby="hero-title" className="relative overflow-clip bg-canvas">
-      <Container className="grid gap-6 pt-8 pb-0 sm:pt-14 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-8 lg:pt-12">
-        <div className="lg:self-center lg:pb-28">
+      {/* From lg the text column stretches to the slider's height: the eyebrow
+          lines up with the top of the slider and the last line sits where the
+          slide art meets the wave (pb-28 = the wave's height). 1.15fr leaves
+          room for the try button and both store badges on one row at 1024px. */}
+      <Container className="grid gap-6 pt-8 pb-0 sm:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch lg:gap-8 lg:pt-12">
+        <div className="lg:flex lg:flex-col lg:pb-28">
           <p className="text-sm text-label-style text-label">
             {hero.eyebrow}
           </p>
@@ -56,21 +61,32 @@ export function Hero() {
             <Highlight text={hero.subline} />
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <StoreBadges campaign="general" medium="hero" />
-            {isVisible(whatsapp) ? (
-              <ButtonLink
-                href={whatsappUrl(whatsapp.number, whatsapp.message)}
-                variant="secondary"
-                size="lg"
-                track="whatsapp_click"
-                trackProps={{ position: "hero" }}
-              >
-                <Icon name="message-circle" className="size-5 text-accent" />
-                Chat on WhatsApp
-              </ButtonLink>
-            ) : null}
+          {/* As on the service pages: the try button and the store badges on
+              one row, all 48px tall (full-width button on phones). */}
+          <div className="mt-6 flex flex-wrap items-center gap-3 lg:mt-auto lg:pt-6">
+            <ButtonLink
+              href={kaezyTryHref()}
+              track="kaezy_try_hero"
+              trackProps={{ position: "home-hero" }}
+              className="w-full sm:w-auto"
+            >
+              <Icon name="bot" className="size-5" />
+              Try Ka-Ezy free
+            </ButtonLink>
+            <StoreBadges campaign="general" medium="hero" size="md" />
           </div>
+          {isVisible(whatsapp) ? (
+            <ButtonLink
+              href={whatsappUrl(whatsapp.number, whatsapp.message)}
+              variant="secondary"
+              track="whatsapp_click"
+              trackProps={{ position: "hero" }}
+              className="mt-3 self-start"
+            >
+              <Icon name="message-circle" className="size-5 text-accent" />
+              Chat on WhatsApp
+            </ButtonLink>
+          ) : null}
 
           <ul className="mt-6 space-y-2 text-base text-muted">
             {visible(hero.smallPrint).map((claim) => (

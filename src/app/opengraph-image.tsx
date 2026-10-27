@@ -1,4 +1,5 @@
 import { getProducts, getSite } from "@/lib/content";
+import { plainText } from "@/components/home/parts";
 import { OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from "@/components/seo/OgImage";
 
 // Site-wide share image, used by every page without its own
@@ -14,7 +15,8 @@ export default function Image() {
   const site = getSite();
   const products = getProducts();
   // First sentence of the hero subline: "One app to plan, buy, pay and sell."
-  const tagline = site.hero.subline.match(/^[^.!?]+[.!?]/)?.[0] ?? site.hero.subline;
+  const subline = plainText(site.hero.subline);
+  const tagline = subline.match(/^[^.!?]+[.!?]/)?.[0] ?? subline;
 
   return renderOgImage({
     eyebrow: site.hero.eyebrow,

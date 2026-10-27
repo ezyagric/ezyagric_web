@@ -17,6 +17,11 @@ export const GET_THE_APP_ID = "get-the-app";
 /** The banner's id on the Ka-Ezy page, where the hero's "Watch" link and the menus' strip point. */
 export const KAEZY_BANNER_ID = "kaezy-banner";
 
+/** "Try Ka-Ezy": the demo on the Ka-Ezy page when it is shown, else the Ka-Ezy page. */
+export function kaezyTryHref(): string {
+  return targets().try;
+}
+
 /** The phone-shaped Ka-Ezy demo (demoVideos in ka-ezy.yaml): it plays inside the banner. */
 function bannerVideo(kaezy: Product | undefined) {
   return kaezy?.demoVideos?.items.find((video) => video.orientation === "portrait");

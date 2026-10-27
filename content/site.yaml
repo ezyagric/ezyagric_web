@@ -67,7 +67,8 @@ seo:
 hero:
   eyebrow: Built for Africa's farmers
   headline: Farm the Ezy way.
-  subline: "One app to plan, buy, pay and sell. Ask Ka-Ezy, shop on Agrishop, pay with EzyCredits and sell on Produce Market."
+  # Product names turn green on their own; ==phrase== gets a highlighter stroke.
+  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==farm produce== on Produce Market."
   smallPrint:
     - Free to download on Android, coming soon to iPhone
     - Shopping, vet services, Pay Later and selling available in Uganda
