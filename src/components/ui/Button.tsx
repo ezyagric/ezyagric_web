@@ -3,9 +3,8 @@ import type { ReactNode } from "react";
 
 // Brand guide: primary buttons are a green fill with a white SemiBold label;
 // secondary buttons are a blue outline on white. Corners come from the theme's
-// rounded-button: pills in the default theme, like the "Pay now" / "Pay later"
-// pills on the EzyCredits page (the EzyAgric team's choice, 26 Oct 2026), and
-// the guide's 8px in the ezyagric-guide theme.
+// rounded-button: pills in the default theme (the EzyAgric team's choice,
+// 26 Oct 2026), and the guide's 8px in the ezyagric-guide theme.
 const PRIMARY = "bg-primary text-on-primary hover:bg-primary-hover";
 const VARIANTS = {
   primary: PRIMARY,

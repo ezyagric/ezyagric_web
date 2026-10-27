@@ -7,8 +7,8 @@ Its job is to make the app's four tools clear in a few seconds on a cheap Androi
 | Tool | What it is | Page |
 |---|---|---|
 | **Ka-Ezy** | AI farm assistant | `/ka-ezy/` |
-| **Agrishop** | Farm inputs and vet services | `/agrishop/` |
-| **EzyCredits** | Wallet (pay now) and Pay Later (credit by Pezesha) | `/ezycredits/` |
+| **Agrishop** | Farm inputs and vet products | `/agrishop/` |
+| **EzyCredits** | Pay Later (credit by Pezesha) | `/ezycredits/` |
 | **Produce Market** | Farmers list their produce for sale | `/produce-market/` |
 
 It also serves partner organisations (EzyProduce web portal).
@@ -95,7 +95,7 @@ The site follows the **EzyAgric Brand Guide v1.0 (2026)** from the *EzyAgric Cre
 - **Colours** (values in the `ezyagric` theme, `src/theme/themes.css`; see [Theming](#theming)): the EzyAgric logo blue `#05377E` for headlines, links and outlines (`heading`, `link`, `secondary`, `brand`; the blue of the "EzyAgric" wordmark, chosen by the EzyAgric team on 26 Oct 2026 in place of the guide's Primary Blue `#0043C0`), Vibrant Green `#0C9548` for icons, highlights and large text (`accent-bright`), Dark Navy `#05103B` for body text, card titles, the footer and dark bands (`body`, `title`, `inverse`). White or the `#F7F9FC` tint (`canvas`, `subtle`) carries most of each page; card borders are `#E4E8F2` (`line`). The signature gradient (logo blue to green) is the `gradient-brand` utility.
 - **Accessible green:** white text on Vibrant Green is only 3.9:1, below WCAG AA. Buttons and small green text therefore use the deeper `#0A7F3D` (`primary`, `accent`; 5.1:1), and the gradient ends in it so white text passes across the band. Exact Vibrant Green is kept for icons, highlights, large text and decoration.
 - **Type:** Nunito Sans only (loaded by `next/font`, fallback Trebuchet MS). Headlines Bold, sub-headlines SemiBold, section labels SemiBold capitals with 0.14em tracking, body Regular at 1.6 line height, never below 14px. The script tagline face is only ever seen inside the logo.
-- **Buttons and cards:** primary buttons are a green fill with a white SemiBold label, fully rounded (pill) like the EzyCredits "Pay now" pill (team decision, 26 Oct 2026, instead of the guide's 8px radius); secondary buttons a blue outline on white (`src/components/ui/Button.tsx`). Cards are white with a 1px `#E4E8F2` border, 8px radius and navy titles. Icons are white line glyphs in a solid blue, green or navy circle (`IconCircle`).
+- **Buttons and cards:** primary buttons are a green fill with a white SemiBold label, fully rounded (pill) (team decision, 26 Oct 2026, instead of the guide's 8px radius); secondary buttons a blue outline on white (`src/components/ui/Button.tsx`). Cards are white with a 1px `#E4E8F2` border, 8px radius and navy titles. Icons are white line glyphs in a solid blue, green or navy circle (`IconCircle`).
 - **Logo:** the logo and its tagline are one unit, so the site only uses the full lockup (`public/images/brand/ezyagric-logo.svg`; reversed white version `ezyagric-logo-white.svg` on navy, blue, green, the gradient and photos), through `src/components/layout/Logo.tsx`. At least 140px wide on screen; clear space of half the circular mark's height on every side; never stretched, recoloured, re-typeset, given effects or put in colour on a brand colour. `ezyagric-wordmark.svg` (no tagline) is kept in the repo but must not be used.
 - **Naming:** always *EzyAgric* (one word, capital E and A) and *the EzyAgric App*.
 - **Share images** follow the guide's link/X post layout: 1200x630, blue headline (two lines at most), product names in green, the logo bottom left at 180px, 60px margins.

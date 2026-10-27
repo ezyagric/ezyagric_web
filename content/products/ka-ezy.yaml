@@ -265,7 +265,7 @@ tryIt:
           - **Clean housing:** dry, well-aired houses with clean bedding.
           - **Vaccinate on schedule,** and deworm as your vet advises.
           - **Watch every day** for animals that eat less, look dull, or have diarrhoea or breathing problems, and separate them quickly.
-          - **Call a vet** for sudden deaths or many sick animals. You can book EzyVet through the app.
+          - **Call a vet** for sudden deaths or many sick animals.
       - q: "Vaccination schedule for {crop}"
         a: |
           [[{name}, ]]the right schedule for {crop} depends on their type, age and the diseases common around you[[ in {location}]], so follow your vet's or supplier's schedule. Rules that always apply:
@@ -274,7 +274,7 @@ tryIt:
           - store vaccines cold and use them before they expire
           - vaccinate only healthy animals, and give every dose in the course
 
-          In the app, Ka-Ezy builds a reminder schedule for your animals, and you can book a vet through EzyVet.
+          In the app, Ka-Ezy builds a reminder schedule for your animals.
       - q: "How to increase {crop} production"
         a: |
           To get more from your {crop}:

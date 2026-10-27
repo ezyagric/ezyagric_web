@@ -5,12 +5,12 @@ import { getProducts, getSite, type ImageData, type Product } from "@/lib/conten
 import { Carousel } from "@/components/ui/Carousel";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
-import { PayWaysVisual } from "@/components/product/PayWaysVisual";
+import { PayLaterVisual } from "@/components/product/PayLaterVisual";
 
 /**
  * The home hero visual as a slider, one slide per service (content/products,
  * in order). Each slide reuses the product's own hero art: Ka-Ezy with his
- * screen, Agrishop with the shop screen, EzyCredits' two ways to pay, and
+ * screen, Agrishop with the shop screen, EzyCredits' Pay Later card, and
  * Produce Market with the app home screen (which shows its tile). The art
  * stands on the hero's brand wave, which also hides the flat crop of the
  * full-length Ka-Ezy artwork at his knees.
@@ -75,7 +75,7 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
           // the slide above the wave at every width (lg: 360 + 48 in 416px).
           // pointer-events-none: decorative, never in the way of the caption link.
           <div className="pointer-events-none mb-8 w-full origin-bottom scale-[0.62] sm:mb-12 sm:scale-[0.78] lg:mb-12 lg:scale-[0.82] xl:mb-16">
-            <PayWaysVisual product={product} />
+            <PayLaterVisual product={product} />
           </div>
         ) : (
           <>

@@ -11,9 +11,9 @@ icon: shopping-cart
 card:
   summary: Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses, delivered near you.
   points:
-    - Book vet services
+    - Delivered to your shop, farm or office
     - Track every order until it arrives
-    - Pay with Mobile Money, EzyCredits or on delivery
+    - Pay with Mobile Money, EzyCredits Pay Later (if you qualify) or on delivery
   image:
     src: /images/products/agrishop.webp
     alt: A farmer pushing a shopping trolley of farm inputs
@@ -38,6 +38,37 @@ hero:
 cta:
   label: Shop on Agrishop
   campaign: agrishop
+
+# Real photos of Agrishop deliveries (from the marketing team, 27 Oct 2026),
+# in a band after the feature tiles: a brick of four (see PhotoGallery).
+# From sm every box is 2:1 or nearly square, so each photo is cropped round
+# its focus: the bikes and van low in the frame, the heads high in the
+# others.
+gallery:
+  eyebrow: Delivery
+  title: Delivered to your shop, farm or office
+  intro: EzyAgric delivery bikes and trucks bring your order to your door.
+  images:
+    - src: /images/photos/agrishop-delivery-fleet.webp
+      alt: Two EzyAgric delivery motorbikes with branded delivery boxes and a green EzyAgric delivery van, parked and ready to go
+      width: 1400
+      height: 934
+      focus: "50% 70%"
+    - src: /images/photos/agrishop-delivery-handover.webp
+      alt: An EzyAgric delivery agent in a high-visibility vest writes up a delivery beside the truck while the customer checks his phone, with sacks of DAP fertilizer and boxes of herbicide and foliar fertilizer at their feet
+      width: 768
+      height: 1020
+      focus: "50% 40%"
+    - src: /images/photos/agrishop-delivery-unloading.webp
+      alt: Two EzyAgric staff unload an order from a green EzyAgric delivery van, with a boxed knapsack sprayer waiting on the ground
+      width: 567
+      height: 1008
+      focus: "50% 60%"
+    - src: /images/photos/agrishop-delivery-team.webp
+      alt: "Five members of the EzyAgric team in branded shirts hold boxes reading \"Order Agro-Inputs & We Shall Deliver!\" in front of the delivery truck"
+      width: 1280
+      height: 720
+      focus: "50% 30%"
 
 # No availability chips under the intro (removed 27 Oct 2026): the FAQ
 # says prices don't include transport.
@@ -73,18 +104,18 @@ steps:
     - title: Track your order
       text: Watch your order move until it's delivered.
 
-# A real photo from the EzyAgric photo library.
+# A real photo of the delivery team (marketing team, 27 Oct 2026): the
+# boxes say "Order Agro-Inputs & We Shall Deliver!", the last step here.
 photo:
   image:
-    src: /images/photos/ezyagric-bag-coffee.webp
-    alt: An EzyAgric bag among ripe red coffee cherries on the farm
-    width: 1400
-    height: 933
-    # Well right of centre: from lg the box is narrower than the photo and
-    # fades into navy on the right, and this keeps the logo and as much of
-    # the wordmark on the bag as fits in frame (below lg the photo runs
-    # across the top of the panel and nearly all of it shows).
-    focus: "85% 50%"
+    src: /images/photos/agrishop-delivery-team-truck.webp
+    alt: "The EzyAgric delivery team, three in the back of the truck and two in front, smile with boxes reading \"Order Agro-Inputs & We Shall Deliver!\""
+    width: 720
+    height: 1280
+    # High: on phones the box shows under half of this tall photo, so the
+    # three in the truck and their boxes stay in and the two in front go
+    # under the fade into navy; from lg all five faces show.
+    focus: "50% 12%"
 
 # YouTube videos (ids from content/site.yaml videos).
 videoIds:
@@ -109,5 +140,5 @@ faq:
       - { kind: whatsapp, label: "Ask us on WhatsApp" }
 
 seo:
-  title: "Agrishop: genuine farm inputs and vet services, delivered | EzyAgric"
-  description: "Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses. Book vet services, track orders and pay by Mobile Money, EzyCredits or on delivery."
+  title: "Agrishop: genuine farm inputs and vet products, delivered | EzyAgric"
+  description: "Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses. Pay by Mobile Money, EzyCredits Pay Later (if you qualify) or on delivery."

@@ -8,7 +8,7 @@ import { ProductHero } from "@/components/product/ProductHero";
 import { FeatureGrid } from "@/components/product/FeatureGrid";
 import { DemoVideos, hasDemoVideos } from "@/components/product/DemoVideos";
 import { TryKaEzy, hasTryIt } from "@/components/product/kaezy/TryKaEzy";
-import { Comparison, comparisonRows } from "@/components/product/Comparison";
+import { PhotoGallery } from "@/components/product/PhotoGallery";
 import { Steps } from "@/components/product/Steps";
 import { Pricing } from "@/components/product/Pricing";
 import { KeyFacts, hasKeyFacts } from "@/components/product/KeyFacts";
@@ -68,12 +68,11 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
   add(visible(product.features.items).length > 0, (tone) => (
     <FeatureGrid key="features" product={product} tone={tone} />
   ));
+  // Real photos of the service at work (Agrishop: delivery).
+  add(!!product.gallery, (tone) => <PhotoGallery key="gallery" product={product} tone={tone} />);
   // On the other service pages, the Ka-Ezy banner after "what it does".
   add(product.slug !== "ka-ezy", () => (
     <KaEzyBanner key="kaezy-banner" id="kaezy-banner" position={`${product.slug}-page`} page={product.slug} />
-  ));
-  add(!!product.comparison && comparisonRows(product.comparison).length > 0, (tone) => (
-    <Comparison key="compare" product={product} tone={tone} />
   ));
   // How to get started, beside a real photo from the field when there is one.
   add(true, (tone) => <Steps key="steps" product={product} tone={tone} />);

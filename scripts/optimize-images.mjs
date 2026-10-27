@@ -44,6 +44,15 @@ const IMAGES = [
   ["photos-2026/kaezy-exhibition.jpg", "photos/kaezy-exhibition.webp", 800],
   ["photos-2026/farmer-in-garden.jpg", "photos/farmer-in-garden.webp", 720],
   ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
+  // Agrishop delivery, from the marketing team's Website folder (WhatsApp
+  // images, 27 Oct 2026), each saved at its full size (no larger copies):
+  // "WhatsApp Image 2026-10-27 at 22.32.27.jpeg", then 22.33.30, 22.43.16,
+  // 22.45.19 and 22.47.04.
+  ["photos-2026/agrishop-delivery-fleet.jpg", "photos/agrishop-delivery-fleet.webp", 1400],
+  ["photos-2026/agrishop-delivery-handover.jpg", "photos/agrishop-delivery-handover.webp", 768],
+  ["photos-2026/agrishop-delivery-unloading.jpg", "photos/agrishop-delivery-unloading.webp", 567],
+  ["photos-2026/agrishop-delivery-team.jpg", "photos/agrishop-delivery-team.webp", 1280],
+  ["photos-2026/agrishop-delivery-team-truck.jpg", "photos/agrishop-delivery-team-truck.webp", 720],
 
   // EzyAgric field photos (2015, 2016 and 2020) from the marketing team's
   // Website folder, saved at up to 2400px with no camera, owner or location

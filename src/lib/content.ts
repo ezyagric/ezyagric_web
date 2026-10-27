@@ -181,14 +181,6 @@ const ProductSchema = z.object({
   availability: Claim.optional(),
   features: z.object({ title: z.string(), items: z.array(Feature).min(1) }),
   steps: z.object({ title: z.string(), items: z.array(Step).min(2) }),
-  comparison: z
-    .object({
-      title: z.string(),
-      intro: z.string().optional(),
-      columns: z.array(z.object({ name: z.string(), tagline: z.string() })),
-      rows: z.array(z.object({ label: z.string(), values: z.array(Claim) })),
-    })
-    .optional(),
   pricing: z
     .object({
       title: z.string(),
@@ -236,9 +228,20 @@ const ProductSchema = z.object({
     .optional(),
   lenderLine: Claim.optional(),
   disclaimer: z.string().optional(),
-  /** A real photo from the EzyAgric photo library, shown in its own band. */
   /** A real photo from the field, shown beside "How it works". */
   photo: z.object({ image: Image }).optional(),
+  /**
+   * Real photos of the service at work, in a band after "what it does": two
+   * (landscape, portrait) or four (landscape, portrait, portrait, landscape).
+   */
+  gallery: z
+    .object({
+      eyebrow: z.string().optional(),
+      title: z.string(),
+      intro: z.string().optional(),
+      images: z.array(Image).refine((images) => images.length === 2 || images.length === 4, "Two or four photos"),
+    })
+    .optional(),
   /** Short self-hosted product videos (public/videos), loaded only on tap. */
   demoVideos: z
     .object({

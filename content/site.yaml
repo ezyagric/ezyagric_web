@@ -57,14 +57,14 @@ appStore:
 
 seo:
   title: "EzyAgric: Farm the Ezy Way, the Smart Way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
-  description: "One app for farmers and agribusinesses: ask Ka-Ezy, shop genuine inputs on Agrishop, pay with EzyCredits and sell crops and livestock on Produce Market."
+  description: "One app for farmers and agribusinesses: ask Ka-Ezy, shop genuine inputs on Agrishop, pay later with EzyCredits if you qualify, sell crops and livestock on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
 hero:
   eyebrow: Built for Africa's farmers and agribusinesses
   headline: Farm the Ezy Way, the Smart Way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
-  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==crops and livestock== on Produce Market."
+  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits if you qualify, and sell your ==crops and livestock== on Produce Market."
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"
@@ -97,7 +97,7 @@ journey:
         focus: "50% 30%"
     - verb: Buy
       product: agrishop
-      text: Order genuine inputs and vet services on Agrishop.
+      text: Order genuine inputs and vet products on Agrishop.
       image:
         src: /images/photos/agro-shop-product-check.webp
         alt: A young farmer in an agro-input shop checks a bottle of herbicide against his phone
@@ -106,7 +106,7 @@ journey:
         focus: "55% 45%"
     - verb: Pay
       product: ezycredits
-      text: Pay now from your EzyCredits Wallet, or later with EzyCredits Pay Later (credit from Pezesha, if you qualify).
+      text: Get your inputs now and pay later with EzyCredits Pay Later (credit from Pezesha, if you qualify).
       image:
         src: /images/photos/agro-dealer-phone.webp
         alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him
@@ -167,7 +167,7 @@ livestock:
     - product: agrishop
       text: Day-old chicks, feeds and vet products, delivered near you.
     - product: ezycredits
-      text: Pay for feeds and vet care now, or later if you qualify.
+      text: Get feeds and vet products now and pay later, if you qualify.
     - product: produce-market
       text: Sell animals, birds and eggs at your own price.
   # Stills from the video, in a row under it.
@@ -263,12 +263,6 @@ videos:
   - id: e9ZdtHdcemc
     title: "EzyAgric: farm the smart and Ezy way (a Tech & Society feature)"
     topic: media
-  - id: _qxPHHbXf90
-    title: How to pay for your inputs using EzyCredits
-    topic: ezycredits
-  - id: jiSQJP99bGQ
-    title: How to top up EzyCredits in the EzyAgric App
-    topic: ezycredits
   - id: YcgVkMRZhoQ
     title: "#PMLive: Modernizing agriculture"
     topic: company
@@ -322,7 +316,7 @@ faq:
         - { kind: try-kaezy }
         - { kind: get-app }
     - q: Where does EzyAgric work?
-      a: "EzyAgric works across Uganda. Shopping and vet services on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
+      a: "EzyAgric works across Uganda. Shopping on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
       actions:
         - { kind: page, label: "Explore our services", href: "/#solutions" }
     - q: Can I use Ka-Ezy outside Uganda?
@@ -332,7 +326,7 @@ faq:
       actions:
         - { kind: try-kaezy }
     - q: How do I pay?
-      a: "With MTN or Airtel Mobile Money, your EzyCredits Wallet, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
+      a: "With MTN or Airtel Mobile Money, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
       actions:
         - { kind: page, label: "About EzyCredits", href: "/ezycredits/" }
     - q: Is there an iPhone app?

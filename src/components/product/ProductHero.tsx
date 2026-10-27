@@ -10,7 +10,7 @@ import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Highlight } from "@/components/home/parts";
 import { TryKaEzyButton } from "@/components/promo/KaEzyBanner";
-import { PayWaysVisual } from "./PayWaysVisual";
+import { PayLaterVisual } from "./PayLaterVisual";
 import { Wave } from "@/components/ui/Wave";
 
 /**
@@ -184,8 +184,7 @@ function FactChips({ product }: { product: Product }) {
 
 /**
  * The app screenshot beside the product artwork (Ka-Ezy), else the artwork
- * on its own, else, for EzyCredits, an HTML illustration of its two ways to
- * pay. The artwork is drawn on a pure white background, so it never
+ * on its own, else, for EzyCredits, an HTML illustration of Pay Later. The artwork is drawn on a pure white background, so it never
  * overlaps the phone or sits on a tint: it would show as a white box.
  *
  * Each visual's top and bottom edges are the ones the text column lines up
@@ -256,12 +255,12 @@ function HeroVisual({ product }: { product: Product }) {
     );
   }
 
-  // The illustration ends 24px (its own py-6) below the "Top up with" pill;
+  // The illustration ends 24px (its own py-6) below the "Repay with" pill;
   // -mb-6 takes that back, so the pill is the bottom edge the buttons meet
   // and the hero ends the same distance below it as the others.
   return (
     <div className="-mb-6 w-full lg:self-end">
-      <PayWaysVisual product={product} />
+      <PayLaterVisual product={product} />
     </div>
   );
 }

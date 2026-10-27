@@ -1,67 +1,32 @@
-# EzyCredits: one name for two ways to pay:
-#   EzyCredits Wallet (pay now) and EzyCredits Pay Later (credit from Pezesha).
-# The app currently labels Pay Later as "BNPL".
+# EzyCredits: EzyCredits Pay Later, credit from Pezesha for Agrishop orders.
+# The app currently labels Pay Later as "BNPL". The EzyCredits Wallet is not
+# offered as a way to pay, so the website doesn't show it (27 Oct 2026).
 # All credit wording needs Pezesha and legal approval before production.
 
 slug: ezycredits
 order: 3
 name: EzyCredits
-appTagline: Wallet and Pay Later
+appTagline: Buy now, pay later
 accent: deep
 icon: wallet
 
 card:
-  summary: Pay for inputs, feeds and vet care now from your wallet, or later with Pay Later.
+  summary: Get inputs, feeds and vet products on Agrishop now and pay later, if you qualify.
   points:
-    - "Wallet: top up with Mobile Money and pay instantly"
-    - "Pay Later: if approved, get inputs now and repay after delivery"
+    - "If approved, get your order now and repay after delivery"
+    - Repay with MTN or Airtel Mobile Money
     - Pay Later credit provided by Pezesha
 
 hero:
-  eyebrow: EzyCredits · Wallet and Pay Later
-  headline: Pay for what you need now, or later
-  intro: "==Top up== when you have cash. If you qualify, use ==Pay Later== when you don't. EzyCredits gives you ==two ways to pay== for ==inputs, feeds and vet care== on Agrishop."
+  eyebrow: EzyCredits · Buy now, pay later
+  headline: Get what you need now, pay later
+  intro: "If you qualify, ==Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==. Pay Later credit is provided by Pezesha."
 
 cta:
   label: See if you qualify
   campaign: ezycredits
 
 availability: Available in Uganda.
-
-comparison:
-  title: Two ways to pay
-  columns:
-    - name: EzyCredits Wallet
-      tagline: Pay now
-    - name: EzyCredits Pay Later
-      tagline: Pay later
-  rows:
-    - label: What it is
-      values:
-        - A prepaid balance in your EzyAgric App
-        - Credit for farm purchases, provided by Pezesha
-    - label: How it works
-      values:
-        - Top up with MTN or Airtel Mobile Money
-        - Complete a short profile and get verified. If approved, you get a personal offer
-    - label: How you use it
-      values:
-        - Pay instantly at Agrishop checkout
-        - At checkout, choose to pay in a set number of days
-    - label: Paying back
-      values:
-        - Nothing to pay back
-        - Repay with Mobile Money. Your repayment period starts when your order is delivered
-    - label: Good to know
-      values:
-        - See and download your transaction history
-        - One Pay Later loan at a time. Your limit can grow as you keep buying and repaying on time
-    - label: Collateral
-      values:
-        - Not needed
-        - text: Not needed. Your offer is based on your purchases and farm records in the app
-          pending: true
-          note: From the Business Profile 2026. Pezesha/legal to approve this wording.
 
 features:
   title: What you can pay for
@@ -72,8 +37,8 @@ features:
     - title: Feeds
       text: Animal feeds for your livestock.
       icon: package
-    - title: Vet care
-      text: Vet supplies and vet services.
+    - title: Vet products
+      text: Vet supplies for your animals and birds.
       icon: stethoscope
 
 steps:
@@ -144,28 +109,20 @@ lenderLine:
   pending: true
   note: Pezesha to confirm exact wording and licence number.
 
-videoIds:
-  - _qxPHHbXf90
-  - jiSQJP99bGQ
-
 faq:
-  - q: What is the difference between the Wallet and Pay Later?
-    a: "The Wallet holds money you've already topped up. Pay Later lets you get your order now and repay after it's delivered."
-  - q: How do I top up my Wallet?
-    a: With MTN or Airtel Mobile Money, from your profile in the app.
-    actions:
-      - { kind: get-app }
   - q: Who can use Pay Later?
     a: "Farmers in Uganda who complete their profile can apply. Pezesha decides who gets credit, so not everyone is approved. Limits and terms are different for each farmer."
     actions:
       - { kind: get-app }
+  - q: How do I repay?
+    a: With MTN or Airtel Mobile Money. Your repayment period starts when your order is delivered.
   - q: How much can I borrow?
-    a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying."
+    a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying on time."
   - q: Can I have two Pay Later loans at once?
     a: No. Repay your current Pay Later loan before you use Pay Later again.
   - q: In the app I see "BNPL". Is that Pay Later?
     a: Yes. BNPL (buy now, pay later) in the app is EzyCredits Pay Later.
 
 seo:
-  title: "EzyCredits: Wallet and Pay Later for inputs and feeds | EzyAgric"
-  description: "Pay for farm inputs, feeds and vet care now from your EzyCredits Wallet, or later with EzyCredits Pay Later, provided by Pezesha. Available in Uganda."
+  title: "EzyCredits: buy inputs and feeds now, pay later | EzyAgric"
+  description: "Get farm inputs, feeds and vet products on Agrishop now and pay later with EzyCredits Pay Later, credit provided by Pezesha, if you qualify. Available in Uganda."
