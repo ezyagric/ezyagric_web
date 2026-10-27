@@ -30,14 +30,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* The Ka-Ezy banner: straight after the hero, and again after the videos. */}
+      {/* The Ka-Ezy banner: once, straight after the hero. */}
       <KaEzyBanner id="kaezy-banner" position="home-top" />
       <ProductGrid />
       <Journey />
       <AlsoInApp />
       <Impact />
       <Stories />
-      <KaEzyBanner id="kaezy-banner-videos" position="home-videos" />
       <Organisations />
       <Faq />
       <Contact />
