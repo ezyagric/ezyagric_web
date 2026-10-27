@@ -408,7 +408,6 @@ const SiteSchema = z.object({
     eyebrow: z.string(),
     headline: z.string(),
     subline: z.string(),
-    smallPrint: z.array(Claim),
     screenshot: Image,
     mascot: Image,
   }),

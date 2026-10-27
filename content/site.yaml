@@ -51,8 +51,7 @@ kaezyBanner:
 #   1. Paste the app's App Store link into `url` (keep the quotes). The
 #      official "Download on the App Store" badge then appears first, next to
 #      Google Play, everywhere on the site.
-#   2. Update the hero small print and the two FAQ answers that say the
-#      iPhone app is coming soon.
+#   2. Update the two FAQ answers that say the iPhone app is coming soon.
 # Until then, preview builds show the badge (not yet a link) and the live
 # site shows the `comingSoon` line next to the Google Play badge.
 appStore:
@@ -69,9 +68,6 @@ hero:
   headline: Farm the Ezy way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
   subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits and sell your ==farm produce== on Produce Market."
-  smallPrint:
-    - Free to download on Android, coming soon to iPhone
-    - Shopping, vet services, Pay Later and selling available in Uganda
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"

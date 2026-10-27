@@ -1,12 +1,10 @@
-import { getSite, isVisible, visible } from "@/lib/content";
-import { whatsappUrl } from "@/lib/links";
+import { getSite } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
-import { ClaimText } from "@/components/ui/Pending";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { kaezyTryHref } from "@/components/promo/KaEzyBanner";
-import { CheckDot, Highlight } from "./parts";
+import { Highlight } from "./parts";
 import { Wave } from "@/components/ui/Wave";
 import { HeroSlider } from "./HeroSlider";
 
@@ -35,8 +33,7 @@ function Headline({ text }: { text: string }) {
  * (HeroSlider) follows below, and sits beside the text from lg up.
  */
 export function Hero() {
-  const { hero, contact } = getSite();
-  const whatsapp = contact.whatsapp;
+  const { hero } = getSite();
 
   // overflow-clip (not hidden): a hidden box can still be scrolled sideways by
   // focus or scrollIntoView, which would shift the hero next to the slider.
@@ -75,29 +72,6 @@ export function Hero() {
             </ButtonLink>
             <StoreBadges campaign="general" medium="hero" size="md" />
           </div>
-          {isVisible(whatsapp) ? (
-            <ButtonLink
-              href={whatsappUrl(whatsapp.number, whatsapp.message)}
-              variant="secondary"
-              track="whatsapp_click"
-              trackProps={{ position: "hero" }}
-              className="mt-3 self-start"
-            >
-              <Icon name="message-circle" className="size-5 text-accent" />
-              Chat on WhatsApp
-            </ButtonLink>
-          ) : null}
-
-          <ul className="mt-6 space-y-2 text-base text-muted">
-            {visible(hero.smallPrint).map((claim) => (
-              <li key={claim.text} className="flex items-start gap-2.5">
-                <CheckDot />
-                <span>
-                  <ClaimText claim={claim} />
-                </span>
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* One slide per service, standing on the brand wave. */}
