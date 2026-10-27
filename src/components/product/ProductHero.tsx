@@ -25,8 +25,11 @@ export function ProductHero({ product }: { product: Product }) {
   return (
     <section aria-labelledby="product-title" className="overflow-hidden bg-canvas">
       {/* 1.15fr: room for the try button and both store badges on one row at 1024px. */}
-      <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
-        <div>
+      {/* From lg the text column stretches to the visual's height: the eyebrow
+          lines up with the top of the image and the button row with its
+          bottom. */}
+      <Container className="grid items-center gap-10 pt-4 pb-14 sm:pt-8 sm:pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch lg:gap-12">
+        <div className="lg:flex lg:flex-col">
           <Eyebrow product={product} />
           <h1
             id="product-title"
@@ -37,7 +40,7 @@ export function ProductHero({ product }: { product: Product }) {
           <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl">{hero.intro}</p>
 
           {/* The button and the store badges on one row, all 48px tall (full-width button on phones). */}
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center gap-3 lg:mt-auto lg:pt-7">
             {/* Guide: primary buttons are a green fill, whatever the product. */}
             {/* Ka-Ezy: "Try Ka-Ezy free" opens the demo on this page when it is
                 shown; otherwise (and for the other products) the app. */}
