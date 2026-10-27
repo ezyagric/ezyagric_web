@@ -40,10 +40,10 @@ cta:
   campaign: agrishop
 
 # Real photos of Agrishop deliveries (from the marketing team, 27 Oct 2026),
-# in a band after the feature tiles: a brick of four (see PhotoGallery).
+# in a band after the feature tiles: a brick of six (see PhotoGallery).
 # From sm every box is 2:1 or nearly square, so each photo is cropped round
-# its focus: the bikes and van low in the frame, the heads high in the
-# others.
+# its focus: the bikes and van low in the frame, the shop's sign and front,
+# and the heads in the others.
 gallery:
   eyebrow: Delivery
   title: Delivered to your shop, farm or office
@@ -59,11 +59,21 @@ gallery:
       width: 768
       height: 1020
       focus: "50% 40%"
+    - src: /images/photos/agrishop-merchant-shop.webp
+      alt: "Kalamba Agro Input Suppliers, an agro-input shop with a \"Powered by EzyAgric\" sign, with sprayers, watering cans, boots and sacks of inputs out front"
+      width: 768
+      height: 1024
+      focus: "50% 80%"
     - src: /images/photos/agrishop-delivery-unloading.webp
       alt: Two EzyAgric staff unload an order from a green EzyAgric delivery van, with a boxed knapsack sprayer waiting on the ground
       width: 567
       height: 1008
       focus: "50% 60%"
+    - src: /images/photos/agrishop-delivery-team-truck.webp
+      alt: "The EzyAgric delivery team, three in the back of the truck and two in front, smile with boxes reading \"Order Agro-Inputs & We Shall Deliver!\""
+      width: 720
+      height: 1280
+      focus: "50% 11%"
     - src: /images/photos/agrishop-delivery-team.webp
       alt: "Five members of the EzyAgric team in branded shirts hold boxes reading \"Order Agro-Inputs & We Shall Deliver!\" in front of the delivery truck"
       width: 1280
@@ -104,18 +114,17 @@ steps:
     - title: Track your order
       text: Watch your order move until it's delivered.
 
-# A real photo of the delivery team (marketing team, 27 Oct 2026): the
-# boxes say "Order Agro-Inputs & We Shall Deliver!", the last step here.
+# A real photo (marketing team, 27 Oct 2026): Agrishop's "Shop by
+# category" on a phone, the first step here.
 photo:
   image:
-    src: /images/photos/agrishop-delivery-team-truck.webp
-    alt: "The EzyAgric delivery team, three in the back of the truck and two in front, smile with boxes reading \"Order Agro-Inputs & We Shall Deliver!\""
-    width: 720
-    height: 1280
-    # High: on phones the box shows under half of this tall photo, so the
-    # three in the truck and their boxes stay in and the two in front go
-    # under the fade into navy; from lg all five faces show.
-    focus: "50% 12%"
+    src: /images/photos/agrishop-app-shop-by-category.webp
+    alt: "Someone browses Agrishop's \"Shop by category\" page on a phone, over sacks of maize seed and bottles of crop protection products"
+    width: 1200
+    height: 1600
+    # A little left of centre and just above the middle: the phone and the
+    # hand on it stay in frame, on phones as far from the fade as they can.
+    focus: "45% 45%"
 
 # YouTube videos (ids from content/site.yaml videos).
 videoIds:

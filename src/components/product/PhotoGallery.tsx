@@ -8,7 +8,7 @@ type Layout = { grid: string; items: { box: string; sizes: string }[] };
 // Each photo's box and `sizes` by the number of photos. Landscape photos go
 // first and last, portrait ones between. Full class strings so Tailwind can
 // find them.
-const LAYOUTS: Record<2 | 4, Layout> = {
+const LAYOUTS: Record<2 | 4 | 6, Layout> = {
   // Two: stacked on phones (3:2, then 4:5). From sm one row, the landscape
   // photo at 7/12 and 3:2, the portrait one as tall as it.
   2: {
@@ -31,18 +31,33 @@ const LAYOUTS: Record<2 | 4, Layout> = {
       { box: "col-span-2 aspect-video sm:aspect-[2/1]", sizes: "(min-width: 1024px) 730px, (min-width: 640px) 66vw, calc(100vw - 32px)" },
     ],
   },
+  // Six, the same brick on four columns from sm: wide-narrow-narrow, then
+  // narrow-narrow-wide, every row 2:1 tall on its wide photo. On phones, two
+  // columns: the landscape photos across both, the portrait ones in pairs.
+  6: {
+    grid: "grid-cols-2 sm:grid-cols-4",
+    items: [
+      { box: "col-span-2 aspect-[3/2] sm:aspect-[2/1]", sizes: "(min-width: 1024px) 540px, (min-width: 640px) 50vw, calc(100vw - 32px)" },
+      { box: "aspect-[4/5] sm:aspect-auto", sizes: "(min-width: 1024px) 260px, (min-width: 640px) 25vw, 50vw" },
+      { box: "aspect-[4/5] sm:aspect-auto", sizes: "(min-width: 1024px) 260px, (min-width: 640px) 25vw, 50vw" },
+      { box: "aspect-[4/5] sm:aspect-auto", sizes: "(min-width: 1024px) 260px, (min-width: 640px) 25vw, 50vw" },
+      { box: "aspect-[4/5] sm:aspect-auto", sizes: "(min-width: 1024px) 260px, (min-width: 640px) 25vw, 50vw" },
+      { box: "col-span-2 aspect-video sm:aspect-[2/1]", sizes: "(min-width: 1024px) 540px, (min-width: 640px) 50vw, calc(100vw - 32px)" },
+    ],
+  },
 };
 
 /**
  * Real photos of the service at work, in their own band after "what it
  * does" (Agrishop: its delivery bikes and team, and orders handed over).
- * Two or four photos; each is cropped round its `focus` where its box has
+ * Two, four or six photos; each is cropped round its `focus` where its box has
  * another shape.
  */
 export function PhotoGallery({ product, tone }: { product: Product; tone: BandTone }) {
   const { gallery } = product;
   if (!gallery) return null;
-  const layout = LAYOUTS[gallery.images.length === 4 ? 4 : 2];
+  const count = gallery.images.length;
+  const layout = LAYOUTS[count === 6 ? 6 : count === 4 ? 4 : 2];
 
   return (
     <Section id="gallery" tone={tone} labelledBy="gallery-title">

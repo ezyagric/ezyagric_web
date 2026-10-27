@@ -232,14 +232,15 @@ const ProductSchema = z.object({
   photo: z.object({ image: Image }).optional(),
   /**
    * Real photos of the service at work, in a band after "what it does": two
-   * (landscape, portrait) or four (landscape, portrait, portrait, landscape).
+   * (landscape, portrait), four (landscape, two portrait, landscape) or six
+   * (landscape, four portrait, landscape).
    */
   gallery: z
     .object({
       eyebrow: z.string().optional(),
       title: z.string(),
       intro: z.string().optional(),
-      images: z.array(Image).refine((images) => images.length === 2 || images.length === 4, "Two or four photos"),
+      images: z.array(Image).refine((images) => [2, 4, 6].includes(images.length), "Two, four or six photos"),
     })
     .optional(),
   /** Short self-hosted product videos (public/videos), loaded only on tap. */

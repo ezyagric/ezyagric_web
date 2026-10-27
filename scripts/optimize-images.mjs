@@ -53,6 +53,11 @@ const IMAGES = [
   ["photos-2026/agrishop-delivery-unloading.jpg", "photos/agrishop-delivery-unloading.webp", 567],
   ["photos-2026/agrishop-delivery-team.jpg", "photos/agrishop-delivery-team.webp", 1280],
   ["photos-2026/agrishop-delivery-team-truck.jpg", "photos/agrishop-delivery-team-truck.webp", 720],
+  // Same folder, later that evening: an agro-input shop "Powered by
+  // EzyAgric" (22.59.06) and Agrishop's "Shop by category" on a phone
+  // (23.00.18, 1500x2000).
+  ["photos-2026/agrishop-merchant-shop.jpg", "photos/agrishop-merchant-shop.webp", 768],
+  ["photos-2026/agrishop-app-shop-by-category.jpg", "photos/agrishop-app-shop-by-category.webp", 1200],
 
   // EzyAgric field photos (2015, 2016 and 2020) from the marketing team's
   // Website folder, saved at up to 2400px with no camera, owner or location
