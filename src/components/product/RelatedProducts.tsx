@@ -96,10 +96,9 @@ export function RelatedProducts({ product, tone }: { product: Product; tone: Ban
  * A product's artwork as an app icon, as on the home page's service cards:
  * a white tile (the artwork is drawn on white), with a 4px margin that keeps
  * it clear of the round corners on small tiles. EzyCredits has no artwork:
- * its icon, white on its accent. Size and elevation come from `className`;
- * the closing band (ProductCtaBand) uses it too.
+ * its icon, white on its accent. Size and elevation come from `className`.
  */
-export function AppTile({
+function AppTile({
   product,
   sizes,
   className,

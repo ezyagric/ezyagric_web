@@ -15,7 +15,6 @@ import { KeyFacts, hasKeyFacts } from "@/components/product/KeyFacts";
 import { ProductVideos, productVideos } from "@/components/product/ProductVideos";
 import { ProductFaq, hasFaq } from "@/components/product/ProductFaq";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
-import { ProductCtaBand } from "@/components/product/ProductCtaBand";
 import type { BandTone } from "@/components/product/tones";
 import { KAEZY_BANNER_ID, KaEzyBanner } from "@/components/promo/KaEzyBanner";
 
@@ -102,7 +101,6 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
       {product.slug === "ka-ezy" ? <KaEzyBanner id={KAEZY_BANNER_ID} position="ka-ezy-page" page="ka-ezy" /> : null}
       {/* The hero is white, so the first band is tinted. */}
       {bands(product).map((render, i) => render(i % 2 === 0 ? "subtle" : "canvas"))}
-      <ProductCtaBand product={product} />
     </>
   );
 }

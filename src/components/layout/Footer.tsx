@@ -50,7 +50,7 @@ export function Footer() {
     // highlights for the column labels ("navy with green highlight").
     <footer className="bg-inverse text-on-inverse">
       {/* The signature blue-green stripe keeps the footer apart from a
-          dark or gradient closing band above it. */}
+          dark or gradient band above it. */}
       <div aria-hidden="true" className="h-1.5 gradient-brand-decor" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-8 px-4 py-8 sm:px-6 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-12">
         <div className="col-span-2 md:col-span-1">

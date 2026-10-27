@@ -1,6 +1,6 @@
 /**
  * Product pages alternate canvas and subtle (tinted) bands below the canvas
- * hero. The values are ui/Container's Section tone names. Per-product colour classes live in ui/accents.ts (ACCENTS);
- * the closing band uses the shared `gradient-brand` for every product.
+ * hero. The values are ui/Container's Section tone names. Per-product colour
+ * classes live in ui/accents.ts (ACCENTS).
  */
 export type BandTone = "canvas" | "subtle";
