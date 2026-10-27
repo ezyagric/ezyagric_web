@@ -41,10 +41,6 @@ cta:
   label: Try Ka-Ezy free
   campaign: ka-ezy
 
-availability:
-  text: Works wherever you can use the EzyAgric App
-  pending: true
-  note: Confirm which countries to name.
 
 # Feature names and lines from the Ka-Ezy flier and the weekly campaign banners.
 features:
@@ -73,12 +69,12 @@ features:
       icon: shopping-cart
 
 # The four short feature videos from the Creative & Content Pack (Video Library).
-# Shown right after the hero, with a link to it under the hero buttons, so
-# visitors see Ka-Ezy at work among the first things on the page.
+# The portrait "Ka-Ezy demo" plays inside the Ka-Ezy banner (right after the
+# hero, and across the site). The landscape
+# feature videos form this page's "Watch each feature" section.
 demoVideos:
-  title: See Ka-Ezy in action
-  heroLink: "Watch Ka-Ezy in action (1\_min\_24\_s)"
-  intro: Short videos of what Ka-Ezy does. Each video only downloads when you tap play.
+  title: Watch each Ka-Ezy feature
+  intro: A short video of each thing Ka-Ezy does. Each video only downloads when you tap play.
   items:
     # "Demo Video For Ka-Ezy" from the Creative & Content Pack (portrait, 607x1080).
     - src: /videos/kaezy-demo.mp4
@@ -104,32 +100,76 @@ demoVideos:
       text: Keep your income and expenses in one place and watch your profit grow.
       poster: { src: /images/videos/kaezy-farm-records.webp, alt: "", width: 900, height: 506 }
 
-# "Ask Ka-Ezy, then hire it", right below the videos. The answers are sample
+# "Ask Ka-Ezy, then hire it", right after the Ka-Ezy banner. The answers are sample
 # answers written for the website (there is no safe way yet for a public web
 # page to reach the real Ka-Ezy or take payment: see README, "Ka-Ezy on the
 # website"). Preview builds simulate paying with Mobile Money; the live site
 # sends visitors to the app to pay.
 tryIt:
   pending: true
-  note: "Agronomy team to check the four sample answers. Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
+  note: "Agronomy team to check the sample answers (crops, animals, and fish, bees and mushrooms) and the sample plan figures (costs, yields and prices). Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
   eyebrow: Try it now
   title: Ask Ka-Ezy, then hire it
-  intro: "Tap a question to see how Ka-Ezy answers. When you're ready, choose a plan and pay with Mobile Money."
+  intro: "Tell Ka-Ezy about your farm, then ask it, plan your season, keep records and map a garden. When you're ready, choose a plan and pay with Mobile Money."
+  # Ka-Ezy's answers and plan figures below are samples written for the
+  # website. They are personalised from "Your farm": {name}, {crop}, {location}
+  # and {acres} are filled in, and a part in [[ ]] is left out when one of its
+  # details is not given.
+  farm:
+    title: Your farm
+    valueChain: Value chain
+    valueChainPlaceholder: Choose a crop or animal
+    optionalTitle: Farm details (optional)
+    location: Location
+    locationHint: For local weather and timing advice.
+    landSize: Land size (acres)
+    firstName: Farmer's first name
+    firstNameHint: Used to personalise answers.
+    storage: Saved on this device only, to tailor Ka-Ezy's answers.
+    storageLive: Saved on this device only, and sent with your questions so Ka-Ezy can tailor its answers.
+    pastTitle: Past conversations
+    pastEmpty: No conversations yet.
+    newConversation: New conversation
+    clear: Delete all
+  # The app's value chains (FarmPlanOptions.valueChainItems), grouped.
+  valueChains:
+    - group: Crops
+      kind: crop
+      items: [Maize, Beans, Cassava, Banana/Matooke, Rice, Groundnuts, Soybean, Sorghum, Millet, Sunflower, Cotton, Irish Potato, Sweet Potato, Tomato, Onion, Cabbage, Red Pepper, Green Pepper, Sukuma Wiki, Spinach, Amaranth, Cucumber, Watermelon, Eggplant, Okra, Carrots, Garlic, Ginger, Citrus, Sesame, Yams, Pumpkin]
+    - group: Cash and fruit crops
+      kind: crop
+      items: [Coffee, Tea, Vanilla, Cocoa, Avocado, Mango, Pineapple, Passion Fruit, Macadamia]
+    - group: Animals and birds
+      kind: livestock
+      items: [Poultry, Cattle, Goats, Sheep, Pigs, Rabbit, Duck, Turkey, Quail, Ostrich]
+    # Not crops in a garden and not animals in a house: their own questions.
+    - group: Fish, bees and mushrooms
+      kind: other
+      items: [Fish, Beekeeping, Mushroom]
+  tabs:
+    expert: { title: Farm Expert, text: Ask Ka-Ezy about a crop or animal. }
+    plan: { title: Farm Plan, text: "A costed plan from setup to harvest, scaled to your farm." }
+    records: { title: Farm Records, text: "Income, expenses and activities, with totals." }
+    mapping: { title: Garden Mapping, text: The guide to mapping a garden by GPS. }
   chat:
     greeting: Hello farmer
+    greetingNamed: "Hello, {name}"
     subtitle: "Ask anything about your farm: crops, pests, planning or records."
+    personalised: "Answers for {crop}[[ in {location}]][[, {acres}]]"
+    choosePrompt: Choose your value chain in Your farm for answers about your farm.
     tryAsking: Try asking
     placeholder: Ask Ka-Ezy...
+    # Before a value chain is chosen.
     prompts:
       - q: What should I plant this season?
         a: |
-          The best crop depends on your district, your land and when the rains start. Here is how I would choose with you:
+          [[{name}, ]]the best crop depends on your district, your land and when the rains start[[ in {location}]]. Here is how I would choose with you:
 
           - **Quick income (about 3 months):** beans, or vegetables such as tomatoes, cabbages and onions if you are near a market.
           - **Food and a steady market:** maize stores well and has ready buyers.
           - **Long-term income:** coffee or bananas, if you can wait for the first harvest.
 
-          Plant at the start of the rains, so your crop has water when it needs it most. Tell me your district and how much land you have, and I'll suggest the best fit, with a budget.
+          Plant at the start of the rains, so your crop has water when it needs it most. Choose your value chain in Your farm and I'll give you answers for it[[, with a budget for your {acres}]].
       - q: How do I prepare my soil?
         a: |
           Good preparation gives your seeds a strong start:
@@ -151,7 +191,7 @@ tryIt:
           - what it was for (seed, fertilizer, labour, transport or a sale)
           - the amount in UGX
 
-          At the end of the season, add up your income and take away your expenses: that is your profit. In the EzyAgric App you keep these records on your phone, and I use them to give you better advice.
+          At the end of the season, add up your income and take away your expenses: that is your profit. Try it in the Farm Records tab: tell me what happened and I'll keep the totals.
       - q: Tips to boost my yields
         a: |
           Five things that make the biggest difference:
@@ -162,8 +202,134 @@ tryIt:
           4. **Weed early.** Weeds steal water and food from young plants.
           5. **Check for pests and diseases every week** and act early. Snap a photo in the app and I'll tell you what's wrong.
 
-          Tell me your crop and I'll give you a plan made for it.
-    ownQuestionReply: "On the website I can only answer the sample questions. Ask me about your own farm in the EzyAgric App, where your first questions are free."
+          Tell me your crop in Your farm and I'll give you advice made for it.
+    # When a crop is chosen (the app's own crop questions).
+    cropPrompts:
+      - q: "Best fertilizer schedule for {crop}"
+        a: |
+          [[{name}, ]]a good fertilizer plan for {crop} starts with your soil[[ in {location}]]:
+
+          1. **Test your soil first.** It shows which nutrients your land lacks, so you only buy what it needs.
+          2. **At planting:** mix well-rotted manure or compost into the soil, with a planting fertilizer recommended for {crop}.
+          3. **While it grows:** top-dress when the crop is growing fast, on moist soil, a little away from the stems.
+          4. **Follow the label** for amounts, and never apply on dry soil.
+
+          [[For your {acres}, ]]Ka-Ezy in the app works out the exact products, amounts and cost, and you can order them on Agrishop.
+      - q: "Common pests in {crop} and how to control them"
+        a: |
+          Pests do most damage when they are caught late. For {crop}[[ in {location}]]:
+
+          - **Scout every week:** look under leaves and along stems for insects, holes, spots or wilting.
+          - **Act early:** remove and destroy badly affected plants so problems don't spread.
+          - **Keep the garden clean:** weed often and clear old crop remains, where pests hide.
+          - **Rotate crops** each season where you can, to break pest cycles.
+          - **Use the right product:** if you need a pesticide, use one approved for {crop}, follow the label and wear protective gear.
+
+          Snap a photo in the EzyAgric App and Ka-Ezy tells you which pest or disease it is and how to treat it.
+      - q: "When should I harvest {crop}?"
+        a: |
+          [[{name}, ]]harvest time for {crop} depends on the variety and when you planted it. Signs it is ready:
+
+          - it has reached the maturity period for its variety (check the seed packet or ask your supplier)
+          - leaves start to dry or change colour, and grains, pods or fruits are firm and well filled
+          - for grains and pulses, harvest in dry weather, then dry the crop well before storing
+
+          Harvesting too early lowers your yield; too late invites pests and losses in the field. Tell Ka-Ezy your variety and planting date in the app and it gives you your harvest window.
+      - q: "How to increase {crop} yield"
+        a: |
+          Five things that make the biggest difference for {crop}[[ on your {acres}]]:
+
+          1. **Use certified seed** of a variety suited to your area[[ ({location})]]. You can order genuine seed on Agrishop.
+          2. **Plant on time,** at the start of the rains, with the right spacing for {crop}.
+          3. **Feed your soil** with manure, compost or the right fertilizer for {crop}.
+          4. **Weed early.** Weeds steal water and food from young plants.
+          5. **Check for pests and diseases every week** and act early.
+
+          In the EzyAgric App, Ka-Ezy builds a costed plan for your {crop}. On this page, the Farm Plan tab shows one for maize or beans.
+    # When an animal, bird or fish is chosen.
+    livestockPrompts:
+      - q: "Best feeding plan for {crop}"
+        a: |
+          [[{name}, ]]good feeding is the biggest cost, and the biggest win, in {crop} farming:
+
+          - **Feed for the stage:** young, growing and producing animals need different feeds. Use a feed made for each stage.
+          - **Clean water all the time.** Animals eat less and produce less without it.
+          - **Feed at regular times,** and keep feeders clean and dry so feed doesn't go mouldy.
+          - **Buy quality feed** from a trusted supplier. You can order feeds on Agrishop.
+          - **Weigh and record** what you feed, to spot problems early.
+
+          In the app, Ka-Ezy works out a feeding plan and its cost for your animals.
+      - q: "Common diseases in {crop} and how to prevent them"
+        a: |
+          Prevention costs far less than treatment. For {crop}[[ in {location}]]:
+
+          - **Biosecurity:** limit visitors, clean boots and equipment, and keep new animals apart for two weeks before mixing them in.
+          - **Clean housing:** dry, well-aired houses with clean bedding.
+          - **Vaccinate on schedule,** and deworm as your vet advises.
+          - **Watch every day** for animals that eat less, look dull, or have diarrhoea or breathing problems, and separate them quickly.
+          - **Call a vet** for sudden deaths or many sick animals. You can book EzyVet through the app.
+      - q: "Vaccination schedule for {crop}"
+        a: |
+          [[{name}, ]]the right schedule for {crop} depends on their type, age and the diseases common around you[[ in {location}]], so follow your vet's or supplier's schedule. Rules that always apply:
+
+          - keep a written record of every vaccination: date, vaccine and batch
+          - store vaccines cold and use them before they expire
+          - vaccinate only healthy animals, and give every dose in the course
+
+          In the app, Ka-Ezy builds a reminder schedule for your animals, and you can book a vet through EzyVet.
+      - q: "How to increase {crop} production"
+        a: |
+          To get more from your {crop}:
+
+          1. **Start with good stock** from a trusted breeder or hatchery.
+          2. **Feed well** for each stage, with clean water all the time.
+          3. **Keep them healthy** with clean housing, vaccination and quick care for sick animals.
+          4. **Keep records** of feed, sales and losses, so you see what pays.
+          5. **Plan your market** before you produce.
+
+          Try the Farm Records tab: tell me what you spent and sold and I'll keep the totals.
+    # Fish, bees and mushrooms.
+    otherPrompts:
+      - q: "How do I start {crop} farming?"
+        a: |
+          [[{name}, ]]a good start in {crop} farming[[ in {location}]] comes down to a few things:
+
+          1. **Learn first:** visit a working farm near you and talk to people already doing it.
+          2. **Start small,** then grow as you learn what works and where you can sell.
+          3. **Get good starting stock** from a trusted supplier: certified fingerlings, healthy bee colonies or clean mushroom spawn.
+          4. **Plan your costs and your market** before you spend: who will buy, at what price, and how often.
+          5. **Keep records** from day one, so you know if it pays.
+
+          In the EzyAgric App, Ka-Ezy gives you a step-by-step plan and its costs for {crop}.
+      - q: "How to increase {crop} production"
+        a: |
+          To get more from your {crop}:
+
+          - **Use good starting stock** from a trusted supplier.
+          - **Keep conditions right:** clean water and good feed for fish, flowers and water near hives for bees, and clean, damp, shaded growing rooms for mushrooms.
+          - **Check every week** and act early on problems.
+          - **Keep records** of what you put in and what you harvest, to see what works.
+
+          In the EzyAgric App, Ka-Ezy gives advice for your own {crop}, any time.
+      - q: "What records should I keep for {crop}?"
+        a: |
+          Keep a simple record of:
+
+          - what you spend: stock, feed or materials, labour and transport
+          - what you harvest and sell, with dates and prices
+          - problems you see and what you did about them
+
+          At the end of each cycle, add up your sales and take away your costs: that is your profit. Try the Farm Records tab: tell Ka-Ezy what happened and it keeps the totals.
+      - q: "Where can I sell my {crop}?"
+        a: |
+          [[{name}, ]]look for buyers before you harvest[[ around {location}]]:
+
+          - local markets, shops, hotels and restaurants
+          - traders and processors who buy in bulk
+          - farmer groups and cooperatives that sell together for better prices
+
+          On Produce Market in the EzyAgric App you can list your {crop} for free, at your own price.
+    ownQuestionReply: "[[{name}, ]]on the website I can only answer the sample questions. Ask me about your own farm in the EzyAgric App, where your first questions are free."
     # When the chat uses live Ka-Ezy answers (NEXT_PUBLIC_KAEZY_DEMO_API) and
     # a question fails. The first two are the app's own messages.
     errors:
@@ -172,6 +338,95 @@ tryIt:
       limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
     nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your gardens, day or night."
     disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
+  # Farm Plan: the app's plan form (crop, variety, land size, start date,
+  # services) and a costed plan. Costs are per acre and the yields and prices
+  # are SAMPLE FIGURES for the website demo, to be checked by the agronomy team.
+  plan:
+    intro: Tell Ka-Ezy about the season you're planning and it builds a costed plan from setup to harvest, scaled to your land.
+    variety: Variety
+    varietyAny: Any variety
+    startDate: Planting date
+    services: Services to include in your budget
+    submit: Create my plan
+    edit: Change the details
+    needCrop: Choose your value chain in Your farm first.
+    needAcres: Enter your land size in acres.
+    unsupported: "In this demo Ka-Ezy plans {supported}. In the EzyAgric App it plans every crop and animal on your farm."
+    sampleNote: Sample figures for this demo. In the app, Ka-Ezy uses current shop prices and your farm's details.
+    title: "{crop} plan for {acres}[[ in {location}]]"
+    nudge: Hire Ka-Ezy for your full plan, with today's prices
+    serviceOptions:
+      - { key: gardenMapping, label: Garden Mapping, flatUgx: 30000 }
+      - { key: soilTesting, label: Soil Testing, flatUgx: 50000 }
+      - { key: landHired, label: Land hire/rent, perAcreUgx: 200000 }
+      - { key: labourNeeded, label: Hired Labour, perAcreUgx: 150000 }
+      - { key: irrigationSetup, label: Irrigation Setup, perAcreUgx: 600000 }
+      - { key: pestDiseaseManagement, label: Pest & Disease Management, perAcreUgx: 50000 }
+      - { key: fertilizerApplication, label: Fertilizer Application, perAcreUgx: 40000 }
+      - { key: transportLogistics, label: Transport & Logistics, perAcreUgx: 40000 }
+    crops:
+      - crop: Maize
+        varieties: [Hybrid H614, Longe 5, Longe 5D, Longe 10H, Longe 11H, NAROMAIZE 56, UH5051, UH5354, Pannar, Local Variety]
+        # Weeks from the planting date; costs per acre in UGX.
+        stages:
+          - { week: -2, label: "Land preparation: ploughing and harrowing", perAcreUgx: 150000 }
+          - { week: 0, label: "Certified seed, 10 kg", perAcreUgx: 100000 }
+          - { week: 0, label: "Planting fertilizer: DAP, 50 kg", perAcreUgx: 170000 }
+          - { week: 0, label: Planting labour, perAcreUgx: 60000 }
+          - { week: 3, label: First weeding, perAcreUgx: 60000 }
+          - { week: 4, label: "Pest control: fall armyworm", perAcreUgx: 60000 }
+          - { week: 5, label: "Top-dressing: Urea, 50 kg", perAcreUgx: 140000 }
+          - { week: 6, label: Second weeding, perAcreUgx: 60000 }
+          - { week: 16, label: Harvesting and shelling, perAcreUgx: 100000 }
+          - { week: 17, label: Drying and storage bags, perAcreUgx: 50000 }
+        harvest: { perAcre: 15, unit: bags of 100 kg, priceUgx: 90000 }
+      - crop: Beans
+        varieties: [NABE 15, NABE 16, NABE 17, NABE 19, NAROBEAN 1, NAROBEAN 2, NAROBEAN 3, K132, Nylon, Local Variety]
+        stages:
+          - { week: -2, label: "Land preparation: ploughing and harrowing", perAcreUgx: 150000 }
+          - { week: 0, label: "Certified seed, 30 kg", perAcreUgx: 150000 }
+          - { week: 0, label: "Planting fertilizer: DAP, 25 kg", perAcreUgx: 85000 }
+          - { week: 0, label: Planting labour, perAcreUgx: 50000 }
+          - { week: 3, label: First weeding, perAcreUgx: 50000 }
+          - { week: 4, label: Pest and disease control, perAcreUgx: 60000 }
+          - { week: 5, label: Second weeding, perAcreUgx: 50000 }
+          - { week: 12, label: Harvesting and threshing, perAcreUgx: 80000 }
+          - { week: 13, label: Drying and storage, perAcreUgx: 30000 }
+        harvest: { perAcre: 5, unit: bags of 100 kg, priceUgx: 300000 }
+  # Farm Records: what the visitor types becomes a record, as in the app
+  # (Ka-Ezy's record_proposal). Categories are the app's record categories.
+  records:
+    intro: Tell Ka-Ezy what happened on your farm, the way you'd say it. It turns it into a record and keeps your totals.
+    placeholder: e.g. Sold 5 bags of maize for 600,000
+    examples:
+      - Sold 5 bags of maize for 600,000
+      - Bought 2 bags of DAP for 340,000
+      - Paid 3 workers 45,000 for weeding
+      - Sprayed the beans for aphids
+    prompt: Save this to your farm records?
+    notUnderstood: "I couldn't tell what happened from that. Try something like \"Sold 5 bags of maize for 600,000\" or \"Bought seed for 50,000\"."
+    saved: Saved to your farm records.
+    dismissed: Not saved.
+    totals: { income: Income, expenses: Expenses, profit: Profit }
+    nudge: In the EzyAgric App, Ka-Ezy keeps all your records and uses them to advise you.
+  # Garden Mapping: Ka-Ezy's guide, and a tap-the-corners map to try.
+  mapping:
+    intro: In the EzyAgric App you walk around your garden with your phone and Ka-Ezy maps it by GPS. Here, tap the corners of the field to see how it works.
+    steps:
+      - Open Garden Mapping in the EzyAgric App and give your garden a name.
+      - Stand at one corner and wait until the app shows good GPS accuracy.
+      - Start mapping, then walk along the edge of the garden with your phone in your hand.
+      - Walk all the way round, back to where you started.
+      - Finish the map. Ka-Ezy shows the size in acres and saves the garden with your farm.
+    tryTitle: "Try it: tap the corners of the garden"
+    sample: Use a sample garden
+    undo: Undo last corner
+    clear: Clear
+    finish: Finish the map
+    result: "[[{name}, ]]your garden is **{mapped}** ({m2} square metres), with a boundary of **{perimeter} m**."
+    useSize: "Use {mapped} in Your farm"
+    planIt: Make a farm plan for it
+    nudge: Map your real garden with GPS in the EzyAgric App.
   hire:
     title: Hire Ka-Ezy
     intro: Choose a plan, then pay with MTN MoMo or Airtel Money.

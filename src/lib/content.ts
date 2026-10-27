@@ -102,6 +102,9 @@ export type Faq = z.infer<typeof Faq>;
 const Accent = z.enum(["brand", "accent", "deep"]);
 export type Accent = z.infer<typeof Accent>;
 
+const TabCopy = z.object({ title: z.string(), text: z.string() });
+const Prompts = z.array(z.object({ q: z.string(), a: z.string() })).min(1).max(6);
+
 const ProductSchema = z.object({
   slug: ProductSlug,
   order: z.number().int(),
@@ -188,8 +191,6 @@ const ProductSchema = z.object({
     .object({
       title: z.string(),
       intro: z.string().optional(),
-      /** A link under the hero buttons that jumps to the videos, e.g. "Watch Ka-Ezy in action (1 min 24 s)". */
-      heroLink: z.string().optional(),
       items: z.array(
         z.object({
           src: z.string().startsWith("/videos/"),
@@ -216,13 +217,57 @@ const ProductSchema = z.object({
       eyebrow: z.string(),
       title: z.string(),
       intro: z.string(),
+      /** "Your farm": personalises the demo (components/product/kaezy). */
+      farm: z.object({
+        title: z.string(),
+        valueChain: z.string(),
+        valueChainPlaceholder: z.string(),
+        optionalTitle: z.string(),
+        location: z.string(),
+        locationHint: z.string(),
+        landSize: z.string(),
+        firstName: z.string(),
+        firstNameHint: z.string(),
+        storage: z.string(),
+        storageLive: z.string(),
+        pastTitle: z.string(),
+        pastEmpty: z.string(),
+        newConversation: z.string(),
+        clear: z.string(),
+      }),
+      valueChains: z
+        .array(
+          z.object({
+            group: z.string(),
+            /** Picks the starter questions: crop, livestock (animals and birds) or other (fish, bees, mushrooms). */
+            kind: z.enum(["crop", "livestock", "other"]),
+            items: z.array(z.string()).min(1),
+          }),
+        )
+        .min(1),
+      tabs: z.object({
+        expert: TabCopy,
+        plan: TabCopy,
+        records: TabCopy,
+        mapping: TabCopy,
+      }),
       chat: z.object({
         greeting: z.string(),
+        greetingNamed: z.string(),
         subtitle: z.string(),
+        personalised: z.string(),
+        choosePrompt: z.string(),
         tryAsking: z.string(),
         placeholder: z.string(),
-        /** Starter questions; `a` is the sample answer (paragraphs, "- " and "1. " lists, **bold**). */
-        prompts: z.array(z.object({ q: z.string(), a: z.string() })).min(1).max(6),
+        /**
+         * Starter questions and sample answers (paragraphs, lists, **bold**).
+         * {name} {crop} {location} {acres} are filled from "Your farm"; a
+         * [[ ]] part is dropped when one of its details is missing.
+         */
+        prompts: Prompts,
+        cropPrompts: Prompts,
+        livestockPrompts: Prompts,
+        otherPrompts: Prompts,
         /** Sample answers only: the reply to a question the visitor types themselves. */
         ownQuestionReply: z.string(),
         /** Live answers only: what to say when Ka-Ezy can't answer. */
@@ -230,6 +275,70 @@ const ProductSchema = z.object({
         /** Shown after the second answer, with a link to the plans. */
         nudge: z.string(),
         disclaimer: z.string(),
+      }),
+      plan: z.object({
+        intro: z.string(),
+        variety: z.string(),
+        varietyAny: z.string(),
+        startDate: z.string(),
+        services: z.string(),
+        submit: z.string(),
+        edit: z.string(),
+        needCrop: z.string(),
+        needAcres: z.string(),
+        unsupported: z.string(),
+        sampleNote: z.string(),
+        title: z.string(),
+        nudge: z.string(),
+        serviceOptions: z.array(
+          z.object({
+            key: z.string(),
+            label: z.string(),
+            flatUgx: z.number().int().nonnegative().optional(),
+            perAcreUgx: z.number().int().nonnegative().optional(),
+          }),
+        ),
+        /** Sample costed plans by crop: costs per acre, weeks from the planting date. */
+        crops: z
+          .array(
+            z.object({
+              crop: z.string(),
+              varieties: z.array(z.string()),
+              stages: z
+                .array(z.object({ week: z.number().int(), label: z.string(), perAcreUgx: z.number().int().nonnegative() }))
+                .min(1),
+              harvest: z.object({
+                perAcre: z.number().positive(),
+                unit: z.string(),
+                priceUgx: z.number().int().positive(),
+              }),
+            }),
+          )
+          .min(1),
+      }),
+      records: z.object({
+        intro: z.string(),
+        placeholder: z.string(),
+        examples: z.array(z.string()).min(1),
+        prompt: z.string(),
+        notUnderstood: z.string(),
+        saved: z.string(),
+        dismissed: z.string(),
+        totals: z.object({ income: z.string(), expenses: z.string(), profit: z.string() }),
+        nudge: z.string(),
+      }),
+      mapping: z.object({
+        intro: z.string(),
+        steps: z.array(z.string()).min(1),
+        tryTitle: z.string(),
+        sample: z.string(),
+        undo: z.string(),
+        clear: z.string(),
+        finish: z.string(),
+        result: z.string(),
+        useSize: z.string(),
+        planIt: z.string(),
+        nudge: z.string(),
       }),
       hire: z.object({
         title: z.string(),
@@ -269,7 +378,8 @@ const SiteSchema = z.object({
     eyebrow: z.string(),
     title: z.string(),
     intro: z.string(),
-    watch: z.object({ title: z.string(), text: z.string(), link: z.string(), more: z.string() }),
+    /** The Ka-Ezy demo video (the portrait one in ka-ezy.yaml) plays in the banner. */
+    watch: z.object({ title: z.string() }),
     try: z.object({
       title: z.string(),
       text: z.string(),

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { PlayCircle } from "lucide-react";
 import { isVisible, type Product } from "@/lib/content";
 import { playStoreUrl } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
@@ -9,6 +8,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText } from "@/components/ui/Pending";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StoreBadges } from "@/components/ui/StoreBadges";
+import { hasTryIt } from "./kaezy/TryKaEzy";
 import { PayWaysVisual } from "./PayWaysVisual";
 import { Wave } from "@/components/ui/Wave";
 
@@ -20,6 +20,7 @@ import { Wave } from "@/components/ui/Wave";
  */
 export function ProductHero({ product }: { product: Product }) {
   const { hero, cta, availability } = product;
+  const tryHere = hasTryIt(product);
 
   return (
     <section aria-labelledby="product-title" className="overflow-hidden bg-canvas">
@@ -36,9 +37,11 @@ export function ProductHero({ product }: { product: Product }) {
 
           <div className="mt-7 flex flex-wrap items-center gap-3">
             {/* Guide: primary buttons are a green fill, whatever the product. */}
+            {/* Ka-Ezy: "Try Ka-Ezy free" opens the demo on this page when it is
+                shown; otherwise (and for the other products) the app. */}
             <ButtonLink
-              href={playStoreUrl(cta.campaign, "product-hero")}
-              track="get_app_click"
+              href={tryHere ? "#try-ka-ezy" : playStoreUrl(cta.campaign, "product-hero")}
+              track={tryHere ? "kaezy_try_hero" : "get_app_click"}
               trackProps={{ product: product.slug, position: "product-hero" }}
               size="lg"
               className="w-full sm:w-auto"
@@ -48,16 +51,6 @@ export function ProductHero({ product }: { product: Product }) {
             </ButtonLink>
             <StoreBadges campaign={cta.campaign} medium="product-hero" />
           </div>
-
-          {product.demoVideos?.heroLink ? (
-            <a
-              href="#demo-videos"
-              className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-control text-lg font-heading text-link hover:underline"
-            >
-              <PlayCircle aria-hidden="true" className="size-7 text-accent-bright" />
-              {product.demoVideos.heroLink}
-            </a>
-          ) : null}
 
           {availability && isVisible(availability) ? (
             <p className="mt-5 flex items-start gap-2 text-base text-muted">

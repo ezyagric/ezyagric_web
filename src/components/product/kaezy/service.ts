@@ -1,4 +1,6 @@
 import type { Network } from "./format";
+import { acresOf, formatAcres, type Profile } from "./personalise";
+import { newThreadId, type FarmRecord } from "./store";
 
 // What the "Ask Ka-Ezy, then hire it" section needs from a backend.
 //
@@ -35,9 +37,25 @@ export type PaymentRequest = {
   accountNumber: string;
 };
 
+/** Ka-Ezy's answer: Markdown (rendered by MiniMarkdown), plus any records it proposes to save. */
+export type KaEzyReply = {
+  text: string;
+  records?: FarmRecord[];
+  /** The thread the server answered on (live answers only). */
+  threadId?: string;
+};
+
+export type AskOptions = {
+  /** The app's agent modes; "farm_plan" takes the plan form as a JSON question. */
+  mode?: "chat" | "farm_plan";
+  /** "Your farm", so Ka-Ezy can tailor its answer. */
+  profile?: Profile;
+  /** The conversation's Ka-Ezy thread, so each conversation keeps its own context. */
+  threadId?: string;
+};
+
 export interface KaEzyChatService {
-  /** Ka-Ezy's answer to a question, as Markdown (rendered by MiniMarkdown). */
-  ask(question: string, signal: AbortSignal): Promise<string>;
+  ask(question: string, signal: AbortSignal, options?: AskOptions): Promise<KaEzyReply>;
 }
 
 /** Why a live question failed, so the chat can say something useful. */
@@ -91,7 +109,7 @@ export function demoService({
       const answer = match?.a ?? otherQuestion;
       // About as long as a short real answer takes to arrive.
       await wait(1400 + Math.min(1600, answer.length * 2), signal);
-      return answer;
+      return { text: answer };
     },
 
     async pay(_request, { onStatus, signal, demoOutcome = "approved" }) {
@@ -111,19 +129,26 @@ export function demoService({
 
 /**
  * Ka-Ezy's real answers through the website's guest demo endpoint. The page
- * sends only the question, a conversation id and the mode (no phone number,
- * name or location: the server uses a demo identity, limits how much each
- * visitor can ask, and only accepts this site). Same request fields as the
- * app's POST /ai-query; same response shape ({response, thread_id}).
+ * sends the question, a conversation id, the mode, and whatever the visitor
+ * gave in "Your farm" (first name, location, value chain, acres). Never a
+ * phone number or account: the server answers as a demo identity, limits how
+ * much each visitor can ask, and only accepts this site. Same request fields
+ * as the app's POST /ai-query; same response shape ({response, thread_id,
+ * ui_attachments}).
  */
 export function liveChatService({ endpoint }: { endpoint: string }): KaEzyChatService {
-  let threadId = newThreadId();
   return {
-    async ask(question, signal) {
+    async ask(question, signal, { mode = "chat", profile, threadId = newThreadId() } = {}) {
       const body = new FormData();
       body.set("question", question);
       body.set("thread_id", threadId);
-      body.set("agent_mode", "chat");
+      body.set("agent_mode", mode);
+      // The visitor's farm details (all optional; never a phone number).
+      const acres = profile ? acresOf(profile) : null;
+      if (profile?.name.trim()) body.set("farmer_name", profile.name.trim());
+      if (profile?.location.trim()) body.set("farmer_location", profile.location.trim());
+      if (profile?.valueChain) body.set("value_chains", JSON.stringify([profile.valueChain]));
+      if (acres) body.set("land_size_acres", formatAcres(acres));
       // Ka-Ezy turns can take over a minute (the app allows 180 s).
       const timed = withTimeout(signal, 120_000);
       let response: Response;
@@ -139,8 +164,7 @@ export function liveChatService({ endpoint }: { endpoint: string }): KaEzyChatSe
       if (response.status === 402 || response.status === 429) throw new KaEzyAskError("limit");
       if (!response.ok) throw new KaEzyAskError("busy");
       const data: unknown = await response.json().catch(() => null);
-      const record = (data ?? {}) as { response?: unknown; thread_id?: unknown };
-      if (typeof record.thread_id === "string" && record.thread_id) threadId = record.thread_id;
+      const record = (data ?? {}) as { response?: unknown; thread_id?: unknown; ui_attachments?: unknown };
       const answer =
         typeof record.response === "string"
           ? record.response
@@ -148,19 +172,13 @@ export function liveChatService({ endpoint }: { endpoint: string }): KaEzyChatSe
             ? (record.response as { response: string }).response
             : "";
       if (!answer.trim()) throw new KaEzyAskError("busy");
-      return answer;
+      return {
+        text: answer,
+        records: proposedRecords(record.ui_attachments),
+        threadId: typeof record.thread_id === "string" && record.thread_id ? record.thread_id : threadId,
+      };
     },
   };
-}
-
-/** A conversation id like the app's (UUID v4), with a fallback for older phones. */
-function newThreadId(): string {
-  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
-  const bytes = crypto.getRandomValues(new Uint8Array(16));
-  bytes[6] = (bytes[6] & 0x0f) | 0x40;
-  bytes[8] = (bytes[8] & 0x3f) | 0x80;
-  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
 
 /**
@@ -185,4 +203,29 @@ function withTimeout(signal: AbortSignal, ms: number) {
       signal.removeEventListener("abort", onAbort);
     },
   };
+}
+
+/**
+ * The records Ka-Ezy proposes to save (the app's `ui_attachments` of type
+ * "record_proposal"). On the website they are shown and saved on the device
+ * only, never to a real account.
+ */
+function proposedRecords(attachments: unknown): FarmRecord[] | undefined {
+  const a = attachments as { type?: unknown; records?: unknown } | null | undefined;
+  if (!a || a.type !== "record_proposal" || !Array.isArray(a.records)) return undefined;
+  const records = a.records.flatMap((raw: Record<string, unknown>): FarmRecord[] => {
+    const type = String(raw?.record_type ?? "expense").toLowerCase();
+    const amount = Number(raw?.amount ?? 0);
+    if (!["income", "expense", "activity"].includes(type) || !Number.isFinite(amount)) return [];
+    return [
+      {
+        type: type as FarmRecord["type"],
+        category: String(raw?.category ?? "").slice(0, 60),
+        description: String(raw?.description ?? "Farm record").slice(0, 200),
+        amount: Math.max(0, Math.round(amount)),
+        date: String(raw?.date ?? "").slice(0, 10),
+      },
+    ];
+  });
+  return records.length > 0 ? records : undefined;
 }

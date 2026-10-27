@@ -255,8 +255,12 @@ The build needs internet access (npm packages, and the Nunito Sans web font, whi
 
 Getting visitors to use Ka-Ezy is the main job of this site, so it appears in two forms:
 
-- **The Ka-Ezy banner** (`src/components/promo/KaEzyBanner.tsx`, copy in `kaezyBanner` in `content/site.yaml`): four actions, **See Ka-Ezy in action**, **Try Ka-Ezy**, **Pay** and **Download the App**. The full banner sits on the home page (after the hero and after the videos), on the Agrishop, EzyCredits and Produce Market pages and on the 404 page. A one-line strip version sits under the Ka-Ezy hero, in the "Our offer" menu and in the phone menu. "Download the App" jumps to the store badges in the footer, on every page.
-- **"Ask Ka-Ezy, then hire it"** on the Ka-Ezy page (`tryIt` in `content/products/ka-ezy.yaml`, components in `src/components/product/kaezy/`): the app's Ka-Ezy chat and its plan and Mobile Money screens, redrawn in the website's theme. While it is shown, it replaces the plain Ka-Ezy price cards (its plan picker uses the same `pricing.tiers`, which carry `months` and `monthlyUgx`; the total is months x monthly price, as in the app).
+- **The Ka-Ezy banner** (`src/components/promo/KaEzyBanner.tsx`, copy in `kaezyBanner` in `content/site.yaml`): the Ka-Ezy demo video (1 min 24 s) plays right in it (**See Ka-Ezy in action**), beside **Try Ka-Ezy**, **Pay** and **Download the App**. It sits on the home page (after the hero and after the videos), straight after the hero on the Ka-Ezy page, after the features on the Agrishop, EzyCredits and Produce Market pages, and on the 404 page. On the Ka-Ezy page, the hero's "Try Ka-Ezy free" button opens the demo below when it is shown. A one-line strip version sits in the "Our offer" menu and the phone menu. "Download the App" jumps to the store badges in the footer, on every page.
+- **"Ask Ka-Ezy, then hire it"** on the Ka-Ezy page (`tryIt` in `content/products/ka-ezy.yaml`, components in `src/components/product/kaezy/`): the app's Ka-Ezy screens, redrawn in the website's theme.
+  - **Your farm**: value chain (the app's list), location, land size and first name. They personalise every tab: the starter questions follow the chosen crop or animal, and answers and plans use the name, place and acres. Sample answers are templates: `{name}`, `{crop}`, `{location}` and `{acres}` are filled in, and a `[[ ]]` part is dropped when a detail is missing.
+  - **Tabs**: Farm Expert (chat), Farm Plan (the app's plan form and a costed plan from setup to harvest; sample per-acre costs, yields and prices for maize and beans in `tryIt.plan.crops`), Farm Records (say what happened, save it as a record, see income, expenses and profit) and Garden Mapping (Ka-Ezy's GPS guide and a practice field where tapping the corners gives the acreage).
+  - **Past conversations**: every conversation can be reopened. Farm details, conversations and records are kept in the visitor's browser only (`localStorage`, key `ezyagric:kaezy-demo:v1`), and "Delete all" removes them.
+  - **Hire Ka-Ezy** below: while the section is shown, it replaces the plain Ka-Ezy price cards (its plan picker uses the same `pricing.tiers`, which carry `months` and `monthlyUgx`; the total is months x monthly price, as in the app).
 
 The website never calls the farmer app's own Ka-Ezy or payment APIs. They are built for the signed-in app and are not safe to expose to a public web page; engineering has the details.
 
@@ -266,8 +270,8 @@ Set `NEXT_PUBLIC_KAEZY_DEMO_API` (build arg in the Dockerfile) to switch the cha
 
 The endpoint engineering needs to provide (for example `POST /web/demo-query` on the Ka-Ezy backend):
 
-- **Request:** `multipart/form-data` with `question`, `thread_id` (a UUID the page makes; reuse it to continue the conversation) and `agent_mode=chat`. Nothing else: no phone number, name or location.
-- **Response:** JSON `{ "response": "<markdown>", "thread_id": "..." }`, like the app's chat.
+- **Request:** `multipart/form-data` with `question`, `thread_id` (a UUID the page makes; reuse it to continue the conversation) and `agent_mode` (`chat`, or `farm_plan` with the app's plan form as a JSON question). Optional, from "Your farm": `farmer_name` (first name only), `farmer_location`, `value_chains` (a JSON array) and `land_size_acres`. Never a phone number or account id.
+- **Response:** JSON `{ "response": "<markdown>", "thread_id": "..." }`, like the app's chat, optionally with `ui_attachments` of type `record_proposal`. The page shows proposed records and saves them on the visitor's device only, so the endpoint must never save records, cart items or orders for guests.
 - **Server side:** answer as a dedicated demo account (never a real farmer), cap questions per visitor and per day, return `429` (or `402`) when the cap is hit, and accept requests only from the website. The chat shows the app's own "Unable to connect" and "Server is busy" messages on errors, and a "hire Ka-Ezy" message on `429`/`402`.
 
 ### Pay: what each build does
@@ -284,7 +288,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 ## Hand-off checklist (before launch)
 
 - [ ] **GA4:** create the property and set `NEXT_PUBLIC_GA_ID` in the production build. Check the banner, "Accept", "No thanks" and "Cookie settings", and that events arrive in GA4 DebugView.
-- [ ] **Ka-Ezy try and hire:** have the agronomy team check the four sample answers in `content/products/ka-ezy.yaml`, then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
+- [ ] **Ka-Ezy try and hire:** have the agronomy team check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). Then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
 - [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
 - [ ] **Legal review:** all EzyCredits / Pay Later wording, the Pezesha lender line and key-facts box (Pezesha and legal), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
 - [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.
@@ -319,7 +323,7 @@ src/
   components/
     home/                 Home page sections
     product/              Product page sections
-      kaezy/              "Ask Ka-Ezy, then hire it" (chat, plans, Mobile Money demo)
+      kaezy/              "Ask Ka-Ezy, then hire it": Your farm, the four Ka-Ezy tabs, Hire Ka-Ezy
     layout/               Header, footer, logo, preview banner
     ui/                   Buttons, icons, badges, video player, …
     analytics/            GA4 consent banner and "Cookie settings" button

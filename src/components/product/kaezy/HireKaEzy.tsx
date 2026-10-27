@@ -189,7 +189,7 @@ export function HireKaEzy({
           <p className="mt-1 text-base text-muted">{hire.intro}</p>
           <fieldset className="mt-4">
             <legend className="sr-only">Ka-Ezy plan</legend>
-            <div className="space-y-3">
+            <div className="grid gap-3 md:grid-cols-3">
               {plans.map((p, i) => (
                 <label
                   key={p.name}

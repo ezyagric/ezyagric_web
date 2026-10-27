@@ -18,8 +18,7 @@ import { ProductFaq, hasFaq } from "@/components/product/ProductFaq";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
 import { ProductCtaBand } from "@/components/product/ProductCtaBand";
 import type { BandTone } from "@/components/product/tones";
-import { KaEzyBanner, KaEzyStrip } from "@/components/promo/KaEzyBanner";
-import { Container } from "@/components/ui/Container";
+import { KAEZY_BANNER_ID, KaEzyBanner } from "@/components/promo/KaEzyBanner";
 
 // One static page per product: /ka-ezy/, /agrishop/, /ezycredits/,
 // /produce-market/. Any other slug is a 404 (required for static export).
@@ -59,14 +58,14 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
     if (show) list.push(render);
   };
 
-  // See it in action first, straight after the hero (the hero also links
-  // here), so the videos are among the first things a visitor sees.
+  // Ka-Ezy: right after its banner (demo video, try, pay, download), the
+  // try-and-hire section the banner links to, then a video of each feature.
+  // The try section's plan picker replaces the price cards.
+  const tryIt = hasTryIt(product);
+  add(tryIt, (tone) => <TryKaEzy key="try-it" product={product} tone={tone} />);
   add(hasDemoVideos(product), (tone) => (
     <DemoVideos key="demo-videos" product={product} tone={tone} />
   ));
-  // Then try it and hire it (Ka-Ezy). Its plan picker replaces the price cards.
-  const tryIt = hasTryIt(product);
-  add(tryIt, (tone) => <TryKaEzy key="try-it" product={product} tone={tone} />);
   add(visible(product.features.items).length > 0, (tone) => (
     <FeatureGrid key="features" product={product} tone={tone} />
   ));
@@ -101,14 +100,9 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
     <>
       <Breadcrumbs product={product} />
       <ProductHero product={product} />
-      {/* On the Ka-Ezy page the banner is a strip of jump links to the sections below. */}
-      {product.slug === "ka-ezy" ? (
-        <div className="bg-canvas pb-10">
-          <Container>
-            <KaEzyStrip position="ka-ezy-hero" />
-          </Container>
-        </div>
-      ) : null}
+      {/* On the Ka-Ezy page the banner comes straight after the hero: the demo
+          video plays in it, beside Try, Pay and Download. */}
+      {product.slug === "ka-ezy" ? <KaEzyBanner id={KAEZY_BANNER_ID} position="ka-ezy-page" /> : null}
       {/* The hero is white, so the first band is tinted. */}
       {bands(product).map((render, i) => render(i % 2 === 0 ? "subtle" : "canvas"))}
       <ProductCtaBand product={product} />

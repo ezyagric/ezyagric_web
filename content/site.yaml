@@ -13,20 +13,20 @@ name: EzyAgric
 legalName: Akorion Company Limited
 slogan: Farm the Ezy way.
 
-# The Ka-Ezy banner, repeated at key points across the site (home page, the
-# other service pages, the 404 page, the menus) so visitors can watch, try,
-# pay for and download Ka-Ezy from wherever they are. The "try" and "pay"
+# The Ka-Ezy banner, repeated at key points across the site (home page, every
+# service page including Ka-Ezy's, the 404 page; a one-line strip in the
+# menus) so visitors can watch, try, pay for and download Ka-Ezy from
+# wherever they are. The "try" and "pay"
 # links go to the Ka-Ezy page's "Ask Ka-Ezy, then hire it" section when the
 # site shows it, else to the Ka-Ezy page and its plans.
 kaezyBanner:
   eyebrow: Meet Ka-Ezy
   title: Your 24/7 farm expert, ready when you are
   intro: Watch Ka-Ezy at work, try it right here, pay with Mobile Money, or get the app.
+  # The banner plays the Ka-Ezy demo video (1 min 24 s) in place (the portrait video
+  # in content/products/ka-ezy.yaml); this captions it, with its length.
   watch:
     title: See Ka-Ezy in action
-    text: A 1-minute tour of Ka-Ezy, plus short videos of each feature.
-    link: Watch now
-    more: Videos of all our services
   try:
     title: Try Ka-Ezy
     text: Ask Ka-Ezy a farm question right here and see how it answers.
@@ -53,7 +53,7 @@ kaezyBanner:
 #      Google Play, everywhere on the site.
 #   2. Update the hero small print and the two FAQ answers that say the
 #      iPhone app is coming soon.
-# Until then, preview builds show the badge marked "To confirm" and the live
+# Until then, preview builds show the badge (not yet a link) and the live
 # site shows the `comingSoon` line next to the Google Play badge.
 appStore:
   url: null

@@ -5,7 +5,7 @@ import { PendingBadge } from "@/components/ui/Pending";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import type { BandTone } from "../tones";
 import { HireKaEzy, type HirePlan } from "./HireKaEzy";
-import { KaEzyChat } from "./KaEzyChat";
+import { KaEzyDemo } from "./KaEzyDemo";
 
 const HIRE_ID = "hire-ka-ezy";
 
@@ -32,8 +32,9 @@ export function hasTryIt(product: Product): boolean {
 }
 
 /**
- * "Ask Ka-Ezy, then hire it": the app's chat and plan screens, redrawn in
- * the website's theme, side by side from lg (chat first on phones). It
+ * "Ask Ka-Ezy, then hire it": "Your farm", the Ka-Ezy window (Farm Expert,
+ * Farm Plan, Farm Records, Garden Mapping) and past conversations, then
+ * "Hire Ka-Ezy" below. All redrawn from the app in the website's theme. It
  * replaces the plain price cards on the page, since the plans are here.
  */
 export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }) {
@@ -56,17 +57,18 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
         </p>
       </noscript>
 
-      {/* Without JavaScript only the note above shows: the chat and plan forms need scripts. */}
-      <div className="grid items-start gap-6 noscript:hidden lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-8">
-        <KaEzyChat
-          chat={tryIt.chat}
+      {/* Without JavaScript only the note above shows: the demo and plan forms need scripts. */}
+      <div className="noscript:hidden">
+        <KaEzyDemo
+          copy={tryIt}
           tagline={product.appTagline}
           avatar="/images/products/ka-ezy-avatar.webp"
           hireHref={`#${HIRE_ID}`}
           // Live Ka-Ezy answers once the guest demo endpoint is configured.
           endpoint={KAEZY_DEMO_API}
         />
-        <HireKaEzy
+        <div className="mx-auto mt-8 max-w-4xl">
+          <HireKaEzy
           id={HIRE_ID}
           hire={tryIt.hire}
           plans={hirePlans(product)}
@@ -74,7 +76,8 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
           // send visitors to the app on the live site.
           payMode={SHOW_PENDING ? "demo" : "app"}
           storeBadges={<StoreBadges campaign={product.cta.campaign} medium="hire-ka-ezy" size="md" />}
-        />
+          />
+        </div>
       </div>
     </Section>
   );

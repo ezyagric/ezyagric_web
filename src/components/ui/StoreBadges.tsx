@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { getSite } from "@/lib/content";
 import { SHOW_PENDING } from "@/lib/env";
 import { playStoreUrl } from "@/lib/links";
-import { PendingBadge } from "./Pending";
 
 // Store badges are official artwork: shown exactly as supplied (no
 // recolouring, cropping or animation), at least 40px tall (Apple's minimum),
@@ -17,7 +16,7 @@ const HEIGHT = {
 /**
  * The farmer app's store badges. The App Store badge appears once
  * `appStore.url` is set in content/site.yaml. Until then, preview builds show
- * it unlinked and marked "To confirm", and production builds show the
+ * it unlinked (so the team sees the launch look), and production builds show the
  * `comingSoon` line instead (the badge says "Download", so it waits until
  * the iPhone app can be downloaded). `onDark` is for the navy footer and
  * the gradient bands.
@@ -59,10 +58,7 @@ export function StoreBadges({
         />
       </StoreLink>
 
-      {/* After both badges, so they still share a row on a 360px phone. */}
-      {appStore.url ? null : SHOW_PENDING ? (
-        <PendingBadge note="The App Store badge: the iPhone app is not live yet. Add its App Store link (appStore.url in content/site.yaml) on launch day to turn the badge on. Until then the live site shows the 'coming soon' line instead." />
-      ) : (
+      {appStore.url || SHOW_PENDING ? null : (
         <p className={`text-sm font-label ${onDark ? "text-on-inverse" : "text-muted"}`}>{appStore.comingSoon}</p>
       )}
     </div>
