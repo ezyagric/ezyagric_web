@@ -18,8 +18,10 @@ export function Faq() {
 
   return (
     <Section id="faq" tone="subtle" labelledBy="faq-title">
-      {/* No row gap: the header's own margin spaces it from the questions. */}
-      <div className="grid lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-x-14">
+      {/* No row gap: the header's own margin spaces it from the questions.
+          The left column is wide enough (about 424px from lg) for the card's
+          two buttons to sit side by side: half the width, 5/12 from xl. */}
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-14 xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {/* contents below lg: the header and the card become grid items, so
             the card can move after the questions (order-last). */}
         <div className="contents lg:sticky lg:top-32 lg:block lg:self-start">
