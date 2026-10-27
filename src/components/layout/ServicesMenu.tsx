@@ -23,7 +23,7 @@ function closeDetails(details: HTMLDetailsElement | null) {
 }
 
 /**
- * The header's services dropdown, labelled "Our offer" (lg and up): the four
+ * The header's services dropdown, labelled "Our services" (lg and up): the four
  * services as rows on the left (an arrow slides in on hover) and, beside
  * them, the Ka-Ezy card (`aside`). It is a <details> element,
  * so it opens and closes with JavaScript off. With JavaScript on, it also

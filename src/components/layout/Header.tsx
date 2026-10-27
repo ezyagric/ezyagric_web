@@ -41,13 +41,13 @@ export function Header() {
 
         {/* One segmented pill, like the hero's switcher: each link has its
             icon, and the one hovered or open turns white and lifts. The four
-            services share the "Our offer" dropdown. Names never wrap
+            services share the "Our services" dropdown. Names never wrap
             ("Ka-Ezy" would break at its hyphen). */}
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-1 rounded-pill border border-line bg-subtle p-1 text-[15px] font-label whitespace-nowrap">
             <li>
               <ServicesMenu
-                label="Our offer"
+                label="Our services"
                 icon={<Icon name="sprout" className="size-4 shrink-0 text-secondary" />}
                 items={products.map((p) => ({
                   href: `/${p.slug}/`,
@@ -99,7 +99,7 @@ export function Header() {
           <div className="fixed inset-x-0 top-22 max-h-[calc(100dvh-5.5rem)] overflow-y-auto border-b border-line bg-canvas px-4 pt-2 pb-6 shadow-raised">
             <nav aria-label="Main">
               <p className="px-3 pt-3 pb-1 text-sm text-label-style text-label">
-                Our offer
+                Our services
               </p>
               <ul className="grid grid-cols-2 gap-1">
                 {products.map((p) => (

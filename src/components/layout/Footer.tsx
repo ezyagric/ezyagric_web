@@ -27,7 +27,7 @@ export function Footer() {
 
   const columns: { title: string; links: FooterLink[] }[] = [
     {
-      title: "Our offer",
+      title: "Our services",
       links: products.map((p) => ({ href: `/${p.slug}/`, label: p.name })),
     },
     {
