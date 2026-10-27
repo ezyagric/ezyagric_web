@@ -14,10 +14,9 @@ const MIN_FOR_RAIL = 8;
 const SECONDS_PER_LOGO = 3.5;
 
 /**
- * Partner logos grouped as in the Business Profile (commercial, financial,
- * funding and strategic), one row per group: the group's name and count on
- * the left, its logos on the right. Long groups glide past as a slow
- * endless rail (alternating directions); short ones sit still.
+ * Partner logos by group (commercial, strategic), one row per group: the
+ * group's name on the left, its logos on the right. Long groups glide past
+ * as a slow endless rail (alternating directions); short ones sit still.
  *
  * Motion (WCAG 2.2.2): rails pause on hover and with the Pause button (a
  * checkbox, so it works without JavaScript), and never move for people who
@@ -31,13 +30,12 @@ export function Partners() {
     .map((g) => ({ ...g, items: visible(g.items) }))
     .filter((g) => g.items.length > 0);
   if (groups.length === 0) return null;
-  const total = groups.reduce((n, g) => n + g.items.length, 0);
   // Rails alternate direction among themselves (still groups in between don't count).
   const rails = groups.filter((g) => g.items.length >= MIN_FOR_RAIL).map((g) => g.title);
 
   return (
     <Section id="partners" tone="subtle" labelledBy="partners-title" className="group/partners">
-      {/* The count and Pause sit level with the intro's last line (the header has mb-10). */}
+      {/* Pause sits level with the intro's last line (the header has mb-10). */}
       <div className="flex flex-wrap items-end justify-between gap-x-8">
         <SectionHeader id="partners-title" title={partners.title} intro={partners.intro}>
           {partners.notice && isVisible(partners.notice) ? (
@@ -46,13 +44,11 @@ export function Partners() {
             </p>
           ) : null}
         </SectionHeader>
-        <div className="mb-8 flex items-center gap-3 sm:mb-10">
-          <p className="flex items-baseline gap-2 rounded-pill bg-card px-4 py-2 shadow-card ring-1 ring-line">
-            <span className="text-2xl font-heading text-accent-bright tabular-nums">{total}</span>
-            <span className="text-sm font-label text-title">partners</span>
-          </p>
-          {rails.length > 0 ? <PauseToggle /> : null}
-        </div>
+        {rails.length > 0 ? (
+          <div className="mb-8 sm:mb-10">
+            <PauseToggle />
+          </div>
+        ) : null}
       </div>
 
       <div className="space-y-4">
@@ -61,12 +57,7 @@ export function Partners() {
             key={group.title}
             className="grid items-center gap-3 rounded-card bg-card p-3 shadow-card ring-1 ring-line lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-5 lg:p-4"
           >
-            <h3 className="flex items-center gap-2 px-1 text-sm text-label-style text-label lg:flex-col lg:items-start lg:gap-1">
-              {group.title}
-              <span className="rounded-pill bg-brand-soft px-2.5 py-0.5 text-xs font-label tracking-normal text-brand normal-case tabular-nums">
-                {group.items.length}
-              </span>
-            </h3>
+            <h3 className="px-1 text-sm text-label-style text-label">{group.title}</h3>
             {rails.includes(group.title) ? (
               <Rail items={group.items} reverse={rails.indexOf(group.title) % 2 === 1} />
             ) : (
