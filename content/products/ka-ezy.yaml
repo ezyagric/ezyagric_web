@@ -491,7 +491,8 @@ photo:
     height: 1067
   caption: Meeting farmers at an exhibition with Ka-Ezy, your personalised 24-hour farm expert.
 
-disclaimer: "Ka-Ezy is an AI assistant and its advice can sometimes be wrong. For serious crop or animal health problems, talk to an agronomist or a vet."
+# No "Please note" box (removed to save space, 27 Oct 2026): the FAQ below
+# and the line under the demo's chat box say Ka-Ezy can make mistakes.
 
 faq:
   - q: Is Ka-Ezy free?
