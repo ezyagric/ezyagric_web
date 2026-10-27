@@ -185,7 +185,8 @@ const ProductSchema = z.object({
   lenderLine: Claim.optional(),
   disclaimer: z.string().optional(),
   /** A real photo from the EzyAgric photo library, shown in its own band. */
-  photo: z.object({ image: Image, caption: z.string() }).optional(),
+  /** A real photo from the field, shown beside "How it works". */
+  photo: z.object({ image: Image }).optional(),
   /** Short self-hosted product videos (public/videos), loaded only on tap. */
   demoVideos: z
     .object({

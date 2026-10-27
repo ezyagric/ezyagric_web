@@ -8,7 +8,6 @@ import { ProductHero } from "@/components/product/ProductHero";
 import { FeatureGrid } from "@/components/product/FeatureGrid";
 import { DemoVideos, hasDemoVideos } from "@/components/product/DemoVideos";
 import { TryKaEzy, hasTryIt } from "@/components/product/kaezy/TryKaEzy";
-import { ProductPhoto } from "@/components/product/ProductPhoto";
 import { Comparison, comparisonRows } from "@/components/product/Comparison";
 import { Steps } from "@/components/product/Steps";
 import { Pricing } from "@/components/product/Pricing";
@@ -76,8 +75,7 @@ function bands(product: Product): ((tone: BandTone) => ReactNode)[] {
   add(!!product.comparison && comparisonRows(product.comparison).length > 0, (tone) => (
     <Comparison key="compare" product={product} tone={tone} />
   ));
-  // A real photo from the field, as a pause before "how to get started".
-  add(!!product.photo, (tone) => <ProductPhoto key="photo" product={product} tone={tone} />);
+  // How to get started, beside a real photo from the field when there is one.
   add(true, (tone) => <Steps key="steps" product={product} tone={tone} />);
   add(!tryIt && !!product.pricing && visible(product.pricing.tiers).length > 0, (tone) => (
     <Pricing key="pricing" product={product} tone={tone} />
