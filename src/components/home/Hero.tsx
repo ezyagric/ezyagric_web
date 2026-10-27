@@ -50,17 +50,20 @@ export function Hero() {
           </p>
           <h1
             id="hero-title"
-            className="mt-2 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl lg:text-6xl"
+            className="mt-2 text-4xl font-heading tracking-heading text-balance text-heading sm:text-5xl lg:text-6xl xl:text-7xl"
           >
             <Headline text={hero.headline} />
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl">
+          {/* From lg, centred between the headline and the buttons: equal space
+              above and below (the buttons stay level with the wave). */}
+          <p className="mt-4 max-w-xl text-lg text-pretty text-body sm:text-xl lg:my-auto lg:py-4">
             <Highlight text={hero.subline} />
           </p>
 
+
           {/* As on the service pages: the try button and the store badges on
               one row, all 48px tall (full-width button on phones). */}
-          <div className="mt-6 flex flex-wrap items-center gap-3 lg:mt-auto lg:pt-6">
+          <div className="mt-6 flex flex-wrap items-center gap-3 lg:mt-0">
             <ButtonLink
               href={kaezyTryHref()}
               track="kaezy_try_hero"

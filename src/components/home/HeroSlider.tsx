@@ -27,12 +27,7 @@ export function HeroSlider() {
       slides={products.map((product, i) => ({
         id: `hero-slide-${product.slug}`,
         name: product.name,
-        picker: (
-          <>
-            <IconCircle name={product.icon} color={product.accent} size="sm" />
-            {product.name}
-          </>
-        ),
+        icon: <IconCircle name={product.icon} color={product.accent} size="sm" />,
         content: <Slide product={product} homeScreen={hero.screenshot} first={i === 0} />,
       }))}
     />
@@ -45,10 +40,15 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
   const fullLength = !!image && image.height > image.width * 1.5;
 
   return (
-    <div className="flex flex-col">
-      {/* pr-40 keeps the line clear of the slider controls at the top right. */}
-      <p className="mt-1 flex min-h-12 flex-wrap items-center gap-x-3 gap-y-1 pr-40 pl-1 text-base">
-        <span className="text-body">{product.appTagline}</span>
+    // h-full: every slide is as tall as the tallest (the track stretches
+    // them), so a caption that wraps never lifts the art off the wave.
+    <div className="flex h-full flex-col">
+      {/* The slide's own name (the switcher shows only icons), so it is right
+          even without JS. pr-14 keeps the line clear of the pause button. */}
+      <p className="mt-2 flex min-h-11 flex-wrap items-center gap-x-3 gap-y-0 pr-14 pl-1 text-base">
+        <span className="text-body">
+          <span className="font-heading text-title">{product.name}</span> · {product.appTagline}
+        </span>
         <Link
           prefetch={false}
           href={`/${product.slug}/`}
@@ -59,14 +59,17 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
         </Link>
       </p>
 
-      {/* Same height for every slide, art aligned to the bottom (the wave). */}
-      {/* Full size from xl; one step smaller at lg, where the hero gives the
-          slider a narrower column (about 400px at 1024). */}
-      <div className="flex h-80 items-end justify-center sm:h-[26rem] xl:h-[29rem]">
+      {/* Same height for every slide, pinned to the bottom (mt-auto) with the
+          art aligned to the wave. */}
+      {/* Sized so the slider and the hero text end level (see Hero): 27rem
+          from xl, one step smaller at lg, where the slider's column is about
+          400px wide at 1024. */}
+      <div className="mt-auto flex h-80 items-end justify-center sm:h-[26rem] xl:h-[27rem]">
         {!image && !screenshot ? (
-          // The two cards are ~420px tall at full size: scaled so they fit
-          // the slide above the wave at every width.
-          <div className="mb-8 w-full origin-bottom scale-[0.62] sm:mb-12 sm:scale-[0.78] lg:mb-16 lg:scale-[0.82]">
+          // The two cards are ~440px tall at full size: scaled so they fit
+          // the slide above the wave at every width (lg: 360 + 48 in 416px).
+          // pointer-events-none: decorative, never in the way of the caption link.
+          <div className="pointer-events-none mb-8 w-full origin-bottom scale-[0.62] sm:mb-12 sm:scale-[0.78] lg:mb-12 lg:scale-[0.82] xl:mb-16">
             <PayWaysVisual product={product} />
           </div>
         ) : (
@@ -80,7 +83,7 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
                     width={image.width}
                     height={image.height}
                     preload={first}
-                    sizes="(min-width: 1280px) 310px, (min-width: 640px) 280px, 192px"
+                    sizes="(min-width: 1280px) 290px, (min-width: 640px) 280px, 192px"
                     className="size-full object-cover object-[50%_53.7%]"
                   />
                 </div>

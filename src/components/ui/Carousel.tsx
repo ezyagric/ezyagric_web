@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
@@ -13,23 +13,28 @@ function subscribeReducedMotion(onChange: () => void) {
 const noSubscription = () => () => {};
 
 export type CarouselSlide = {
-  /** Unique id: anchor target for the picker links (works without JS). */
+  /** Unique id: anchor target for the switcher links (works without JS). */
   id: string;
-  /** Accessible name, e.g. "Ka-Ezy". */
+  /** Name, e.g. "Ka-Ezy": announced, and the switcher icon's tooltip. The slide shows it itself. */
   name: string;
-  /** Picker label (icon + name). */
-  picker: ReactNode;
+  /** The service's icon in the switcher. */
+  icon: ReactNode;
   content: ReactNode;
 };
 
 /**
- * A slider with a picker row, previous/next arrows and a gentle auto-advance.
+ * A slider with a compact switcher and a gentle auto-advance.
  *
+ * - The switcher is one segmented pill of icons, the current one ringed and
+ *   raised on white. Every segment is the same 44px, so the icons never move when the
+ *   slide changes and the pill fits even a 280px screen. Names are for screen
+ *   readers and tooltips; each slide shows its own name. Swiping and the
+ *   switcher move between slides; there are no separate arrows.
  * - Without JavaScript it is a native swipeable row (CSS scroll snap) and the
- *   picker links jump to their slide, so nothing depends on scripts.
+ *   switcher links jump to their slide, so nothing depends on scripts.
  * - Auto-advance never starts for people who prefer reduced motion, pauses
  *   while the pointer or keyboard focus is inside, stops for good once the
- *   visitor picks, swipes or presses an arrow, and has a pause button
+ *   visitor picks a slide, swipes or presses pause, and has a pause button
  *   (WCAG 2.2.2). Off-screen slides are inert so keyboard users only reach
  *   the visible one.
  * - All looks come from theme tokens.
@@ -50,7 +55,7 @@ export function Carousel({
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   // false on the server and in the first client render, true once hydrated:
-  // the arrows and pause button only appear when they can work.
+  // the pause button only appears when it can work.
   const enhanced = useSyncExternalStore(noSubscription, () => true, () => false);
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -118,27 +123,30 @@ export function Carousel({
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
       }}
     >
-      <ul className="flex flex-wrap gap-2 py-1">
-          {slides.map((slide, i) => (
+      <ul className="inline-flex items-center gap-1 rounded-pill border border-line bg-subtle p-1">
+        {slides.map((slide, i) => {
+          const current = i === index;
+          return (
             <li key={slide.id} className="shrink-0">
               <a
                 href={`#${slide.id}`}
                 aria-controls={slide.id}
-                aria-current={i === index ? "true" : undefined}
+                aria-current={current ? "true" : undefined}
+                title={slide.name}
                 onClick={(event) => {
                   event.preventDefault();
                   goTo(i, true);
                 }}
-                className={`inline-flex min-h-11 items-center gap-1.5 rounded-pill border py-1 pr-3 pl-1 text-sm font-label transition-colors ${
-                  i === index
-                    ? "border-secondary bg-brand-soft text-title"
-                    : "border-line bg-card text-muted hover:border-secondary hover:text-title"
+                className={`flex size-11 items-center justify-center rounded-pill transition-colors ${
+                  current ? "bg-card shadow-card ring-2 ring-secondary" : "hover:bg-card"
                 }`}
               >
-                {slide.picker}
+                {slide.icon}
+                <span className="sr-only">{slide.name}</span>
               </a>
             </li>
-          ))}
+          );
+        })}
       </ul>
 
       {/* Announces the slide after a visitor changes it (silent while auto-advancing). */}
@@ -168,20 +176,14 @@ export function Carousel({
         </div>
 
         {enhanced ? (
-          // Controls sit together at the top right of the slides (slide
-          // content keeps its first line clear of them).
-          <div className="absolute top-1 right-0 z-20 flex gap-2">
-            <ControlButton label="Previous service" onClick={() => goTo(index - 1, true)}>
-              <ChevronLeft aria-hidden="true" className="size-5" />
-            </ControlButton>
+          // Pause / play at the top right of the slides (slide content keeps
+          // its first line clear of it).
+          <div className="absolute top-0 right-0 z-20">
             <ControlButton
               label={playing ? "Pause the slideshow" : "Play the slideshow"}
               onClick={() => setPlaying(!playing)}
             >
               {playing ? <Pause aria-hidden="true" className="size-4" /> : <Play aria-hidden="true" className="size-4" />}
-            </ControlButton>
-            <ControlButton label="Next service" onClick={() => goTo(index + 1, true)}>
-              <ChevronRight aria-hidden="true" className="size-5" />
             </ControlButton>
           </div>
         ) : null}
