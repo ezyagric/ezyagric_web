@@ -164,9 +164,9 @@ stories:
 # when someone taps play.
 videos:
   # Featured: shown in the first row on the home page.
-  - id: e9ZdtHdcemc
-    title: "EzyAgric: farm the smart and Ezy way (a Tech & Society feature)"
-    topic: media
+  - id: "-VhNuO4fzh0"
+    title: Quick and safe delivery of farm inputs
+    topic: app
     featured: true
   - id: 0klmqMEDVtM
     title: Farming with just a tap
@@ -175,20 +175,20 @@ videos:
   - id: WsKjvNgo9Ms
     title: A farmer in Luwero District on how the EzyAgric App changed his farming
     topic: farmers
-  - id: "-VhNuO4fzh0"
-    title: Quick and safe delivery of farm inputs
-    topic: app
+  - id: e9ZdtHdcemc
+    title: "EzyAgric: farm the smart and Ezy way (a Tech & Society feature)"
+    topic: media
   - id: _qxPHHbXf90
     title: How to pay for your inputs using EzyCredits
     topic: ezycredits
   - id: jiSQJP99bGQ
     title: How to top up EzyCredits in the EzyAgric App
     topic: ezycredits
-  - id: QNSfJhYhIqA
-    title: Digitizing agriculture in Africa
-    topic: company
   - id: YcgVkMRZhoQ
     title: "#PMLive: Modernizing agriculture"
+    topic: company
+  - id: QNSfJhYhIqA
+    title: Digitizing agriculture in Africa
     topic: company
   - id: ACzIObvKkmw
     title: "Webinar: Digitizing smallholder farming during and after COVID-19"

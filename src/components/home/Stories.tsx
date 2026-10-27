@@ -41,30 +41,35 @@ export function Stories() {
 
       <VideoGrid videos={featured} />
 
-      {more.length > 0 ? (
-        <details className="group mt-10">
-          {/* Styled as the guide's secondary button: secondary outline on canvas. */}
-          <summary className={`${buttonClasses("secondary")} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
-            More videos ({more.length})
-            <ChevronDown
-              aria-hidden="true"
-              className="size-5 transition-transform group-open:rotate-180"
-            />
-          </summary>
-          <div className="mt-6">
-            <VideoGrid videos={more} />
-          </div>
-        </details>
-      ) : null}
+      {/* From sm, "More videos" sits at the far left and the YouTube link at
+          the far right of one line: the link is pinned to the top right, so
+          the videos still open full width under both. On phones they stack. */}
+      <div className="relative mt-10">
+        {more.length > 0 ? (
+          <details className="group">
+            {/* Styled as the guide's secondary button: secondary outline on canvas. */}
+            <summary className={`${buttonClasses("secondary")} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
+              More videos ({more.length})
+              <ChevronDown
+                aria-hidden="true"
+                className="size-5 transition-transform group-open:rotate-180"
+              />
+            </summary>
+            <div className="mt-6">
+              <VideoGrid videos={more} />
+            </div>
+          </details>
+        ) : null}
 
-      {stories.channel ? (
-        <div className="mt-8">
-          <ButtonLink href={stories.channel.url} variant="secondary" track="youtube_channel_click">
-            {stories.channel.label}
-            <ExternalLink aria-hidden="true" className="size-4" />
-          </ButtonLink>
-        </div>
-      ) : null}
+        {stories.channel ? (
+          <div className={more.length > 0 ? "mt-4 sm:absolute sm:top-0 sm:right-0 sm:mt-0" : ""}>
+            <ButtonLink href={stories.channel.url} variant="secondary" track="youtube_channel_click">
+              {stories.channel.label}
+              <ExternalLink aria-hidden="true" className="size-4" />
+            </ButtonLink>
+          </div>
+        ) : null}
+      </div>
     </Section>
   );
 }
