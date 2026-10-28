@@ -1,12 +1,13 @@
-# EzyCredits: EzyCredits Pay Later, credit from Pezesha for Agrishop orders.
+# EzyCredits: EzyCredits Buy Now, Pay Later, credit from EzyAgric lender
+# partners for Agrishop orders.
 # The app currently labels Pay Later as "BNPL". The EzyCredits Wallet is not
 # offered as a way to pay, so the website doesn't show it (27 Oct 2026).
-# All credit wording needs Pezesha and legal approval before production.
+# Credit wording needs the EzyAgric team's (and legal's) approval before production.
 
 slug: ezycredits
 order: 3
 name: EzyCredits
-appTagline: Buy now, pay later
+appTagline: Buy Now, Pay Later
 accent: deep
 icon: wallet
 
@@ -15,13 +16,13 @@ card:
   points:
     - "If approved, get your order now and repay after delivery"
     - Repay with MTN or Airtel Mobile Money
-    - Choose Pay Later at Agrishop checkout
+    - Choose Buy Now, Pay Later at Agrishop checkout
 
 hero:
-  eyebrow: EzyCredits · Buy now, pay later
+  eyebrow: EzyCredits · Buy Now, Pay Later
   # ==key words== in green (large text, accent-bright).
   headline: Get the ==genuine inputs== for your farm or shop, ==Pay Later==
-  intro: "If you qualify, ==Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==."
+  intro: "If you qualify, ==Buy Now, Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==."
 
 cta:
   label: See if you qualify
@@ -41,7 +42,7 @@ features:
       icon: stethoscope
 
 steps:
-  title: How Pay Later works
+  title: How Buy Now, Pay Later works
   items:
     - title: Complete your profile
       text: Through the EzyAgric App, apply using your National ID, personal, business, contact and next-of-kin details.
@@ -50,7 +51,7 @@ steps:
     - title: Get your offer
       text: If you are approved, see how much you can use, for how long and how much to pay back.
     - title: Shop and pay later
-      text: "At Agrishop checkout, choose Pay Later. Your order is delivered first; repay in the agreed period and grow your limit."
+      text: "At Agrishop checkout, choose Buy Now, Pay Later. Your order is delivered first; repay in the agreed period and grow your limit."
 
 # A real photo from the EzyAgric photo library: an agent helping a farmer in
 # the app (the first step, completing the profile, is often done with one).
@@ -66,50 +67,33 @@ photo:
     focus: "40% 15%"
 
 keyFacts:
-  title: Pay Later key facts
-  intro: Read these before you accept a Pay Later offer. Your offer in the app shows the exact amounts.
-  # The whole box waits for Pezesha/legal approval, so production never shows a partial statement.
-  pending: true
-  note: Pezesha and legal to approve the whole key-facts box before launch.
+  title: Buy Now, Pay Later key facts
+  intro: Read these before you accept a Buy Now, Pay Later offer. Your offer in the app shows the exact amounts.
+  # Confirmed by the EzyAgric team, 28 Oct 2026 (no licence or credit
+  # reporting rows).
   items:
     - label: Lender
-      value: Pezesha
-    - label: Licence
-      value: null
-      pending: true
-      note: Pezesha to confirm licence type and number (reported UMRA digital lending licence).
+      value: EzyAgric approved partners
     - label: Interest and fees
       value: Shown in your offer in the app before you accept.
-      pending: true
-      note: Pezesha/legal to confirm whether a rate or range must be published here.
     - label: Total to repay
       value: Shown in the app before you accept, including interest.
-      pending: true
-      note: Pezesha/legal to confirm, together with "Interest and fees".
     - label: Repayment period
       value: "Set in your offer. It starts when your order is delivered."
     - label: How to repay
-      value: MTN or Airtel Mobile Money.
+      value: MTN or Airtel Mobile Money, and other channels formally communicated by EzyAgric.
     - label: If you pay late
-      value: null
-      pending: true
-      note: Pezesha/legal to supply what happens on late payment.
-    - label: Credit reporting
-      value: null
-      pending: true
-      note: Pezesha/legal to confirm whether repayments are reported to a credit bureau.
+      value: Your next borrowing limit is affected.
+    # The site's contact channels (call, WhatsApp, email), as links.
     - label: Complaints
       value: null
-      pending: true
-      note: Pezesha/legal to supply the complaints contact.
+      contact: true
 
 lenderLine:
-  text: Pay Later credit is provided by Pezesha, licensed by the Uganda Microfinance Regulatory Authority.
-  pending: true
-  note: Pezesha to confirm exact wording and licence number.
+  text: Buy Now, Pay Later credit is provided by EzyAgric lender partners, licensed by the Uganda Microfinance Regulatory Authority.
 
 faq:
-  - q: Who can use Pay Later?
+  - q: Who can use Buy Now, Pay Later?
     a: "Farmers in Uganda who complete their profile can apply. Not everyone is approved. Limits and terms are different for each farmer."
     actions:
       - { kind: get-app }
@@ -117,11 +101,11 @@ faq:
     a: With MTN or Airtel Mobile Money. Your repayment period starts when your order is delivered.
   - q: How much can I borrow?
     a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying on time."
-  - q: Can I have two Pay Later loans at once?
-    a: No. Repay your current Pay Later loan before you use Pay Later again.
-  - q: In the app I see "BNPL". Is that Pay Later?
-    a: Yes. BNPL (buy now, pay later) in the app is EzyCredits Pay Later.
+  - q: Can I have two Buy Now, Pay Later loans at once?
+    a: No. Repay your current loan before you use Buy Now, Pay Later again.
+  - q: In the app I see "BNPL". Is that Buy Now, Pay Later?
+    a: Yes. BNPL in the app is EzyCredits Buy Now, Pay Later.
 
 seo:
   title: "EzyCredits: buy inputs and feeds now, pay later | EzyAgric"
-  description: "Get farm inputs, feeds and vet products on Agrishop now and pay later with EzyCredits Pay Later, if you qualify."
+  description: "Get farm inputs, feeds and vet products on Agrishop now with EzyCredits Buy Now, Pay Later, if you qualify."

@@ -64,7 +64,7 @@ hero:
   eyebrow: Built for Africa's farmers and agribusinesses
   headline: Farm the Ezy Way, the Smart Way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
-  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Pay Later== for your products and services with EzyCredits if you qualify, and sell your ==crops and livestock== on Produce Market."
+  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Buy Now, Pay Later== for your products and services with EzyCredits if you qualify, and sell your ==crops and livestock== on Produce Market."
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"
@@ -106,7 +106,7 @@ journey:
         focus: "55% 45%"
     - verb: Pay
       product: ezycredits
-      text: Get your inputs now and pay later with EzyCredits Pay Later (if you qualify).
+      text: Get your inputs now with EzyCredits Buy Now, Pay Later (if you qualify).
       image:
         src: /images/photos/agro-dealer-phone.webp
         alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him
@@ -316,7 +316,7 @@ faq:
         - { kind: try-kaezy }
         - { kind: get-app }
     - q: Where does EzyAgric work?
-      a: "EzyAgric works across Uganda. Shopping on Agrishop, EzyCredits Pay Later and selling on Produce Market are available only in Uganda for now."
+      a: "EzyAgric works across Uganda. Shopping on Agrishop, buying now and paying later with EzyCredits, and selling on Produce Market are available only in Uganda for now."
       actions:
         - { kind: page, label: "Explore our services", href: "/#solutions" }
     - q: Can I use Ka-Ezy outside Uganda?
@@ -326,7 +326,7 @@ faq:
       actions:
         - { kind: try-kaezy }
     - q: How do I pay?
-      a: "With MTN or Airtel Mobile Money, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
+      a: "With MTN or Airtel Mobile Money, Pay on Delivery, or EzyCredits Buy Now, Pay Later (if you qualify)."
       actions:
         - { kind: page, label: "About EzyCredits", href: "/ezycredits/" }
     - q: Is there an iPhone app?
@@ -341,7 +341,7 @@ faq:
 
 contact:
   title: Talk to us
-  intro: "Questions about an order, Pay Later or your account? We're on WhatsApp."
+  intro: "Questions about an order, your account or Buy Now, Pay Later? We're on WhatsApp."
   # Confirmed by the EzyAgric team, 26 Oct 2026.
   whatsapp:
     number: "+256 787 991 262"

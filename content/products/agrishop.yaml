@@ -13,7 +13,7 @@ card:
   points:
     - Delivered to your shop, farm or office
     - Track every order until it arrives
-    - Pay with Mobile Money, EzyCredits Pay Later (if you qualify) or on delivery
+    - Pay by Mobile Money, on delivery or with Buy Now, Pay Later (if you qualify)
   image:
     src: /images/products/agrishop.webp
     alt: A farmer pushing a shopping trolley of farm inputs
@@ -98,7 +98,7 @@ features:
       text: Your orders are automatically posted to your expense ledgers.
       icon: clipboard-list
     - title: Pay your way
-      text: "MTN or Airtel Mobile Money, EzyCredits Pay Later (if you qualify), or Pay on Delivery."
+      text: "MTN or Airtel Mobile Money, Pay on Delivery, or EzyCredits Buy Now, Pay Later (if you qualify)."
       icon: wallet
 
 steps:
@@ -109,7 +109,7 @@ steps:
     - title: Confirm your order
       text: Add items to your cart, check your delivery address and confirm.
     - title: Choose how to pay
-      text: Mobile Money, EzyCredits Pay Later, or pay on delivery.
+      text: Mobile Money, pay on delivery, or EzyCredits Buy Now, Pay Later.
     - title: Track your order
       text: Watch your order move until it's delivered.
 
@@ -139,9 +139,9 @@ faq:
   - q: Can I pay when my order arrives?
     a: Yes. Choose Pay on Delivery at checkout.
   - q: Can I buy now and pay later?
-    a: Yes, with EzyCredits Pay Later if you qualify.
+    a: Yes, with EzyCredits Buy Now, Pay Later if you qualify.
     actions:
-      - { kind: page, label: "About Pay Later", href: "/ezycredits/" }
+      - { kind: page, label: "About Buy Now, Pay Later", href: "/ezycredits/" }
   - q: Where does Agrishop deliver?
     a: Agrishop is available in Uganda for now.
     actions:
@@ -149,4 +149,4 @@ faq:
 
 seo:
   title: "Agrishop: genuine farm inputs and vet products, delivered | EzyAgric"
-  description: "Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses. Pay by Mobile Money, EzyCredits Pay Later (if you qualify) or on delivery."
+  description: "Genuine seeds, feeds, fertilizers and vet supplies for farmers and agribusinesses. Pay by Mobile Money, on delivery or with Buy Now, Pay Later if you qualify."

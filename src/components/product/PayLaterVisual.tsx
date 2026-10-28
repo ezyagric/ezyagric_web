@@ -34,7 +34,7 @@ export function PayLaterVisual({ product }: { product: Product }) {
       <div className="relative rounded-card bg-inverse p-5 pb-10 text-on-inverse shadow-raised sm:p-6 sm:pb-11">
         <div className="flex items-center gap-3">
           <IconCircle name="calendar-clock" color="accent" />
-          <span className="text-lg leading-tight font-heading sm:text-xl">{product.name} Pay Later</span>
+          <span className="text-lg leading-tight font-heading sm:text-xl">{product.name}</span>
         </div>
         <div className="mt-8 flex items-end justify-between gap-3">
           <span className="inline-block rounded-pill bg-accent px-3 py-1 text-sm font-label text-on-primary">

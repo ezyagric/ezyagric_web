@@ -220,6 +220,8 @@ const ProductSchema = z.object({
         z.object({
           label: z.string(),
           value: z.string().nullable(),
+          /** true: the value is the site's contact channels (call, WhatsApp, email), as links. */
+          contact: z.boolean().optional(),
           ...pendingFields,
         }),
       ),

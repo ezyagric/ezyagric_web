@@ -8,7 +8,7 @@ Its job is to make the app's four tools clear in a few seconds on a cheap Androi
 |---|---|---|
 | **Ka-Ezy** | AI farm assistant | `/ka-ezy/` |
 | **Agrishop** | Farm inputs and vet products | `/agrishop/` |
-| **EzyCredits** | Pay Later (credit by Pezesha) | `/ezycredits/` |
+| **EzyCredits** | Buy Now, Pay Later (credit from EzyAgric lender partners) | `/ezycredits/` |
 | **Produce Market** | Farmers list their produce for sale | `/produce-market/` |
 
 It also serves partner organisations (EzyProduce web portal).
@@ -298,7 +298,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 - [ ] **Ka-Ezy try and hire:** have the agronomy team check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). Then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
 - [ ] **Poultry video captions:** Marvin Busulwa's poultry video in the home page's livestock section is 3 minutes of speech with no captions (WCAG 1.2.2). Get an English transcript or WebVTT file from marketing or the video's editor, then add it as `public/videos/poultry-marvin-busulwa.vtt` with a `<track kind="captions">` in `DemoVideoPlayer` and a captions path in `livestock.video`. Ask for a corrected export at the same time ("POUTRY FARMER" in its caption).
 - [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
-- [ ] **Legal review:** all EzyCredits / Pay Later wording, the Pezesha lender line and key-facts box (Pezesha and legal), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
+- [ ] **Legal review:** all EzyCredits / Buy Now, Pay Later wording (the key-facts box and lender line were confirmed by the EzyAgric team on 28 Oct 2026), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
 - [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
