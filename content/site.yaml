@@ -279,27 +279,15 @@ videos:
     title: EzyAgric CEO William Luyinda on the MFS Africa and K+S joint investment
     topic: company
 
-# EzyProduce is named in the Business Profile 2026 as EzyAgric's produce
-# marketplace and business management platform for agribusinesses.
+# A glimpse of EzyAgric Business (its page: content/business.yaml), whose
+# four module tiles come from that file.
 organisations:
-  eyebrow: For agribusinesses · EzyProduce
-  title: Run your agribusiness and farmer network on EzyProduce
-  intro: "Agribusinesses use Ka-Ezy, Agrishop, EzyCredits and Produce Market in the EzyAgric App too. EzyProduce adds a produce marketplace and business management platform for cooperatives, off-takers and agribusinesses."
-  points:
-    - { text: Bulk produce and trace it back to each farmer, icon: package }
-    - { text: Pay farmers instantly, icon: hand-coins }
-    - { text: Connect with ready buyers and off-takers, icon: users }
-    - { text: Profile your farmers and track their training, icon: clipboard-list }
-    - { text: "Manage suppliers, sales, purchases and expenses", icon: receipt }
-    - { text: "Accounting, quality and compliance, and business reports", icon: shield-check }
+  eyebrow: For agribusinesses · EzyAgric Business
+  title: Our four services, built for agribusiness enterprises
+  intro: "EzyAgric Business brings our four services to the enterprises that work with farmers: Agrishop to input suppliers, Produce Market to off-takers, EzyCredits to financial institutions and Ka-Ezy to the businesses that give it to their farmers. In a web portal, or through APIs into the systems they already run."
   cta:
-    label: Partner login
-    url: https://sso.ezyagric.com
-  image:
-    src: /images/photos/web-portal.webp
-    alt: EzyAgric web platform dashboard on a laptop and tablet
-    width: 1080
-    height: 660
+    label: Explore EzyAgric Business
+    href: /ezyagric-business/
 
 faq:
   title: Questions farmers and agribusinesses ask

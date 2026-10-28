@@ -141,7 +141,18 @@ function targets() {
  * edge with the steps card (the video is at least its 9:16 height and
  * stretches when the steps run taller, e.g. a wrapped title).
  */
-export function KaEzyBanner({ id, position, page }: { id: string; position: string; page?: string }) {
+export function KaEzyBanner({
+  id,
+  position,
+  page,
+  intro,
+}: {
+  id: string;
+  position: string;
+  page?: string;
+  /** This page's line under the title, if not the site's (EzyAgric Business: what your farmers get). */
+  intro?: string;
+}) {
   const { kaezyBanner: copy } = getSite();
   const video = bannerVideo(getProduct("ka-ezy"));
   const to = targets();
@@ -166,7 +177,7 @@ export function KaEzyBanner({ id, position, page }: { id: string; position: stri
           >
             {copy.title}
           </h2>
-          <p className="mt-2 text-lg text-pretty text-on-inverse">{copy.intro}</p>
+          <p className="mt-2 text-lg text-pretty text-on-inverse">{intro ?? copy.intro}</p>
         </div>
 
         {/* See Ka-Ezy in action: the demo plays in place (it downloads only on play). */}

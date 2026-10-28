@@ -11,9 +11,10 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { KaEzyMenuCard, KaEzyStrip, kaezyPayHref } from "@/components/promo/KaEzyBanner";
 import type { IconName } from "@/lib/content";
 
-// "#organisations" stays the section's id so older links still land there.
+// Agribusinesses: the EzyAgric Business page (the home page's
+// "#organisations" section stays as its preview, so older links still land).
 const SECONDARY_LINKS: { href: string; label: string; icon: IconName }[] = [
-  { href: "/#organisations", label: "Agribusinesses", icon: "users" },
+  { href: "/ezyagric-business/", label: "Agribusinesses", icon: "users" },
   { href: "/#contact-us", label: "Contact", icon: "phone" },
 ];
 

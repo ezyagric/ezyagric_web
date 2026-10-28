@@ -96,6 +96,85 @@
   }
 }
 
+/* Screens at least 1024px wide and 720px tall: where the EzyAgric Business
+   module index can stick under the header without crowding the chapters. */
+@custom-variant tall-lg (@media (min-width: 64rem) and (min-height: 45rem));
+
+/* EzyAgric Business: the module index lights the chapter in view (colour
+   only; nothing moves). Each chapter names a view timeline; its index link
+   runs a one-frame animation on it, active while the chapter crosses a thin
+   reading band 35% down the screen (chapters are at least 80px apart, so one
+   link at a time). */
+@keyframes index-current {
+  from,
+  to {
+    background-color: var(--color-card);
+    color: var(--color-title);
+    box-shadow: var(--shadow-card);
+  }
+}
+@supports (animation-timeline: view()) {
+  [data-chapters] {
+    timeline-scope: --ch-ezysupplier, --ch-ezyproduce, --ch-ezycredits, --ch-ezyservices;
+  }
+  [data-chapter] {
+    view-timeline-axis: block;
+    view-timeline-inset: 35% 64%;
+  }
+  [data-chapter="ezysupplier"] {
+    view-timeline-name: --ch-ezysupplier;
+  }
+  [data-chapter="ezyproduce"] {
+    view-timeline-name: --ch-ezyproduce;
+  }
+  [data-chapter="ezycredits"] {
+    view-timeline-name: --ch-ezycredits;
+  }
+  [data-chapter="ezyservices"] {
+    view-timeline-name: --ch-ezyservices;
+  }
+  /* Longhands, so no shorthand resets the timelines below. */
+  [data-index] {
+    animation-name: index-current;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: none;
+  }
+  [data-index="ezysupplier"] {
+    animation-timeline: --ch-ezysupplier;
+  }
+  [data-index="ezyproduce"] {
+    animation-timeline: --ch-ezyproduce;
+  }
+  [data-index="ezycredits"] {
+    animation-timeline: --ch-ezycredits;
+  }
+  [data-index="ezyservices"] {
+    animation-timeline: --ch-ezyservices;
+  }
+}
+/* Without scroll timelines, light the chapter jumped to instead (never both). */
+@supports not (animation-timeline: view()) {
+  :root:has(#ezysupplier:target) [data-index="ezysupplier"],
+  :root:has(#ezyproduce:target) [data-index="ezyproduce"],
+  :root:has(#ezycredits:target) [data-index="ezycredits"],
+  :root:has(#ezyservices:target) [data-index="ezyservices"] {
+    background-color: var(--color-card);
+    color: var(--color-title);
+    box-shadow: var(--shadow-card);
+  }
+}
+/* Where the index sticks, anchors and keyboard focus clear both the header
+   and the index (WCAG 2.4.11): its bottom edge is about 178px down. */
+@media (min-width: 64rem) and (min-height: 45rem) {
+  html:has([data-module-index]) {
+    scroll-padding-top: 12rem;
+  }
+  html:has([data-module-index]) [id] {
+    scroll-margin-top: 0;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

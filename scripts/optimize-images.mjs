@@ -12,7 +12,7 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const SRC = path.join(ROOT, "assets-src");
 const OUT = path.join(ROOT, "public", "images");
 
-/** [source, output (relative to public/images), max width, options] */
+/** [source, output (relative to public/images), max width, options: { height } or { extract }] */
 const IMAGES = [
   // App screenshots (App Store set, v4.8.x)
   ["screens/01-home.png", "screens/home.webp", 640],
@@ -32,6 +32,9 @@ const IMAGES = [
 
   // Photos
   ["photos/slide-1.jpg", "photos/farmers-with-phone.webp", 1200],
+  // Names on the laptop and the tablet blurred out (28 Oct 2026; the same
+  // file replaces legacy/images/offtaker-ui.png). Earlier commits still hold
+  // the unblurred original.
   ["photos/offtaker-ui.png", "photos/web-portal.webp", 1200],
   ["photos/inputs.jpg", "photos/inputs.webp", 1200],
   ["photos/market.jpg", "photos/market.webp", 1200],
@@ -60,6 +63,28 @@ const IMAGES = [
   // (23.00.18, 1500x2000).
   ["photos-2026/agrishop-merchant-shop.jpg", "photos/agrishop-merchant-shop.webp", 768],
   ["photos-2026/agrishop-app-shop-by-category.jpg", "photos/agrishop-app-shop-by-category.webp", 1200],
+  // EzyAgric Business: the office meeting room ("WhatsApp Image 2026-10-27 at 23.05.06.jpeg").
+  ["photos-2026/ezyagric-office-meeting.jpg", "photos/ezyagric-office-meeting.webp", 1280],
+  // EzyAgric Business module screens, from the marketing team's
+  // Website/Screenshots folder (28 Oct 2026), cropped, with customers' and
+  // staff names and phone numbers blurred out (the originals stay out of
+  // the repo). Screens beside each module's text, then close 16:10 crops
+  // for the four-module glimpse. ezyproduce-thumb is the laptop screen of
+  // photos/offtaker-ui.png (566px: no larger copy).
+  ["screens-business/ezysupplier-dashboard.png", "business/ezysupplier-dashboard.webp", 1600], // 10.12.02
+  ["screens-business/ezycredits-ledger.png", "business/ezycredits-ledger.webp", 1400], // 10.15.31
+  ["screens-business/ezyservices-dashboard.png", "business/ezyservices-dashboard.webp", 1600], // 10.11.30
+  ["screens-business/customer-view.png", "business/customer-view.webp", 1400], // 10.18.45
+  ["screens-business/ezysupplier-thumb.png", "business/ezysupplier-thumb.webp", 720],
+  ["screens-business/ezyproduce-thumb.png", "business/ezyproduce-thumb.webp", 720],
+  ["screens-business/ezycredits-thumb.png", "business/ezycredits-thumb.webp", 720],
+  ["screens-business/ezyservices-thumb.png", "business/ezyservices-thumb.webp", 720],
+  // The chapters' magnified details (loupes), cut from the blurred screens
+  // above; each box over its PNG's size is that loupe's `region` in
+  // content/business.yaml.
+  ["screens-business/ezysupplier-dashboard.png", "business/ezysupplier-most-purchased.webp", 720, { extract: { left: 1752, top: 678, width: 1138, height: 538 } }],
+  ["screens-business/ezycredits-ledger.png", "business/ezycredits-repayments.webp", 720, { extract: { left: 770, top: 555, width: 1164, height: 420 } }],
+  ["screens-business/ezyservices-dashboard.png", "business/ezyservices-top-services.webp", 720, { extract: { left: 1989, top: 1003, width: 1274, height: 580 } }],
 
   // EzyAgric field photos (2015, 2016 and 2020) from the marketing team's
   // Website folder, saved at up to 2400px with no camera, owner or location
@@ -127,10 +152,10 @@ async function main() {
       ? { height: opts.height, withoutEnlargement: true }
       : { width, withoutEnlargement: true };
     // autoOrient: a camera photo held upright (EXIF orientation) stays upright.
-    const info = await sharp(path.join(SRC, src), { animated: false, autoOrient: true })
-      .resize(resize)
-      .webp({ quality: 78, effort: 6 })
-      .toFile(dest);
+    // opts.extract cuts a box out of the original first (in its pixels).
+    let image = sharp(path.join(SRC, src), { animated: false, autoOrient: true });
+    if (opts.extract) image = image.extract(opts.extract);
+    const info = await image.resize(resize).webp({ quality: 78, effort: 6 }).toFile(dest);
     report.push({ out, w: info.width, h: info.height, kb: +(info.size / 1024).toFixed(1) });
   }
   const partnersDir = path.join(SRC, "partners");

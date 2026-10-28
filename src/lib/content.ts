@@ -48,6 +48,8 @@ export const ICON_NAMES = [
   "bell",
   "piggy-bank",
   "play-circle",
+  "monitor",
+  "plug",
 ] as const;
 
 const IconName = z.enum(ICON_NAMES);
@@ -597,11 +599,11 @@ const SiteSchema = z.object({
     eyebrow: z.string(),
     title: z.string(),
     intro: z.string(),
-    /** What the platform does, each with its icon on its tile. */
-    points: z.array(z.object({ text: z.string(), icon: IconName })),
-    cta: z.object({ label: z.string(), url: z.string().url() }),
-    /** The platform on a laptop and tablet: a transparent PNG/WebP, shown on a tinted panel. */
-    image: Image,
+    /**
+     * The way in: the EzyAgric Business page (the module tiles and their
+     * screens come from content/business.yaml).
+     */
+    cta: z.object({ label: z.string(), href: z.string().startsWith("/") }),
   }),
   faq: z.object({
     title: z.string(),
@@ -648,6 +650,136 @@ const SiteSchema = z.object({
 });
 export type Site = z.infer<typeof SiteSchema>;
 
+/**
+ * EzyAgric Business (content/business.yaml): the four services for
+ * agribusiness enterprises, as a web portal or APIs. Each module brings one
+ * farmer-app service (`product`) to the enterprises that work with farmers.
+ */
+const Loupe = z.object({
+  src: z.string().startsWith("/"),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  caption: z.string(),
+  region: z
+    .string()
+    .regex(/^(\d{1,3}(\.\d)?% ){3}\d{1,3}(\.\d)?%$/, 'region is "x% y% w% h%", e.g. "60.3% 49.9% 39.2% 39.6%"')
+    .optional(),
+});
+export type LoupeData = z.infer<typeof Loupe>;
+
+const BusinessModule = z.object({
+  /** The module's anchor on the page (#ezyproduce). */
+  id: z.enum(["ezysupplier", "ezyproduce", "ezycredits", "ezyservices"]),
+  name: z.string(),
+  /** Who it is for: "For input suppliers". */
+  audience: z.string(),
+  /** The farmer-app service it is built on; its icon and colour are the module's. */
+  product: ProductSlug,
+  summary: z.string(),
+  points: z.array(Claim).min(1).max(5),
+  /**
+   * The module's screen beside its text, in a browser window (frame: false
+   * for a device mockup, shown on a tinted panel instead). Personal data
+   * blurred out.
+   */
+  screen: Image.extend({ frame: z.boolean().default(true) }),
+  /** A close 16:10 crop of a screen, for the four-module glimpse (home page and hero). */
+  thumb: Image,
+  /**
+   * A magnified detail of the screen beside it (decorative: the screen's alt
+   * describes it). `region` frames that detail on the screen, as "x% y% w% h%"
+   * of the screen; leave it out when the detail is not cut from it.
+   */
+  loupe: Loupe.optional(),
+  /** A small illustrative notification on the screen: no figures, decorative. */
+  status: z.object({ icon: IconName, title: z.string(), text: z.string() }).optional(),
+  /** A field photo of the people the module serves, clipped to the chapter (from lg). */
+  photo: Image.optional(),
+  ...pendingFields,
+});
+export type BusinessModule = z.infer<typeof BusinessModule>;
+
+const BusinessSchema = z.object({
+  name: z.string(),
+  /** Its line on the home hero's slide, like a product's appTagline. */
+  tagline: z.string(),
+  hero: z.object({
+    eyebrow: z.string(),
+    /** ==key words== in green, as on the product pages. */
+    headline: z.string(),
+    intro: z.string(),
+    /** Short facts as chips under the intro ("Web portal", "APIs", ...). */
+    facts: z.array(z.object({ icon: IconName, text: z.string() })).max(4).default([]),
+    /** The Contents card beside the text: one row per module. */
+    contents: z.object({ label: z.string(), note: z.string().optional() }),
+  }),
+  modules: z.object({
+    eyebrow: z.string().optional(),
+    title: z.string(),
+    intro: z.string().optional(),
+    /** Under the intro: where the screens come from and what is blurred. */
+    screensNote: z.string().optional(),
+    /** The name of the sticky module index (a nav landmark). */
+    indexLabel: z.string(),
+    /** The WhatsApp button in each chapter; {module} becomes the module's name. */
+    ask: z.object({ label: z.string().includes("{module}"), message: z.string() }),
+    /** The Ka-Ezy-built module's link down to the Ka-Ezy banner. */
+    kaezyLink: z.string().optional(),
+    items: z.array(BusinessModule).length(4),
+  }),
+  /** This page's line under the Ka-Ezy banner's title (the farmer price is not the enterprise's). */
+  kaezyBanner: z.object({ intro: z.string() }).optional(),
+  /** How enterprises connect: the web portal, and APIs into their own systems. */
+  access: z.object({
+    eyebrow: z.string().optional(),
+    title: z.string(),
+    intro: z.string().optional(),
+    /** The gradient hub the two ways in hang from. */
+    hub: z.object({ label: z.string(), text: z.string() }),
+    items: z
+      .array(
+        z.object({
+          title: z.string(),
+          text: z.string(),
+          icon: IconName,
+          points: z.array(Claim).min(1),
+          /** portal: the screen on top and Partner login; api: the plug strip and a WhatsApp button. */
+          kind: z.enum(["portal", "api"]),
+          button: z.string(),
+          /** The WhatsApp message of an api card's button. */
+          message: z.string().optional(),
+          /** The api card's illustration: from EzyAgric Business to the enterprise's system. */
+          plug: z.object({ from: z.string(), to: z.string(), label: z.string() }).optional(),
+        }),
+      )
+      .length(2),
+    /** A web portal screen beside the ways in, with a caption under it. */
+    screen: z.object({ image: Image, caption: z.string() }).optional(),
+  }),
+  pricing: z.object({
+    title: z.string(),
+    text: z.string(),
+    /** The WhatsApp message the "Talk to our team" buttons start. */
+    whatsappMessage: z.string(),
+    image: Image,
+    /** The quotation slip: its label, a stamp, line items and the price line. */
+    slip: z.object({
+      label: z.string(),
+      stamp: z.string(),
+      rows: z
+        .array(z.object({ label: z.string(), value: z.string(), modules: z.boolean().default(false) }))
+        .min(1)
+        .max(4),
+      price: z.object({ label: z.string(), value: z.string() }),
+    }),
+    /** The slip's tear-off stub: the photo, a title, the WhatsApp button and every channel. */
+    stub: z.object({ title: z.string(), button: z.string() }),
+  }),
+  faq: z.object({ eyebrow: z.string().optional(), title: z.string(), items: z.array(Faq).default([]) }),
+  seo: z.object({ title: z.string(), description: z.string().max(170) }),
+});
+export type Business = z.infer<typeof BusinessSchema>;
+
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
 function readYaml(file: string): unknown {
@@ -675,6 +807,13 @@ export function getSite(): Site {
   return siteCache;
 }
 
+let businessCache: Business | undefined;
+export function getBusiness(): Business {
+  if (businessCache && CACHE) return businessCache;
+  businessCache = validate(BusinessSchema, readYaml("business.yaml"), "business.yaml");
+  return businessCache;
+}
+
 let productsCache: Product[] | undefined;
 export function getProducts(): Product[] {
   if (productsCache && CACHE) return productsCache;
@@ -691,6 +830,17 @@ export function getProducts(): Product[] {
 
 export function getProduct(slug: string): Product | undefined {
   return getProducts().find((p) => p.slug === slug);
+}
+
+/** A module with the farmer-app service it is built on in place of its slug. */
+export type BusinessModuleWithProduct = Omit<BusinessModule, "product"> & { product: Product };
+
+/** EzyAgric Business's four modules, each with the farmer-app service it is built on. */
+export function getBusinessModules(): BusinessModuleWithProduct[] {
+  return getBusiness().modules.items.flatMap((module) => {
+    const product = getProduct(module.product);
+    return product ? [{ ...module, product }] : [];
+  });
 }
 
 export function getVideo(id: string): Video | undefined {

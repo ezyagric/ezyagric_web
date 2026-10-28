@@ -1,7 +1,7 @@
-import { getSite, isVisible, visible, type Accent, type Claim, type Product } from "@/lib/content";
-import { mailUrl, telUrl, whatsappUrl } from "@/lib/links";
+import { isVisible, visible, type Accent, type Claim, type Product } from "@/lib/content";
 import { Highlight } from "@/components/home/parts";
 import { ACCENTS } from "@/components/ui/accents";
+import { ContactLinks } from "@/components/ui/ContactLinks";
 import { Container, Section } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
@@ -86,7 +86,7 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
               </dt>
               <dd className="mt-1 text-base text-pretty text-body">
                 {item.contact ? (
-                  <ContactLinks />
+                  <ContactLinks position="key-facts" />
                 ) : item.value ? (
                   <Highlight text={item.value} />
                 ) : (
@@ -106,66 +106,6 @@ export function KeyFacts({ product, tone }: { product: Product; tone: BandTone }
         ) : null}
       </div>
     </Section>
-  );
-}
-
-/**
- * "Call us on …, WhatsApp us on … or email …": the site's contact channels
- * (content/site.yaml contact) as links, with the same analytics as the
- * contact section's buttons. A channel waiting for confirmation is left out.
- */
-function ContactLinks() {
-  const { contact } = getSite();
-  const phone = visible(contact.phones)[0];
-  const whatsapp = isVisible(contact.whatsapp) ? contact.whatsapp : null;
-  const email = visible(contact.emails)[0];
-  const link = "font-label text-link underline underline-offset-4 hover:decoration-2";
-  const parts = [
-    phone ? (
-      <>
-        Call us on{" "}
-        <a href={telUrl(phone.number)} data-track="tel_click" data-track-position="key-facts" className={`${link} whitespace-nowrap`}>
-          {phone.number}
-        </a>
-      </>
-    ) : null,
-    whatsapp ? (
-      <>
-        WhatsApp us on{" "}
-        <a
-          href={whatsappUrl(whatsapp.number, whatsapp.message)}
-          target="_blank"
-          rel="noopener"
-          data-track="whatsapp_click"
-          data-track-position="key-facts"
-          className={`${link} whitespace-nowrap`}
-        >
-          {whatsapp.number}
-          <span className="sr-only"> (opens WhatsApp)</span>
-        </a>
-      </>
-    ) : null,
-    email ? (
-      <>
-        email{" "}
-        <a href={mailUrl(email.address)} data-track="email_click" data-track-position="key-facts" className={link}>
-          {email.address}
-        </a>
-      </>
-    ) : null,
-  ].filter(Boolean);
-
-  // "A, B or C."
-  return (
-    <>
-      {parts.map((part, i) => (
-        <span key={i}>
-          {i === 0 ? null : i === parts.length - 1 ? " or " : ", "}
-          {part}
-        </span>
-      ))}
-      .
-    </>
   );
 }
 

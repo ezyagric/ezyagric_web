@@ -84,6 +84,8 @@ export const OG_ARTWORK = {
   },
   agrishop: { file: "app/agrishop.png", width: 512, height: 512 },
   "produce-market": { file: "app/produce-market.png", width: 512, height: 512 },
+  // The EzyProduce dashboard on a laptop and tablet (transparent PNG), for EzyAgric Business.
+  "web-portal": { file: "photos/offtaker-ui.png", width: 1080, height: 660 },
 } satisfies Record<string, Artwork>;
 export type OgArtwork = keyof typeof OG_ARTWORK;
 

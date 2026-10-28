@@ -1,5 +1,6 @@
 import { SHOW_PENDING } from "@/lib/env";
 import type { Claim } from "@/lib/content";
+import { KeepHyphensTogether } from "./KeepHyphens";
 
 /**
  * Marks copy that the EzyAgric team still has to confirm. Only rendered in
@@ -18,12 +19,15 @@ export function PendingBadge({ note }: { note?: string }) {
   );
 }
 
-/** Renders a claim's text, with a badge if pending. Hidden in production when pending. */
-export function ClaimText({ claim }: { claim: Claim }) {
+/**
+ * Renders a claim's text, with a badge if pending. Hidden in production when
+ * pending. keepHyphens keeps words like "Ka-Ezy" whole when the line wraps.
+ */
+export function ClaimText({ claim, keepHyphens = false }: { claim: Claim; keepHyphens?: boolean }) {
   if (claim.pending && !SHOW_PENDING) return null;
   return (
     <>
-      {claim.text}
+      {keepHyphens ? <KeepHyphensTogether text={claim.text} /> : claim.text}
       {claim.pending ? <PendingBadge note={claim.note} /> : null}
     </>
   );

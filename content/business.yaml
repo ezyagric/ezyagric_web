@@ -1,0 +1,272 @@
+# EzyAgric Business: the four EzyAgric services for agribusiness
+# enterprises, as a web portal or APIs (the team's brief, 28 Oct 2026):
+# EzySupplier for input suppliers (Agrishop), EzyProduce for off-takers
+# (Produce Market), EzyCredits for financial institutions and EzyServices
+# for Ka-Ezy enterprises. Pricing is custom.
+#
+# Sources: the brief; the brand guide (.docx, Oct 2026) "EzyAgric Business:
+# the EzyAgric platform for agribusiness operations and records"; the
+# EzyProduce user and training manuals (June and Sept 2026); the 2024
+# Business Profile; the Ka-Ezy B2B prospect plan; screens of the modules
+# from the marketing team (Website/Screenshots, 28 Oct 2026). Points the
+# documents only suggest are pending until Product confirms them.
+#
+# Screens: customers' and staff names, phone numbers and the like are
+# blurred out (assets-src/screens-business; the originals stay out of the
+# repo). `screen` sits beside each module's text; `thumb` is a close 16:10
+# crop for the home page's four-module glimpse and the hero's Contents card;
+# `loupe` magnifies a detail of the screen (its `region` frames that detail
+# on the screen, as "x% y% w% h%"); `status` is an illustrative notification
+# with no figures; `photo` is a field photo clipped to the chapter.
+#
+# The page reads like a record book: a Contents card, four numbered module
+# chapters, the Ka-Ezy banner, the two ways in, a quotation slip, questions.
+
+name: EzyAgric Business
+# Its line on the home hero's slide (after the four services' slides).
+tagline: Web portal and APIs for agribusinesses
+
+hero:
+  eyebrow: EzyAgric Business · For agribusiness enterprises
+  headline: Our four services, ==built for your agribusiness==
+  intro: "EzyAgric Business brings Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises that work with farmers: in ==a web portal==, or through ==APIs== into the ERP or financial system you already run."
+  facts:
+    - { icon: monitor, text: Web portal }
+    - { icon: plug, text: APIs }
+    - { icon: shield-check, text: One sign-in for every module }
+  contents:
+    label: Contents
+    note: 4 modules · 1 sign-in
+
+modules:
+  eyebrow: The four modules
+  title: Four modules, one EzyAgric account
+  intro: Each module brings one of our services to the businesses that work with farmers. Use one, or all four, with a single sign-in.
+  # EzyProduce shows an earlier illustration (the "EzyAgric Offtaker"
+  # laptop and tablet mockup, 2020 demo data) until marketing sends a
+  # current EzyProduce screen; the others are real screens from 28 Oct 2026.
+  screensNote: "Screens from EzyAgric Business, with customers' and staff names and phone numbers blurred. The EzyProduce view is from an earlier version."
+  indexLabel: Jump to a module
+  ask:
+    label: "Ask about {module}"
+    message: "Hello EzyAgric, I'd like to know more about {module} on EzyAgric Business."
+  kaezyLink: Watch what your farmers get with Ka-Ezy
+  items:
+    - id: ezysupplier
+      name: EzySupplier
+      audience: For input suppliers
+      product: agrishop
+      summary: Sell your seeds, fertilizers, feeds, vet products and tools to farmers and agribusinesses through Agrishop.
+      points:
+        - Put your products and prices on Agrishop
+        - Receive orders from farmers, merchants and agri-hubs, including Buy Now, Pay Later orders
+        - Reach farmers through EzyAgric merchants, agents and agri-hubs
+        - See your sales and demand by product and region
+      screen:
+        src: /images/business/ezysupplier-dashboard.webp
+        alt: "The EzySupplier dashboard: sales, customers and orders by quarter since 2020; today's, confirmed, pending, total and delivered orders; customers by district; and the most purchased categories, led by fertilizers and herbicides"
+        width: 1600
+        height: 749
+      thumb:
+        src: /images/business/ezysupplier-thumb.webp
+        alt: "EzySupplier: today's, pending, confirmed and delivered orders"
+        width: 720
+        height: 450
+      loupe:
+        src: /images/business/ezysupplier-most-purchased.webp
+        width: 720
+        height: 340
+        caption: Most purchased, by category
+        region: "60.3% 49.9% 39.2% 39.6%"
+      status: { icon: shopping-cart, title: New order received, text: From a merchant · just now }
+      photo:
+        src: /images/photos/agrishop-delivery-handover.webp
+        alt: "An EzyAgric delivery agent in a high-visibility vest writes up a delivery beside the truck while the customer checks his phone, with sacks of fertilizer and boxes of crop protection products at their feet"
+        width: 768
+        height: 1020
+        focus: "50% 35%"
+    - id: ezyproduce
+      name: EzyProduce
+      audience: For off-takers
+      product: produce-market
+      summary: Run your produce buying, farmer network and business records in one place.
+      points:
+        - Register and map your farmers and suppliers
+        - Bulk produce and trace it back to each farmer
+        - Pay farmers and suppliers in bulk by Mobile Money or bank
+        - Purchases, sales, stock, accounting and compliance reports
+      screen:
+        src: /images/photos/web-portal.webp
+        alt: "EzyProduce on a laptop and tablet: the off-taker dashboard with produce collected, payments pending, farmers, village agents and farm-gate prices"
+        width: 1080
+        height: 660
+        frame: false
+      thumb:
+        src: /images/business/ezyproduce-thumb.webp
+        alt: "EzyProduce: produce collected by crop, payments pending, farmers and village agents"
+        width: 566
+        height: 354
+      loupe:
+        src: /images/business/ezyproduce-thumb.webp
+        width: 566
+        height: 354
+        caption: Produce, payments and farmers at a glance
+      status: { icon: package, title: Produce collected, text: Traced to each farmer · just now }
+      photo:
+        src: /images/photos/farmer-produce-sacks.webp
+        alt: A smiling farmer beside a tall stack of produce sacks ready for market
+        width: 1000
+        height: 750
+    - id: ezycredits
+      name: EzyCredits
+      audience: For financial institutions
+      product: ezycredits
+      summary: Lend to farmers and agribusinesses who already buy and sell on EzyAgric.
+      points:
+        - Reach customers with a transaction history on EzyAgric
+        - Score customers on their transaction, KYC and location data, shared with consent
+        - Credit goes out as inputs paid to suppliers, so it can't be diverted
+        - Follow your loans and repayments in one place
+      screen:
+        src: /images/business/ezycredits-ledger.webp
+        alt: "An EzyCredits payment ledger: a loan repaid by Mobile Money in three instalments, each with its remaining balance and progress, and marked fully cleared"
+        width: 1400
+        height: 706
+      thumb:
+        src: /images/business/ezycredits-thumb.webp
+        alt: "EzyCredits: a loan's payments, total paid and average payment"
+        width: 720
+        height: 450
+      loupe:
+        src: /images/business/ezycredits-repayments.webp
+        width: 720
+        height: 260
+        caption: Each repayment, until fully cleared
+        region: "39.2% 56.1% 59.3% 42.4%"
+      status: { icon: check-circle, title: Repayment received, text: Mobile Money · just now }
+      photo:
+        src: /images/photos/agro-dealer-phone.webp
+        alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him
+        width: 1000
+        height: 667
+    - id: ezyservices
+      name: EzyServices
+      audience: For Ka-Ezy enterprises
+      product: ka-ezy
+      summary: Give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert.
+      points:
+        - Ka-Ezy for your farmers, on bulk subscriptions
+        - Advice in English, Luganda and other local languages, photo checks of sick crops and animals, and garden mapping
+        - text: Or as an advisory service under your own brand, powered by EzyAgric
+          pending: true
+          note: From the Ka-Ezy B2B plan (bulk subscriptions or a white-labelled service). Confirm white-label is offered.
+        - See your farmers' subscriptions and Ka-Ezy use in one dashboard
+      screen:
+        src: /images/business/ezyservices-dashboard.webp
+        alt: "The EzyServices dashboard: Ka-Ezy subscribers and revenue by month, active and new farmers today, acres mapped, the most used Ka-Ezy services and subscribers by district"
+        width: 1600
+        height: 788
+      thumb:
+        src: /images/business/ezyservices-thumb.webp
+        alt: "EzyServices: Ka-Ezy subscribers and revenue by month"
+        width: 720
+        height: 451
+      loupe:
+        src: /images/business/ezyservices-top-services.webp
+        width: 720
+        height: 328
+        caption: The Ka-Ezy services farmers use most
+        region: "60.5% 61.9% 38.7% 35.8%"
+      status: { icon: bot, title: Farmer subscribed, text: Ka-Ezy · just now }
+      photo:
+        src: /images/photos/records.webp
+        alt: A man checks his phone in a pepper garden, a leaf in his other hand
+        width: 1200
+        height: 605
+        focus: "80% 45%"
+
+# On this page the Ka-Ezy banner shows what the enterprise's farmers get
+# (its step 2 is the farmers' price, not the enterprise's).
+kaezyBanner:
+  intro: "This is what your farmers get with EzyServices. Watch Ka-Ezy at work, try it, see the farmers' plans or get the app. For bulk subscriptions, talk to our team."
+
+access:
+  eyebrow: Web portal or APIs
+  title: Two ways to connect
+  intro: Work in our web portal, or keep the systems you have and let EzyAgric Business feed them.
+  hub: { label: EzyAgric Business, text: "Four modules, two ways in" }
+  items:
+    - title: Web portal
+      kind: portal
+      button: Partner login
+      text: For teams that want to work in EzyAgric Business directly.
+      icon: monitor
+      points:
+        - One EzyAgric account for all your modules
+        - See each customer's purchases, credit and Ka-Ezy use in one view
+        - Invite your team and choose what each role can see
+        - Export your records to PDF and Excel
+    - title: APIs
+      kind: api
+      button: Ask about the APIs
+      message: "Hello EzyAgric, I'd like to connect our ERP or financial management system to EzyAgric Business through your APIs."
+      plug: { from: EzyAgric Business, to: Your ERP or financial management system, label: The data your system needs }
+      text: "For enterprises with an ERP, a financial management system or another system of their own: EzyAgric Business sends it the data it needs."
+      icon: plug
+      points:
+        - Connect your ERP or financial management system
+        - Set up with our team, under a data-sharing agreement
+        - text: Secure access with API keys over HTTPS
+          pending: true
+          note: From the UNCDF deck's platform overview. Product to confirm the API access model and documentation.
+  screen:
+    image:
+      src: /images/business/customer-view.webp
+      alt: "One customer in the web portal: tabs for Inputs (EzySupplier), BNPL (EzyCredits) and Ka-Ezy (EzyServices), lifetime purchases, transactions across all services, delivered orders and the team's calls and WhatsApp follow-ups"
+      width: 1400
+      height: 627
+    caption: One customer across EzySupplier, EzyCredits and EzyServices. Names and phone numbers are blurred.
+
+pricing:
+  title: Pricing made for your enterprise
+  text: Pricing is custom to your business and the modules you use. Talk to our team and we'll put together a quote.
+  whatsappMessage: "Hello EzyAgric, I'd like to know more about EzyAgric Business."
+  image:
+    src: /images/photos/ezyagric-office-meeting.webp
+    alt: The EzyAgric logo on the glass wall of a meeting room at the EzyAgric office, with a meeting going on behind it
+    width: 1280
+    height: 853
+    focus: "35% 50%"
+  slip:
+    label: Quotation · EzyAgric Business
+    stamp: Custom quote
+    rows:
+      - { label: Prepared for, value: Your enterprise }
+      - { label: Modules, value: The ones you use, modules: true }
+      - { label: Access, value: Web portal or APIs }
+    price: { label: Price, value: Custom }
+  stub: { title: Talk to our team, button: Ask for a quote on WhatsApp }
+
+faq:
+  eyebrow: Questions
+  title: Questions about EzyAgric Business
+  items:
+    - q: Who is EzyAgric Business for?
+      a: "Enterprises that work with farmers: input suppliers, off-takers, financial institutions, and businesses that give their farmers Ka-Ezy."
+    - q: Can we start with one module?
+      a: Yes. Use one module, or all four, with a single sign-in.
+    - q: Can our farmers get Ka-Ezy through us?
+      a: "Yes. With EzyServices you give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert, on bulk subscriptions."
+    - q: Do I have to change my systems?
+      a: No. Work in the web portal, or connect your ERP or financial management system through our APIs and get the data you need there.
+    - q: How much does it cost?
+      a: Pricing is custom to your business. Talk to our team for a quote.
+      actions:
+        - { kind: whatsapp, label: "Ask us on WhatsApp" }
+        - { kind: call, label: "Call us" }
+    - q: I already use EzyAgric Business. Where do I sign in?
+      a: Use Partner login at the top of any page. One EzyAgric account opens all your modules.
+
+seo:
+  title: "EzyAgric Business: web portal and APIs for agribusinesses | EzyAgric"
+  description: "EzySupplier, EzyProduce, EzyCredits and EzyServices: EzyAgric's services for input suppliers, off-takers, lenders and Ka-Ezy enterprises, by web portal or API."

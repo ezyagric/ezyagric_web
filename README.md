@@ -11,7 +11,7 @@ Its job is to make the app's four tools clear in a few seconds on a cheap Androi
 | **EzyCredits** | Buy Now, Pay Later (credit from EzyAgric lender partners) | `/ezycredits/` |
 | **Produce Market** | Farmers list their produce for sale | `/produce-market/` |
 
-It also serves partner organisations (EzyProduce web portal).
+It also serves agribusiness enterprises: **EzyAgric Business** (`/ezyagric-business/`) brings the four services to them as a web portal or APIs, in four modules: EzySupplier (input suppliers), EzyProduce (off-takers), EzyCredits (financial institutions) and EzyServices (Ka-Ezy enterprises). Pricing is custom.
 
 The site is built with Next.js (App Router, TypeScript, Tailwind CSS) and exported as **plain static files** (`out/`) that nginx serves. There is no server code, database or contact form. Pages work with JavaScript turned off; JavaScript is only used for the video player and the analytics consent banner.
 
@@ -48,6 +48,7 @@ Other commands:
 
 - `content/site.yaml` — home page, contact details, FAQ, partners, videos, social links, search title and description.
 - `content/products/ka-ezy.yaml`, `agrishop.yaml`, `ezycredits.yaml`, `produce-market.yaml` — one file per product page.
+- `content/business.yaml` — the EzyAgric Business page, and the module tiles and screens in the home page's agribusiness section. Its screens come from the marketing team with customers' and staff names and phone numbers blurred out (`assets-src/screens-business/`); never commit an unblurred screenshot.
 
 Change the text, keep the indentation (spaces, not tabs). Put text in quotes if it contains a colon (`:`) or starts with a special character.
 
@@ -194,15 +195,18 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - Google Consent Mode v2 is used with everything denied by default; accepting grants analytics storage only (ads features stay off).
 - Buttons and links send events through `data-track` attributes, picked up by one click listener in `src/components/analytics/Analytics.tsx`:
   - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`); `position` is `how-it-works` for a product page's "Install the EzyAgric App" step
-  - `portal_login_click`
+  - `portal_login_click` (`position`; on the EzyAgric Business page `business-hero` or `business-connect`)
+  - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its module tiles, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide)
+  - `business_module_click` (`module`; `position`: `business-contents` for the hero's Contents card, `business-index` for the sticky module index)
+  - `business_product_click` (`module`, `product`): a chapter's "Built on" link to the service it is built on
   - `kaezy_try_click` (`position`): every "Try Ka-Ezy" button, the one button reused across the site: `home-hero`, `home-top`, `also-in-the-app`, `404`, `<slug>-page` (each service page's banner), `ka-ezy-page`, `product-hero`, `faq` and `faq-<slug>` (the help cards), `faq-answer` and `faq-answer-<slug>` (buttons under FAQ answers), `how-it-works` and `how-it-works-ask` (the Ka-Ezy page's "Tap Ka-Ezy" and "Ask anything" steps on builds with the demo; the second opens Farm Expert with the cursor in the question box)
-  - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay), the menus' Ka-Ezy card and strip (watch, try, pay), and on builds without the demo the Ka-Ezy page's "Tap Ka-Ezy" (watch) and "Ask anything" (pay) steps, position `how-it-works`
+  - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay), the menus' Ka-Ezy card and strip (watch, try, pay), and on builds without the demo the Ka-Ezy page's "Tap Ka-Ezy" (watch) and "Ask anything" (pay) steps, position `how-it-works`, and the EzyServices chapter's link down to the banner on the EzyAgric Business page (watch), position `business-ezyservices`; that page's banner itself has position `ezyagric-business-page`
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
   - `kaezy_try_photo` (the photo buttons in Farm Expert), `kaezy_try_sample_photo` (`item`: the sample's crop, e.g. Maize)
   - `faq_action_click` (`action`): the other buttons under FAQ answers
   - `livestock_product_click` (`product`): the product tiles in the home page's livestock section
   - `kaezy_hire_continue` (`plan`), `kaezy_hire_pay` (`plan`, `network`)
-  - `whatsapp_click`, `tel_click`, `email_click`
+  - `whatsapp_click`, `tel_click`, `email_click` (`position` where a page has several, e.g. `key-facts`; on the EzyAgric Business page `business-hero`, `business-module` with `module` for each chapter's "Ask about …", `business-connect` for "Ask about the APIs", `business-pricing-button` and `business-pricing` for the quotation slip's button and contact rows)
   - `video_play` (`video_id`)
 - Play Store links also carry a referrer (`utm_source=website&utm_medium=<position>&utm_campaign=<product>`), so installs show up per page and button in Play Console even without cookies.
 - YouTube videos show a local thumbnail and load from `youtube-nocookie.com` only when tapped.
@@ -298,13 +302,14 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 - [ ] **Ka-Ezy try and hire:** have the agronomy team check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). Then remove `pending` from `tryIt`. For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
 - [ ] **Poultry video captions:** Marvin Busulwa's poultry video in the home page's livestock section is 3 minutes of speech with no captions (WCAG 1.2.2). Get an English transcript or WebVTT file from marketing or the video's editor, then add it as `public/videos/poultry-marvin-busulwa.vtt` with a `<track kind="captions">` in `DemoVideoPlayer` and a captions path in `livestock.video`. Ask for a corrected export at the same time ("POUTRY FARMER" in its caption).
 - [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
+- [ ] **EzyAgric Business:** Marketing and Product to approve the names EzyAgric Business, EzySupplier and EzyServices (the brand guide asks for new product names to be approved), Product to confirm the white-label and API access points still marked **To confirm** in `content/business.yaml`, and the team to check that the dashboard figures shown in the module screens (sales, revenue, subscribers) are fine to publish. The chapters' magnified details (`loupe` in `content/business.yaml`) make some of them easy to read: the most purchased volumes (2,218,652 kg in all), a loan's repayments in UGX and Ka-Ezy usage counts; delete a module's `loupe` to withdraw one (its dashed frame goes with it). The chapters also set "Ezy" in Vibrant Green ("EzySupplier"), like the home headline: set `TWO_TONE_NAMES = false` in `src/components/business/chapterLooks.ts` if Marketing prefers one colour.
 - [ ] **Legal review:** all EzyCredits / Buy Now, Pay Later wording (the key-facts box and lender line were confirmed by the EzyAgric team on 28 Oct 2026), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
 - [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
 - [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf`.
 - [ ] **Share previews:** paste a home and a product URL into WhatsApp or the Facebook Sharing Debugger and check the image and text.
-- [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
+- [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/ezyagric-business/`, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
 - [ ] **Delete `legacy/`** (see below).
 
 ---
@@ -315,6 +320,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 content/                  All website copy (YAML) — edit here
   site.yaml
   products/*.yaml
+  business.yaml           EzyAgric Business
 assets-src/               Image originals, share-image artwork and fonts
 public/
   images/                 Optimised WebP images (output of npm run images)
@@ -325,12 +331,14 @@ src/
     layout.tsx            Header, footer, fonts, site metadata, analytics, structured data
     page.tsx              Home page
     [slug]/               Product pages (+ their share images)
+    ezyagric-business/    EzyAgric Business (+ its share image)
     privacy-policy/
     not-found.tsx         404 page
     sitemap.ts, robots.ts, opengraph-image.tsx
   components/
     home/                 Home page sections
     product/              Product page sections
+    business/             EzyAgric Business sections and the four-module glimpse
       kaezy/              "Ask Ka-Ezy, then hire it": Your farm, the four Ka-Ezy tabs, Hire Ka-Ezy
     layout/               Header, footer, logo, preview banner
     ui/                   Buttons, icons, badges, video player, …

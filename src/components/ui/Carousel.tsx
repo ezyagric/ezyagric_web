@@ -30,8 +30,10 @@ export type CarouselSlide = {
  *   Every segment starts at 44px; the current one grows into the spare width
  *   (smoothly, unless reduced motion is on) and shows its icon and name. The
  *   others show just their icon (with their name for screen readers and as a
- *   tooltip). Below 352px the current segment drops its icon so the whole
- *   name fits. Swiping and the switcher move between slides; there are no
+ *   tooltip). Below 352px the current segment drops its icon, and where its
+ *   name is still too long for one line (five slides on a phone: "Produce
+ *   Market", "EzyAgric Business") it wraps onto two lines inside the 44px
+ *   pill rather than being cut off. Swiping and the switcher move between slides; there are no
  *   separate arrows.
  * - The name shows only once hydrated: without JavaScript `index` never
  *   follows a swipe, so the slide names itself instead (see HeroSlider).
@@ -151,7 +153,9 @@ export function Carousel({
                 } ${showName ? "pr-3.5" : ""}`}
               >
                 <span className={showName ? "contents max-[22rem]:hidden" : "contents"}>{slide.icon}</span>
-                <span className={showName ? "min-w-0 truncate" : "sr-only"}>{slide.name}</span>
+                <span className={showName ? "min-w-0 text-center leading-tight text-balance line-clamp-2" : "sr-only"}>
+                  {slide.name}
+                </span>
               </a>
             </li>
           );

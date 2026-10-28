@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getProducts, getSite, type ImageData, type Product } from "@/lib/content";
+import { getBusiness, getBusinessModules, getProducts, getSite, type ImageData, type Product } from "@/lib/content";
 import { Carousel } from "@/components/ui/Carousel";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
@@ -9,27 +9,36 @@ import { PayLaterVisual } from "@/components/product/PayLaterVisual";
 
 /**
  * The home hero visual as a slider, one slide per service (content/products,
- * in order). Each slide reuses the product's own hero art: Ka-Ezy with his
- * screen, Agrishop with the shop screen, EzyCredits' Pay Later card, and
- * Produce Market with the app home screen (which shows its tile). The art
- * stands on the hero's brand wave, which also hides the flat crop of the
- * full-length Ka-Ezy artwork at his knees.
+ * in order), then EzyAgric Business. Each service slide reuses the product's
+ * own hero art: Ka-Ezy with his screen, Agrishop with the shop screen,
+ * EzyCredits' Pay Later card, and Produce Market with the app home screen
+ * (which shows its tile). The art stands on the hero's brand wave, which also
+ * hides the flat crop of the full-length Ka-Ezy artwork at his knees.
  */
 export function HeroSlider() {
   const products = getProducts();
   const { hero } = getSite();
+  const business = getBusiness();
 
   return (
     <Carousel
       label="EzyAgric services"
       // min-w-0: a grid item would otherwise grow to the width of all slides.
       className="w-full min-w-0"
-      slides={products.map((product, i) => ({
-        id: `hero-slide-${product.slug}`,
-        name: product.name,
-        icon: <IconCircle name={product.icon} color={product.accent} size="sm" />,
-        content: <Slide product={product} homeScreen={hero.screenshot} first={i === 0} />,
-      }))}
+      slides={[
+        ...products.map((product, i) => ({
+          id: `hero-slide-${product.slug}`,
+          name: product.name,
+          icon: <IconCircle name={product.icon} color={product.accent} size="sm" />,
+          content: <Slide product={product} homeScreen={hero.screenshot} first={i === 0} />,
+        })),
+        {
+          id: "hero-slide-ezyagric-business",
+          name: business.name,
+          icon: <IconCircle name="users" color="brand" size="sm" />,
+          content: <BusinessSlide />,
+        },
+      ]}
     />
   );
 }
@@ -117,6 +126,75 @@ function Slide({ product, homeScreen, first }: { product: Product; homeScreen: I
             ) : null}
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * EzyAgric Business: the platform on a laptop and tablet standing on the
+ * wave, under its four modules as small chips, each in the colour and icon
+ * of the service it is built on (two by two, the right-hand column a little
+ * lower). The chips are decoration: the caption names the page, and the
+ * page lists the modules. Sized so chips and laptop fit above the wave on a
+ * 320px phone (264px), from sm (336px) and from lg (304px).
+ */
+function BusinessSlide() {
+  const business = getBusiness();
+  const modules = getBusinessModules();
+  // The laptop and tablet mockup the EzyProduce module shows.
+  const mockup = modules.find((module) => !module.screen.frame)?.screen;
+
+  return (
+    <div className="flex h-full flex-col">
+      <p className="mt-2 flex min-h-11 flex-wrap items-center gap-x-3 gap-y-0 pr-14 text-base">
+        <span className="text-body">
+          <noscript>
+            <span className="font-heading text-title">{business.name}</span> ·{" "}
+          </noscript>
+          {business.tagline}
+        </span>
+        <Link
+          prefetch={false}
+          href="/ezyagric-business/"
+          data-track="business_page_click"
+          data-track-position="home-hero-slide"
+          className="inline-flex min-h-11 items-center gap-1 rounded-control font-heading text-link hover:underline"
+        >
+          Learn more <span className="sr-only">about {business.name}</span>
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </Link>
+      </p>
+
+      <div className="mt-auto flex h-80 items-end justify-center sm:h-[26rem] xl:h-[27rem]">
+        {/* Lower than the other slides' art (mb-14 / 20 / 28): the mockup's
+            transparent foot would otherwise leave the laptop floating above
+            the wave. */}
+        <div className="mb-10 flex w-[17rem] flex-col items-center gap-3 sm:mb-14 sm:w-[22rem] lg:mb-20">
+          <ul aria-hidden="true" className="grid w-full grid-cols-2 gap-2">
+            {modules.map((module, i) => (
+              <li
+                key={module.id}
+                className={`flex min-w-0 items-center gap-1.5 rounded-pill bg-card py-1 pr-2.5 pl-1 text-xs font-label text-title shadow-raised ring-1 ring-line sm:text-sm ${
+                  i % 2 === 1 ? "translate-y-1.5" : ""
+                }`}
+              >
+                <IconCircle name={module.product.icon} color={module.product.accent} size="xs" />
+                <span className="truncate">{module.name}</span>
+              </li>
+            ))}
+          </ul>
+          {mockup ? (
+            <Image
+              src={mockup.src}
+              alt={mockup.alt}
+              width={mockup.width}
+              height={mockup.height}
+              sizes="(min-width: 640px) 352px, 272px"
+              className="h-auto w-full"
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

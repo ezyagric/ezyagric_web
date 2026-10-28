@@ -17,9 +17,11 @@ import {
   MapPin,
   MessageCircle,
   Mic,
+  Monitor,
   Package,
   Phone,
   PiggyBank,
+  Plug,
   Receipt,
   ShieldCheck,
   ShoppingCart,
@@ -74,6 +76,8 @@ const ICONS: Record<IconName, LucideIcon> = {
   bell: Bell,
   "piggy-bank": PiggyBank,
   "play-circle": CirclePlay,
+  monitor: Monitor,
+  plug: Plug,
 };
 
 export function Icon({

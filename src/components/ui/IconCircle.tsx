@@ -11,6 +11,8 @@ const FILLS: Record<Accent | "outline", string> = {
 };
 
 const SIZES = {
+  /** Inside small chips (the home hero's EzyAgric Business slide). */
+  xs: { box: "size-6", icon: "size-3.5" },
   sm: { box: "size-9", icon: "size-[18px]" },
   md: { box: "size-12", icon: "size-6" },
   lg: { box: "size-16", icon: "size-8" },

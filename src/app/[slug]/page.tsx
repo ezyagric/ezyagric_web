@@ -94,7 +94,7 @@ export default async function ProductPage({ params }: PageProps<"/[slug]">) {
 
   return (
     <>
-      <Breadcrumbs product={product} />
+      <Breadcrumbs name={product.name} path={`/${product.slug}/`} accent={product.accent} />
       <ProductHero product={product} />
       {/* On the Ka-Ezy page the banner comes straight after the hero: the demo
           video plays in it, beside Try, Pay and Download. */}
