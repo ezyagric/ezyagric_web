@@ -44,13 +44,13 @@ steps:
   title: How Pay Later works
   items:
     - title: Complete your profile
-      text: In the app, fill in your ID, personal, business, contact and next-of-kin details.
+      text: Through the EzyAgric App, apply using your National ID, personal, business, contact and next-of-kin details.
     - title: Get verified
-      text: Your details are checked. This can take a little time. Not everyone is approved.
+      text: Your details are verified instantly.
     - title: Get your offer
-      text: "If you are approved, see your personal offer: how much you can borrow and for how long."
+      text: If you are approved, see how much you can use, for how long and how much to pay back.
     - title: Shop and pay later
-      text: "At Agrishop checkout, choose Pay Later. Your order is delivered first, then you repay with Mobile Money."
+      text: "At Agrishop checkout, choose Pay Later. Your order is delivered first; repay in the agreed period and grow your limit."
 
 # A real photo from the EzyAgric photo library: an agent helping a farmer in
 # the app (the first step, completing the profile, is often done with one).
