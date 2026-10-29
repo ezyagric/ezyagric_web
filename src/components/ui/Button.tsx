@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { trackData } from "@/lib/track";
 
 // Brand guide: primary buttons are a green fill with a white SemiBold label;
 // secondary buttons are a blue outline on white. Corners come from the theme's
@@ -48,12 +49,7 @@ export function ButtonLink({
 }) {
   const external = /^(https?:|mailto:|tel:)/.test(href);
   const classes = `${buttonClasses(variant, size)} ${className}`;
-  const data = {
-    "data-track": track,
-    ...(trackProps
-      ? Object.fromEntries(Object.entries(trackProps).map(([k, v]) => [`data-track-${k}`, v]))
-      : {}),
-  };
+  const data = trackData(track, trackProps);
 
   if (external) {
     const newTab = href.startsWith("http");

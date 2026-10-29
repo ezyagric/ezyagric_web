@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { getProducts, getSite, visible } from "@/lib/content";
+import { getBusiness, getBusinessModules, getProducts, getSite, visible } from "@/lib/content";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { GET_THE_APP_ID } from "@/components/promo/KaEzyBanner";
+import { BUSINESS_PATH } from "@/components/business/BusinessMenu";
 import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButton";
 import { GA_ENABLED } from "@/components/analytics/config";
 import { Logo } from "./Logo";
@@ -18,7 +19,8 @@ const SMALL_LINK = "inline-flex min-h-11 items-center hover:text-on-inverse hove
 
 /**
  * A compact Dark Navy footer: the brand block (logo, slogan and store
- * badges) beside two short link columns, then one bar with our social
+ * badges) beside three short link columns (Farmer Services and Agribusiness
+ * Services, as in the header, then EzyAgric), then one bar with our social
  * pages as round marks, the copyright and the legal links. The app and
  * partner portal live in the header and the badges, so there is no
  * separate column for them.
@@ -31,13 +33,20 @@ export function Footer() {
 
   const columns: { title: string; links: FooterLink[] }[] = [
     {
-      title: "Our services",
+      title: "Farmer Services",
       links: products.map((p) => ({ href: `/${p.slug}/`, label: p.name })),
+    },
+    {
+      // The page, then its four modules' chapters.
+      title: "Agribusiness Services",
+      links: [
+        { href: BUSINESS_PATH, label: getBusiness().name },
+        ...getBusinessModules().map((m) => ({ href: `${BUSINESS_PATH}#${m.id}`, label: m.name })),
+      ],
     },
     {
       title: "EzyAgric",
       links: [
-        { href: "/ezyagric-business/", label: "For agribusinesses" },
         { href: "/#stories", label: "Stories" },
         { href: "/#faq", label: "FAQ" },
         { href: "/#contact-us", label: "Contact us" },
@@ -52,7 +61,7 @@ export function Footer() {
       {/* The signature blue-green stripe keeps the footer apart from a
           dark or gradient band above it. */}
       <div aria-hidden="true" className="h-1.5 gradient-brand-decor" />
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-8 px-4 py-8 sm:px-6 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-12">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-8 px-4 py-8 sm:px-6 md:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] md:py-12">
         <div className="col-span-2 md:col-span-1">
           {/* Full lockup with its tagline at h-12 (155px wide, above the
               140px minimum); mt-4 below is the logo's clear space (half the
@@ -67,7 +76,9 @@ export function Footer() {
         </div>
         {columns.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <p className="text-sm text-label-style text-accent-bright">{col.title}</p>
+            {/* Two lines kept for every heading from md to xl, where "Farmer
+                Services" and "Agribusiness Services" wrap, so the lists line up. */}
+            <p className="text-sm text-label-style text-accent-bright md:min-h-[2lh] xl:min-h-0">{col.title}</p>
             <ul className="mt-1 md:mt-2">
               {col.links.map((l) => (
                 <li key={l.label}>

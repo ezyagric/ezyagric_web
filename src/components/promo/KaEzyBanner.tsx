@@ -314,7 +314,7 @@ function menuActions(): { key: string; href: string; label: string; icon: IconNa
 }
 
 /**
- * The Ka-Ezy card beside the services in the desktop "Our services" menu: his
+ * The Ka-Ezy card beside the services in the desktop "Farmer Services" menu: his
  * face and line on navy, then the three actions as rows.
  * "See Ka-Ezy in action" opens the Ka-Ezy page's banner, where the demo plays.
  */

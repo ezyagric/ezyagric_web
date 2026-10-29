@@ -28,6 +28,17 @@ name: EzyAgric Business
 # Its line on the home hero's slide (after the four services' slides).
 tagline: Web portal and APIs for agribusinesses
 
+# The header's "Agribusiness Services" menu lists the four modules (each with
+# who it is for). Beside them on desktop, a card with this eyebrow and the
+# tagline above, and three actions: the page, a chat with the team and
+# Partner login. The phone menu has a strip with the first two.
+menu:
+  eyebrow: Meet EzyAgric Business
+  # Short enough for one line in the card's rows; the card is headed "Meet
+  # EzyAgric Business".
+  explore: Explore the platform
+  talk: Talk to our team
+
 hero:
   eyebrow: EzyAgric Business · For agribusinesses, development partners and governments
   headline: Our four services, ==built for your agribusiness==

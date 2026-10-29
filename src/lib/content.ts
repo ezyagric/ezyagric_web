@@ -723,8 +723,10 @@ export type BusinessModule = z.infer<typeof BusinessModule>;
 
 const BusinessSchema = z.object({
   name: z.string(),
-  /** Its line on the home hero's slide, like a product's appTagline. */
+  /** Its line on the home hero's slide, like a product's appTagline, and on the menus' card. */
   tagline: z.string(),
+  /** The header's Agribusiness Services menu: its card (desktop) and strip (phones). */
+  menu: z.object({ eyebrow: z.string(), explore: z.string(), talk: z.string() }),
   hero: z.object({
     eyebrow: z.string(),
     /** ==key words== in green, as on the product pages. */

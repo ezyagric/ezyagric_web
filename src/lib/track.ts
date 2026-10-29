@@ -13,6 +13,14 @@ declare global {
   }
 }
 
+/** ("business_module_click", { module: "ezyproduce" }) -> { "data-track": ..., "data-track-module": "ezyproduce" } */
+export function trackData(event?: string, params: Record<string, string> = {}): Record<string, string | undefined> {
+  return {
+    "data-track": event,
+    ...Object.fromEntries(Object.entries(params).map(([k, v]) => [`data-track-${k}`, v])),
+  };
+}
+
 export function track(event: string, params: Params = {}): void {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", event, params);

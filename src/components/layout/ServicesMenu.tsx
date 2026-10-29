@@ -4,6 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { trackData } from "@/lib/track";
 
 export type ServiceItem = {
   href: string;
@@ -11,6 +12,8 @@ export type ServiceItem = {
   tagline: string;
   /** Server-rendered icon (IconCircle), so the icon set stays out of the client bundle. */
   icon: ReactNode;
+  /** Analytics event on the link (data-track), with its params. */
+  track?: { event: string; params?: Record<string, string> };
 };
 
 /** "/ka-ezy/" and "/ka-ezy" are the same page. */
@@ -23,31 +26,41 @@ function closeDetails(details: HTMLDetailsElement | null) {
 }
 
 /**
- * The header's services dropdown, labelled "Our services" (lg and up): the
- * services as numbered rows on the left (the four farmer-app services, then
- * EzyAgric Business; an arrow slides in on hover) and, beside
- * them, the Ka-Ezy card (`aside`). It is a <details> element,
- * so it opens and closes with JavaScript off. With JavaScript on, it also
- * closes on Escape (focus goes back to its button), on a click or tap
- * outside, when keyboard focus moves on past it, and after a service is
- * chosen. On a service page, the button and that service are highlighted.
+ * A services dropdown in the header (lg and up): the services as numbered
+ * rows on the left (an arrow slides in on hover) and, beside them, a card
+ * (`aside`). There are two: "Farmer Services" (the four farmer-app services
+ * and the Ka-Ezy card) and "Agribusiness Services" (EzyAgric Business's four
+ * modules, which jump to their chapters on its page, and its card). The panel
+ * hangs from the header's nav pill (the nearest positioned ancestor, not this
+ * menu), so both open at the pill's left edge and stay on screen at 1024px.
+ *
+ * It is a <details> element, so it opens and closes with JavaScript off. With
+ * JavaScript on, it also closes on Escape (focus goes back to its button), on
+ * a click or tap outside (so opening one menu closes the other), when
+ * keyboard focus moves on past it, and after a service is chosen. On a
+ * service page, the button and that service are highlighted; on `pagePath`,
+ * the button only.
  */
 export function ServicesMenu({
   label,
   icon,
   items,
   aside,
+  pagePath,
 }: {
   label: string;
   /** Server-rendered icon before the label. */
   icon?: ReactNode;
   items: ServiceItem[];
-  /** Server-rendered column beside the services (the Ka-Ezy card). */
+  /** Server-rendered column beside the services (the Ka-Ezy or EzyAgric Business card). */
   aside?: ReactNode;
+  /** The page the items jump into (anchors on it), where the button is highlighted too. */
+  pagePath?: string;
 }) {
   const ref = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
-  const onServicePage = items.some((item) => samePath(item.href, pathname));
+  const onServicePage =
+    items.some((item) => samePath(item.href, pathname)) || (pagePath ? samePath(pagePath, pathname) : false);
 
   // The layout stays mounted across client-side navigations, so close on
   // a real page change. Not on mount: a visitor may have opened the native
@@ -87,9 +100,10 @@ export function ServicesMenu({
   }, []);
 
   return (
+    // Not `relative`: the panel is placed against the nav pill (see above).
     <details
       ref={ref}
-      className="group relative"
+      className="group"
       onBlur={(event) => {
         // Tabbing past the last service closes the panel.
         const next = event.relatedTarget as Node | null;
@@ -118,8 +132,9 @@ export function ServicesMenu({
           aside ? "w-[44rem] grid-cols-[minmax(0,1fr)_15rem]" : "w-[26rem]"
         }`}
         onClick={(event) => {
-          // A plain click on any link in the Ka-Ezy card (same-page jumps such
-          // as /ka-ezy/#try-ka-ezy don't change the pathname) closes the panel.
+          // A plain click on any link in the panel closes it: same-page jumps
+          // (/ka-ezy/#try-ka-ezy, a module's chapter on the EzyAgric Business
+          // page) don't change the pathname.
           const plain = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
           if (plain && (event.target as Element).closest("a")) closeDetails(ref.current);
         }}
@@ -134,6 +149,7 @@ export function ServicesMenu({
                   prefetch={false}
                   href={item.href}
                   aria-current={current ? "page" : undefined}
+                  {...(item.track ? trackData(item.track.event, item.track.params) : {})}
                   // onNavigate, not onClick: a Ctrl/Cmd-click opens a new tab
                   // and should leave this panel open.
                   onNavigate={() => closeDetails(ref.current)}

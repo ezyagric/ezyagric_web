@@ -1,44 +1,50 @@
 import Link from "next/link";
-import { getBusiness, getProducts } from "@/lib/content";
+import { getBusinessModules, getProducts } from "@/lib/content";
 import { PORTAL_URL } from "@/lib/links";
+import { trackData } from "@/lib/track";
 import { ButtonLink } from "@/components/ui/Button";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
-import { ServicesMenu } from "./ServicesMenu";
+import { ServicesMenu, type ServiceItem } from "./ServicesMenu";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { KaEzyMenuCard, KaEzyStrip, kaezyPayHref } from "@/components/promo/KaEzyBanner";
+import { BUSINESS_PATH, BusinessMenuCard, BusinessStrip } from "@/components/business/BusinessMenu";
 import type { IconName } from "@/lib/content";
 
-// Agribusinesses: the EzyAgric Business page (the home page's
-// "#organisations" section stays as its preview, so older links still land).
+// From lg to xl the nav's icons and the Pay button's wallet hide and the
+// labels drop to 14px, so the logo, both menus, Contact and both buttons fit
+// in one row at 1024px (with a classic scrollbar too).
+const NAV_ICON = "hidden size-4 shrink-0 text-secondary xl:block";
+
 const SECONDARY_LINKS: { href: string; label: string; icon: IconName }[] = [
-  { href: "/ezyagric-business/", label: "Agribusinesses", icon: "users" },
   { href: "/#contact-us", label: "Contact", icon: "phone" },
 ];
+
+const PHONE_LINK =
+  "flex gap-1.5 rounded-control px-3 py-3 text-base font-heading text-body hover:bg-brand-soft hover:text-link";
 
 // Internal links use prefetch={false}: visitors are mostly on metered mobile
 // data, so pages are only fetched when someone actually taps a link.
 export function Header() {
-  const products = getProducts();
-  const business = getBusiness();
-  // "Our services": the four farmer-app services, then EzyAgric Business
-  // (numbered 1 to 5 in both menus).
-  const services = [
-    ...products.map((p) => ({
-      href: `/${p.slug}/`,
-      name: p.name,
-      tagline: p.appTagline,
-      icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
-    })),
-    {
-      href: "/ezyagric-business/",
-      name: business.name,
-      tagline: business.tagline,
-      icon: <IconCircle name="users" color="brand" size="sm" />,
-    },
-  ];
+  // Farmer Services: the four farmer-app services. Agribusiness Services:
+  // EzyAgric Business's four modules (each with who it is for), which jump to
+  // their chapters on its page. Numbered 1 to 4 in both menus.
+  const farmerServices: ServiceItem[] = getProducts().map((p) => ({
+    href: `/${p.slug}/`,
+    name: p.name,
+    tagline: p.appTagline,
+    icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
+  }));
+  const modules = getBusinessModules();
+  const businessServices: ServiceItem[] = modules.map((m) => ({
+    href: `${BUSINESS_PATH}#${m.id}`,
+    name: m.name,
+    tagline: m.audience,
+    icon: <IconCircle name={m.product.icon} color={m.product.accent} size="sm" />,
+    track: { event: "business_module_click", params: { module: m.id, position: "menu-desktop" } },
+  }));
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur supports-[backdrop-filter]:bg-canvas/85">
       <a
@@ -58,17 +64,28 @@ export function Header() {
         </Link>
 
         {/* One segmented pill, like the hero's switcher: each link has its
-            icon, and the one hovered or open turns white and lifts. The five
-            services (EzyAgric Business last) share the "Our services" dropdown. Names never wrap
-            ("Ka-Ezy" would break at its hyphen). */}
+            icon, and the one hovered or open turns white and lifts. Two
+            dropdowns, Farmer Services (with the Ka-Ezy card) and Agribusiness
+            Services (with the EzyAgric Business card), whose panels hang from
+            this pill (`relative`). Names never wrap ("Ka-Ezy" would break at
+            its hyphen). */}
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-1 rounded-pill border border-line bg-subtle p-1 text-[15px] font-label whitespace-nowrap">
+          <ul className="relative flex items-center gap-1 rounded-pill border border-line bg-subtle p-1 text-sm font-label whitespace-nowrap xl:text-[15px]">
             <li>
               <ServicesMenu
-                label="Our services"
-                icon={<Icon name="sprout" className="size-4 shrink-0 text-secondary" />}
-                items={services}
+                label="Farmer Services"
+                icon={<Icon name="sprout" className={NAV_ICON} />}
+                items={farmerServices}
                 aside={<KaEzyMenuCard position="menu-desktop" />}
+              />
+            </li>
+            <li>
+              <ServicesMenu
+                label="Agribusiness Services"
+                icon={<Icon name="users" className={NAV_ICON} />}
+                items={businessServices}
+                aside={<BusinessMenuCard position="menu-desktop" />}
+                pagePath={BUSINESS_PATH}
               />
             </li>
             {SECONDARY_LINKS.map((l) => (
@@ -78,7 +95,7 @@ export function Header() {
                   href={l.href}
                   className="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-3.5 text-body transition-colors hover:bg-card hover:text-link hover:shadow-card"
                 >
-                  <Icon name={l.icon} className="size-4 shrink-0 text-secondary" />
+                  <Icon name={l.icon} className={NAV_ICON} />
                   {l.label}
                 </Link>
               </li>
@@ -92,7 +109,7 @@ export function Header() {
             href={PORTAL_URL}
             variant="secondary"
             track="portal_login_click"
-            className="!min-h-11 !px-4 !text-[15px]"
+            className="!min-h-11 !px-4 !text-sm xl:!text-[15px]"
           >
             Partner login
           </ButtonLink>
@@ -100,9 +117,9 @@ export function Header() {
             href={kaezyPayHref()}
             track="kaezy_pay_click"
             trackProps={{ position: "header" }}
-            className="!min-h-11 !px-4 !text-[15px]"
+            className="!min-h-11 !px-4 !text-sm xl:!text-[15px]"
           >
-            <Icon name="wallet" className="size-4 shrink-0" />
+            <Icon name="wallet" className="hidden size-4 shrink-0 xl:block" />
             Pay for Ka-Ezy
           </ButtonLink>
         </div>
@@ -111,19 +128,14 @@ export function Header() {
           {/* top-22 / 5.5rem = the header's height below lg (h-22). */}
           <div className="fixed inset-x-0 top-22 max-h-[calc(100dvh-5.5rem)] overflow-y-auto border-b border-line bg-canvas px-4 pt-2 pb-6 shadow-raised">
             <nav aria-label="Main">
-              <p className="px-3 pt-3 pb-1 text-sm text-label-style text-label">
-                Our services
+              <p id="menu-farmer-services" className="px-3 pt-3 pb-1 text-sm text-label-style text-label">
+                Farmer Services
               </p>
               {/* role="list": Safari drops the list role from unstyled lists. */}
-              <ol role="list" className="grid grid-cols-2 gap-1">
-                {/* An odd last item (EzyAgric Business, fifth) takes the whole row. */}
-                {services.map((s, i) => (
-                  <li key={s.href} className="odd:last:col-span-2">
-                    <Link
-                      prefetch={false}
-                      href={s.href}
-                      className="flex gap-1.5 rounded-control px-3 py-3 text-base font-heading text-body hover:bg-brand-soft hover:text-link"
-                    >
+              <ol role="list" aria-labelledby="menu-farmer-services" className="grid grid-cols-2 gap-1">
+                {farmerServices.map((s, i) => (
+                  <li key={s.href}>
+                    <Link prefetch={false} href={s.href} className={PHONE_LINK}>
                       <span className="tabular-nums text-muted">{i + 1}.</span>
                       <span>{s.name}</span>
                     </Link>
@@ -131,6 +143,27 @@ export function Header() {
                 ))}
               </ol>
               <KaEzyStrip position="menu-phone" className="mt-3" />
+
+              <p id="menu-business-services" className="mt-3 px-3 pt-3 pb-1 text-sm text-label-style text-label">
+                Agribusiness Services
+              </p>
+              <ol role="list" aria-labelledby="menu-business-services" className="grid grid-cols-2 gap-1">
+                {modules.map((m, i) => (
+                  <li key={m.id}>
+                    <Link
+                      prefetch={false}
+                      href={`${BUSINESS_PATH}#${m.id}`}
+                      className={PHONE_LINK}
+                      {...trackData("business_module_click", { module: m.id, position: "menu-phone" })}
+                    >
+                      <span className="tabular-nums text-muted">{i + 1}.</span>
+                      <span>{m.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+              <BusinessStrip position="menu-phone" className="mt-3" />
+
               <ul className="mt-2 border-t border-line pt-2">
                 {SECONDARY_LINKS.map((l) => (
                   <li key={l.href}>
