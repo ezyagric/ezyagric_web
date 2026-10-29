@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -29,17 +30,37 @@ export function HeroSlider() {
         ...products.map((product, i) => ({
           id: `hero-slide-${product.slug}`,
           name: product.name,
-          icon: <IconCircle name={product.icon} color={product.accent} size="sm" />,
+          icon: <NumberedIcon number={i + 1} icon={<IconCircle name={product.icon} color={product.accent} size="sm" />} />,
           content: <Slide product={product} homeScreen={hero.screenshot} first={i === 0} />,
         })),
         {
           id: "hero-slide-ezyagric-business",
           name: business.name,
-          icon: <IconCircle name="users" color="brand" size="sm" />,
+          icon: <NumberedIcon number={products.length + 1} icon={<IconCircle name="users" color="brand" size="sm" />} />,
           content: <BusinessSlide />,
         },
       ]}
     />
+  );
+}
+
+/**
+ * A service's icon in the switcher with its number (1 to 5, as in the "Our
+ * services" menu) in a small white badge at its top right, like the step
+ * badges in the Ka-Ezy banner. Decoration: each slide is announced as
+ * "n of 5: name".
+ */
+function NumberedIcon({ number, icon }: { number: number; icon: ReactNode }) {
+  return (
+    <span className="relative inline-flex shrink-0">
+      {icon}
+      <span
+        aria-hidden="true"
+        className="absolute -top-1.5 -right-1.5 flex size-4.5 items-center justify-center rounded-full bg-card text-[11px] font-heading text-title tabular-nums shadow-card ring-1 ring-line"
+      >
+        {number}
+      </span>
+    </span>
   );
 }
 

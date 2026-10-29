@@ -192,9 +192,10 @@ export function Carousel({
         </div>
 
         {enhanced ? (
-          // Pause / play at the top right of the slides (slide content keeps
-          // its first line clear of it).
-          <div className="absolute top-0 right-0 z-20">
+          // Pause / play at the top right of the slides, 8px down from the
+          // switcher so the two don't touch: level with the slide's first
+          // line (mt-2, 44px tall), which keeps clear of it.
+          <div className="absolute top-2 right-0 z-20">
             <ControlButton
               label={playing ? "Pause the slideshow" : "Play the slideshow"}
               onClick={() => setPlaying(!playing)}
