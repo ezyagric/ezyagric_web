@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { getProduct, getSite, type IconName, type Product } from "@/lib/content";
 import { DemoVideoPlayer } from "@/components/product/DemoVideoPlayer";
+import { Highlight } from "@/components/home/parts";
 import { KAEZY_ASK_ID, hasTryIt } from "@/components/product/kaezy/TryKaEzy";
 import { ButtonLink, type ButtonVariant } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
-import { IconCircle } from "@/components/ui/IconCircle";
 import { RichText } from "@/components/ui/RichText";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 
@@ -132,14 +132,15 @@ function targets() {
 
 /**
  * The Ka-Ezy banner: the Ka-Ezy demo video, playable right here, beside a
- * three-step path: 1 Try Ka-Ezy, 2 Pay, 3 Download the App. Placed at key
+ * three-step tap path on the gradient itself (no card): 1 Try Ka-Ezy, 2 Pay,
+ * 3 Download the App. Placed at key
  * points across the site (home page, every service page, the 404 page), on
  * the signature gradient so it stands apart from the bands around it. `id`
  * must be unique on the page.
  *
  * From lg the video stands on the left, as tall as the heading and the steps
  * beside it: the label above it lines up with "Meet Ka-Ezy", and its bottom
- * edge with the steps card (the video is at least its 9:16 height and
+ * edge with the foot of the steps (the video is at least its 9:16 height and
  * stretches when the steps run taller, e.g. a wrapped title).
  */
 export function KaEzyBanner({
@@ -207,46 +208,44 @@ export function KaEzyBanner({
           </figure>
         ) : null}
 
-        {/* The three steps in one white card, numbered in the order a visitor takes them.
-            role="list": Safari drops the list role from unstyled lists.
-            [&_:focus-visible]:outline-focus: the band's white focus ring would vanish on white. */}
+        {/* The three steps as a tap path on the band itself, as on the product
+            pages' "How it works": a numbered disc per step (step 1 lit green
+            like the video's play button, the others glass), joined by a fading
+            line. Phones and sm: down the page, each disc beside its text. From
+            md: across, one column per step; each step spans the list's four
+            rows (subgrid: disc, title, text, action), so the titles, texts and
+            actions line up across the three. Every action is 48px tall and
+            starts on its text's left edge. Everything sits on the band, so its
+            white focus ring applies (globals.css).
+            role="list": Safari drops the list role from unstyled lists. */}
         <ol
           role="list"
-          className={`self-end divide-y divide-line overflow-hidden rounded-card bg-card text-body shadow-raised [&_:focus-visible]:outline-focus ${
+          className={`self-end md:grid md:grid-cols-3 md:grid-rows-[repeat(4,auto)] md:gap-x-6 ${
             video ? "lg:col-start-2 lg:row-start-2" : ""
           }`}
         >
-          <Step
-            n={1}
-            icon="message-circle"
-            color="accent"
-            title={copy.try.title}
-            text={to.tryOnSite ? copy.try.text : copy.try.appText}
-            highlight
-          >
-            <TryKaEzyButton position={position} page={page} className="w-full sm:w-auto" />
+          <Step n={1} title={copy.try.title} text={to.tryOnSite ? copy.try.text : copy.try.appText} lit>
+            {/* The site's one Try Ka-Ezy button, edged in white: its green is the band's own green end. */}
+            <TryKaEzyButton position={position} page={page} className="border-2 border-on-inverse" />
           </Step>
-          <Step n={2} icon="wallet" color="deep" title={copy.pay.title} text={copy.pay.text}>
+          <Step n={2} title={copy.pay.title} text={copy.pay.text}>
             <ButtonLink
               href={to.pay}
-              variant="secondary"
+              variant="glass"
               track="kaezy_banner_click"
               trackProps={trackProps("pay")}
-              className="w-full whitespace-nowrap sm:w-auto"
+              className="whitespace-nowrap"
             >
+              <Icon name="wallet" className="size-5 shrink-0" />
               {copy.pay.link}
               <span className="sr-only">: {copy.pay.title}</span>
             </ButtonLink>
           </Step>
-          <Step
-            id={appStepId(id)}
-            n={3}
-            icon="smartphone"
-            color="brand"
-            title={copy.app.title}
-            text={copy.app.text}
-          >
-            <StoreBadges campaign="ka-ezy" medium={position} size="md" className="sm:justify-end" />
+          <Step id={appStepId(id)} n={3} title={copy.app.title} text={copy.app.text} last>
+            {/* Side by side where the column allows (about 320px), else App Store
+                over Google Play (flex-wrap keeps Apple's order; never reorder).
+                onDark: the "coming soon" line is white on the band. */}
+            <StoreBadges campaign="ka-ezy" medium={position} size="md" onDark />
           </Step>
         </ol>
       </div>
@@ -254,53 +253,79 @@ export function KaEzyBanner({
   );
 }
 
+/**
+ * One stop on the tap path: its number in a disc (lit green with a white
+ * edge for the step to take first, glass for the others), a fading line on
+ * to the next disc, then its title, text and action in white. Phones and sm:
+ * the disc beside the text, the line running down. From md: the disc heads
+ * the column, the line runs across the gap, and the title, text and action
+ * join the list's rows (md:contents into the subgrid). The step a link
+ * jumps to (#kaezy-banner-app, e.g. Try Ka-Ezy on the Ka-Ezy page without
+ * the demo) lights its disc like step 1. Nothing moves.
+ */
 function Step({
   id,
   n,
-  icon,
-  color,
   title,
   text,
-  highlight = false,
+  lit = false,
+  last = false,
   children,
 }: {
+  id?: string;
   n: number;
-  icon: IconName;
-  color: "brand" | "accent" | "deep";
   title: string;
   text: string;
-  /** The first step a visitor should take, on a soft tint. */
-  highlight?: boolean;
+  /** The step to take first: its disc lit green. */
+  lit?: boolean;
+  /** The end of the path: no line on. */
+  last?: boolean;
   children: ReactNode;
-  id?: string;
 }) {
   return (
-    // One line from sm: icon, title and text, then the action on the right.
     <li
       id={id}
-      className={`flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5 xl:py-5 ${highlight ? "bg-brand-soft" : ""}`}
+      className={`group/step relative grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 md:row-span-4 md:grid-cols-1 md:grid-rows-subgrid md:pb-0 ${
+        last ? "" : "pb-8"
+      }`}
     >
-      <div className="flex min-w-0 flex-1 items-center gap-4">
-        {/* The step number rides on the icon; screen readers get it from the heading. */}
-        <span className="relative shrink-0">
-          <IconCircle name={icon} color={color} />
-          <span
-            aria-hidden="true"
-            className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-card text-xs font-heading text-title shadow-card ring-1 ring-line"
-          >
-            {n}
-          </span>
-        </span>
-        <div className="min-w-0">
-          <h3 className="text-lg font-heading text-title">
-            <span className="sr-only">Step {n}: </span>
-            {title}
-          </h3>
-          {/* A step smaller from lg to xl, where the card is narrowest beside the video. */}
-          <p className="text-base text-pretty text-muted lg:text-sm xl:text-base">{text}</p>
-        </div>
+      {last ? null : (
+        // On to the next disc, 8px clear of both ripples (outline-8): down
+        // below md (top-16 = disc 48 + ripple 8 + 8; bottom-4 = the li's pb-8
+        // less the next ripple's 8, less 8), across the 24px gap from md
+        // (left-16, -right-2). Forced colours drop the fade; CanvasText keeps it.
+        <span
+          aria-hidden="true"
+          className="absolute top-16 bottom-4 left-6 w-0.5 -translate-x-1/2 rounded-pill bg-linear-to-b from-on-inverse/70 to-on-inverse/15 forced-colors:bg-[CanvasText] md:top-6 md:-right-2 md:bottom-auto md:left-16 md:h-0.5 md:w-auto md:translate-x-0 md:-translate-y-1/2 md:bg-linear-to-r"
+        />
+      )}
+      {/* The tap. Screen readers get the number from the heading. Glass is a
+          navy tint: a white tint would pull white text under 4.5:1 on the
+          band's green end. The ripple (outline) is dropped in forced colours. */}
+      <span
+        aria-hidden="true"
+        className={`flex size-12 items-center justify-center rounded-full text-xl/none font-heading text-on-inverse tabular-nums outline-8 forced-colors:outline-none ${
+          lit
+            ? "border-2 border-on-inverse bg-primary outline-on-inverse/20"
+            : "border border-on-inverse/40 bg-inverse/25 outline-on-inverse/10 group-target/step:border-2 group-target/step:border-on-inverse group-target/step:bg-primary group-target/step:outline-on-inverse/20"
+        }`}
+      >
+        {n}
+      </span>
+      {/* Beside the disc below md; from md its children join the list's rows. */}
+      <div className="min-w-0 md:contents">
+        <h3 className="pt-2.5 text-lg font-heading text-balance text-on-inverse md:mt-4 md:pt-0">
+          <span className="sr-only">Step {n}: </span>
+          {title}
+        </h3>
+        {/* Full white (tinted whites fail on the green end). A size smaller
+            from md to xl, where the columns are narrowest. Highlight keeps
+            "Ka-Ezy" and "UGX 5,000" whole, a shade bolder. */}
+        <p className="mt-1 text-base text-pretty text-on-inverse md:text-sm xl:text-base">
+          <Highlight text={text} className="font-label" />
+        </p>
+        <div className="mt-4">{children}</div>
       </div>
-      <div className="shrink-0">{children}</div>
     </li>
   );
 }

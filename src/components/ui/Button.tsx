@@ -11,6 +11,10 @@ const PRIMARY = "bg-primary text-on-primary hover:bg-primary-hover";
 const VARIANTS = {
   primary: PRIMARY,
   secondary: "border-2 border-secondary bg-canvas text-secondary hover:bg-brand-soft",
+  // On the gradient band only: a white edge on a navy tint ("glass"). The tint
+  // darkens the band under the label, so white text stays at 7:1 or more even
+  // on its green end (a white tint would drop it to about 4.3:1).
+  glass: "border-2 border-on-inverse bg-inverse/25 text-on-inverse hover:bg-inverse/50",
   // WhatsApp buttons share the primary look (the theme decides it).
   whatsapp: PRIMARY,
 } as const;
