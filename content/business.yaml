@@ -62,7 +62,7 @@ modules:
         - Put your products and prices on Agrishop
         - Receive orders from farmers, merchants and agri-hubs, including Buy Now, Pay Later orders
         - Reach farmers through EzyAgric merchants, agents and agri-hubs
-        - See your sales and demand by product and region
+        - See your sales and demand by product and demographics
       screen:
         src: /images/business/ezysupplier-dashboard.webp
         alt: "The EzySupplier dashboard: sales, customers and orders by quarter since 2020; today's, confirmed, pending, total and delivered orders; customers by district; and the most purchased categories, led by fertilizers and herbicides"
