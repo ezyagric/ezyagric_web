@@ -2,7 +2,7 @@
 # enterprises, as a web portal or APIs (the team's brief, 28 Oct 2026):
 # EzySupplier for input suppliers (Agrishop), EzyProduce for off-takers
 # (Produce Market), EzyCredits for financial institutions and fintechs, and
-# EzyServices for Ka-Ezy enterprises. Pricing is custom.
+# EzyServices for extension enterprises. Pricing is custom.
 #
 # Sources: the brief; the brand guide (.docx, Oct 2026) "EzyAgric Business:
 # the EzyAgric platform for agribusiness operations and records"; the
@@ -152,7 +152,7 @@ modules:
         height: 667
     - id: ezyservices
       name: EzyServices
-      audience: For Ka-Ezy enterprises
+      audience: For extension enterprises
       product: ka-ezy
       summary: Give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert.
       points:
@@ -270,4 +270,4 @@ faq:
 
 seo:
   title: "EzyAgric Business: web portal and APIs for agribusinesses | EzyAgric"
-  description: "EzySupplier, EzyProduce, EzyCredits and EzyServices: EzyAgric's services for input suppliers, off-takers, lenders and Ka-Ezy enterprises, by web portal or API."
+  description: "EzySupplier, EzyProduce, EzyCredits and EzyServices: EzyAgric's services for input suppliers, off-takers, lenders and extension enterprises, by web portal or API."
