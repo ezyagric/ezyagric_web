@@ -213,7 +213,7 @@ access:
       text: "For enterprises with an ERP, a financial management system or another system of their own: EzyAgric Business sends it the data it needs."
       icon: plug
       points:
-        - Connect your ERP or financial management system
+        - Connect your ERP or financial management system and other systems
         - Set up with our team, under a data-sharing agreement
         - text: Secure access with API keys over HTTPS
           pending: true
