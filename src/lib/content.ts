@@ -132,7 +132,8 @@ export type Step = z.infer<typeof Step>;
  */
 const FaqAction = z
   .object({
-    kind: z.enum(["try-kaezy", "pay-kaezy", "get-app", "whatsapp", "call", "page"]),
+    /** portal: Partner login (the EzyAgric Business sign-in, PORTAL_URL). */
+    kind: z.enum(["try-kaezy", "pay-kaezy", "get-app", "whatsapp", "call", "page", "portal"]),
     label: z.string().optional(),
     href: z.string().startsWith("/").optional(),
   })

@@ -250,19 +250,34 @@ faq:
   items:
     - q: Who is EzyAgric Business for?
       a: "Enterprises and organisations that work with farmers: input suppliers, off-takers, financial institutions and fintechs, businesses that give their farmers Ka-Ezy, development partners, governments, and other organisations interested in the agricultural industry."
+      actions:
+        - { kind: page, label: "Find your module", href: "/ezyagric-business/#modules" }
+        - { kind: whatsapp, label: "Talk to our team" }
     - q: Can we start with one module?
       a: Yes. Use one module, or all four, with a single sign-in.
+      actions:
+        - { kind: page, label: "See the four modules", href: "/ezyagric-business/#modules" }
+        - { kind: whatsapp, label: "Ask us on WhatsApp" }
     - q: Can our farmers get Ka-Ezy through us?
       a: "Yes. With EzyServices you give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert, on bulk subscriptions."
+      actions:
+        - { kind: page, label: "See EzyServices", href: "/ezyagric-business/#ezyservices" }
+        - { kind: try-kaezy }
     - q: Do I have to change my systems?
       a: No. Work in the web portal, or connect your ERP or financial management system and other systems through our APIs and get the data you need there.
+      actions:
+        - { kind: page, label: "See the two ways to connect", href: "/ezyagric-business/#connect" }
+        - { kind: whatsapp, label: "Ask about the APIs" }
     - q: How much does it cost?
       a: Pricing is custom to your business. Talk to our team for a quote.
       actions:
         - { kind: whatsapp, label: "Ask us on WhatsApp" }
         - { kind: call, label: "Call us" }
     - q: I already use EzyAgric Business. Where do I sign in?
-      a: Use Partner login at the top of any page. One EzyAgric account opens all your modules.
+      a: Use Partner login at the top of any page, or the button below. One EzyAgric account opens all your modules.
+      actions:
+        - { kind: portal, label: "Partner login" }
+        - { kind: whatsapp, label: "Get help signing in" }
 
 seo:
   title: "EzyAgric Business: web portal and APIs for agribusinesses | EzyAgric"

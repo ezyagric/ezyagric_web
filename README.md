@@ -203,7 +203,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
   - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay), the menus' Ka-Ezy card and strip (watch, try, pay), and on builds without the demo the Ka-Ezy page's "Tap Ka-Ezy" (watch) and "Ask anything" (pay) steps, position `how-it-works`, and the EzyServices chapter's link down to the banner on the EzyAgric Business page (watch), position `business-ezyservices`; that page's banner itself has position `ezyagric-business-page`
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
   - `kaezy_try_photo` (the photo buttons in Farm Expert), `kaezy_try_sample_photo` (`item`: the sample's crop, e.g. Maize)
-  - `faq_action_click` (`action`): the other buttons under FAQ answers
+  - `faq_action_click` (`action`: `whatsapp`, `call`, `pay-kaezy`, `page` or `portal` for Partner login): the other buttons under FAQ answers
   - `livestock_product_click` (`product`): the product tiles in the home page's livestock section
   - `kaezy_hire_continue` (`plan`), `kaezy_hire_pay` (`plan`, `network`)
   - `whatsapp_click`, `tel_click`, `email_click` (`position` where a page has several, e.g. `key-facts`; on the EzyAgric Business page `business-hero`, `business-module` with `module` for each chapter's "Ask about …", `business-connect` for "Ask about the APIs", `business-pricing-button` and `business-pricing` for the quotation slip's button and contact rows)

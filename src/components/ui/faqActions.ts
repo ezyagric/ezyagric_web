@@ -1,5 +1,5 @@
 import { getSite, isVisible, visible, type FaqAction, type IconName } from "@/lib/content";
-import { telUrl, whatsappUrl } from "@/lib/links";
+import { PORTAL_URL, telUrl, whatsappUrl } from "@/lib/links";
 import { kaezyPayHref } from "@/components/promo/KaEzyBanner";
 
 /** "try-kaezy" and "get-app" need nothing resolved: FaqList draws them itself. */
@@ -17,7 +17,7 @@ const ICONS: Partial<Record<FaqAction["kind"], IconName>> = {
 /**
  * Where a FAQ button goes on this build. "Pay for Ka-Ezy" follows the
  * banner's target (the plans in the demo when shown, else the price cards).
- * "try-kaezy" and "get-app" are drawn by FaqList as the site's one
+ * "portal" is Partner login. "try-kaezy" and "get-app" are drawn by FaqList as the site's one
  * TryKaEzyButton and the store badges, which find their own targets. An
  * action whose target is hidden (an unconfirmed WhatsApp number or phone)
  * is dropped.
@@ -31,6 +31,7 @@ export function resolveFaqActions(actions: FaqAction[]): ResolvedFaqAction[] {
       action.kind === "pay-kaezy" ? kaezyPayHref()
       : action.kind === "whatsapp" ? (isVisible(contact.whatsapp) ? whatsappUrl(contact.whatsapp.number, contact.whatsapp.message) : null)
       : action.kind === "call" ? (phone ? telUrl(phone.number) : null)
+      : action.kind === "portal" ? PORTAL_URL
       : (action.href ?? null);
     // The content schema makes sure these kinds have a label.
     return href ? [{ kind: action.kind, label: action.label ?? "", href, icon: ICONS[action.kind] }] : [];
