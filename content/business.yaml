@@ -14,7 +14,8 @@
 # Screens: customers' and staff names, phone numbers and the like are
 # blurred out (assets-src/screens-business; the originals stay out of the
 # repo). `screen` sits beside each module's text; `thumb` is a close 16:10
-# crop for the home page's four-module glimpse and the hero's Contents card;
+# crop for the home page's chapter fan and the hero's Contents card (its
+# `focus` picks the phones' 16:6 strip on the home page);
 # `loupe` magnifies a detail of the screen (its `region` frames that detail
 # on the screen, as "x% y% w% h%"); `status` is an illustrative notification
 # with no figures; `photo` is a field photo clipped to the chapter.
@@ -141,6 +142,7 @@ modules:
         alt: "EzySupplier: today's, pending, confirmed and delivered orders"
         width: 720
         height: 450
+        focus: "0% 90%"
       loupe:
         src: /images/business/ezysupplier-most-purchased.webp
         width: 720
@@ -180,6 +182,7 @@ modules:
         alt: "EzyProduce: produce collected by crop, payments pending, farmers and village agents"
         width: 566
         height: 354
+        focus: "0% 20%"
       loupe:
         src: /images/business/ezyproduce-thumb.webp
         width: 566
@@ -212,6 +215,7 @@ modules:
         alt: "EzyCredits: a loan's payments, total paid and average payment"
         width: 720
         height: 450
+        focus: "0% 50%"
       loupe:
         src: /images/business/ezycredits-repayments.webp
         width: 720
@@ -245,6 +249,7 @@ modules:
         alt: "EzyServices: Ka-Ezy subscribers and revenue by month"
         width: 720
         height: 451
+        focus: "0% 70%"
       loupe:
         src: /images/business/ezyservices-top-services.webp
         width: 720

@@ -601,7 +601,7 @@ const SiteSchema = z.object({
     title: z.string(),
     intro: z.string(),
     /**
-     * The way in: the EzyAgric Business page (the module tiles and their
+     * The way in: the EzyAgric Business page (the chapter pages and their
      * screens come from content/business.yaml).
      */
     cta: z.object({ label: z.string(), href: z.string().startsWith("/") }),
@@ -709,7 +709,7 @@ const BusinessModule = z.object({
    * blurred out.
    */
   screen: Image.extend({ frame: z.boolean().default(true) }),
-  /** A close 16:10 crop of a screen, for the four-module glimpse (home page and hero). */
+  /** A close 16:10 crop of a screen, for the home page's chapter fan and the hero's Contents card; `focus` picks the phones' 16:6 strip. */
   thumb: Image,
   /**
    * A magnified detail of the screen beside it (decorative: the screen's alt

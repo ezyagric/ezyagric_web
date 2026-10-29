@@ -72,7 +72,7 @@ const IMAGES = [
   // figures raised (about tenfold, kept consistent with each other) at the
   // marketing team's request, 29 Oct 2026, repainted in the dashboard's own
   // font (Nunito Sans). Screens beside each module's text, then close 16:10 crops
-  // for the four-module glimpse. ezyproduce-thumb is the laptop screen of
+  // for the home page's chapter fan and the Contents card. ezyproduce-thumb is the laptop screen of
   // photos/offtaker-ui.png (566px: no larger copy).
   ["screens-business/ezysupplier-dashboard.png", "business/ezysupplier-dashboard.webp", 1600], // 10.12.02
   ["screens-business/ezycredits-ledger.png", "business/ezycredits-ledger.webp", 1400], // 10.15.31

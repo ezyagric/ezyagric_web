@@ -279,8 +279,9 @@ videos:
     title: EzyAgric CEO William Luyinda on the MFS Africa and K+S joint investment
     topic: company
 
-# A glimpse of EzyAgric Business (its page: content/business.yaml), whose
-# four module tiles come from that file.
+# The home page's teaser of EzyAgric Business (its page: content/business.yaml):
+# the record book's four chapter pages fanned out, each opening its chapter
+# and showing its module's audience and screen thumb from business.yaml.
 organisations:
   eyebrow: For agribusinesses · EzyAgric Business
   title: Our four services, built for agribusiness enterprises

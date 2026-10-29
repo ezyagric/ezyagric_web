@@ -48,7 +48,7 @@ Other commands:
 
 - `content/site.yaml` — home page, contact details, FAQ, partners, videos, social links, search title and description.
 - `content/products/ka-ezy.yaml`, `agrishop.yaml`, `ezycredits.yaml`, `produce-market.yaml` — one file per product page.
-- `content/business.yaml` — the EzyAgric Business page, and the module tiles and screens in the home page's agribusiness section. Its screens come from the marketing team with customers' and staff names and phone numbers blurred out (`assets-src/screens-business/`); never commit an unblurred screenshot.
+- `content/business.yaml` — the EzyAgric Business page, and the chapter pages and screens in the home page's agribusiness section. Its screens come from the marketing team with customers' and staff names and phone numbers blurred out (`assets-src/screens-business/`); never commit an unblurred screenshot.
 
 Change the text, keep the indentation (spaces, not tabs). Put text in quotes if it contains a colon (`:`) or starts with a special character.
 
@@ -198,7 +198,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - Buttons and links send events through `data-track` attributes, picked up by one click listener in `src/components/analytics/Analytics.tsx`:
   - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`); `position` is `how-it-works` for a product page's "Install the EzyAgric App" step
   - `portal_login_click` (`position`; on the EzyAgric Business page `business-hero` or `business-connect`)
-  - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its module tiles, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide)
+  - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its chapter pages, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide)
   - `business_module_click` (`module`; `position`: `business-contents` for the hero's Contents card, `business-index` for the sticky module index)
   - `business_product_click` (`module`, `product`): a chapter's "Built on" link to the service it is built on
   - `business_promise_click` (`promise`: `privacy` or `investment`; `position`: `business-hero` for the hero's stamps, `business-promises` for the promises band's links, with `action`: `policy` or `pricing`)
@@ -345,7 +345,7 @@ src/
   components/
     home/                 Home page sections
     product/              Product page sections
-    business/             EzyAgric Business sections and the four-module glimpse
+    business/             EzyAgric Business sections and the home page's chapter fan
       kaezy/              "Ask Ka-Ezy, then hire it": Your farm, the four Ka-Ezy tabs, Hire Ka-Ezy
     layout/               Header, footer, logo, preview banner
     ui/                   Buttons, icons, badges, video player, …

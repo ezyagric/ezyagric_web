@@ -29,10 +29,8 @@ function regionStyle(region: string) {
  * then the screenshot at its own shape. The screens come with customers'
  * and staff names and phone numbers already blurred out.
  *
- * "sm" is the small window of the home page's four-module glimpse (below sm
- * it drops the dots, so a 122px window still shows the whole name); "md" is
- * a chapter's or the web portal's screen, which can also show a crumb
- * ("EzyAgric Business ›", from sm) and a dashed frame round a region: with a
+ * A chapter's or the web portal's screen can also show a crumb ("EzyAgric
+ * Business ›", from sm) and a dashed frame round a region: with a
  * zoom pin, what its loupe magnifies; with an eye pin ("blur"), the blurred
  * customer details (that pin from sm, where the frame is tall enough).
  */
@@ -41,7 +39,6 @@ export function ScreenWindow({
   label,
   accent,
   sizes,
-  size = "md",
   crumb,
   region,
   pin = "zoom",
@@ -54,7 +51,6 @@ export function ScreenWindow({
   label: string;
   accent: Accent;
   sizes: string;
-  size?: "sm" | "md";
   crumb?: string;
   /** "x% y% w% h%" of the screen. */
   region?: string;
@@ -65,21 +61,16 @@ export function ScreenWindow({
   preload?: boolean;
   className?: string;
 }) {
-  const small = size === "sm";
   return (
     <div className={`overflow-hidden rounded-card bg-card ring-1 ${ring} ${SHADOWS[shadow]} ${className}`}>
-      <div
-        className={`flex items-center border-b border-line bg-subtle ${small ? "gap-2 px-2.5 py-1.5" : "gap-3 px-4 py-2.5"}`}
-      >
-        <span aria-hidden="true" className={`shrink-0 ${small ? "hidden gap-1 sm:flex" : "flex gap-1.5"}`}>
+      <div className="flex items-center gap-3 border-b border-line bg-subtle px-4 py-2.5">
+        <span aria-hidden="true" className="flex shrink-0 gap-1.5">
           {[0, 1, 2].map((dot) => (
-            <span key={dot} className={`rounded-full bg-line ${small ? "size-1.5" : "size-2.5"}`} />
+            <span key={dot} className="size-2.5 rounded-full bg-line" />
           ))}
         </span>
-        <span
-          className={`flex min-w-0 items-center gap-1.5 font-label text-title ${small ? "text-xs" : "text-sm"}`}
-        >
-          {crumb && !small ? (
+        <span className="flex min-w-0 items-center gap-1.5 text-sm font-label text-title">
+          {crumb ? (
             <>
               <span className="hidden text-muted sm:inline">{crumb}</span>
               <ChevronRight aria-hidden="true" className="hidden size-3.5 shrink-0 text-muted sm:inline" />
