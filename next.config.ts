@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 // `npm run dev` serves its scripts only to pages opened at "localhost": opened
-// at http://127.0.0.1:3000, the computer's network address (192.168.x.x) or
+// at http://127.0.0.1:3000 (or [::1]), the computer's network address (192.168.x.x) or
 // its .local name, the page shows but nothing on it works (the Ka-Ezy demo,
 // menus, FAQ buttons). These are the addresses people open it at on their
 // own machine or network; DEV_ORIGINS adds others, comma-separated
@@ -9,6 +9,7 @@ import type { NextConfig } from "next";
 // site in out/ never uses it.
 const PRIVATE_NETWORK = [
   "127.0.0.1",
+  "[::1]",
   "*.local",
   "10.*.*.*",
   "192.168.*.*",
