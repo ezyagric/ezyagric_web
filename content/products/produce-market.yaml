@@ -74,17 +74,18 @@ steps:
     - title: Mark it as sold
       text: Update the listing when it's sold.
 
-# A real photo from the EzyAgric photo library.
+# A photo from one of EzyAgric's project partnerships (no names: the alt
+# text describes, it never identifies).
 photo:
   image:
-    src: /images/photos/farmer-in-garden.webp
-    alt: A Ugandan farmer tending crops in his banana garden
-    width: 720
-    height: 1080
-    # Low: on phones the box is wider than this tall photo and fades into
-    # navy at the foot, and this keeps the farmer's head and his hands on
-    # the coffee above the fade.
-    focus: "50% 80%"
+    src: /images/photos/farmer-maize-harvest.webp
+    alt: A smiling farmer holds up a maize cob she has just harvested from her garden
+    width: 1000
+    height: 714
+    # Right of centre: from lg the photo is cropped tall beside the steps and
+    # fades into navy on its right, and this keeps her face clear of the fade
+    # with the maize cob in view.
+    focus: "85% 40%"
 
 faq:
   - q: Does it cost anything to list?

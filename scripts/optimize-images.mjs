@@ -46,6 +46,8 @@ const IMAGES = [
   ["photos-2026/farmer-with-phone.jpg", "photos/farmer-with-phone.webp", 720],
   ["photos-2026/kaezy-exhibition.jpg", "photos/kaezy-exhibition.webp", 800],
   ["photos-2026/farmer-in-garden.jpg", "photos/farmer-in-garden.webp", 720],
+  // From one of EzyAgric's project partnerships (2012; the team's Website folder, 29 Oct 2026). Metadata stripped.
+  ["photos-2026/farmer-maize-harvest.jpg", "photos/farmer-maize-harvest.webp", 1000],
   ["photos-2026/ezyagric-bag-coffee.jpg", "photos/ezyagric-bag-coffee.webp", 1400],
   // Agrishop delivery, from the marketing team's Website folder (WhatsApp
   // images, 27 Oct 2026), each saved at its full size (no larger copies):
