@@ -30,6 +30,8 @@ npm ci          # install exact dependency versions from package-lock.json
 npm run dev     # http://localhost:3000, reloads as you edit
 ```
 
+**If the pages show but nothing on them works** (the Ka-Ezy demo's tabs and answers, the menus, FAQ buttons), the dev server is refusing its scripts to the address in the browser bar, and the terminal says `Blocked cross-origin request`. Next.js allows only `localhost` by default; `next.config.ts` (`allowedDevOrigins`) also allows `127.0.0.1`, private network addresses (`192.168.x.x`, `10.x.x.x`, `172.16-31.x.x`) and `.local` computer names. For any other address, start it with `DEV_ORIGINS=that-host npm run dev`, then restart after any change to `next.config.ts`. The built site (`npm run build`, then `npm run preview`) has no such limit.
+
 Other commands:
 
 | Command | What it does |
