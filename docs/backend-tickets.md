@@ -27,7 +27,7 @@ the website: they trust a signed-in app, not a public page.
 | [BT-07](#bt-07-keep-the-security-claims-on-the-ezyagric-business-page-true) | Keep the security claims on the EzyAgric Business page true | Engineering | | Open |
 | [BT-08](#bt-08-app-link-for-finish-in-the-ezyagric-app) | App link for "Finish in the EzyAgric App" (optional) | Mobile, then web team | | Open |
 | [BT-09](#bt-09-redirects-from-old-urls) | 301 redirects from the old site's URLs | DevOps and Marketing | | Open |
-| [BT-10](#bt-10-live-count-for-the-home-pages-impact-number-ezycrm) | Live count for the home page's "550,000+" (EzyCRM) (optional) | Backend (EzyCRM), DevOps, Product | | Open: decide the figure first |
+| [BT-10](#bt-10-live-count-for-the-home-pages-impact-number-ezycrm) | Live count for the home page's "550,000+" (EzyCRM) (optional) | Backend (EzyCRM), DevOps, Product | | Open |
 
 When a ticket is done, tick its acceptance criteria, change its status here,
 and do the website step under "Where it plugs in".
@@ -400,7 +400,7 @@ pages in `nginx/nginx.conf`.
 for the figure. **Optional:** the site works without it.
 
 **Today.** The home page's "Our impact" band shows "550,000+ Farmers and
-agribusinesses served across Uganda", typed into `content/site.yaml`
+agribusinesses reached across Uganda", typed into `content/site.yaml`
 (`impact.items[0]`).
 
 **The website is ready.** `LiveCount` (`src/components/home/LiveCount.tsx`):
@@ -410,17 +410,14 @@ this endpoint, on load and every five minutes while the page is open and in
 view. No answer within 8 seconds, an error, or a count that is not a whole
 number from 1 to 100 million keeps what is shown.
 
-**Decide first (Product and Marketing), and record it here.**
-- Which EzyCRM figure is added to 500,000. The label says "served": if the
-  figure is "total awareness" (people reached, not served), either use a
-  figure of users and customers served, or change the label in
-  `content/site.yaml` (for example "Farmers and agribusinesses reached across
-  Uganda").
-- What the 500,000 covers (for example, farmers served before EzyCRM), so no
-  one is counted twice. Change `live.base` if needed.
-- Note: the CRM's "total awareness" (below) counts every farmer who signed up
-  and verified their phone, whether or not they have bought, borrowed or sold,
-  plus EzyProduce organisations.
+**Decided (the EzyAgric team, 29 Oct 2026).** The figure added to 500,000 is
+EzyCRM's total awareness: every farmer who signed up and verified their
+phone, whether or not they have bought, borrowed or sold, plus EzyProduce
+organisations. So the label says "reached", not "served".
+
+**Still to confirm (Product).** What the 500,000 covers (for example, farmers
+reached before EzyCRM), so no one is counted twice. Change `live.base` in
+`content/site.yaml` if needed.
 
 **What EzyCRM has today** (from the EzyAgric_CRM work, October 2026):
 - The CRM API is the `neo4j_ezycrm` service at `https://crm-api.ezyagric.com`

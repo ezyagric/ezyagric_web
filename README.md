@@ -328,7 +328,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
 - [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf` (BT-09).
-- [ ] **Live "550,000+":** Product and Marketing to decide which EzyCRM figure is added to 500,000 (users and customers served, or total awareness) and whether "served" still fits the label; then EzyCRM's read-only count and `NEXT_PUBLIC_IMPACT_API` (BT-10). Until then the number shows as typed.
+- [ ] **Live "550,000+":** the figure is EzyCRM's total awareness and the label says "reached" (decided 29 Oct 2026). Still to do: Product to confirm the 500,000 doesn't overlap EzyCRM's count, then EzyCRM's public count and `NEXT_PUBLIC_IMPACT_API` (BT-10). Until then the number shows as typed.
 - [ ] **Share previews:** paste a home and a product URL into WhatsApp or the Facebook Sharing Debugger and check the image and text.
 - [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/ezyagric-business/`, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
 - [ ] **Delete `legacy/`** (see below).
