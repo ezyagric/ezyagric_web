@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getBusinessModules, getProducts } from "@/lib/content";
 import { PORTAL_URL } from "@/lib/links";
@@ -7,12 +8,13 @@ import { HashLink } from "@/components/ui/HashLink";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
-import { ServicesMenu, type ServiceItem } from "./ServicesMenu";
+import { ServicesMenu, type ServiceItem, type TileTone } from "./ServicesMenu";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { KaEzyMenuCard, KaEzyStrip, kaezyPayHref } from "@/components/promo/KaEzyBanner";
 import { BUSINESS_PATH, BusinessMenuCard, BusinessStrip } from "@/components/business/BusinessMenu";
-import type { IconName } from "@/lib/content";
+import { LOOKS, lookName } from "@/components/business/chapterLooks";
+import type { Accent, IconName } from "@/lib/content";
 
 // From lg to xl the nav's icons and the Pay button's wallet hide and the
 // labels drop to 14px, so the logo, both menus, Contact and both buttons fit
@@ -23,6 +25,25 @@ const SECONDARY_LINKS: { href: string; label: string; icon: IconName }[] = [
   { href: "/#contact-us", label: "Contact", icon: "phone" },
 ];
 
+// Farmer Services tiles: the record book's page surfaces by accent (blue,
+// green; navy "deep" gets white paper, so the current tile's blue outline
+// still shows on /ezycredits/), a shade deeper on hover, and the product's
+// glyph as a watermark off the top-right corner (a chapter's `mark`).
+const FARMER_TILE: Record<Accent, { tone: TileTone; mark: string }> = {
+  brand: {
+    tone: { tile: "bg-brand-soft ring-1 ring-brand-soft-strong hover:bg-brand-soft-strong", name: "text-title", muted: "text-muted", arrow: "text-link" },
+    mark: "text-brand opacity-10",
+  },
+  accent: {
+    tone: { tile: "bg-accent-soft ring-1 ring-accent-soft-strong hover:bg-accent-soft-strong", name: "text-title", muted: "text-muted", arrow: "text-link" },
+    mark: "text-accent-bright opacity-15",
+  },
+  deep: {
+    tone: { tile: "bg-card ring-1 ring-line shadow-card hover:bg-brand-soft", name: "text-title", muted: "text-muted", arrow: "text-link" },
+    mark: "text-title opacity-[0.07]",
+  },
+};
+
 const PHONE_LINK =
   "flex gap-1.5 rounded-control px-3 py-3 text-base font-heading text-body hover:bg-brand-soft hover:text-link";
 
@@ -32,20 +53,56 @@ export function Header() {
   // Farmer Services: the four farmer-app services. Agribusiness Services:
   // EzyAgric Business's four modules (each with who it is for), which jump to
   // their chapters on its page. Numbered 1 to 4 in both menus.
-  const farmerServices: ServiceItem[] = getProducts().map((p) => ({
-    href: `/${p.slug}/`,
-    name: p.name,
-    tagline: p.appTagline,
-    icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
-  }));
+  const farmerServices: ServiceItem[] = getProducts().map((p) => {
+    const tile = FARMER_TILE[p.accent];
+    return {
+      href: `/${p.slug}/`,
+      name: p.name,
+      tagline: p.appTagline,
+      icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
+      tone: tile.tone,
+      mark: (
+        <Icon
+          name={p.icon}
+          className={`absolute -top-4 -right-4 size-24 -rotate-12 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover/item:-rotate-3 ${tile.mark}`}
+        />
+      ),
+    };
+  });
+  // Agribusiness Services tiles: each module's record-book page (the business
+  // page's chapter looks) with its real screen as a strip, cropped by the
+  // thumb's focus, and its icon riding the strip's corner (as on the
+  // Contents card). Names in text-title, as in the other menu.
   const modules = getBusinessModules();
-  const businessServices: ServiceItem[] = modules.map((m) => ({
-    href: `${BUSINESS_PATH}#${m.id}`,
-    name: m.name,
-    tagline: m.audience,
-    icon: <IconCircle name={m.product.icon} color={m.product.accent} size="sm" />,
-    track: { event: "business_module_click", params: { module: m.id, position: "menu-desktop" } },
-  }));
+  const businessServices: ServiceItem[] = modules.map((m) => {
+    const look = LOOKS[lookName(m)];
+    return {
+      href: `${BUSINESS_PATH}#${m.id}`,
+      name: m.name,
+      tagline: m.audience,
+      icon: <IconCircle name={m.product.icon} color={m.product.accent} size="sm" className={`ring-2 ${look.loupeRing}`} />,
+      track: { event: "business_module_click", params: { module: m.id, position: "menu-desktop" } },
+      tone: {
+        tile: look.page,
+        name: lookName(m) === "ink" ? "text-on-inverse" : "text-title",
+        muted: look.muted,
+        arrow: look.linkText,
+        frame: look.windowRing,
+      },
+      mark: look.bar ? <span className={`absolute inset-x-0 top-0 h-1 ${look.bar}`} /> : undefined,
+      strip: (
+        <Image
+          src={m.thumb.src}
+          alt=""
+          width={m.thumb.width}
+          height={m.thumb.height}
+          loading="lazy"
+          style={m.thumb.focus ? { objectPosition: m.thumb.focus } : undefined}
+          className="absolute inset-0 size-full object-cover object-left-top motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover/item:scale-105"
+        />
+      ),
+    };
+  });
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur supports-[backdrop-filter]:bg-canvas/85">
       <a

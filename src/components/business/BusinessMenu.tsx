@@ -1,12 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, LogIn } from "lucide-react";
-import { getBusiness, getBusinessModules, getSite, isVisible } from "@/lib/content";
+import { getBusiness, getSite, isVisible } from "@/lib/content";
 import { PORTAL_URL, whatsappUrl } from "@/lib/links";
 import { trackData } from "@/lib/track";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
+import { PromiseDot } from "./PromiseMarks";
 
 export const BUSINESS_PATH = "/ezyagric-business/";
 
@@ -75,33 +75,31 @@ function ActionLink({ action, className, children }: { action: Action; className
 
 /**
  * The EzyAgric Business card beside the modules in the desktop "Agribusiness
- * Services" menu, the twin of the Ka-Ezy card in "Farmer Services": the four
- * modules' screens as a small contact sheet (in Contents order, where Ka-Ezy
- * has his face) and its line on navy, then the actions as rows. The screens'
- * figures stay inside the images (alt=""); the images load only when the
- * menu opens (lazy images in a closed <details> are not fetched).
+ * Services" menu, the twin of the Ka-Ezy card in "Farmer Services": the
+ * record book's cover board as a band along its top, its line on navy and
+ * the Contents note ("4 modules · 1 sign-in"), the page's two promise marks
+ * under a record-book tear, then the actions as rows. The modules' screens
+ * are on the menu's tiles beside it.
  */
 export function BusinessMenuCard({ position }: { position: string }) {
-  const { tagline, menu } = getBusiness();
-  const modules = getBusinessModules();
+  const { tagline, menu, hero, promises } = getBusiness();
   return (
     <div className="relative isolate flex h-full flex-col overflow-hidden rounded-card bg-inverse p-4 text-on-inverse">
+      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 gradient-brand-decor" />
       <span aria-hidden="true" className="absolute -top-12 -right-12 -z-10 size-40 rounded-full bg-brand/45" />
-      <span aria-hidden="true" className="grid grid-cols-2 gap-1 rounded-control bg-card p-1 shadow-card">
-        {modules.map((module) => (
-          <Image
-            key={module.id}
-            src={module.thumb.src}
-            alt=""
-            width={module.thumb.width}
-            height={module.thumb.height}
-            loading="lazy"
-            className="aspect-[16/9] w-full rounded-sm object-cover object-left-top ring-1 ring-line"
-          />
-        ))}
-      </span>
-      <p className="mt-3 text-xs text-label-style text-on-inverse">{menu.eyebrow}</p>
+      <p className="text-xs text-label-style text-on-inverse">{menu.eyebrow}</p>
       <p className="mt-1 text-lg leading-snug font-heading text-on-inverse">{tagline}</p>
+      {hero.contents.note ? <p className="mt-1 text-sm font-normal text-on-inverse/80">{hero.contents.note}</p> : null}
+      {/* The page's two promise marks (its key, word for word). */}
+      {/* role="list": Safari drops the list role from unstyled lists. */}
+      <ul role="list" className="mt-3 space-y-1.5 border-t-2 border-dashed border-on-inverse/25 pt-3 text-sm text-on-inverse">
+        {(["privacy", "investment"] as const).map((kind) => (
+          <li key={kind} className="flex items-start gap-2">
+            <PromiseDot kind={kind} onDark />
+            <span>{promises.key[kind]}</span>
+          </li>
+        ))}
+      </ul>
       <ul className="mt-auto space-y-1.5 pt-4">
         {menuActions(position).map((action) => (
           <li key={action.key}>

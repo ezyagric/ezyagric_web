@@ -14,7 +14,28 @@ export type ServiceItem = {
   icon: ReactNode;
   /** Analytics event on the link (data-track), with its params. */
   track?: { event: string; params?: Record<string, string> };
+  /** The tile's colours; a plain tile without. */
+  tone?: TileTone;
+  /** Server-rendered decoration clipped to the tile, behind its content (a glyph watermark, a page's top bar). */
+  mark?: ReactNode;
+  /** Server-rendered screen (an <Image alt="" absolute inset-0>) filling the tile's art row; the icon rides its lower-left corner. */
+  strip?: ReactNode;
 };
+
+/** A tile's colours, as full class strings set by Header (so Tailwind finds them there). */
+export type TileTone = {
+  /** The surface at rest, and its hover tint if any. */
+  tile: string;
+  name: string;
+  /** The number and the tagline. */
+  muted: string;
+  /** The arrow that fades in on hover. */
+  arrow: string;
+  /** The ring round a screen strip. */
+  frame?: string;
+};
+
+const PLAIN: TileTone = { tile: "bg-subtle hover:bg-brand-soft", name: "text-title", muted: "text-muted", arrow: "text-link" };
 
 function closeDetails(details: HTMLDetailsElement | null) {
   if (details) details.open = false;
@@ -22,8 +43,9 @@ function closeDetails(details: HTMLDetailsElement | null) {
 
 /**
  * A services dropdown in the header (lg and up): the services as numbered
- * rows on the left (an arrow slides in on hover) and, beside them, a card
- * (`aside`). There are two: "Farmer Services" (the four farmer-app services
+ * tiles, two by two (art above, name and tagline below, an arrow fading in on
+ * hover), stretched to the height of the card beside them (`aside`), so the
+ * panel has no empty bands. There are two: "Farmer Services" (the four farmer-app services
  * and the Ka-Ezy card) and "Agribusiness Services" (EzyAgric Business's four
  * modules, which jump to their chapters on its page, and its card). The panel
  * hangs from the header's nav pill (the nearest positioned ancestor, not this
@@ -137,12 +159,17 @@ export function ServicesMenu({
           if (plain && (event.target as Element).closest("a")) closeDetails(ref.current);
         }}
       >
-        {/* role="list": Safari drops the list role from unstyled lists. */}
-        <ol role="list" className="grid content-start gap-1">
+        {/* role="list": Safari drops the list role from unstyled lists. Two by
+            two: each tile spans two rows of this grid (subgrid): its art in
+            the first (1fr, so the art rows share whatever height the card
+            leaves and the tiles end flush with it), its name and tagline in
+            the second, so the names in a row line up however the taglines wrap. */}
+        <ol role="list" className="grid grid-cols-2 grid-rows-[1fr_auto_1fr_auto] gap-2">
           {items.map((item, i) => {
             const current = samePath(item.href, pathname);
+            const tone = item.tone ?? PLAIN;
             return (
-              <li key={item.href}>
+              <li key={item.href} className="row-span-2 grid grid-rows-subgrid">
                 <HashLink
                   href={item.href}
                   aria-current={current ? "page" : undefined}
@@ -150,24 +177,44 @@ export function ServicesMenu({
                   // onNavigate, not onClick: a Ctrl/Cmd-click opens a new tab
                   // and should leave this panel open.
                   onNavigate={() => closeDetails(ref.current)}
-                  // The current service is outlined, not only tinted (the
-                  // tint alone is the hover look and too faint to tell).
-                  className={`group/item flex items-center gap-3 rounded-control border-2 p-3 transition-colors hover:bg-brand-soft ${
-                    current ? "border-brand bg-brand-soft" : "border-transparent"
+                  // The current service is outlined, not only tinted. The
+                  // tile itself never moves: only its art does.
+                  className={`group/item relative isolate row-span-2 grid grid-rows-subgrid rounded-control border-2 p-3 transition-[background-color,box-shadow] hover:shadow-raised ${tone.tile} ${
+                    current ? "border-brand forced-colors:border-[Highlight]" : "border-transparent forced-colors:border-[CanvasText]"
                   }`}
                 >
-                  {item.icon}
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-heading text-title">
-                      <span className="mr-1.5 tabular-nums text-muted">{i + 1}.</span>
-                      {item.name}
+                  {item.mark ? (
+                    <span aria-hidden="true" className="pointer-events-none absolute -inset-0.5 -z-10 overflow-clip rounded-[inherit]">
+                      {item.mark}
                     </span>
-                    <span className="mt-0.5 block text-sm font-normal text-muted">{item.tagline}</span>
+                  ) : null}
+                  <span aria-hidden="true" className="relative flex flex-col items-start">
+                    {item.strip ? (
+                      <>
+                        <span
+                          className={`relative block min-h-14 w-full flex-1 overflow-clip rounded-control shadow-card ring-1 ${tone.frame ?? "ring-line"}`}
+                        >
+                          {item.strip}
+                        </span>
+                        <span className="absolute bottom-1.5 left-1.5 flex">{item.icon}</span>
+                      </>
+                    ) : (
+                      item.icon
+                    )}
                   </span>
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="size-4 shrink-0 text-link opacity-0 transition-opacity group-hover/item:opacity-100 group-focus-visible/item:opacity-100 motion-safe:transition-[opacity,transform] motion-safe:group-hover/item:translate-x-0.5"
-                  />
+                  <span className="min-w-0 self-start">
+                    <span className="flex items-center gap-2">
+                      <span className={`min-w-0 flex-1 font-heading underline-offset-4 group-hover/item:underline ${tone.name}`}>
+                        <span className={`mr-1.5 tabular-nums ${tone.muted}`}>{i + 1}.</span>
+                        {item.name}
+                      </span>
+                      <ArrowRight
+                        aria-hidden="true"
+                        className={`size-4 shrink-0 opacity-0 transition-opacity group-hover/item:opacity-100 group-focus-visible/item:opacity-100 motion-safe:transition-[opacity,translate] motion-safe:group-hover/item:translate-x-0.5 ${tone.arrow}`}
+                      />
+                    </span>
+                    <span className={`mt-0.5 block text-sm font-normal text-pretty ${tone.muted}`}>{item.tagline}</span>
+                  </span>
                 </HashLink>
               </li>
             );
