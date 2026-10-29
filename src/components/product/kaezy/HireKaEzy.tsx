@@ -16,6 +16,7 @@ import {
   type Network,
 } from "./format";
 import { demoService, type DemoOutcome, type PayResult, type PayStatus } from "./service";
+import { KaEzyAvatar } from "./Thread";
 
 type Hire = NonNullable<Product["tryIt"]>["hire"];
 
@@ -82,12 +83,15 @@ const RADIO_CARD =
 export function HireKaEzy({
   id,
   hire,
+  avatar,
   plans,
   payMode,
   storeBadges,
 }: {
   id: string;
   hire: Hire;
+  /** Ka-Ezy's face, on the pay header (as on the Ka-Ezy window's). */
+  avatar: string;
   plans: HirePlan[];
   payMode: PayMode;
   /** Server-rendered store badges (they read site settings). */
@@ -218,332 +222,348 @@ export function HireKaEzy({
         <Benefits items={hire.benefits} invert className="max-lg:hidden lg:mt-auto lg:pt-6" />
       </div>
 
-      {/* The current step. Steps with buttons fill the column, so the buttons sit at its foot. */}
-      <div className="flex min-w-0 flex-col p-5 sm:p-6">
-        {step === "plan" ? (
-          <form
-            // method="dialog": before the scripts load, Continue does nothing
-            // instead of reloading the page.
-            method="dialog"
-            className="flex flex-1 flex-col"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setStep(payMode === "demo" ? "pay" : "app");
-            }}
-          >
-            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-              Choose your plan
+      <div className="flex min-w-0 flex-col">
+        {/* "2. Pay for Ka-Ezy here", branded as the Ka-Ezy window's header
+            ("1. Try Ka-Ezy below") above: Ka-Ezy's face on brand blue. It is
+            the plan step's heading (focused when going back to it); the
+            later steps add their own heading under it. */}
+        <div className="flex items-center gap-3 bg-brand px-5 py-3 text-on-brand sm:px-6">
+          <KaEzyAvatar src={avatar} size="lg" />
+          <div className="min-w-0 flex-1">
+            <h4
+              ref={step === "plan" ? headingRef : undefined}
+              tabIndex={-1}
+              className="text-lg font-heading text-on-brand focus-visible:outline-focus-inverse"
+            >
+              <span className="tabular-nums">2.</span> {hire.payTitle}
             </h4>
-            <p className="mt-1 text-base text-muted">{hire.intro}</p>
-            <fieldset className="mt-4">
-              <legend className="sr-only">Ka-Ezy plan</legend>
-              <div className={`grid grid-cols-1 gap-3 ${PLAN_COLUMNS[plans.length] ?? "md:grid-cols-3"}`}>
-                {plans.map((p, i) => (
-                  // A card per plan: name and saving, the app's subtitle, then
-                  // the price. On phones they stack; from sm (one per row) the
-                  // price moves to the right. From md (side by side) each card
-                  // spans two rows of this grid (subgrid), so the prices share
-                  // a row and line up whatever wraps above or beside them.
-                  // A little less side padding from lg to xl, where the cards
-                  // are narrowest beside the navy column.
-                  <label
-                    key={p.name}
-                    className={`group relative flex flex-col gap-3 overflow-hidden p-4 sm:flex-row sm:items-center sm:justify-between md:row-span-2 md:grid md:grid-rows-subgrid md:items-start md:justify-normal lg:px-3.5 xl:px-4 ${RADIO_CARD}`}
-                  >
-                    {/* The plan the content highlights carries a thin signature
-                        gradient strip along its top (its price card in
-                        components/product/Pricing has a gradient header). */}
-                    {p.highlight ? (
-                      <span aria-hidden="true" className="gradient-brand-decor absolute inset-x-0 top-0 h-2" />
-                    ) : null}
-                    <span className="min-w-0">
-                      {/* The saving goes under the name only if a card is too narrow for both. */}
-                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <input
-                          type="radio"
-                          name="kaezy-plan"
-                          checked={i === planIndex}
-                          onChange={() => setPlanIndex(i)}
-                          className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
-                        />
-                        <span className="font-heading text-title">{p.name}</span>
-                        {p.badge ? (
-                          <span className="ml-auto rounded-pill bg-accent px-2 py-0.5 text-xs font-label text-on-primary sm:ml-0 md:ml-auto">
-                            {p.badge}
-                          </span>
-                        ) : null}
+            <p className="text-sm leading-snug text-on-brand/85">{hire.intro}</p>
+          </div>
+        </div>
+
+        {/* The current step. Steps with buttons fill the column, so the buttons sit at its foot. */}
+        <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-6">
+          {step === "plan" ? (
+            <form
+              // method="dialog": before the scripts load, Continue does nothing
+              // instead of reloading the page.
+              method="dialog"
+              className="flex flex-1 flex-col"
+              onSubmit={(event) => {
+                event.preventDefault();
+                setStep(payMode === "demo" ? "pay" : "app");
+              }}
+            >
+              <fieldset>
+                <legend className="sr-only">Ka-Ezy plan</legend>
+                <div className={`grid grid-cols-1 gap-3 ${PLAN_COLUMNS[plans.length] ?? "md:grid-cols-3"}`}>
+                  {plans.map((p, i) => (
+                    // A card per plan: name and saving, the app's subtitle, then
+                    // the price. On phones they stack; from sm (one per row) the
+                    // price moves to the right. From md (side by side) each card
+                    // spans two rows of this grid (subgrid), so the prices share
+                    // a row and line up whatever wraps above or beside them.
+                    // A little less side padding from lg to xl, where the cards
+                    // are narrowest beside the navy column.
+                    <label
+                      key={p.name}
+                      className={`group relative flex flex-col gap-3 overflow-hidden p-4 sm:flex-row sm:items-center sm:justify-between md:row-span-2 md:grid md:grid-rows-subgrid md:items-start md:justify-normal lg:px-3.5 xl:px-4 ${RADIO_CARD}`}
+                    >
+                      {/* The plan the content highlights carries a thin signature
+                          gradient strip along its top (its price card in
+                          components/product/Pricing has a gradient header). */}
+                      {p.highlight ? (
+                        <span aria-hidden="true" className="gradient-brand-decor absolute inset-x-0 top-0 h-2" />
+                      ) : null}
+                      <span className="min-w-0">
+                        {/* The saving goes under the name only if a card is too narrow for both. */}
+                        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <input
+                            type="radio"
+                            name="kaezy-plan"
+                            checked={i === planIndex}
+                            onChange={() => setPlanIndex(i)}
+                            className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
+                          />
+                          <span className="font-heading text-title">{p.name}</span>
+                          {p.badge ? (
+                            <span className="ml-auto rounded-pill bg-accent px-2 py-0.5 text-xs font-label text-on-primary sm:ml-0 md:ml-auto">
+                              {p.badge}
+                            </span>
+                          ) : null}
+                        </span>
+                        <span className="mt-1 block text-sm text-muted">
+                          <KeepHyphensTogether text={planLine(p.months)} />
+                        </span>
                       </span>
-                      <span className="mt-1 block text-sm text-muted">
-                        <KeepHyphensTogether text={planLine(p.months)} />
+                      <span className="block shrink-0 sm:text-right md:text-left">
+                        {/* Darker green on the selected card's tint. One step smaller
+                            from lg to xl, so "a month" stays on the price's line. */}
+                        <span className="block text-2xl font-heading tracking-heading text-accent group-has-[:checked]:text-accent-hover lg:text-xl xl:text-2xl">
+                          {formatUgx(p.monthlyUgx)}
+                          <span className="text-sm font-label tracking-normal text-muted"> a month</span>
+                        </span>
+                        <span className="block text-sm text-muted">
+                          <span className="font-label text-title">{formatUgx(p.months * p.monthlyUgx)}</span>{" "}
+                          <span className="whitespace-nowrap">for {monthsText(p.months)}</span>
+                        </span>
                       </span>
-                    </span>
-                    <span className="block shrink-0 sm:text-right md:text-left">
-                      {/* Darker green on the selected card's tint. One step smaller
-                          from lg to xl, so "a month" stays on the price's line. */}
-                      <span className="block text-2xl font-heading tracking-heading text-accent group-has-[:checked]:text-accent-hover lg:text-xl xl:text-2xl">
-                        {formatUgx(p.monthlyUgx)}
-                        <span className="text-sm font-label tracking-normal text-muted"> a month</span>
-                      </span>
-                      <span className="block text-sm text-muted">
-                        <span className="font-label text-title">{formatUgx(p.months * p.monthlyUgx)}</span>{" "}
-                        <span className="whitespace-nowrap">for {monthsText(p.months)}</span>
-                      </span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
 
-            {/* Below lg (where the navy part is only a header), the reasons
-                follow the plans; one copy or the other is display:none. */}
-            <Benefits items={hire.benefits} className="mt-5 lg:hidden" />
+              {/* Below lg (where the navy part is only a header), the reasons
+                  follow the plans; one copy or the other is display:none. */}
+              <Benefits items={hire.benefits} className="mt-5 lg:hidden" />
 
-            <Actions className="justify-between">
-              <p>
-                <span className="block text-sm text-muted">Pay today</span>
-                <span className="text-2xl font-heading tracking-heading text-accent">{formatUgx(total)}</span>
-              </p>
-              {/* Fills the row beside the total on phones (full width once it wraps). */}
-              <button
-                type="submit"
-                data-track="kaezy_hire_continue"
-                data-track-plan={plan.name}
-                className={`${buttonClasses("primary")} grow cursor-pointer whitespace-nowrap sm:grow-0`}
-              >
-                Continue
-              </button>
-            </Actions>
-          </form>
-        ) : null}
+              <Actions className="justify-between">
+                <p>
+                  <span className="block text-sm text-muted">Pay today</span>
+                  <span className="text-2xl font-heading tracking-heading text-accent">{formatUgx(total)}</span>
+                </p>
+                {/* Fills the row beside the total on phones (full width once it wraps). */}
+                <button
+                  type="submit"
+                  data-track="kaezy_hire_continue"
+                  data-track-plan={plan.name}
+                  className={`${buttonClasses("primary")} grow cursor-pointer whitespace-nowrap sm:grow-0`}
+                >
+                  Continue
+                </button>
+              </Actions>
+            </form>
+          ) : null}
 
-        {step === "pay" ? (
-          <form method="dialog" className="flex flex-1 flex-col" onSubmit={onPay} noValidate>
-            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-              Pay with Mobile Money
-            </h4>
-            <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
+          {step === "pay" ? (
+            <form method="dialog" className="flex flex-1 flex-col" onSubmit={onPay} noValidate>
+              <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+                Pay with Mobile Money
+              </h4>
+              <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
 
-            <fieldset className="mt-4" aria-describedby={errors.network ? "kaezy-network-error" : undefined}>
-              <legend className="text-base font-label text-title">Mobile Money network</legend>
-              {/* One per row on phones, where two side by side are too narrow
-                  for the radio, the logo and the name. */}
-              <div className="mt-2 grid gap-2 sm:grid-cols-2 sm:gap-3">
-                {(Object.keys(NETWORKS) as Network[]).map((key) => (
-                  <label key={key} className={`flex min-h-12 items-center gap-3 px-3 py-1.5 ${RADIO_CARD}`}>
-                    <input
-                      id={`kaezy-network-${key}`}
-                      type="radio"
-                      name="kaezy-network"
-                      checked={network === key}
-                      onChange={() => {
-                        setNetwork(key);
-                        setNetworkPicked(true);
-                        setErrors((e) => ({ ...e, network: undefined }));
-                      }}
-                      className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element -- small static logo */}
-                    <img
-                      src={NETWORKS[key].logo}
-                      alt=""
-                      width={120}
-                      height={120}
-                      className="size-8 shrink-0 rounded-control"
-                    />
-                    <span className="min-w-0 text-base font-label text-title">{NETWORKS[key].name}</span>
-                  </label>
-                ))}
-              </div>
-              {errors.network ? <FieldError id="kaezy-network-error">{errors.network}</FieldError> : null}
-            </fieldset>
+              <fieldset className="mt-4" aria-describedby={errors.network ? "kaezy-network-error" : undefined}>
+                <legend className="text-base font-label text-title">Mobile Money network</legend>
+                {/* One per row on phones, where two side by side are too narrow
+                    for the radio, the logo and the name. */}
+                <div className="mt-2 grid gap-2 sm:grid-cols-2 sm:gap-3">
+                  {(Object.keys(NETWORKS) as Network[]).map((key) => (
+                    <label key={key} className={`flex min-h-12 items-center gap-3 px-3 py-1.5 ${RADIO_CARD}`}>
+                      <input
+                        id={`kaezy-network-${key}`}
+                        type="radio"
+                        name="kaezy-network"
+                        checked={network === key}
+                        onChange={() => {
+                          setNetwork(key);
+                          setNetworkPicked(true);
+                          setErrors((e) => ({ ...e, network: undefined }));
+                        }}
+                        className="size-5 shrink-0 accent-secondary focus-visible:outline-none"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element -- small static logo */}
+                      <img
+                        src={NETWORKS[key].logo}
+                        alt=""
+                        width={120}
+                        height={120}
+                        className="size-8 shrink-0 rounded-control"
+                      />
+                      <span className="min-w-0 text-base font-label text-title">{NETWORKS[key].name}</span>
+                    </label>
+                  ))}
+                </div>
+                {errors.network ? <FieldError id="kaezy-network-error">{errors.network}</FieldError> : null}
+              </fieldset>
 
-            <PhoneField
-              id="kaezy-paying"
-              label="Mobile Money number"
-              hint="The number that pays. You approve the payment on this phone."
-              value={paying}
-              onChange={onPayingChange}
-              error={errors.paying}
-            />
-
-            {/* The padding makes the whole line a 44px+ tap target; the help
-                below follows it closely. */}
-            <label className="mt-2 flex min-h-11 cursor-pointer items-start gap-3 py-2.5 text-base text-body">
-              <input
-                type="checkbox"
-                checked={sameNumber}
-                onChange={(event) => setSameNumber(event.target.checked)}
-                className="mt-1 size-5 shrink-0 accent-secondary"
-              />
-              I use this number in the EzyAgric App
-            </label>
-            {sameNumber ? (
-              <p className="pl-8 text-sm text-muted">{hire.accountHelp}</p>
-            ) : (
               <PhoneField
-                id="kaezy-account"
-                label="EzyAgric App number"
-                hint={hire.accountHelp}
-                value={account}
-                onChange={(value) => {
-                  setAccount(value);
-                  if (ugNationalNumber(value)) setErrors((e) => ({ ...e, account: undefined }));
-                }}
-                error={errors.account}
+                id="kaezy-paying"
+                label="Mobile Money number"
+                hint="The number that pays. You approve the payment on this phone."
+                value={paying}
+                onChange={onPayingChange}
+                error={errors.paying}
               />
-            )}
 
-            <p className="mt-4 flex items-start gap-2 text-sm text-muted">
-              <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
-              <span>
-                <span className="font-label text-title">100% safe.</span> {hire.policy}
-              </span>
-            </p>
+              {/* The padding makes the whole line a 44px+ tap target; the help
+                  below follows it closely. */}
+              <label className="mt-2 flex min-h-11 cursor-pointer items-start gap-3 py-2.5 text-base text-body">
+                <input
+                  type="checkbox"
+                  checked={sameNumber}
+                  onChange={(event) => setSameNumber(event.target.checked)}
+                  className="mt-1 size-5 shrink-0 accent-secondary"
+                />
+                I use this number in the EzyAgric App
+              </label>
+              {sameNumber ? (
+                <p className="pl-8 text-sm text-muted">{hire.accountHelp}</p>
+              ) : (
+                <PhoneField
+                  id="kaezy-account"
+                  label="EzyAgric App number"
+                  hint={hire.accountHelp}
+                  value={account}
+                  onChange={(value) => {
+                    setAccount(value);
+                    if (ugNationalNumber(value)) setErrors((e) => ({ ...e, account: undefined }));
+                  }}
+                  error={errors.account}
+                />
+              )}
 
-            <fieldset className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-1">
-              <legend className="px-1 text-sm font-label text-review">Demo only: what happens next?</legend>
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                {(
-                  [
-                    ["approved", "Approved"],
-                    ["declined", "Declined"],
-                    ["timed_out", "Timed out"],
-                  ] as const
-                ).map(([value, label]) => (
-                  <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-body">
-                    <input
-                      type="radio"
-                      name="kaezy-demo-outcome"
-                      checked={outcome === value}
-                      onChange={() => setOutcome(value)}
-                      className="size-4 accent-secondary"
-                    />
-                    {label}
-                  </label>
-                ))}
+              <p className="mt-4 flex items-start gap-2 text-sm text-muted">
+                <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
+                <span>
+                  <span className="font-label text-title">100% safe.</span> {hire.policy}
+                </span>
+              </p>
+
+              <fieldset className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-1">
+                <legend className="px-1 text-sm font-label text-review">Demo only: what happens next?</legend>
+                <div className="flex flex-wrap gap-x-4 gap-y-1">
+                  {(
+                    [
+                      ["approved", "Approved"],
+                      ["declined", "Declined"],
+                      ["timed_out", "Timed out"],
+                    ] as const
+                  ).map(([value, label]) => (
+                    <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-body">
+                      <input
+                        type="radio"
+                        name="kaezy-demo-outcome"
+                        checked={outcome === value}
+                        onChange={() => setOutcome(value)}
+                        className="size-4 accent-secondary"
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              {/* nowrap: on the narrowest phones Pay takes its own full-width
+                  line rather than breaking its amount over two. */}
+              <Actions>
+                <button
+                  type="button"
+                  onClick={() => restart("plan")}
+                  className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
+                >
+                  <ChevronLeft aria-hidden="true" className="size-5" />
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  data-track="kaezy_hire_pay"
+                  data-track-plan={plan.name}
+                  data-track-network={network ?? "none"}
+                  className={`${buttonClasses("primary")} flex-1 cursor-pointer whitespace-nowrap`}
+                >
+                  Pay {formatUgx(total)}
+                </button>
+              </Actions>
+            </form>
+          ) : null}
+
+          {step === "progress" ? (
+            <div>
+              <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+                Approve on your phone
+              </h4>
+              <ProgressList
+                status={status}
+                total={total}
+                phone={payingNational ? formatUgPhone(payingNational) : ""}
+                network={network ?? "mtn"}
+              />
+            </div>
+          ) : null}
+
+          {step === "done" ? (
+            <div className="flex flex-1 flex-col">
+              <div className="flex items-center gap-3">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent-bright text-on-accent">
+                  <Check aria-hidden="true" className="size-7" />
+                </span>
+                <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
+                  Ka-Ezy is hired!
+                </h4>
               </div>
-            </fieldset>
-
-            {/* nowrap: on the narrowest phones Pay takes its own full-width
-                line rather than breaking its amount over two. */}
-            <Actions>
-              <button
-                type="button"
-                onClick={() => restart("plan")}
-                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
-              >
-                <ChevronLeft aria-hidden="true" className="size-5" />
-                Back
-              </button>
-              <button
-                type="submit"
-                data-track="kaezy_hire_pay"
-                data-track-plan={plan.name}
-                data-track-network={network ?? "none"}
-                className={`${buttonClasses("primary")} flex-1 cursor-pointer whitespace-nowrap`}
-              >
-                Pay {formatUgx(total)}
-              </button>
-            </Actions>
-          </form>
-        ) : null}
-
-        {step === "progress" ? (
-          <div>
-            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-              Approve on your phone
-            </h4>
-            <ProgressList
-              status={status}
-              total={total}
-              phone={payingNational ? formatUgPhone(payingNational) : ""}
-              network={network ?? "mtn"}
-            />
-          </div>
-        ) : null}
-
-        {step === "done" ? (
-          <div className="flex flex-1 flex-col">
-            <div className="flex items-center gap-3">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent-bright text-on-accent">
-                <Check aria-hidden="true" className="size-7" />
-              </span>
-              <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
-                Ka-Ezy is hired!
-              </h4>
+              <p className="mt-3 text-base text-body">
+                Your {planLabel(plan.months)} is active on{" "}
+                <span className="font-label text-title">
+                  {accountNational ? formatUgPhone(accountNational) : ""}
+                </span>
+                . Open the EzyAgric App and sign in with this number to start asking Ka-Ezy.
+              </p>
+              <Actions>
+                {storeBadges}
+                <button
+                  type="button"
+                  onClick={() => restart("plan")}
+                  className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
+                >
+                  Start again
+                </button>
+              </Actions>
             </div>
-            <p className="mt-3 text-base text-body">
-              Your {planLabel(plan.months)} is active on{" "}
-              <span className="font-label text-title">
-                {accountNational ? formatUgPhone(accountNational) : ""}
-              </span>
-              . Open the EzyAgric App and sign in with this number to start asking Ka-Ezy.
-            </p>
-            <Actions>
-              {storeBadges}
-              <button
-                type="button"
-                onClick={() => restart("plan")}
-                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
-              >
-                Start again
-              </button>
-            </Actions>
-          </div>
-        ) : null}
+          ) : null}
 
-        {step === "failed" ? (
-          <div className="flex flex-1 flex-col">
-            <div className="flex items-center gap-3">
-              <XCircle aria-hidden="true" className="size-12 shrink-0 text-danger" />
-              <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
-                Payment not completed
-              </h4>
+          {step === "failed" ? (
+            <div className="flex flex-1 flex-col">
+              <div className="flex items-center gap-3">
+                <XCircle aria-hidden="true" className="size-12 shrink-0 text-danger" />
+                <h4 ref={headingRef} tabIndex={-1} className="text-2xl font-heading tracking-heading text-heading">
+                  Payment not completed
+                </h4>
+              </div>
+              <p className="mt-3 text-base text-body">
+                {result === "expired"
+                  ? "The prompt timed out before it was approved. No money was taken."
+                  : "Your payment did not go through. No money was taken."}
+              </p>
+              <Actions>
+                <button
+                  type="button"
+                  onClick={() => restart("pay")}
+                  className={`${buttonClasses("primary")} cursor-pointer whitespace-nowrap`}
+                >
+                  Try again
+                </button>
+                <button
+                  type="button"
+                  onClick={() => restart("plan")}
+                  className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
+                >
+                  Change plan
+                </button>
+              </Actions>
             </div>
-            <p className="mt-3 text-base text-body">
-              {result === "expired"
-                ? "The prompt timed out before it was approved. No money was taken."
-                : "Your payment did not go through. No money was taken."}
-            </p>
-            <Actions>
-              <button
-                type="button"
-                onClick={() => restart("pay")}
-                className={`${buttonClasses("primary")} cursor-pointer whitespace-nowrap`}
-              >
-                Try again
-              </button>
-              <button
-                type="button"
-                onClick={() => restart("plan")}
-                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap`}
-              >
-                Change plan
-              </button>
-            </Actions>
-          </div>
-        ) : null}
+          ) : null}
 
-        {step === "app" ? (
-          <div className="flex flex-1 flex-col">
-            <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-              Finish in the EzyAgric App
-            </h4>
-            <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
-            <p className="mt-4 text-base text-body">{hire.appHandoff}</p>
-            <Actions>
-              {storeBadges}
-              <button
-                type="button"
-                onClick={() => restart("plan")}
-                className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
-              >
-                <ChevronLeft aria-hidden="true" className="size-5" />
-                Back
-              </button>
-            </Actions>
-          </div>
-        ) : null}
+          {step === "app" ? (
+            <div className="flex flex-1 flex-col">
+              <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
+                Finish in the EzyAgric App
+              </h4>
+              <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
+              <p className="mt-4 text-base text-body">{hire.appHandoff}</p>
+              <Actions>
+                {storeBadges}
+                <button
+                  type="button"
+                  onClick={() => restart("plan")}
+                  className={`${buttonClasses("secondary")} cursor-pointer whitespace-nowrap sm:ml-auto`}
+                >
+                  <ChevronLeft aria-hidden="true" className="size-5" />
+                  Back
+                </button>
+              </Actions>
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

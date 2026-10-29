@@ -151,7 +151,10 @@ export function KaEzyDemo({
         <div className="flex items-center gap-3 bg-brand px-4 py-3 text-on-brand">
           <KaEzyAvatar src={avatar} size="lg" />
           <span className="min-w-0 flex-1">
-            <span className="block text-lg font-heading">Ka-Ezy</span>
+            {/* Numbered 1: the hire card's pay header below is 2. */}
+            <span className="block text-lg font-heading">
+              <span className="tabular-nums">1.</span> {copy.windowTitle}
+            </span>
             <span className="block text-sm leading-snug text-on-brand/85">{tagline}</span>
           </span>
           <span className="hidden shrink-0 rounded-pill border border-on-brand/40 px-2.5 py-0.5 text-xs font-label sm:inline">

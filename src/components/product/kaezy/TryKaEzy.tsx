@@ -98,6 +98,7 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
         <div className="mt-6 lg:mt-8">
           <HireKaEzy
             id={HIRE_ID}
+            avatar="/images/products/ka-ezy-avatar.webp"
             hire={tryIt.hire}
             plans={hirePlans(product)}
             // No secure web payment API yet (docs/backend-tickets.md BT-05):

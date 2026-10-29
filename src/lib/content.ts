@@ -289,6 +289,8 @@ const ProductSchema = z.object({
       eyebrow: z.string(),
       title: z.string(),
       intro: z.string(),
+      /** The Ka-Ezy window's header line, numbered 1 ("Try Ka-Ezy below"); the hire card's pay header is 2. */
+      windowTitle: z.string(),
       /** "Your farm": personalises the demo (components/product/kaezy). */
       farm: z.object({
         title: z.string(),
@@ -460,6 +462,8 @@ const ProductSchema = z.object({
       }),
       hire: z.object({
         title: z.string(),
+        /** The pay column's blue header, numbered 2 ("Pay for Ka-Ezy here"), over `intro`. */
+        payTitle: z.string(),
         intro: z.string(),
         benefits: z.array(z.string()),
         accountHelp: z.string(),

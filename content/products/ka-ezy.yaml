@@ -110,6 +110,9 @@ tryIt:
   eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
   intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, [choose a plan](/ka-ezy/#hire-ka-ezy) and pay with Mobile Money."
+  # The two numbered headers: the Ka-Ezy window (1), then the hire card's pay
+  # column (2, hire.payTitle), both in a blue stripe with Ka-Ezy's face.
+  windowTitle: Try Ka-Ezy below
   # Ka-Ezy's answers and plan figures below are samples written for the
   # website. They are personalised from "Your farm": {name}, {crop}, {location}
   # and {acres} are filled in, and a part in [[ ]] is left out when one of its
@@ -511,6 +514,7 @@ tryIt:
     nudge: Map your real garden with GPS in the EzyAgric App.
   hire:
     title: Hire Ka-Ezy
+    payTitle: Pay for Ka-Ezy here
     intro: Choose a plan, then pay with MTN MoMo or Airtel Money.
     # "Why farmers choose Ka-Ezy" in the app's plan screen.
     benefits:
