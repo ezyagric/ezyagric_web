@@ -309,8 +309,6 @@ faq:
         - { kind: page, label: "Explore our services", href: "/#solutions" }
     - q: Can I use Ka-Ezy outside Uganda?
       a: "Yes. Ka-Ezy works wherever you can use the EzyAgric App."
-      pending: true
-      note: Confirm which countries to name (the app lists Uganda, Kenya, Tanzania, Rwanda, DR Congo and South Sudan).
       actions:
         - { kind: try-kaezy }
     - q: How do I pay?
