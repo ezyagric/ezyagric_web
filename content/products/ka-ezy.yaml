@@ -74,12 +74,15 @@ demoVideos:
   title: Watch each Ka-Ezy feature
   intro: A short video of each thing Ka-Ezy does. Each video only downloads when you tap play.
   items:
-    # "Demo Video For Ka-Ezy" from the Creative & Content Pack (portrait, 607x1080).
-    - src: /videos/kaezy-demo.mp4
+    # "Ka-Ezy Short Video.mp4" from the marketing team's Website folder (portrait,
+    # 1080x1920, 82 s, 55 MB), made 540x960 at 1 Mbps video and 96 kbps audio
+    # (8.6 MB, index at the start). Also the Ka-Ezy banner's video ("See Ka-Ezy
+    # in action"): the banner plays the portrait one.
+    - src: /videos/kaezy-short.mp4
       orientation: portrait
-      title: The Ka-Ezy demo
-      text: "A short tour of Ka-Ezy in the EzyAgric App: spot problems on your farm early, map your garden and get advice made for your farm."
-      poster: { src: /images/videos/kaezy-demo.webp, alt: "", width: 540, height: 961 }
+      title: Ka-Ezy, your AI farm expert
+      text: "Something wrong with your crops or animals, or unsure how much fertiliser to use? Ka-Ezy in the EzyAgric App is your personalised AI farm expert: upload a photo to find possible pests and diseases, and spot risks early."
+      poster: { src: /images/videos/kaezy-short.webp, alt: "", width: 540, height: 960 }
     - src: /videos/kaezy-expert-advice.mp4
       title: Expert farm advice
       text: Ask me anything about your crops or livestock, any time of day.

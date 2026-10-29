@@ -122,7 +122,8 @@ const IMAGES = [
   ["video-posters/kaezy-garden-mapping.png", "videos/kaezy-garden-mapping.webp", 900],
   ["video-posters/kaezy-farm-records.png", "videos/kaezy-farm-records.webp", 900],
   // Portrait Ka-Ezy demo ("Demo Video For Ka-Ezy", Creative & Content Pack): frame at 0:40
-  ["video-posters/kaezy-demo.png", "videos/kaezy-demo.webp", 540],
+  // The frame at 0:10 of "Ka-Ezy Short Video.mp4" ("Personalized AI farm expert").
+  ["video-posters/kaezy-short.png", "videos/kaezy-short.webp", 540],
 
   // Payment marks
   ["brand/mtn.png", "brand/mtn.webp", 120],
