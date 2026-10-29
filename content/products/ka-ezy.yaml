@@ -103,8 +103,10 @@ demoVideos:
 # website"). Preview builds simulate paying with Mobile Money; the live site
 # sends visitors to the app to pay.
 tryIt:
-  pending: true
-  note: "Agronomy team to check the sample answers (crops, animals, and fish, bees and mushrooms), the sample photo diagnoses and the sample plan figures (costs, yields and prices). Paying on the website is a demo until engineering adds secure web sign-in and a payment API; until then the live site sends visitors to the app to pay."
+  # Confirmed by the EzyAgric team (29 Oct 2026), so it shows on the live site.
+  # Paying on the website stays a demo until engineering adds secure web
+  # sign-in and a payment API; until then the live site sends visitors to the
+  # app to pay.
   eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
   intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
