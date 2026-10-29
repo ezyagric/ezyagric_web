@@ -449,12 +449,15 @@ today).
 - [ ] Answers from a precomputed or cached figure (refreshed at most every few minutes) within 1 second, with `Cache-Control: public, max-age=300`.
 - [ ] Needs no sign-in, by design: it returns this one number and nothing else, so no CRM user's token or password is ever put in nginx, the repo or a browser.
 - [ ] Rate-limited per caller. nginx keeps each answer for five minutes (`proxy_cache`), so EzyCRM is asked at most once every five minutes however busy the site is.
-- [ ] Tested on staging: the home page's number follows a change in EzyCRM within five minutes, and shows 550,000+ while the endpoint is down.
+- [ ] Tested on staging: after a change in EzyCRM, the home page shows it within about ten minutes (EzyCRM's own refresh, plus up to five minutes in nginx; browsers keep no copy). With EzyCRM down, the page keeps the last count nginx holds, and shows 550,000+ only when nginx has none (after a restart, or an hour with no requests).
+- [ ] The container starts, and every page loads, with crm-api.ezyagric.com unresolvable: `/api/impact` then answers `502` (or the last cached count) and the page keeps its number.
 
 **Where it plugs in.** DevOps uncomments the `proxy_cache_path` line and the
 `location = /api/impact` block in `nginx/nginx.conf`, sets its path to the
-endpoint built here (the template has `/public/counts/awareness`), adds `~^/api/ "";` to the `$ezy_cache_control` map if BT-02 has not
+endpoint built here (the template has `/public/counts/awareness`) and its
+`resolver` to the host's DNS (as BT-02 step 1), adds `~^/api/ "";` to the `$ezy_cache_control` map if BT-02 has not
 (else nginx would add an hour's `Cache-Control`), and builds with
-`--build-arg NEXT_PUBLIC_IMPACT_API=/api/impact`, staging first. No website
+`--build-arg NEXT_PUBLIC_IMPACT_API=/api/impact`, staging first (check the
+config with `nginx -t` in the image first). No website
 code changes; if the label changes, edit `impact.items[0].label` in
 `content/site.yaml`.

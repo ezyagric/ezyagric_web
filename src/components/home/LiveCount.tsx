@@ -42,6 +42,9 @@ export function LiveCount({
       const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
       try {
         const res = await fetch(endpoint, {
+          // nginx's five-minute cache spares EzyCRM; the browser keeps no copy
+          // of its own, so an open page sees a new figure at its next refresh.
+          cache: "no-store",
           credentials: "omit",
           headers: { Accept: "application/json" },
           signal: controller.signal,
