@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getProducts } from "@/lib/content";
+import { getBusiness, getProducts } from "@/lib/content";
 import { PORTAL_URL } from "@/lib/links";
 import { ButtonLink } from "@/components/ui/Button";
 import { StoreBadges } from "@/components/ui/StoreBadges";
@@ -22,6 +22,23 @@ const SECONDARY_LINKS: { href: string; label: string; icon: IconName }[] = [
 // data, so pages are only fetched when someone actually taps a link.
 export function Header() {
   const products = getProducts();
+  const business = getBusiness();
+  // "Our services": the four farmer-app services, then EzyAgric Business
+  // (numbered 1 to 5 in both menus).
+  const services = [
+    ...products.map((p) => ({
+      href: `/${p.slug}/`,
+      name: p.name,
+      tagline: p.appTagline,
+      icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
+    })),
+    {
+      href: "/ezyagric-business/",
+      name: business.name,
+      tagline: business.tagline,
+      icon: <IconCircle name="users" color="brand" size="sm" />,
+    },
+  ];
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur supports-[backdrop-filter]:bg-canvas/85">
       <a
@@ -41,8 +58,8 @@ export function Header() {
         </Link>
 
         {/* One segmented pill, like the hero's switcher: each link has its
-            icon, and the one hovered or open turns white and lifts. The four
-            services share the "Our services" dropdown. Names never wrap
+            icon, and the one hovered or open turns white and lifts. The five
+            services (EzyAgric Business last) share the "Our services" dropdown. Names never wrap
             ("Ka-Ezy" would break at its hyphen). */}
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-1 rounded-pill border border-line bg-subtle p-1 text-[15px] font-label whitespace-nowrap">
@@ -50,12 +67,7 @@ export function Header() {
               <ServicesMenu
                 label="Our services"
                 icon={<Icon name="sprout" className="size-4 shrink-0 text-secondary" />}
-                items={products.map((p) => ({
-                  href: `/${p.slug}/`,
-                  name: p.name,
-                  tagline: p.appTagline,
-                  icon: <IconCircle name={p.icon} color={p.accent} size="sm" />,
-                }))}
+                items={services}
                 aside={<KaEzyMenuCard position="menu-desktop" />}
               />
             </li>
@@ -102,19 +114,22 @@ export function Header() {
               <p className="px-3 pt-3 pb-1 text-sm text-label-style text-label">
                 Our services
               </p>
-              <ul className="grid grid-cols-2 gap-1">
-                {products.map((p) => (
-                  <li key={p.slug}>
+              {/* role="list": Safari drops the list role from unstyled lists. */}
+              <ol role="list" className="grid grid-cols-2 gap-1">
+                {/* An odd last item (EzyAgric Business, fifth) takes the whole row. */}
+                {services.map((s, i) => (
+                  <li key={s.href} className="odd:last:col-span-2">
                     <Link
                       prefetch={false}
-                      href={`/${p.slug}/`}
-                      className="block rounded-control px-3 py-3 text-base font-heading text-body hover:bg-brand-soft hover:text-link"
+                      href={s.href}
+                      className="flex gap-1.5 rounded-control px-3 py-3 text-base font-heading text-body hover:bg-brand-soft hover:text-link"
                     >
-                      {p.name}
+                      <span className="tabular-nums text-muted">{i + 1}.</span>
+                      <span>{s.name}</span>
                     </Link>
                   </li>
                 ))}
-              </ul>
+              </ol>
               <KaEzyStrip position="menu-phone" className="mt-3" />
               <ul className="mt-2 border-t border-line pt-2">
                 {SECONDARY_LINKS.map((l) => (

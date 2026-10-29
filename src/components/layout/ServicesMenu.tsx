@@ -23,8 +23,9 @@ function closeDetails(details: HTMLDetailsElement | null) {
 }
 
 /**
- * The header's services dropdown, labelled "Our services" (lg and up): the four
- * services as rows on the left (an arrow slides in on hover) and, beside
+ * The header's services dropdown, labelled "Our services" (lg and up): the
+ * services as numbered rows on the left (the four farmer-app services, then
+ * EzyAgric Business; an arrow slides in on hover) and, beside
  * them, the Ka-Ezy card (`aside`). It is a <details> element,
  * so it opens and closes with JavaScript off. With JavaScript on, it also
  * closes on Escape (focus goes back to its button), on a click or tap
@@ -123,8 +124,9 @@ export function ServicesMenu({
           if (plain && (event.target as Element).closest("a")) closeDetails(ref.current);
         }}
       >
-        <ul className="grid content-start gap-1">
-          {items.map((item) => {
+        {/* role="list": Safari drops the list role from unstyled lists. */}
+        <ol role="list" className="grid content-start gap-1">
+          {items.map((item, i) => {
             const current = samePath(item.href, pathname);
             return (
               <li key={item.href}>
@@ -143,7 +145,10 @@ export function ServicesMenu({
                 >
                   {item.icon}
                   <span className="min-w-0 flex-1">
-                    <span className="block font-heading text-title">{item.name}</span>
+                    <span className="block font-heading text-title">
+                      <span className="mr-1.5 tabular-nums text-muted">{i + 1}.</span>
+                      {item.name}
+                    </span>
                     <span className="mt-0.5 block text-sm font-normal text-muted">{item.tagline}</span>
                   </span>
                   <ArrowRight
@@ -154,7 +159,7 @@ export function ServicesMenu({
               </li>
             );
           })}
-        </ul>
+        </ol>
         {aside}
       </div>
     </details>
