@@ -194,7 +194,7 @@ These are read **at build time** and baked into the files, so each environment n
 | `NEXT_PUBLIC_SITE_URL` | e.g. `https://ezyagric.com` | `https://ezyagric.com` | Used for canonical URLs, the sitemap, robots.txt, share images and structured data. No trailing slash. |
 | `NEXT_PUBLIC_GA_ID` | GA4 measurement ID, e.g. `G-XXXXXXXXXX` | empty | Empty = no analytics, no cookie banner, no "Cookie settings" link. |
 | `NEXT_PUBLIC_KAEZY_DEMO_API` | `/api/kaezy-demo` | empty | Live Ka-Ezy answers in "Try Ka-Ezy". Empty = sample answers. See "Ka-Ezy on the website". |
-| `NEXT_PUBLIC_IMPACT_API` | `/api/impact` | empty | Keeps the home page's "550,000+" live: 500,000 plus EzyCRM's count (`live.base` in `impact.items`), refreshed every five minutes. Empty = the number as typed. See `docs/backend-tickets.md` BT-10. |
+| `NEXT_PUBLIC_IMPACT_API` | `/api/impact` | empty | Keeps the home page's "554,662+" live: 500,000 plus EzyCRM's count (`live.base` in `impact.items`), refreshed every five minutes. Empty = the number as typed. See `docs/backend-tickets.md` BT-10. |
 
 For local work, put them in `.env.local` (git-ignored), for example:
 
@@ -328,7 +328,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
 - [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf` (BT-09).
-- [ ] **Live "550,000+":** the figure is EzyCRM's total awareness and the label says "reached" (decided 29 Oct 2026). Still to do: Product to confirm the 500,000 doesn't overlap EzyCRM's count, then EzyCRM's public count and `NEXT_PUBLIC_IMPACT_API` (BT-10). Until then the number shows as typed.
+- [ ] **Live "554,662+":** the typed number is 500,000 plus EzyCRM's total awareness on 16 Sep 2026 (54,662); update it by hand until the count is live. The figure is EzyCRM's total awareness and the label says "reached" (decided 29 Oct 2026). Still to do: Product to confirm the 500,000 doesn't overlap EzyCRM's count, then EzyCRM's public count and `NEXT_PUBLIC_IMPACT_API` (BT-10). Until then the number shows as typed.
 - [ ] **Share previews:** paste a home and a product URL into WhatsApp or the Facebook Sharing Debugger and check the image and text.
 - [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/ezyagric-business/`, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
 - [ ] **Delete `legacy/`** (see below).

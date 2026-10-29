@@ -27,7 +27,7 @@ the website: they trust a signed-in app, not a public page.
 | [BT-07](#bt-07-keep-the-security-claims-on-the-ezyagric-business-page-true) | Keep the security claims on the EzyAgric Business page true | Engineering | | Open |
 | [BT-08](#bt-08-app-link-for-finish-in-the-ezyagric-app) | App link for "Finish in the EzyAgric App" (optional) | Mobile, then web team | | Open |
 | [BT-09](#bt-09-redirects-from-old-urls) | 301 redirects from the old site's URLs | DevOps and Marketing | | Open |
-| [BT-10](#bt-10-live-count-for-the-home-pages-impact-number-ezycrm) | Live count for the home page's "550,000+" (EzyCRM) (optional) | Backend (EzyCRM), DevOps, Product | | Open |
+| [BT-10](#bt-10-live-count-for-the-home-pages-impact-number-ezycrm) | Live count for the home page's "554,662+" (EzyCRM) (optional) | Backend (EzyCRM), DevOps, Product | | Open |
 
 When a ticket is done, tick its acceptance criteria, change its status here,
 and do the website step under "Where it plugs in".
@@ -399,13 +399,14 @@ pages in `nginx/nginx.conf`.
 **Owner:** Backend (EzyCRM), with DevOps for nginx and Product and Marketing
 for the figure. **Optional:** the site works without it.
 
-**Today.** The home page's "Our impact" band shows "550,000+ Farmers and
+**Today.** The home page's "Our impact" band shows "554,662+ Farmers and
 agribusinesses reached across Uganda", typed into `content/site.yaml`
-(`impact.items[0]`).
+(`impact.items[0]`): 500,000 plus EzyCRM's total awareness on 16 Sep 2026
+(54,662), updated by hand.
 
 **The website is ready.** `LiveCount` (`src/components/home/LiveCount.tsx`):
 built with `NEXT_PUBLIC_IMPACT_API=/api/impact`, the page shows the typed
-550,000+ first, then 500,000 (`impact.items[0].live.base`) plus the count from
+number first, then 500,000 (`impact.items[0].live.base`) plus the count from
 this endpoint, on load and every five minutes while the page is open and in
 view. No answer within 8 seconds, an error, or a count that is not a whole
 number from 1 to 100 million keeps what is shown.
@@ -449,7 +450,7 @@ today).
 - [ ] Answers from a precomputed or cached figure (refreshed at most every few minutes) within 1 second, with `Cache-Control: public, max-age=300`.
 - [ ] Needs no sign-in, by design: it returns this one number and nothing else, so no CRM user's token or password is ever put in nginx, the repo or a browser.
 - [ ] Rate-limited per caller. nginx keeps each answer for five minutes (`proxy_cache`), so EzyCRM is asked at most once every five minutes however busy the site is.
-- [ ] Tested on staging: after a change in EzyCRM, the home page shows it within about ten minutes (EzyCRM's own refresh, plus up to five minutes in nginx; browsers keep no copy). With EzyCRM down, the page keeps the last count nginx holds, and shows 550,000+ only when nginx has none (after a restart, or an hour with no requests).
+- [ ] Tested on staging: after a change in EzyCRM, the home page shows it within about ten minutes (EzyCRM's own refresh, plus up to five minutes in nginx; browsers keep no copy). With EzyCRM down, the page keeps the last count nginx holds, and shows the typed number only when nginx has none (after a restart, or an hour with no requests).
 - [ ] The container starts, and every page loads, with crm-api.ezyagric.com unresolvable: `/api/impact` then answers `502` (or the last cached count) and the page keeps its number.
 
 **Where it plugs in.** DevOps uncomments the `proxy_cache_path` line and the

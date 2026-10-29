@@ -225,15 +225,19 @@ impact:
       # High, so his face stays in the near-square crop on phones.
       focus: "50% 10%"
   items:
-    - value: 550000
+    # 500,000 plus EzyCRM's total awareness, 54,662 on 16 Sep 2026 (54,491
+    # people who signed up and verified their phone, plus 171 EzyProduce
+    # organisations). Typed by hand: update it from the CRM's Awareness card
+    # until the live count below is switched on.
+    - value: 554662
       suffix: "+"
       # "reached", not "served": the live figure is EzyCRM's total awareness
       # (the team's call, 29 Oct 2026).
       label: Farmers and agribusinesses reached across Uganda
       # Live where the build sets NEXT_PUBLIC_IMPACT_API: 500,000 plus EzyCRM's
       # total awareness count, refreshed every five minutes
-      # (docs/backend-tickets.md BT-10). 550,000 above shows first, and stays if
-      # the count can't be had.
+      # (docs/backend-tickets.md BT-10). The typed number above shows first, and
+      # stays if the count can't be had.
       live: { base: 500000 }
     - value: 12500
       label: Full and part-time jobs created
