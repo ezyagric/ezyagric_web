@@ -84,15 +84,60 @@
   --text-xl--line-height: 1.55;
 }
 
-/* The partner logo rails: each rail holds its logos twice and slides by
-   half its width, so the loop is seamless (speed and direction are set per
-   rail in components/home/Partners). */
-@keyframes marquee {
+/* The partner register (components/home/Partners): ledger paper, a hairline
+   at the foot of every row. --row (the row height) is set on the list, so
+   the rules line up with the grid and carry on as blank lines below the
+   last entries (the shorter facing page ends level with the longer). */
+@utility ledger-rules {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--row) - 1px),
+    var(--color-line) calc(var(--row) - 1px) var(--row)
+  );
+}
+
+/* The register's count stamps press onto their pages as they scroll in: tied
+   to scrolling (nothing moves on its own), done within about a third of a
+   screen. Skipped for reduced motion and where scroll timelines are missing
+   (the stamp just sits there). Longhands only; transform composes with the
+   stamp's Tailwind rotate (the separate `rotate` property). */
+@keyframes stamp-press {
   from {
-    transform: translateX(0);
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.97);
   }
   to {
-    transform: translateX(-50%);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-stamp] {
+      animation-name: stamp-press;
+      animation-duration: auto;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 100% cover 30%;
+    }
+  }
+}
+
+/* Without :has() a folded register page could never open, so it never folds.
+   Unlayered, so it beats the Tailwind utilities without !important. */
+@supports not selector(:has(*)) {
+  [data-fold] {
+    max-height: none;
+    overflow: visible;
+    mask-image: none;
+  }
+  [data-show-all] {
+    display: none;
   }
 }
 

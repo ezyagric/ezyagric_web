@@ -646,10 +646,10 @@ const SiteSchema = z.object({
     groups: z.array(
       z.object({
         title: z.string(),
-        /** Beside the group's name (components/home/Partners). */
+        /** On the group's register page, beside its name (components/home/Partners). */
         icon: IconName.optional(),
         items: z.array(
-          // No logo yet: the tile shows the name (see Partners).
+          // No logo yet: the entry shows the name (see Partners).
           z.object({ name: z.string(), logo: Image.optional(), ...pendingFields }),
         ),
       }),

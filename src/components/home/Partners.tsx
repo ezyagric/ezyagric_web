@@ -1,40 +1,56 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
-import { Pause, Play } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { getSite, isVisible, visible, type Site } from "@/lib/content";
-import { Section, SectionHeader } from "@/components/ui/Container";
+import { Section } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
+import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 
-type Partner = Site["partners"]["groups"][number]["items"][number];
+type Group = Site["partners"]["groups"][number];
+type Partner = Group["items"][number];
 
-// Groups with fewer logos than this sit still: a short list cannot fill a
-// seamless loop across a wide screen.
-const MIN_FOR_RAIL = 8;
-// Seconds per logo, so every rail moves at the same speed.
-const SECONDS_PER_LOGO = 3.5;
-
-// Each group's row on a soft tint, alternating green and blue, with its icon
-// in the matching solid circle and a bar of that colour that grows under a
-// logo on hover. Full class strings so Tailwind can find them.
-const TONES = [
-  { row: "bg-accent-soft ring-accent-soft-strong", circle: "accent", bar: "after:bg-accent-bright" },
-  { row: "bg-brand-soft ring-brand-soft-strong", circle: "brand", bar: "after:bg-brand" },
+// Each page's ink: commercial green, strategic blue (alternating after that).
+// Small text uses text-accent (5.1:1 on white), never accent-bright. Full
+// class strings so Tailwind finds them.
+const INKS = [
+  { circle: "accent", stamp: "border-accent text-accent", rule: "border-accent-soft-strong", pen: "after:bg-accent-bright" },
+  { circle: "brand", stamp: "border-brand text-brand", rule: "border-brand-soft-strong", pen: "after:bg-brand" },
 ] as const;
-type Tone = (typeof TONES)[number];
+type Ink = (typeof INKS)[number];
+
+/** A logo at least this many times as wide as it is tall takes two cells (Syngenta, Simlaw Seeds, Mandela Millers, Pezesha, IFC, Onafriq, TechnoServe, Illinois). */
+const WIDE = 3;
+/** Optical sizing: width = base x ratio^0.6, capped by the row and the cell, so a square seal and a long wordmark carry about the same weight. */
+const EXPONENT = 0.6;
+/** Phones and small tablets show this many rows of a page before "Show all" (the literal 3 in FOLD_PHONE and FOLD_SM). */
+const FOLD_ROWS = 3;
+
+// Folded: three rows, the last fading into the paper. Opened (the page's
+// checkbox checked): everything. The group-has classes beat the max-* ones on
+// specificity, so class order does not matter. Without :has(), globals.css
+// unfolds [data-fold] and hides [data-show-all].
+const FOLD_PHONE =
+  "max-sm:max-h-[calc(var(--row)*3)] max-sm:overflow-hidden max-sm:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_3rem),transparent)]";
+const FOLD_SM =
+  "sm:max-md:max-h-[calc(var(--row)*3)] sm:max-md:overflow-hidden sm:max-md:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_3rem),transparent)]";
+const UNFOLD =
+  "group-has-[:checked]/page:max-h-none group-has-[:checked]/page:overflow-visible group-has-[:checked]/page:[mask-image:none]";
+
+const ratio = (p: Partner) => (p.logo ? p.logo.width / p.logo.height : 1);
+const span = (p: Partner) => (ratio(p) >= WIDE ? 2 : 1);
 
 /**
- * Partner logos by group (commercial, strategic), one tinted row per group:
- * the group's icon and name on the left, its logos on raised white plates on
- * the right. Long groups glide past as a slow endless rail (alternating
- * directions); short ones sit still. Hovering a logo lifts its plate and
- * grows a bar of the row's colour under it.
- *
- * Motion (WCAG 2.2.2): rails pause on hover and with the Pause button (a
- * checkbox, so it works without JavaScript), and never move for people who
- * prefer reduced motion: then every logo shows, wrapped and centred. Each
- * rail holds its logos twice for the loop; the copy is hidden from screen
- * readers. Images are lazy-loaded below the fold.
+ * Our partners as a register: an open ledger on a brand-gradient cover, one
+ * white page per group (commercial in green ink, strategic in blue), facing
+ * pages from lg with a soft crease down the spine. Each page heads with its
+ * icon and name, a round ink stamp with its count, and a double rule like an
+ * account's total; its logos sit straight on ruled paper (as supplied, in
+ * colour), sized optically, wide wordmarks over two cells, packed densely so
+ * no line has a gap. Every logo shows at once from md; phones and small
+ * tablets show three rows a page, then "Show all" (a checkbox, so no
+ * JavaScript; the folded logos stay in the accessibility tree). Nothing moves
+ * on its own: the stamps press in as they scroll into view (globals.css;
+ * skipped for reduced motion).
  */
 export function Partners() {
   const { partners } = getSite();
@@ -42,133 +58,163 @@ export function Partners() {
     .map((g) => ({ ...g, items: visible(g.items) }))
     .filter((g) => g.items.length > 0);
   if (groups.length === 0) return null;
-  // Rails alternate direction among themselves (still groups in between don't count).
-  const rails = groups.filter((g) => g.items.length >= MIN_FOR_RAIL).map((g) => g.title);
+  // Two groups open as facing pages from lg; any other number stacks.
+  const spread = groups.length === 2;
 
   return (
-    <Section id="partners" tone="subtle" labelledBy="partners-title" className="group/partners">
-      {/* Pause sits level with the intro's last line (the header has mb-10). */}
-      <div className="flex flex-wrap items-end justify-between gap-x-8">
-        <SectionHeader id="partners-title" title={partners.title} intro={partners.intro}>
+    <Section id="partners" tone="subtle" labelledBy="partners-title">
+      <div className="mb-8 sm:mb-10 lg:grid lg:grid-cols-2 lg:items-end lg:gap-12">
+        <h2 id="partners-title" className="text-3xl font-heading tracking-heading text-balance text-heading sm:text-4xl">
+          <KeepHyphensTogether text={partners.title} />
+        </h2>
+        <div className="mt-3 max-w-2xl lg:mt-0">
+          {partners.intro ? (
+            <p className="text-lg text-pretty text-muted">
+              <KeepHyphensTogether text={partners.intro} />
+            </p>
+          ) : null}
           {partners.notice && isVisible(partners.notice) ? (
             <p className="mt-3 text-base text-muted">
               <ClaimText claim={partners.notice} />
             </p>
           ) : null}
-        </SectionHeader>
-        {rails.length > 0 ? (
-          <div className="mb-8 sm:mb-10">
-            <PauseToggle />
-          </div>
-        ) : null}
+        </div>
       </div>
 
-      <div className="space-y-4">
-        {groups.map((group, i) => {
-          const tone = TONES[i % TONES.length];
-          return (
-            <div
+      <div className="relative isolate sm:p-3 lg:p-4">
+        {/* The register's hardcover, green behind the first (green) page.
+            Forced colours drop gradients, so it simply goes away there. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 hidden rounded-media bg-linear-to-l from-gradient-start to-gradient-decor-end shadow-raised sm:block"
+        />
+        {spread ? (
+          // The spine: a soft crease over the gutter (inset-y-4 = the board's lg:p-4).
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-4 left-1/2 z-10 hidden w-16 -translate-x-1/2 bg-[linear-gradient(to_right,transparent,color-mix(in_srgb,var(--color-shade)_6%,transparent)_44%,color-mix(in_srgb,var(--color-shade)_14%,transparent)_50%,color-mix(in_srgb,var(--color-shade)_6%,transparent)_56%,transparent)] lg:block"
+          />
+        ) : null}
+        <div className={`grid gap-4 sm:gap-3 ${spread ? "lg:grid-cols-2 lg:gap-0" : ""}`}>
+          {groups.map((group, i) => (
+            <RegisterPage
               key={group.title}
-              className={`grid items-center gap-3 rounded-card p-3 ring-1 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-5 lg:p-4 ${tone.row}`}
-            >
-              <div className="flex items-center gap-3 px-1">
-                <IconCircle name={group.icon ?? "users"} color={tone.circle} size="sm" />
-                <h3 className="text-sm text-label-style text-title">{group.title}</h3>
-              </div>
-              {rails.includes(group.title) ? (
-                <Rail items={group.items} tone={tone} reverse={rails.indexOf(group.title) % 2 === 1} />
-              ) : (
-                <ul className="flex flex-wrap gap-3">
-                  {group.items.map((p) => (
-                    <Logo key={p.name} partner={p} tone={tone} />
-                  ))}
-                </ul>
-              )}
-            </div>
-          );
-        })}
+              group={group}
+              ink={INKS[i % INKS.length]}
+              side={spread ? (i === 0 ? "left" : "right") : undefined}
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );
 }
 
-/** A group's logos twice over, sliding by one copy's width, edges faded. */
-function Rail({ items, tone, reverse }: { items: Partner[]; tone: Tone; reverse: boolean }) {
-  // Longhand animation properties (no shorthand), so the pause rules below
-  // are never reset by it.
-  const style: CSSProperties = {
-    animationDuration: `${items.length * SECONDS_PER_LOGO}s`,
-    animationDirection: reverse ? "reverse" : "normal",
-  };
+/** One group's page: head (icon, name, count stamp, double rule) over ruled paper. */
+function RegisterPage({ group, ink, side }: { group: Group; ink: Ink; side?: "left" | "right" }) {
+  const id = `partners-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+  const cells = group.items.reduce((n, p) => n + span(p), 0);
+  // Fold only where there are certainly more than three rows (2 columns on
+  // phones, 4 on small tablets); dense packing never needs more rows.
+  const foldPhone = Math.ceil(cells / 2) > FOLD_ROWS;
+  const foldSm = Math.ceil(cells / 4) > FOLD_ROWS;
+  // Square at the gutter, logos kept 2rem clear of the crease.
+  const gutter = side === "left" ? "lg:rounded-r-none lg:pr-8" : side === "right" ? "lg:rounded-l-none lg:pl-8" : "";
+
   return (
-    // -my-3 py-3: room inside the clipped rail for a lifted plate and its
-    // shadow-lift (which ends about 10px below it; shadow-raised would be cut off).
-    <div className="group/rail -my-3 overflow-hidden py-3 motion-safe:[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
-      <div
-        style={style}
-        className="flex w-max motion-safe:[animation-iteration-count:infinite] motion-safe:[animation-name:marquee] motion-safe:[animation-timing-function:linear] motion-reduce:w-full group-hover/rail:[animation-play-state:paused] group-has-[#partners-pause:checked]/partners:[animation-play-state:paused]"
-      >
-        {/* pr-3 on each copy (not a gap between them): -50% is exactly one copy. */}
-        <ul className="flex gap-3 pr-3 motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:pr-0">
-          {items.map((p) => (
-            <Logo key={p.name} partner={p} tone={tone} />
-          ))}
-        </ul>
-        <ul aria-hidden="true" className="flex gap-3 pr-3 motion-reduce:hidden">
-          {items.map((p) => (
-            <Logo key={p.name} partner={p} tone={tone} copy />
-          ))}
-        </ul>
+    <div
+      className={`group/page relative flex flex-col rounded-media bg-card p-3 shadow-card ring-1 ring-line forced-colors:border sm:p-5 ${gutter}`}
+    >
+      <div className={`flex items-center justify-between gap-3 border-b-4 border-double pb-3 ${ink.rule}`}>
+        <div className="flex min-w-0 items-center gap-3">
+          <IconCircle name={group.icon ?? "users"} color={ink.circle} size="sm" />
+          <h3 id={id} className="min-w-0 text-sm text-label-style text-pretty text-title">
+            {group.title}
+          </h3>
+        </div>
+        {/* The count stamp. Decorative: the list announces "list, 19 items". */}
+        <span
+          aria-hidden="true"
+          data-stamp
+          className={`relative flex size-16 shrink-0 -rotate-6 flex-col items-center justify-center rounded-full border-2 forced-colors:border-[CanvasText] ${ink.stamp}`}
+        >
+          <span className="absolute inset-1 rounded-full border border-dashed border-current opacity-50" />
+          <span className="text-2xl/none font-heading tracking-heading tabular-nums">{group.items.length}</span>
+          <span className="mt-0.5 text-[10px]/none font-label tracking-wide uppercase">entries</span>
+        </span>
       </div>
+      {/* role="list": Safari drops the list role from unstyled lists. Dense
+          packing fills every gap; nothing in the list is focusable, so the
+          visual order may differ slightly from the YAML order without harm. */}
+      <ul
+        role="list"
+        aria-labelledby={id}
+        data-fold={foldPhone || undefined}
+        className={`ledger-rules grid flex-1 grid-flow-row-dense auto-rows-(--row) grid-cols-2 content-start [--logo-base:3.25rem] [--logo-cap:2.75rem] [--row:4.5rem] sm:grid-cols-4 sm:[--logo-base:3.75rem] sm:[--logo-cap:3.25rem] sm:[--row:4.75rem] md:grid-cols-5 ${side ? "lg:grid-cols-4" : "lg:grid-cols-8"} ${foldPhone ? `${FOLD_PHONE} ${UNFOLD}` : ""} ${foldSm ? FOLD_SM : ""}`}
+      >
+        {group.items.map((p) => (
+          <Entry key={p.name} partner={p} ink={ink} />
+        ))}
+      </ul>
+      {foldPhone ? <ShowAll count={group.items.length} title={group.title} hideFrom={foldSm ? "md:hidden" : "sm:hidden"} /> : null}
     </div>
   );
 }
 
 /**
- * A partner's logo on a white plate (logos stay as supplied, in colour); a
- * partner without a logo file yet shows its name as a wordmark. On hover
- * the plate lifts and the row's colour grows along its foot; without
- * motion, the bar just appears.
+ * One entry: the logo straight on the paper (as supplied), or the name if
+ * there is no file yet. Width = base x ratio^0.6, never taller than the cap
+ * nor wider than the cell (CSS min()), so h-auto keeps the exact aspect and
+ * nothing letterboxes. Hover draws a pen line in the page's ink on its rule.
  */
-function Logo({ partner, tone, copy = false }: { partner: Partner; tone: Tone; copy?: boolean }) {
+function Entry({ partner, ink }: { partner: Partner; ink: Ink }) {
   const { name, logo, pending, note } = partner;
+  const r = ratio(partner);
   return (
     <li
-      className={`group/logo relative flex h-20 w-44 shrink-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-card bg-card px-5 py-2 shadow-card ring-1 ring-line after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:origin-left after:scale-x-0 hover:shadow-lift hover:after:scale-x-100 motion-safe:transition motion-safe:after:transition-transform motion-safe:after:duration-300 motion-safe:hover:-translate-y-0.5 ${tone.bar}`}
+      className={`relative flex min-w-0 items-center justify-center p-2 after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-pill hover:after:scale-x-100 motion-safe:after:transition-transform motion-safe:after:duration-300 ${span(partner) === 2 ? "col-span-2" : ""} ${ink.pen}`}
     >
       {logo ? (
         <Image
           src={logo.src}
-          alt={copy ? "" : logo.alt}
+          alt={logo.alt}
           width={logo.width}
           height={logo.height}
-          sizes="136px"
-          className="max-h-12 w-auto max-w-full object-contain motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover/logo:scale-105"
+          loading="lazy"
+          style={{
+            width: `min(calc(var(--logo-base) * ${(r ** EXPONENT).toFixed(3)}), calc(var(--logo-cap) * ${r.toFixed(3)}), 100%)`,
+          }}
+          className="h-auto object-contain"
         />
       ) : (
-        <span className="text-center text-xl leading-tight font-heading tracking-heading text-brand">{name}</span>
+        <span className="line-clamp-2 text-center text-sm/tight font-heading tracking-heading text-pretty text-brand">{name}</span>
       )}
-      {pending && !copy ? <PendingBadge note={note} /> : null}
+      {pending ? (
+        <span className="absolute right-1 bottom-1">
+          <PendingBadge note={note} />
+        </span>
+      ) : null}
     </li>
   );
 }
 
 /**
- * Pauses every rail. A checkbox styled as a button, so it works without
- * JavaScript; hidden for people who prefer reduced motion (nothing moves).
+ * Opens a folded page (phones, small tablets). A native checkbox in a pill:
+ * the visible label never changes ("Show all 19"; WCAG 2.5.3), checked shows
+ * everything and the chevron turns up.
  */
-function PauseToggle() {
+function ShowAll({ count, title, hideFrom }: { count: number; title: string; hideFrom: string }) {
   return (
-    <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border border-line bg-card px-4 text-sm font-label text-title shadow-card hover:border-secondary has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus motion-reduce:hidden">
-      <input id="partners-pause" type="checkbox" aria-label="Pause the moving logos" className="peer sr-only" />
-      <Pause aria-hidden="true" className="size-4 text-secondary peer-checked:hidden" />
-      <Play aria-hidden="true" className="hidden size-4 text-secondary peer-checked:block" />
-      <span aria-hidden="true" className="peer-checked:hidden">
-        Pause
+    <label
+      data-show-all
+      className={`mt-3 inline-flex min-h-11 cursor-pointer items-center gap-2 self-center rounded-pill border border-line bg-card px-4 text-sm font-label text-title shadow-card hover:border-secondary has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus ${hideFrom}`}
+    >
+      <input type="checkbox" className="peer sr-only" />
+      <span>
+        Show all {count}
+        <span className="sr-only"> {title.toLowerCase()}</span>
       </span>
-      <span aria-hidden="true" className="hidden peer-checked:inline">
-        Play
-      </span>
+      <ChevronDown aria-hidden="true" className="size-4 text-secondary peer-checked:rotate-180 motion-safe:transition-transform" />
     </label>
   );
 }
