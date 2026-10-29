@@ -29,7 +29,7 @@ tagline: Web portal and APIs for agribusinesses
 hero:
   eyebrow: EzyAgric Business · For agribusiness enterprises
   headline: Our four services, ==built for your agribusiness==
-  intro: "EzyAgric Business brings Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises that work with farmers: in ==a web portal==, or through ==APIs== into the ERP or financial system you already run."
+  intro: "EzyAgric Business brings the power of Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises that work with farmers: in ==a web portal==, or through ==APIs== into your existing systems."
   facts:
     - { icon: monitor, text: Web portal }
     - { icon: plug, text: APIs }
