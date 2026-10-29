@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { getBusiness, getSite } from "@/lib/content";
+import { getSite } from "@/lib/content";
 import { PORTAL_URL } from "@/lib/links";
 import { ChapterFan } from "@/components/business/ChapterFan";
 import { ButtonLink } from "@/components/ui/Button";
@@ -17,7 +17,6 @@ import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
  */
 export function Organisations() {
   const { organisations: org } = getSite();
-  const facts = getBusiness().hero.facts.flatMap((fact) => ("icon" in fact ? [fact] : []));
 
   return (
     <Section id="organisations" tone="subtle" labelledBy="organisations-title" className="overflow-x-clip">
@@ -39,16 +38,16 @@ export function Organisations() {
       <ChapterFan href={org.cta.href} />
 
       <div className="mt-6 flex flex-col gap-5 border-t-2 border-dashed border-brand-soft-strong pt-6 sm:mt-8 md:flex-row md:flex-wrap md:items-center md:justify-between">
-        {facts.length > 0 ? (
+        {org.channels.length > 0 ? (
           // role="list": Safari drops the list role from unstyled lists.
           <ul role="list" className="hidden flex-wrap gap-2 sm:flex">
-            {facts.map((fact) => (
+            {org.channels.map((channel) => (
               <li
-                key={fact.text}
+                key={channel.text}
                 className="inline-flex min-h-9 items-center gap-2 rounded-pill border border-line bg-card px-3 text-sm font-label text-title"
               >
-                <Icon name={fact.icon} className="size-4 shrink-0 text-secondary" />
-                {fact.text}
+                <Icon name={channel.icon} className="size-4 shrink-0 text-secondary" />
+                {channel.text}
               </li>
             ))}
           </ul>

@@ -6,23 +6,13 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { ModuleContents } from "./ModuleContents";
-import { PROMISE_GLYPH } from "./PromiseMarks";
-
-// The promises' stamps in the hero (accent on accent-soft passes 4.5:1).
-const HERO_STAMP = {
-  privacy: "border-brand text-brand hover:bg-brand-soft",
-  investment: "border-accent text-accent hover:bg-accent-soft",
-} as const;
 
 /**
  * The record book's cover, on white like the product heroes: the eyebrow
  * (the name in green, then who it is for), the headline with its key words
- * in Vibrant Green, the intro and the buttons on the left, the Contents card
- * on the right. The facts (web portal, APIs, and the two promises as stamps
- * that jump down to them) run in one line across the foot of the hero from
- * lg, where the text column is too narrow for all four; below lg they sit
- * under the intro (one line from about 690px; they wrap on phones). Phones
- * read: text, facts, buttons, Contents card. Pricing is custom, so the main
+ * in Vibrant Green, the intro (how it connects and the two promises, in
+ * marker) and the buttons on the left, the Contents card on the right.
+ * Phones read: text, buttons, Contents card. Pricing is custom, so the main
  * button starts a WhatsApp chat with the team; Partner login is for
  * enterprises already on it.
  */
@@ -35,9 +25,8 @@ export function BusinessHero() {
 
   return (
     <section aria-labelledby="business-title" className="overflow-hidden bg-canvas">
-      {/* Four grid items so the facts can leave the text column from lg:
-          text (row 1) and buttons (row 2) on the left, the Contents card
-          over both rows on the right, the facts across both columns below. */}
+      {/* From lg: text (row 1) and buttons (row 2) on the left, the Contents
+          card over both rows on the right. */}
       <Container className="grid pt-4 pb-12 sm:pt-5 sm:pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,31rem)] lg:gap-x-14">
         <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
           <p className="flex items-center gap-3 text-base font-label">
@@ -65,39 +54,6 @@ export function BusinessHero() {
             <Highlight text={hero.intro} />
           </p>
         </div>
-        {hero.facts.length > 0 ? (
-          // role="list": Safari drops the list role from unstyled lists.
-          <ul role="list" className="mt-5 flex flex-wrap gap-2 lg:col-span-2 lg:row-start-3 lg:mt-12 lg:flex-nowrap">
-            {hero.facts.map((fact) => {
-              if ("promise" in fact) {
-                const Glyph = PROMISE_GLYPH[fact.promise];
-                return (
-                  <li key={fact.text}>
-                    <a
-                      href={`#promise-${fact.promise}`}
-                      data-track="business_promise_click"
-                      data-track-promise={fact.promise}
-                      data-track-position="business-hero"
-                      className={`inline-flex min-h-9 items-center gap-2 rounded-control border-2 bg-card px-3 py-1 text-sm font-label text-pretty underline-offset-4 hover:underline forced-colors:border-[CanvasText] ${HERO_STAMP[fact.promise]}`}
-                    >
-                      <Glyph aria-hidden="true" strokeWidth={2} className="size-4 shrink-0" />
-                      {fact.text}
-                    </a>
-                  </li>
-                );
-              }
-              return (
-                <li
-                  key={fact.text}
-                  className="inline-flex min-h-9 items-center gap-2 rounded-pill border border-line bg-subtle px-3 text-sm font-label text-title"
-                >
-                  <Icon name={fact.icon} className="size-4 shrink-0 text-secondary" />
-                  {fact.text}
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
         <div className="mt-6 flex flex-wrap gap-3 lg:col-start-1 lg:row-start-2 lg:mt-8 lg:self-start">
           {whatsapp ? (
             <ButtonLink

@@ -64,7 +64,7 @@ faq:
     a: Produce Market is available in Uganda for now.   # confirmed: shown everywhere
 
   - q: How do buyers contact me?
-    a: "Buyers who see your listing get in touch with you."
+    a: "Buyers who see and are interested in your listing get in touch with you directly."
     pending: true                   # not confirmed yet
     note: "Confirm how buyers contact farmers."
 ```
@@ -201,7 +201,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
   - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its chapter pages, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide)
   - `business_module_click` (`module`; `position`: `business-contents` for the hero's Contents card, `business-index` for the sticky module index)
   - `business_product_click` (`module`, `product`): a chapter's "Built on" link to the service it is built on
-  - `business_promise_click` (`promise`: `privacy` or `investment`; `position`: `business-hero` for the hero's stamps, `business-promises` for the promises band's links, with `action`: `policy` or `pricing`)
+  - `business_promise_click` (`promise`: `privacy` or `investment`; `position`: `business-promises` for the promises band's links, with `action`: `policy` or `pricing`)
   - `kaezy_try_click` (`position`): every "Try Ka-Ezy" button, the one button reused across the site: `home-hero`, `home-top`, `also-in-the-app`, `404`, `<slug>-page` (each service page's banner), `ka-ezy-page`, `product-hero`, `faq` and `faq-<slug>` (the help cards), `faq-answer` and `faq-answer-<slug>` (buttons under FAQ answers), `how-it-works` and `how-it-works-ask` (the Ka-Ezy page's "Tap Ka-Ezy" and "Ask anything" steps on builds with the demo; the second opens Farm Expert with the cursor in the question box)
   - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay), the menus' Ka-Ezy card and strip (watch, try, pay), and on builds without the demo the Ka-Ezy page's "Tap Ka-Ezy" (watch) and "Ask anything" (pay) steps, position `how-it-works`, and the EzyServices chapter's link down to the banner on the EzyAgric Business page (watch), position `business-ezyservices`; that page's banner itself has position `ezyagric-business-page`
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
@@ -295,9 +295,9 @@ The endpoint engineering needs to provide (ticket BT-01; for example `POST /web/
 | Build | Chat | Pay |
 |---|---|---|
 | `preview` / `staging` | Live answers if the endpoint is set, else sample answers to the four starter questions | Full flow, simulated: plan, MTN MoMo or Airtel Money number, "approve on your phone", success or failure (a "Demo only" switch picks the ending). Nothing leaves the browser. |
-| `production` | Hidden while `tryIt` is `pending`. Once approved: as above | Choose a plan, then "Finish in the EzyAgric App" with the store badges. No payment form. |
+| `production` | Shown (the EzyAgric team confirmed `tryIt` on 29 Oct 2026): live answers if the endpoint is set, else sample answers | Choose a plan, then "Finish in the EzyAgric App" with the store badges. No payment form. |
 
-Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP, BT-03), a plans endpoint (plans live in the app's database today, BT-04), and payment and plan activation that trust only that sign-in and the payment callback, with rate limits and bot checks (BT-05). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
+Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP, BT-03), a plans endpoint (plans live in the app's database today, BT-04), and payment and plan activation that trust only that sign-in and the payment callback, with rate limits (BT-05; the bot check is at sign-in, BT-03). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
 
 ---
 

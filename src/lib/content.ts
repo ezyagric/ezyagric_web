@@ -600,6 +600,8 @@ const SiteSchema = z.object({
     eyebrow: z.string(),
     title: z.string(),
     intro: z.string(),
+    /** How it connects, as chips under the chapter fan ("Web portal", "APIs"). */
+    channels: z.array(z.strictObject({ icon: IconName, text: z.string() })).max(4).default([]),
     /**
      * The way in: the EzyAgric Business page (the chapter pages and their
      * screens come from content/business.yaml).
@@ -674,12 +676,6 @@ export type LoupeData = z.infer<typeof Loupe>;
 const PromiseKind = z.enum(["privacy", "investment"]);
 export type PromiseKind = z.infer<typeof PromiseKind>;
 
-/** A hero chip: a fact with an icon, or a promise as a stamp that jumps to it. */
-const HeroFact = z.union([
-  z.strictObject({ icon: IconName, text: z.string() }),
-  z.strictObject({ promise: PromiseKind, text: z.string() }),
-]);
-
 /** A module's point; `stamp` adds one of the promises' stamps under it. */
 const BusinessPoint = z
   .union([
@@ -734,8 +730,6 @@ const BusinessSchema = z.object({
     /** ==key words== in green, as on the product pages. */
     headline: z.string(),
     intro: z.string(),
-    /** Short facts as chips under the intro ("Web portal", "APIs", ...). */
-    facts: z.array(HeroFact).max(4).default([]),
     /** The Contents card beside the text: one row per module. */
     contents: z.object({ label: z.string(), note: z.string().optional() }),
   }),
