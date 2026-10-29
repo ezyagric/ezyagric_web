@@ -91,9 +91,7 @@ faq:
   - q: Who sets the price?
     a: You do. Set your own asking price per unit.
   - q: How do buyers contact me?
-    a: "Buyers who see your listing get in touch with you."
-    pending: true
-    note: "The Business Profile says EzyProduce connects sellers with ready buyers and off-takers. Confirm that Produce Market listings reach EzyProduce buyers, and how buyers contact farmers."
+    a: "Buyers who see and are interested in your listing get in touch with you directly."
   - q: Where can I sell?
     a: Produce Market is available in Uganda for now.
 
