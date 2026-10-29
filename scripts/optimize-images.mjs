@@ -68,7 +68,10 @@ const IMAGES = [
   // EzyAgric Business module screens, from the marketing team's
   // Website/Screenshots folder (28 Oct 2026), cropped, with customers' and
   // staff names and phone numbers blurred out (the originals stay out of
-  // the repo). Screens beside each module's text, then close 16:10 crops
+  // the repo). The EzySupplier and EzyServices screens also have their
+  // figures raised (about tenfold, kept consistent with each other) at the
+  // marketing team's request, 29 Oct 2026, repainted in the dashboard's own
+  // font (Nunito Sans). Screens beside each module's text, then close 16:10 crops
   // for the four-module glimpse. ezyproduce-thumb is the laptop screen of
   // photos/offtaker-ui.png (566px: no larger copy).
   ["screens-business/ezysupplier-dashboard.png", "business/ezysupplier-dashboard.webp", 1600], // 10.12.02
