@@ -208,9 +208,9 @@ access:
     - title: APIs
       kind: api
       button: Ask about the APIs
-      message: "Hello EzyAgric, I'd like to connect our ERP or financial management system to EzyAgric Business through your APIs."
-      plug: { from: EzyAgric Business, to: Your ERP or financial management system, label: The data your system needs }
-      text: "For enterprises with an ERP, a financial management system or another system of their own: EzyAgric Business sends it the data it needs."
+      message: "Hello EzyAgric, I'd like to connect our ERP or financial management system and other systems to EzyAgric Business through your APIs."
+      plug: { from: EzyAgric Business, to: Your ERP or financial management system and other systems, label: The data your system needs }
+      text: "For enterprises with an ERP or financial management system and other systems of their own: EzyAgric Business sends them the data they need."
       icon: plug
       points:
         - Connect your ERP or financial management system and other systems
@@ -255,7 +255,7 @@ faq:
     - q: Can our farmers get Ka-Ezy through us?
       a: "Yes. With EzyServices you give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert, on bulk subscriptions."
     - q: Do I have to change my systems?
-      a: No. Work in the web portal, or connect your ERP or financial management system through our APIs and get the data you need there.
+      a: No. Work in the web portal, or connect your ERP or financial management system and other systems through our APIs and get the data you need there.
     - q: How much does it cost?
       a: Pricing is custom to your business. Talk to our team for a quote.
       actions:
