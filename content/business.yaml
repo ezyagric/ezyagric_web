@@ -1,8 +1,8 @@
 # EzyAgric Business: the four EzyAgric services for agribusiness
 # enterprises, as a web portal or APIs (the team's brief, 28 Oct 2026):
 # EzySupplier for input suppliers (Agrishop), EzyProduce for off-takers
-# (Produce Market), EzyCredits for financial institutions and EzyServices
-# for Ka-Ezy enterprises. Pricing is custom.
+# (Produce Market), EzyCredits for financial institutions and fintechs, and
+# EzyServices for Ka-Ezy enterprises. Pricing is custom.
 #
 # Sources: the brief; the brand guide (.docx, Oct 2026) "EzyAgric Business:
 # the EzyAgric platform for agribusiness operations and records"; the
@@ -120,7 +120,7 @@ modules:
         height: 750
     - id: ezycredits
       name: EzyCredits
-      audience: For financial institutions
+      audience: For financial institutions and fintechs
       product: ezycredits
       summary: Lend to farmers and agribusinesses who already buy and sell on EzyAgric.
       points:
@@ -253,7 +253,7 @@ faq:
   title: Questions about EzyAgric Business
   items:
     - q: Who is EzyAgric Business for?
-      a: "Enterprises that work with farmers: input suppliers, off-takers, financial institutions, and businesses that give their farmers Ka-Ezy."
+      a: "Enterprises that work with farmers: input suppliers, off-takers, financial institutions and fintechs, and businesses that give their farmers Ka-Ezy."
     - q: Can we start with one module?
       a: Yes. Use one module, or all four, with a single sign-in.
     - q: Can our farmers get Ka-Ezy through us?
