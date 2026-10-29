@@ -224,7 +224,7 @@ export function HireKaEzy({
 
       <div className="flex min-w-0 flex-col">
         {/* "2. Pay for Ka-Ezy here", branded as the Ka-Ezy window's header
-            ("1. Try Ka-Ezy below") above: Ka-Ezy's face on brand blue. It is
+            ("1. Try Ka-Ezy Demo here") above: Ka-Ezy's face on brand blue. It is
             the plan step's heading (focused when going back to it); the
             later steps add their own heading under it. */}
         <div className="flex items-center gap-3 bg-brand px-5 py-3 text-on-brand sm:px-6">

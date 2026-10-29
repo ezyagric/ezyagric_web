@@ -289,7 +289,7 @@ const ProductSchema = z.object({
       eyebrow: z.string(),
       title: z.string(),
       intro: z.string(),
-      /** The Ka-Ezy window's header line, numbered 1 ("Try Ka-Ezy below"); the hire card's pay header is 2. */
+      /** The Ka-Ezy window's header line, numbered 1 ("Try Ka-Ezy Demo here"); the hire card's pay header is 2. */
       windowTitle: z.string(),
       /** "Your farm": personalises the demo (components/product/kaezy). */
       farm: z.object({
