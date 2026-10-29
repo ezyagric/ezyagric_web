@@ -212,7 +212,8 @@ export function KaEzyBanner({
             pages' "How it works": a numbered disc per step (step 1 lit green
             like the video's play button, the others glass), joined by a fading
             line. Phones and sm: down the page, each disc beside its text. From
-            md: across, one column per step; each step spans the list's four
+            md: across, one column per step (Download as wide as its two store
+            badges side by side, 17rem, 20rem from xl); each step spans the list's four
             rows (subgrid: disc, title, text, action), so the titles, texts and
             actions line up across the three. Every action is 48px tall and
             starts on its text's left edge. Everything sits on the band, so its
@@ -220,7 +221,7 @@ export function KaEzyBanner({
             role="list": Safari drops the list role from unstyled lists. */}
         <ol
           role="list"
-          className={`self-end md:grid md:grid-cols-3 md:grid-rows-[repeat(4,auto)] md:gap-x-6 ${
+          className={`self-end md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_17rem] md:grid-rows-[repeat(4,auto)] md:gap-x-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_20rem] ${
             video ? "lg:col-start-2 lg:row-start-2" : ""
           }`}
         >
@@ -242,10 +243,11 @@ export function KaEzyBanner({
             </ButtonLink>
           </Step>
           <Step id={appStepId(id)} n={3} title={copy.app.title} text={copy.app.text} last>
-            {/* Side by side where the column allows (about 320px), else App Store
-                over Google Play (flex-wrap keeps Apple's order; never reorder).
-                onDark: the "coming soon" line is white on the band. */}
-            <StoreBadges campaign="ka-ezy" medium={position} size="md" onDark />
+            {/* Side by side, level with the other steps' buttons: the column is
+                sized for the pair (size "row"). Below 375px they wrap, App Store
+                first (Apple's order; never reorder). onDark: the "coming soon"
+                line is white on the band. */}
+            <StoreBadges campaign="ka-ezy" medium={position} size="row" onDark />
           </Step>
         </ol>
       </div>
@@ -324,7 +326,9 @@ function Step({
         <p className="mt-1 text-base text-pretty text-on-inverse md:text-sm xl:text-base">
           <Highlight text={text} className="font-label" />
         </p>
-        <div className="mt-4">{children}</div>
+        {/* From md the three actions share a row, centred on one line (the
+            40px badges beside the 48px buttons, 1024 to 1279px). */}
+        <div className="mt-4 md:self-center">{children}</div>
       </div>
     </li>
   );

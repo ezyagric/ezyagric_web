@@ -13,6 +13,12 @@ const HEIGHT = {
   // 48px: both badges fit side by side on a 360px phone.
   md: "h-12 w-auto",
   lg: "h-12 w-auto sm:h-14",
+  // The Ka-Ezy banner's steps: side by side in its Download column (17rem,
+  // 20rem from xl) and on a 375px phone: 40px (120 + 12 + 136 = 268px), 48px
+  // where the room allows (sm, and xl: 144 + 12 + 163 = 319px). A block, so
+  // the link is exactly the badge's height (no line-box gap below it) and
+  // centres on one line with the steps' buttons.
+  row: "block h-10 w-auto sm:h-12 md:h-10 xl:h-12",
 } as const;
 
 /**
