@@ -418,9 +418,26 @@ number from 1 to 100 million keeps what is shown.
   Uganda").
 - What the 500,000 covers (for example, farmers served before EzyCRM), so no
   one is counted twice. Change `live.base` if needed.
+- Note: the CRM's "total awareness" (below) counts every farmer who signed up
+  and verified their phone, whether or not they have bought, borrowed or sold,
+  plus EzyProduce organisations.
 
-**Build** a read-only endpoint in EzyCRM, for example
-`GET https://<ezycrm-host>/public/counts/served`, returning:
+**What EzyCRM has today** (from the EzyAgric_CRM work, October 2026):
+- The CRM API is the `neo4j_ezycrm` service at `https://crm-api.ezyagric.com`
+  (`crmApi` in `lib/data/api_endpoints.dart` of the EzyAgric app repo,
+  overridable with `--dart-define`).
+- Its endpoints need a signed-in CRM user: a call without one gets `401`. So
+  the website can't use them, and a staff sign-in must never be put in nginx.
+- `GET /funnel/counts` returns the count per funnel stage (`awareness`,
+  `onboarded`, `transacted`, after-sales), with no date filter.
+- "Total awareness" is not one API figure: the CRM's Awareness card adds the
+  funnel's Awareness stage (farmers who signed up and verified their phone) and
+  every EzyProduce organisation, in the CRM app itself
+  (`customers_controller.dart:398-399`).
+
+**Build** one public, read-only endpoint on `neo4j_ezycrm` that does that sum
+on the server (de-duplicated), for example
+`GET https://crm-api.ezyagric.com/public/counts/awareness`, returning:
 
 ```json
 { "count": 52345, "asOf": "2026-10-29T08:00:00Z" }
@@ -433,13 +450,13 @@ today).
 - [ ] Returns the one aggregate number only: no names, phone numbers, IDs or breakdowns.
 - [ ] Defined in writing (which records count, de-duplicated by person or business), matching the decision above.
 - [ ] Answers from a precomputed or cached figure (refreshed at most every few minutes) within 1 second, with `Cache-Control: public, max-age=300`.
-- [ ] If it needs a key, the key is read-only, scoped to this one figure, and given to nginx from the environment (as BT-02 does for BT-01's secret header): never in the repo, the image or a browser.
+- [ ] Needs no sign-in, by design: it returns this one number and nothing else, so no CRM user's token or password is ever put in nginx, the repo or a browser.
 - [ ] Rate-limited per caller. nginx keeps each answer for five minutes (`proxy_cache`), so EzyCRM is asked at most once every five minutes however busy the site is.
 - [ ] Tested on staging: the home page's number follows a change in EzyCRM within five minutes, and shows 550,000+ while the endpoint is down.
 
 **Where it plugs in.** DevOps uncomments the `proxy_cache_path` line and the
-`location = /api/impact` block in `nginx/nginx.conf`, fills in the EzyCRM
-address, adds `~^/api/ "";` to the `$ezy_cache_control` map if BT-02 has not
+`location = /api/impact` block in `nginx/nginx.conf`, sets its path to the
+endpoint built here (the template has `/public/counts/awareness`), adds `~^/api/ "";` to the `$ezy_cache_control` map if BT-02 has not
 (else nginx would add an hour's `Cache-Control`), and builds with
 `--build-arg NEXT_PUBLIC_IMPACT_API=/api/impact`, staging first. No website
 code changes; if the label changes, edit `impact.items[0].label` in
