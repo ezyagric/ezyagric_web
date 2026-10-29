@@ -27,6 +27,7 @@ the website: they trust a signed-in app, not a public page.
 | [BT-07](#bt-07-keep-the-security-claims-on-the-ezyagric-business-page-true) | Keep the security claims on the EzyAgric Business page true | Engineering | | Open |
 | [BT-08](#bt-08-app-link-for-finish-in-the-ezyagric-app) | App link for "Finish in the EzyAgric App" (optional) | Mobile, then web team | | Open |
 | [BT-09](#bt-09-redirects-from-old-urls) | 301 redirects from the old site's URLs | DevOps and Marketing | | Open |
+| [BT-10](#bt-10-live-count-for-the-home-pages-impact-number-ezycrm) | Live count for the home page's "550,000+" (EzyCRM) (optional) | Backend (EzyCRM), DevOps, Product | | Open: decide the figure first |
 
 When a ticket is done, tick its acceptance criteria, change its status here,
 and do the website step under "Where it plugs in".
@@ -390,3 +391,56 @@ pages in `nginx/nginx.conf`.
 - [ ] Every old URL with traffic in the last 12 months redirects with `301` to the closest new page.
 - [ ] No redirect chains: every target ends in `/` (the site uses `trailingSlash: true`, so `/ka-ezy` itself 301s to `/ka-ezy/`). Checked with `curl -sI` on each old URL: one `301`, then `200`.
 - [ ] `/.git/HEAD` and other unknown paths still return `404`.
+
+---
+
+## BT-10: Live count for the home page's impact number (EzyCRM)
+
+**Owner:** Backend (EzyCRM), with DevOps for nginx and Product and Marketing
+for the figure. **Optional:** the site works without it.
+
+**Today.** The home page's "Our impact" band shows "550,000+ Farmers and
+agribusinesses served across Uganda", typed into `content/site.yaml`
+(`impact.items[0]`).
+
+**The website is ready.** `LiveCount` (`src/components/home/LiveCount.tsx`):
+built with `NEXT_PUBLIC_IMPACT_API=/api/impact`, the page shows the typed
+550,000+ first, then 500,000 (`impact.items[0].live.base`) plus the count from
+this endpoint, on load and every five minutes while the page is open and in
+view. No answer within 8 seconds, an error, or a count that is not a whole
+number from 1 to 100 million keeps what is shown.
+
+**Decide first (Product and Marketing), and record it here.**
+- Which EzyCRM figure is added to 500,000. The label says "served": if the
+  figure is "total awareness" (people reached, not served), either use a
+  figure of users and customers served, or change the label in
+  `content/site.yaml` (for example "Farmers and agribusinesses reached across
+  Uganda").
+- What the 500,000 covers (for example, farmers served before EzyCRM), so no
+  one is counted twice. Change `live.base` if needed.
+
+**Build** a read-only endpoint in EzyCRM, for example
+`GET https://<ezycrm-host>/public/counts/served`, returning:
+
+```json
+{ "count": 52345, "asOf": "2026-10-29T08:00:00Z" }
+```
+
+`count` is the whole number added to the base; `asOf` is optional (not shown
+today).
+
+**Acceptance criteria**
+- [ ] Returns the one aggregate number only: no names, phone numbers, IDs or breakdowns.
+- [ ] Defined in writing (which records count, de-duplicated by person or business), matching the decision above.
+- [ ] Answers from a precomputed or cached figure (refreshed at most every few minutes) within 1 second, with `Cache-Control: public, max-age=300`.
+- [ ] If it needs a key, the key is read-only, scoped to this one figure, and given to nginx from the environment (as BT-02 does for BT-01's secret header): never in the repo, the image or a browser.
+- [ ] Rate-limited per caller. nginx keeps each answer for five minutes (`proxy_cache`), so EzyCRM is asked at most once every five minutes however busy the site is.
+- [ ] Tested on staging: the home page's number follows a change in EzyCRM within five minutes, and shows 550,000+ while the endpoint is down.
+
+**Where it plugs in.** DevOps uncomments the `proxy_cache_path` line and the
+`location = /api/impact` block in `nginx/nginx.conf`, fills in the EzyCRM
+address, adds `~^/api/ "";` to the `$ezy_cache_control` map if BT-02 has not
+(else nginx would add an hour's `Cache-Control`), and builds with
+`--build-arg NEXT_PUBLIC_IMPACT_API=/api/impact`, staging first. No website
+code changes; if the label changes, edit `impact.items[0].label` in
+`content/site.yaml`.

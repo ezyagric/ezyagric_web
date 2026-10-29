@@ -1,15 +1,19 @@
 import Image from "next/image";
 import { getSite, isVisible, visible, type ImageData } from "@/lib/content";
+import { IMPACT_API } from "@/lib/env";
 import { Container } from "@/components/ui/Container";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
+import { LiveCount } from "./LiveCount";
 
 /**
  * A Dark Navy (inverse) band of headline numbers with Vibrant Green
  * (accent-bright) highlights ("navy with green highlight" is one of the
  * guide's approved combinations; accent-bright on inverse is 4.7:1). The
  * numbers are plain text (no animated counters) so they show without
- * JavaScript and never jump.
+ * JavaScript and never jump. A number with `live` (the first) is kept
+ * current from EzyCRM where the build sets NEXT_PUBLIC_IMPACT_API
+ * (LiveCount): its typed value shows first, then the live total.
  *
  * One block beside real farmer photos: the title at the top, the headline
  * numbers, then what farmers and agribusinesses report (its label for
@@ -61,8 +65,14 @@ export function Impact() {
                   {item.pending ? <PendingBadge note={item.note} /> : null}
                 </dt>
                 <dd className={`text-3xl font-heading tracking-heading text-accent-bright tabular-nums ${image ? "xl:text-5xl" : "sm:text-4xl"}`}>
-                  {item.value.toLocaleString("en-US")}
-                  {item.suffix}
+                  {item.live && IMPACT_API ? (
+                    <LiveCount endpoint={IMPACT_API} base={item.live.base} fallback={item.value} suffix={item.suffix} />
+                  ) : (
+                    <>
+                      {item.value.toLocaleString("en-US")}
+                      {item.suffix}
+                    </>
+                  )}
                 </dd>
               </div>
             ))}

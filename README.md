@@ -194,6 +194,7 @@ These are read **at build time** and baked into the files, so each environment n
 | `NEXT_PUBLIC_SITE_URL` | e.g. `https://ezyagric.com` | `https://ezyagric.com` | Used for canonical URLs, the sitemap, robots.txt, share images and structured data. No trailing slash. |
 | `NEXT_PUBLIC_GA_ID` | GA4 measurement ID, e.g. `G-XXXXXXXXXX` | empty | Empty = no analytics, no cookie banner, no "Cookie settings" link. |
 | `NEXT_PUBLIC_KAEZY_DEMO_API` | `/api/kaezy-demo` | empty | Live Ka-Ezy answers in "Try Ka-Ezy". Empty = sample answers. See "Ka-Ezy on the website". |
+| `NEXT_PUBLIC_IMPACT_API` | `/api/impact` | empty | Keeps the home page's "550,000+" live: 500,000 plus EzyCRM's count (`live.base` in `impact.items`), refreshed every five minutes. Empty = the number as typed. See `docs/backend-tickets.md` BT-10. |
 
 For local work, put them in `.env.local` (git-ignored), for example:
 
@@ -291,7 +292,7 @@ Getting visitors to use Ka-Ezy is the main job of this site, so it appears in tw
 
 The website never calls the farmer app's own Ka-Ezy or payment APIs. They are built for the signed-in app and are not safe to expose to a public web page; engineering has the details.
 
-**What the backend, mobile and DevOps teams need to build is in [`docs/backend-tickets.md`](docs/backend-tickets.md)**, as numbered tickets (BT-01 to BT-09) with acceptance criteria and where each plugs into this repo.
+**What the backend, mobile and DevOps teams need to build is in [`docs/backend-tickets.md`](docs/backend-tickets.md)**, as numbered tickets (BT-01 to BT-10) with acceptance criteria and where each plugs into this repo.
 
 ### Try Ka-Ezy: live answers
 
@@ -327,6 +328,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
 - [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf` (BT-09).
+- [ ] **Live "550,000+":** Product and Marketing to decide which EzyCRM figure is added to 500,000 (users and customers served, or total awareness) and whether "served" still fits the label; then EzyCRM's read-only count and `NEXT_PUBLIC_IMPACT_API` (BT-10). Until then the number shows as typed.
 - [ ] **Share previews:** paste a home and a product URL into WhatsApp or the Facebook Sharing Debugger and check the image and text.
 - [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/ezyagric-business/`, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
 - [ ] **Delete `legacy/`** (see below).
@@ -344,7 +346,7 @@ assets-src/               Image originals, share-image artwork and fonts
 public/
   images/                 Optimised WebP images (output of npm run images)
   docs/privacy-policy.pdf
-docs/backend-tickets.md   What the backend, mobile and DevOps teams need to build (BT-01 to BT-09)
+docs/backend-tickets.md   What the backend, mobile and DevOps teams need to build (BT-01 to BT-10)
 scripts/optimize-images.mjs
 src/
   app/                    Routes (Next.js App Router)

@@ -20,5 +20,13 @@ export const SITE_URL = (
  */
 export const KAEZY_DEMO_API = (process.env.NEXT_PUBLIC_KAEZY_DEMO_API ?? "").trim();
 
+/**
+ * The live count behind the home page's first impact number
+ * (docs/backend-tickets.md BT-10), normally the same-origin path
+ * "/api/impact" that nginx proxies to EzyCRM's read-only count. Empty: the
+ * number shows as typed in content/site.yaml.
+ */
+export const IMPACT_API = (process.env.NEXT_PUBLIC_IMPACT_API ?? "").trim();
+
 /** Production hides claims still waiting for team confirmation. */
 export const SHOW_PENDING = SITE_ENV !== "production";

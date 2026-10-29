@@ -228,6 +228,12 @@ impact:
     - value: 550000
       suffix: "+"
       label: Farmers and agribusinesses served across Uganda
+      # Live where the build sets NEXT_PUBLIC_IMPACT_API: 500,000 plus EzyCRM's
+      # count, refreshed every five minutes (docs/backend-tickets.md BT-10).
+      # 550,000 above shows first, and stays if the count can't be had. Product
+      # and Marketing to confirm which EzyCRM figure is added (users and
+      # customers served, or total awareness) and that this label still fits.
+      live: { base: 500000 }
     - value: 12500
       label: Full and part-time jobs created
   evidence:

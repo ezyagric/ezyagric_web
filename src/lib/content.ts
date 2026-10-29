@@ -592,6 +592,12 @@ const SiteSchema = z.object({
         /** Shown after the number, e.g. "+" for "550,000+". */
         suffix: z.string().default(""),
         label: z.string(),
+        /**
+         * Kept live where the build has NEXT_PUBLIC_IMPACT_API: `base` plus the
+         * endpoint's count (docs/backend-tickets.md BT-10). `value` shows first,
+         * and stays when the count can't be had.
+         */
+        live: z.object({ base: z.number().int().nonnegative() }).optional(),
         ...pendingFields,
       }),
     ),
