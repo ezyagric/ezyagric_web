@@ -74,14 +74,13 @@ promises:
       # Privacy policy (13 Feb 2026), sections 3 and 5: keep "reasonable" and "personal information".
       - label: Your information
         text: We protect it with reasonable administrative, technical and physical safeguards, and we do not sell your personal information.
+      # Encryption and the Act: confirmed by the EzyAgric team, 29 Oct 2026
+      # (engineering keeps them true: docs/backend-tickets.md BT-07). Never
+      # write "compliant", "certified" or "registered".
       - label: Encryption
         text: Your data is encrypted in transit and at rest.
-        pending: true
-        note: "Engineering to confirm this covers all four modules, the web portal and the APIs. EzyAgric's June 2026 UAT report and October 2025 platform deck state it for EzyProduce and the platform."
       - label: The law
         text: "We handle personal data in line with Uganda's Data Protection and Privacy Act, 2019."
-        pending: true
-        note: "Legal to confirm before naming the Act: only the 2020 policy PDF and the June 2026 UAT report mention it, not the live policy. Never 'compliant', 'certified' or 'registered'."
     link: { label: Read our privacy policy, href: /privacy-policy/ }
   investment:
     label: Promise B
@@ -98,14 +97,10 @@ promises:
       - { instead: Roll everything out at once, ezyagric: "Start with one module, and add the others when you need them" }
       # Pricing "custom to your business and the modules you use".
       - { instead: Pay for the whole build up front, ezyagric: A quote made for the modules you use }
-      - instead: Buy and run your own servers
-        ezyagric: "Cloud-hosted: your team works in a web browser"
-        pending: true
-        note: "Product to confirm for all four modules and the APIs, and that clients need no servers or hardware of their own (the June 2026 UAT report says cloud-hosted, for EzyProduce). Never name a hosting provider."
-      - instead: Maintain and update the software yourself
-        ezyagric: Our team maintains and updates the platform
-        pending: true
-        note: "Product to confirm for every EzyAgric Business client (the Sept 2026 support report says so for EzyProduce). Never write 'no IT staff needed'."
+      # Cloud hosting and maintenance: confirmed by the EzyAgric team, 29 Oct
+      # 2026. Never name a hosting provider or write "no IT staff needed".
+      - { instead: Buy and run your own servers, ezyagric: "Cloud-hosted: your team works in a web browser" }
+      - { instead: Maintain and update the software yourself, ezyagric: Our team maintains and updates the platform }
     total: { label: Upfront technology investment, struck: Heavy, value: Light }
     footnote: This compares ways of working, not prices. Your quote is made for your enterprise.
     link: { label: How pricing works, href: "#pricing" }

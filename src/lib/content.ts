@@ -919,3 +919,16 @@ export function visible<T extends { pending: boolean }>(items: T[]): T[] {
 export function isVisible(item: { pending: boolean } | undefined): boolean {
   return !!item && (SHOW_PENDING || !item.pending);
 }
+
+/** True if anything in the site's content still waits for confirmation (`pending: true`). */
+export function hasPendingContent(): boolean {
+  const walk = (value: unknown): boolean => {
+    if (Array.isArray(value)) return value.some(walk);
+    if (value && typeof value === "object") {
+      if ((value as { pending?: unknown }).pending === true) return true;
+      return Object.values(value).some(walk);
+    }
+    return false;
+  };
+  return walk(getSite()) || walk(getProducts()) || walk(getBusiness());
+}

@@ -14,8 +14,9 @@ export const SITE_URL = (
 
 /**
  * The Ka-Ezy guest demo endpoint for "Try Ka-Ezy" (README, "Ka-Ezy on the
- * website"), normally the same-origin path "/api/kaezy-demo" that nginx
- * proxies to the Ka-Ezy backend. Empty: the chat uses its sample answers.
+ * website"; docs/backend-tickets.md BT-01 and BT-02), normally the
+ * same-origin path "/api/kaezy-demo" that nginx proxies to the Ka-Ezy
+ * backend. Empty: the chat uses its sample answers.
  */
 export const KAEZY_DEMO_API = (process.env.NEXT_PUBLIC_KAEZY_DEMO_API ?? "").trim();
 

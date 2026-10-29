@@ -2,7 +2,9 @@ import type { Network } from "./format";
 import { acresOf, formatAcres, type Profile } from "./personalise";
 import { newThreadId, type FarmRecord } from "./store";
 
-// What the "Ask Ka-Ezy, then hire it" section needs from a backend.
+// What the "Ask Ka-Ezy, then hire it" section needs from a backend
+// (tickets in docs/backend-tickets.md: BT-01 live answers, BT-03 sign-in,
+// BT-04 plans, BT-05 payment).
 //
 // The farmer app's own Ka-Ezy, subscription and payment APIs are built for
 // the signed-in app and are not safe to call from a public web page
@@ -10,7 +12,8 @@ import { newThreadId, type FarmRecord } from "./store";
 // - Chat: liveChatService talks to a guest demo endpoint (README, "Ka-Ezy on
 //   the website") that sends no farmer identity; without it, demoService
 //   answers from the sample answers.
-// - Payment: demoService simulates it until a secure payment API exists.
+// - Payment: demoService simulates it until a secure payment API exists
+//   (BT-05); a live payment service implementing pay() goes beside it.
 
 /** Payment progress, named as in the app's payment intents. */
 export type PayStatus =

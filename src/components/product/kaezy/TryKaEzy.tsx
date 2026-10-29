@@ -85,8 +85,9 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
             id={HIRE_ID}
             hire={tryIt.hire}
             plans={hirePlans(product)}
-            // No secure web payment API yet: simulate it in preview builds,
-            // send visitors to the app on the live site.
+            // No secure web payment API yet (docs/backend-tickets.md BT-05):
+            // simulate it in preview builds, send visitors to the app on the
+            // live site.
             payMode={SHOW_PENDING ? "demo" : "app"}
             storeBadges={<StoreBadges campaign={product.cta.campaign} medium="hire-ka-ezy" size="md" />}
           />

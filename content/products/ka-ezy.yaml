@@ -105,8 +105,8 @@ demoVideos:
 tryIt:
   # Confirmed by the EzyAgric team (29 Oct 2026), so it shows on the live site.
   # Paying on the website stays a demo until engineering adds secure web
-  # sign-in and a payment API; until then the live site sends visitors to the
-  # app to pay.
+  # sign-in and a payment API (docs/backend-tickets.md BT-03 to BT-05); until
+  # then the live site sends visitors to the app to pay. Live answers: BT-01.
   eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
   intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
@@ -563,9 +563,8 @@ pricing:
       monthlyUgx: 4750
   notes:
     - Pay with MTN MoMo or Airtel Money, inside the app.
-    - text: You can cancel anytime.
-      pending: true
-      note: Confirm what cancelling means for a prepaid plan before publishing.
+    # Confirmed by the EzyAgric team, 29 Oct 2026.
+    - You can cancel anytime.
 
 # A real photo from the EzyAgric photo library: a village agent showing a
 # team member something he picked off a maize plant (what Ka-Ezy's photo

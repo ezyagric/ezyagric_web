@@ -93,6 +93,7 @@ export function HireKaEzy({
   /** Server-rendered store badges (they read site settings). */
   storeBadges: ReactNode;
 }) {
+  // The simulated payment until the live one exists (docs/backend-tickets.md BT-05).
   const service = useMemo(() => demoService({ answers: [], otherQuestion: "" }), []);
   const firstPick = Math.max(0, plans.findIndex((p) => p.highlight));
   const [step, setStep] = useState<Step>("plan");

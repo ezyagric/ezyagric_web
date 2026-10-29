@@ -82,10 +82,12 @@ What happens:
 
 | Build | Pending items |
 |---|---|
-| `preview` (default) and `staging` | Shown, with an orange **To confirm** badge. Hover or tap the badge to see the note. A banner at the top explains the badges. |
+| `preview` (default) and `staging` | Shown, with an orange **To confirm** badge. Hover or tap the badge to see the note. While anything is pending, a banner at the top explains the badges (with nothing pending, there is no banner). |
 | `production` | **Left out completely.** |
 
 So the team can review everything on staging, and nothing unconfirmed reaches the live site. To publish an item, confirm it and delete its `pending` and `note` lines.
+
+The EzyAgric team confirmed every pending item on 29 Oct 2026, so nothing is pending today and the preview banner is hidden; mark a new item `pending: true` and both the badge and the banner come back.
 
 ---
 
@@ -276,11 +278,13 @@ Getting visitors to use Ka-Ezy is the main job of this site, so it appears in tw
 
 The website never calls the farmer app's own Ka-Ezy or payment APIs. They are built for the signed-in app and are not safe to expose to a public web page; engineering has the details.
 
+**What the backend, mobile and DevOps teams need to build is in [`docs/backend-tickets.md`](docs/backend-tickets.md)**, as numbered tickets (BT-01 to BT-09) with acceptance criteria and where each plugs into this repo.
+
 ### Try Ka-Ezy: live answers
 
 Set `NEXT_PUBLIC_KAEZY_DEMO_API` (build arg in the Dockerfile) to switch the chat from its sample answers to live Ka-Ezy answers. It should be the same-origin path `/api/kaezy-demo`, which nginx proxies to the backend (template commented out in `nginx/nginx.conf`, with a per-visitor rate limit). Same origin means no CORS and no change to the Content-Security-Policy. A photo check sends one JPEG of a few hundred KB, so the template allows 1 MB per request (`client_max_body_size`); the backend's own upload limit must allow at least that.
 
-The endpoint engineering needs to provide (for example `POST /web/demo-query` on the Ka-Ezy backend):
+The endpoint engineering needs to provide (ticket BT-01; for example `POST /web/demo-query` on the Ka-Ezy backend):
 
 - **Request:** `multipart/form-data` with `question`, `thread_id` (a UUID the page makes; reuse it to continue the conversation) and `agent_mode` (`chat`; `farm_plan` with the app's plan form as a JSON question; or `diagnosis` for a photo check, with the app's diagnosis form `{"type", "symptoms", "notes"}` as a JSON question and the photo as an `images` file: JPEG, at most 1024px, as the app sends it). Optional, from "Your farm": `farmer_name` (first name only), `farmer_location`, `value_chains` (a JSON array) and `land_size_acres`. Never a phone number or account id.
 - **Response:** JSON `{ "response": "<markdown>", "thread_id": "..." }`, like the app's chat, optionally with `ui_attachments` of type `record_proposal`. The page shows proposed records and saves them on the visitor's device only, so the endpoint must never save records, cart items or orders for guests.
@@ -293,23 +297,23 @@ The endpoint engineering needs to provide (for example `POST /web/demo-query` on
 | `preview` / `staging` | Live answers if the endpoint is set, else sample answers to the four starter questions | Full flow, simulated: plan, MTN MoMo or Airtel Money number, "approve on your phone", success or failure (a "Demo only" switch picks the ending). Nothing leaves the browser. |
 | `production` | Hidden while `tryIt` is `pending`. Once approved: as above | Choose a plan, then "Finish in the EzyAgric App" with the store badges. No payment form. |
 
-Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP), payment and plan activation that trust only that sign-in and the payment callback, rate limits and bot checks, and a plans endpoint (plans live in the app's database today). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
+Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP, BT-03), a plans endpoint (plans live in the app's database today, BT-04), and payment and plan activation that trust only that sign-in and the payment callback, with rate limits and bot checks (BT-05). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
 
 ---
 
 ## Hand-off checklist (before launch)
 
 - [ ] **GA4:** create the property and set `NEXT_PUBLIC_GA_ID` in the production build. Check the banner, "Accept", "No thanks" and "Cookie settings", and that events arrive in GA4 DebugView.
-- [ ] **Ka-Ezy try and hire:** the EzyAgric team confirmed the demo for the live site on 29 Oct 2026 (`tryIt` is no longer pending). Still to do: the agronomy team to check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal to add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API`. Web payment stays "finish in the app" until the items in "Ka-Ezy on the website" exist.
+- [ ] **Ka-Ezy try and hire:** the EzyAgric team confirmed the demo for the live site on 29 Oct 2026 (`tryIt` is no longer pending). Still to do: the agronomy team to check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal to add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API` (BT-01, BT-02). Web payment stays "finish in the app" until BT-03 to BT-05 are done.
 - [ ] **Poultry video captions:** Marvin Busulwa's poultry video in the home page's livestock section is 3 minutes of speech with no captions (WCAG 1.2.2). Get an English transcript or WebVTT file from marketing or the video's editor, then add it as `public/videos/poultry-marvin-busulwa.vtt` with a `<track kind="captions">` in `DemoVideoPlayer` and a captions path in `livestock.video`. Ask for a corrected export at the same time ("POUTRY FARMER" in its caption).
-- [ ] **Pending items:** build with `NEXT_PUBLIC_SITE_ENV=staging`, go through every **To confirm** badge with the EzyAgric team, then confirm or remove each item in `content/`.
+- [x] **Pending items:** the EzyAgric team confirmed every **To confirm** item on 29 Oct 2026; none are left in `content/`.
 - [ ] **EzyAgric Business:** Marketing and Product to approve the names EzyAgric Business, EzySupplier and EzyServices (the brand guide asks for new product names to be approved; the white-label and API access points were confirmed by the EzyAgric team on 29 Oct 2026), and the team to check that the dashboard figures shown in the module screens (sales, revenue, subscribers) are fine to publish. The chapters' magnified details (`loupe` in `content/business.yaml`) make some of them easy to read: the most purchased volumes, a loan's repayments in UGX and Ka-Ezy usage counts (the EzySupplier and EzyServices figures were raised, about tenfold, at the marketing team's request on 29 Oct 2026; the EzyCredits ledger shows a real loan); delete a module's `loupe` to withdraw one (its dashed frame goes with it). The chapters also set "Ezy" in Vibrant Green ("EzySupplier"), like the home headline: set `TWO_TONE_NAMES = false` in `src/components/business/chapterLooks.ts` if Marketing prefers one colour.
-- [ ] **EzyAgric Business promises** (the "Two promises" band, `promises` in `content/business.yaml`): Legal or Commercial to confirm a data-sharing agreement template exists (it backs A.2 and the "Is our data private and secure?" answer); Legal to reconcile the live privacy policy with `public/docs/privacy-policy.pdf` (a different 2020 text) before the band leans on it; Engineering, Legal and Product to settle the four lines still marked **To confirm** (encryption, the Data Protection and Privacy Act, cloud hosting, maintenance); Product to confirm the EzyProduce approver point; Commercial and Marketing to approve the slip's "To start" row, the estimate's "A quote made for the modules you use" and the investment FAQ.
+- [ ] **EzyAgric Business promises** (the "Two promises" band, `promises` in `content/business.yaml`): Legal or Commercial to confirm a data-sharing agreement template exists (it backs A.2 and the "Is our data private and secure?" answer); Legal to reconcile the live privacy policy with `public/docs/privacy-policy.pdf` (a different 2020 text) before the band leans on it; Engineering, Legal and Product to keep true the lines the team confirmed on 29 Oct 2026 (encryption, the Data Protection and Privacy Act, cloud hosting, maintenance: BT-07); Product to confirm the EzyProduce approver point; Commercial and Marketing to approve the slip's "To start" row, the estimate's "A quote made for the modules you use" and the investment FAQ.
 - [ ] **Legal review:** all EzyCredits / Buy Now, Pay Later wording (the key-facts box and lender line were confirmed by the EzyAgric team on 28 Oct 2026), and the new **"Analytics and embedded videos"** section of the privacy policy. Once approved, add that section to `public/docs/privacy-policy.pdf` and update the "Last updated" date on `/privacy-policy/`.
 - [ ] **iPhone launch:** paste the App Store link into `appStore.url` in `content/site.yaml` (the official App Store badge then appears next to Google Play on every page) and update the iPhone lines listed in the comment there.
 - [ ] **Play Store listing:** update it in the same week so it names Ka-Ezy, Agrishop, EzyCredits and Produce Market like the site.
 - [ ] **Search Console:** the verification tag is in `content/site.yaml` (`seo.googleSiteVerification`). After launch, submit `https://ezyagric.com/sitemap.xml`.
-- [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf`.
+- [ ] **Redirects:** list old URLs that still get traffic or links (Search Console, analytics) and add `301`s in `nginx/nginx.conf` (BT-09).
 - [ ] **Share previews:** paste a home and a product URL into WhatsApp or the Facebook Sharing Debugger and check the image and text.
 - [ ] **Smoke test the image:** `docker run -p 8080:80 …`, then check `/`, the four product pages, `/ezyagric-business/`, `/privacy-policy/`, a missing page (404), `/.git/HEAD` (must be 404), `/robots.txt` and `/sitemap.xml`.
 - [ ] **Delete `legacy/`** (see below).
@@ -327,6 +331,7 @@ assets-src/               Image originals, share-image artwork and fonts
 public/
   images/                 Optimised WebP images (output of npm run images)
   docs/privacy-policy.pdf
+docs/backend-tickets.md   What the backend, mobile and DevOps teams need to build (BT-01 to BT-09)
 scripts/optimize-images.mjs
 src/
   app/                    Routes (Next.js App Router)
