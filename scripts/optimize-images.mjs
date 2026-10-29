@@ -93,7 +93,7 @@ const IMAGES = [
   // Website folder, saved at up to 2400px with no camera, owner or location
   // data. The source file and any credit are noted on each line.
   // Home "How the four tools work together": one per step.
-  ["photos-field/agent-shows-farmers-phone.jpg", "photos/agent-shows-farmers-phone.webp", 1000], // "Manafwa 26th July 2016 (22).JPG"
+  ["photos-field/agent-shows-farmers-phone.jpg", "photos/agent-shows-farmers-phone.webp", 1000], // "Guiding the user to use Ka-Ezy.png" (EzyAgric team Drive, 29 Oct 2026): the 2016 Manafwa photo with the agent's shirt in EzyAgric branding
   ["photos-field/agro-shop-product-check.jpg", "photos/agro-shop-product-check.webp", 1000], // "KKAMIKKA YOUTH 28th July 2016 (27).JPG"
   ["photos-field/agro-dealer-phone.jpg", "photos/agro-dealer-phone.webp", 1000], // IMG_2736.JPG, 2020, credit: Ronistar
   ["photos-field/farmer-produce-sacks.jpg", "photos/farmer-produce-sacks.webp", 1000], // DSCN8815.jpg, 2015

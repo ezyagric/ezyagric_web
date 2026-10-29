@@ -91,7 +91,7 @@ journey:
       text: Ask Ka-Ezy for advice and a farm plan for your crops, animals and budget.
       image:
         src: /images/photos/agent-shows-farmers-phone.webp
-        alt: A field agent shows two young farmers something on her phone
+        alt: An EzyAgric field agent shows two young farmers something on her phone
         width: 1000
         height: 667
         focus: "50% 30%"
