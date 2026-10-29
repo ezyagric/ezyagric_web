@@ -656,17 +656,42 @@ export type Site = z.infer<typeof SiteSchema>;
  * agribusiness enterprises, as a web portal or APIs. Each module brings one
  * farmer-app service (`product`) to the enterprises that work with farmers.
  */
+/** "x% y% w% h%" of a screen: a loupe's detail, or a blurred name. */
+const Region = z
+  .string()
+  .regex(/^(\d{1,3}(\.\d)?% ){3}\d{1,3}(\.\d)?%$/, 'region is "x% y% w% h%", e.g. "60.3% 49.9% 39.2% 39.6%"');
+
 const Loupe = z.object({
   src: z.string().startsWith("/"),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   caption: z.string(),
-  region: z
-    .string()
-    .regex(/^(\d{1,3}(\.\d)?% ){3}\d{1,3}(\.\d)?%$/, 'region is "x% y% w% h%", e.g. "60.3% 49.9% 39.2% 39.6%"')
-    .optional(),
+  region: Region.optional(),
 });
 export type LoupeData = z.infer<typeof Loupe>;
+
+/** EzyAgric Business's two promises (business.yaml `promises`). Not "Promise": that is a global. */
+const PromiseKind = z.enum(["privacy", "investment"]);
+export type PromiseKind = z.infer<typeof PromiseKind>;
+
+/** A hero chip: a fact with an icon, or a promise as a stamp that jumps to it. */
+const HeroFact = z.union([
+  z.strictObject({ icon: IconName, text: z.string() }),
+  z.strictObject({ promise: PromiseKind, text: z.string() }),
+]);
+
+/** A module's point; `stamp` adds one of the promises' stamps under it. */
+const BusinessPoint = z
+  .union([
+    z.string(),
+    z.object({ text: z.string(), stamp: z.object({ promise: PromiseKind, text: z.string() }).optional(), ...pendingFields }),
+  ])
+  .transform((v) => (typeof v === "string" ? { text: v, stamp: undefined, pending: false, note: undefined } : v));
+
+/** A way in's point; `promise` swaps the green tick for that promise's mark. */
+const MarkedClaim = z
+  .union([z.string(), z.object({ text: z.string(), promise: PromiseKind.optional(), ...pendingFields })])
+  .transform((v) => (typeof v === "string" ? { text: v, promise: undefined, pending: false, note: undefined } : v));
 
 const BusinessModule = z.object({
   /** The module's anchor on the page (#ezyproduce). */
@@ -677,7 +702,7 @@ const BusinessModule = z.object({
   /** The farmer-app service it is built on; its icon and colour are the module's. */
   product: ProductSlug,
   summary: z.string(),
-  points: z.array(Claim).min(1).max(5),
+  points: z.array(BusinessPoint).min(1).max(5),
   /**
    * The module's screen beside its text, in a browser window (frame: false
    * for a device mockup, shown on a tinted panel instead). Personal data
@@ -710,7 +735,7 @@ const BusinessSchema = z.object({
     headline: z.string(),
     intro: z.string(),
     /** Short facts as chips under the intro ("Web portal", "APIs", ...). */
-    facts: z.array(z.object({ icon: IconName, text: z.string() })).max(4).default([]),
+    facts: z.array(HeroFact).max(4).default([]),
     /** The Contents card beside the text: one row per module. */
     contents: z.object({ label: z.string(), note: z.string().optional() }),
   }),
@@ -725,6 +750,37 @@ const BusinessSchema = z.object({
     /** The Ka-Ezy-built module's link down to the Ka-Ezy banner. */
     kaezyLink: z.string().optional(),
     items: z.array(BusinessModule).length(4),
+  }),
+  /**
+   * The two promises (privacy and security; no heavy upfront investment):
+   * the record book's front matter, between the cover and the chapters.
+   */
+  promises: z.object({
+    eyebrow: z.string().optional(),
+    title: z.string(),
+    intro: z.string().optional(),
+    /** Below the sheet: the marks to look for further down the page. */
+    key: z.object({ label: z.string(), privacy: z.string(), investment: z.string() }),
+    privacy: z.object({
+      label: z.string(),
+      title: z.string(),
+      lead: z.string(),
+      listLabel: z.string(),
+      points: z.array(z.object({ label: z.string(), text: z.string(), ...pendingFields })).min(1).max(6),
+      link: z.object({ label: z.string(), href: z.string().startsWith("/") }),
+    }),
+    investment: z.object({
+      label: z.string(),
+      stamp: z.string(),
+      title: z.string(),
+      lead: z.string(),
+      listLabel: z.string(),
+      /** "Instead of" lines struck through, each corrected by what EzyAgric Business does. */
+      rows: z.array(z.object({ instead: z.string(), ezyagric: z.string(), ...pendingFields })).min(2).max(6),
+      total: z.object({ label: z.string(), struck: z.string(), value: z.string() }),
+      footnote: z.string(),
+      link: z.object({ label: z.string(), href: z.string().startsWith("#") }),
+    }),
   }),
   /** This page's line under the Ka-Ezy banner's title (the farmer price is not the enterprise's). */
   kaezyBanner: z.object({ intro: z.string() }).optional(),
@@ -741,7 +797,7 @@ const BusinessSchema = z.object({
           title: z.string(),
           text: z.string(),
           icon: IconName,
-          points: z.array(Claim).min(1),
+          points: z.array(MarkedClaim).min(1),
           /** portal: the screen on top and Partner login; api: the plug strip and a WhatsApp button. */
           kind: z.enum(["portal", "api"]),
           button: z.string(),
@@ -753,7 +809,8 @@ const BusinessSchema = z.object({
       )
       .length(2),
     /** A web portal screen beside the ways in, with a caption under it. */
-    screen: z.object({ image: Image, caption: z.string() }).optional(),
+    /** `blurred` frames the blurred customer details on the screen (a dashed frame with an eye pin). */
+    screen: z.object({ image: Image, caption: z.string(), blurred: Region.optional() }).optional(),
   }),
   pricing: z.object({
     title: z.string(),
@@ -766,9 +823,17 @@ const BusinessSchema = z.object({
       label: z.string(),
       stamp: z.string(),
       rows: z
-        .array(z.object({ label: z.string(), value: z.string(), modules: z.boolean().default(false) }))
+        .array(
+          z.object({
+            label: z.string(),
+            value: z.string(),
+            modules: z.boolean().default(false),
+            /** One of the promises: its mark beside the value. */
+            promise: PromiseKind.optional(),
+          }),
+        )
         .min(1)
-        .max(4),
+        .max(5),
       price: z.object({ label: z.string(), value: z.string() }),
     }),
     /** The slip's tear-off stub: the photo, a title, the WhatsApp button and every channel. */

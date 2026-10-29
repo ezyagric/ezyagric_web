@@ -9,6 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
 import { ClaimText, PendingBadge } from "@/components/ui/Pending";
 import { LOOKS, lookName, splitEzy } from "./chapterLooks";
+import { PromiseStamp } from "./PromiseMarks";
 import { PhotoPrint } from "./PhotoPrint";
 import { ScreenLoupe } from "./ScreenLoupe";
 import { ScreenWindow } from "./ScreenWindow";
@@ -185,6 +186,17 @@ export function ModuleChapter({
                 </span>
                 <span className="min-w-0 pl-1">
                   <ClaimText claim={point} keepHyphens />
+                  {/* One of the promises, stamped under the line (read after a colon). */}
+                  {point.stamp ? (
+                    <>
+                      <span className="sr-only">: </span>
+                      <span className="mt-2 block">
+                        <PromiseStamp kind={point.stamp.promise} ink={look.stamp} className="-rotate-1">
+                          {point.stamp.text}
+                        </PromiseStamp>
+                      </span>
+                    </>
+                  ) : null}
                 </span>
               </li>
             ))}

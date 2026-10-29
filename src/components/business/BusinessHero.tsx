@@ -6,12 +6,19 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { ModuleContents } from "./ModuleContents";
+import { PROMISE_GLYPH } from "./PromiseMarks";
+
+// The promises' stamps in the hero (accent on accent-soft passes 4.5:1).
+const HERO_STAMP = {
+  privacy: "border-brand text-brand hover:bg-brand-soft",
+  investment: "border-accent text-accent hover:bg-accent-soft",
+} as const;
 
 /**
  * The record book's cover, on white like the product heroes: the eyebrow
  * (the name in green, then who it is for), the headline with its key words
- * in Vibrant Green, the intro, the facts as chips (web portal, APIs, one
- * sign-in) and the buttons on the left; the Contents card on the right
+ * in Vibrant Green, the intro, the facts as chips (web portal, APIs and the
+ * two promises as stamps that jump down to them) and the buttons on the left; the Contents card on the right
  * (below on phones). Pricing is custom, so the main button starts a WhatsApp
  * chat with the team; Partner login is for enterprises already on it.
  */
@@ -53,15 +60,34 @@ export function BusinessHero() {
           {hero.facts.length > 0 ? (
             // role="list": Safari drops the list role from unstyled lists.
             <ul role="list" className="mt-5 flex flex-wrap gap-2">
-              {hero.facts.map((fact) => (
-                <li
-                  key={fact.text}
-                  className="inline-flex min-h-9 items-center gap-2 rounded-pill border border-line bg-subtle px-3 text-sm font-label text-title"
-                >
-                  <Icon name={fact.icon} className="size-4 shrink-0 text-secondary" />
-                  {fact.text}
-                </li>
-              ))}
+              {hero.facts.map((fact) => {
+                if ("promise" in fact) {
+                  const Glyph = PROMISE_GLYPH[fact.promise];
+                  return (
+                    <li key={fact.text}>
+                      <a
+                        href={`#promise-${fact.promise}`}
+                        data-track="business_promise_click"
+                        data-track-promise={fact.promise}
+                        data-track-position="business-hero"
+                        className={`inline-flex min-h-9 items-center gap-2 rounded-control border-2 bg-card px-3 py-1 text-sm font-label text-pretty underline-offset-4 hover:underline forced-colors:border-[CanvasText] ${HERO_STAMP[fact.promise]}`}
+                      >
+                        <Glyph aria-hidden="true" strokeWidth={2} className="size-4 shrink-0" />
+                        {fact.text}
+                      </a>
+                    </li>
+                  );
+                }
+                return (
+                  <li
+                    key={fact.text}
+                    className="inline-flex min-h-9 items-center gap-2 rounded-pill border border-line bg-subtle px-3 text-sm font-label text-title"
+                  >
+                    <Icon name={fact.icon} className="size-4 shrink-0 text-secondary" />
+                    {fact.text}
+                  </li>
+                );
+              })}
             </ul>
           ) : null}
           <div className="mt-6 flex flex-wrap gap-3">

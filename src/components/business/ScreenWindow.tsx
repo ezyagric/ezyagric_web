@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChevronRight, ZoomIn } from "lucide-react";
+import { ChevronRight, EyeOff, ZoomIn } from "lucide-react";
 import type { Accent, ImageData } from "@/lib/content";
 import { ACCENTS } from "@/components/ui/accents";
 
@@ -32,8 +32,9 @@ function regionStyle(region: string) {
  * "sm" is the small window of the home page's four-module glimpse (below sm
  * it drops the dots, so a 122px window still shows the whole name); "md" is
  * a chapter's or the web portal's screen, which can also show a crumb
- * ("EzyAgric Business ›", from sm) and a dashed frame with a zoom pin round
- * the region its loupe magnifies.
+ * ("EzyAgric Business ›", from sm) and a dashed frame round a region: with a
+ * zoom pin, what its loupe magnifies; with an eye pin ("blur"), the blurred
+ * customer details (that pin from sm, where the frame is tall enough).
  */
 export function ScreenWindow({
   image,
@@ -43,6 +44,7 @@ export function ScreenWindow({
   size = "md",
   crumb,
   region,
+  pin = "zoom",
   ring = "ring-line",
   shadow = "raised",
   preload = false,
@@ -56,6 +58,8 @@ export function ScreenWindow({
   crumb?: string;
   /** "x% y% w% h%" of the screen. */
   region?: string;
+  /** The region's pin: a zoom glyph (a loupe's detail) or a crossed-out eye (blurred details). */
+  pin?: "zoom" | "blur";
   ring?: string;
   shadow?: keyof typeof SHADOWS;
   preload?: boolean;
@@ -101,8 +105,12 @@ export function ScreenWindow({
             className={`pointer-events-none absolute rounded-control border-2 border-dashed forced-colors:border-[CanvasText] ${FRAME[accent]}`}
             style={regionStyle(region)}
           >
-            <span className="absolute top-1 right-1 flex size-6 items-center justify-center rounded-full bg-card text-secondary shadow-card ring-1 ring-line">
-              <ZoomIn className="size-3.5" />
+            <span
+              className={`absolute top-1 right-1 size-6 items-center justify-center rounded-full bg-card text-secondary shadow-card ring-1 ring-line ${
+                pin === "blur" ? "hidden sm:flex" : "flex"
+              }`}
+            >
+              {pin === "blur" ? <EyeOff className="size-3.5" /> : <ZoomIn className="size-3.5" />}
             </span>
           </span>
         ) : null}

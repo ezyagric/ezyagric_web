@@ -19,8 +19,9 @@
 # on the screen, as "x% y% w% h%"); `status` is an illustrative notification
 # with no figures; `photo` is a field photo clipped to the chapter.
 #
-# The page reads like a record book: a Contents card, four numbered module
-# chapters, the Ka-Ezy banner, the two ways in, a quotation slip, questions.
+# The page reads like a record book: a Contents card, the two promises, four
+# numbered module chapters, the Ka-Ezy banner, the two ways in, a quotation
+# slip, questions.
 
 name: EzyAgric Business
 # Its line on the home hero's slide (after the four services' slides).
@@ -33,10 +34,79 @@ hero:
   facts:
     - { icon: monitor, text: Web portal }
     - { icon: plug, text: APIs }
-    - { icon: shield-check, text: One sign-in for every module }
+    # The two promises, as stamps that jump down to them. "One sign-in for
+    # every module" left the chips to make room; it stays in the Contents
+    # note, the modules intro, the portal points and the FAQ.
+    - { promise: privacy, text: Private and secure }
+    - { promise: investment, text: No heavy upfront tech investment }
   contents:
     label: Contents
     note: 4 modules · 1 sign-in
+
+# The two promises (EzyAgric's marketing lead, 29 Oct 2026): enterprises on
+# EzyAgric Business are assured of their data privacy and security, and become
+# tech-enabled without a heavy upfront technology investment. Both are
+# published as stated. Anything more specific has its source beside it, or is
+# pending. Never "guaranteed", "100% secure", "bank-grade", "compliant",
+# "certified" or "registered".
+promises:
+  eyebrow: Your data · Your investment
+  title: Two promises to every enterprise
+  intro: Whichever modules you use, and however you connect, these two hold.
+  key: { label: "Look for these marks further down the page:", privacy: Private and secure, investment: No heavy upfront investment }
+  privacy:
+    label: Promise A
+    title: Your data, ==private and secure==
+    lead: With EzyAgric Business, your enterprise can be sure its data is kept private and secure.
+    listLabel: How we keep it that way
+    points:
+      # The web portal point; EzyProduce training manual (Sept 2026) p.5-6.
+      - label: Your team
+        text: "Each person sees only what their role allows: you invite your people and choose what each role can see."
+      # The API points (API keys confirmed by the EzyAgric team, 29 Oct 2026).
+      - label: Your systems
+        text: API connections use API keys over HTTPS, and our team sets them up with you under a data-sharing agreement.
+      # The EzyCredits point "shared with consent".
+      - label: Your customers
+        text: "In EzyCredits, customers' data for credit scoring is shared with their consent."
+      # Privacy policy (13 Feb 2026), sections 3 and 5: keep "reasonable" and "personal information".
+      - label: Your information
+        text: We protect it with reasonable administrative, technical and physical safeguards, and we do not sell your personal information.
+      - label: Encryption
+        text: Your data is encrypted in transit and at rest.
+        pending: true
+        note: "Engineering to confirm this covers all four modules, the web portal and the APIs. EzyAgric's June 2026 UAT report and October 2025 platform deck state it for EzyProduce and the platform."
+      - label: The law
+        text: "We handle personal data in line with Uganda's Data Protection and Privacy Act, 2019."
+        pending: true
+        note: "Legal to confirm before naming the Act: only the 2020 policy PDF and the June 2026 UAT report mention it, not the live policy. Never 'compliant', 'certified' or 'registered'."
+    link: { label: Read our privacy policy, href: /privacy-policy/ }
+  investment:
+    label: Promise B
+    stamp: Already built
+    title: ==Tech-enabled==, without a heavy upfront investment
+    lead: Run your enterprise on EzyAgric's technology, instead of building your own or replacing what you have.
+    listLabel: Struck off your list
+    rows:
+      # The hero's "proven, trusted and scaled" services; each chapter's "Built on".
+      - { instead: "Design, build and test software of your own", ezyagric: "Four modules, on services EzyAgric already runs" }
+      # FAQ "Do I have to change my systems? No."; the API point "Set up with our team".
+      - { instead: "Replace your ERP or financial management system and other systems", ezyagric: "Keep them: our team connects them through our APIs" }
+      # FAQ "Can we start with one module?".
+      - { instead: Roll everything out at once, ezyagric: "Start with one module, and add the others when you need them" }
+      # Pricing "custom to your business and the modules you use".
+      - { instead: Pay for the whole build up front, ezyagric: A quote made for the modules you use }
+      - instead: Buy and run your own servers
+        ezyagric: "Cloud-hosted: your team works in a web browser"
+        pending: true
+        note: "Product to confirm for all four modules and the APIs, and that clients need no servers or hardware of their own (the June 2026 UAT report says cloud-hosted, for EzyProduce). Never name a hosting provider."
+      - instead: Maintain and update the software yourself
+        ezyagric: Our team maintains and updates the platform
+        pending: true
+        note: "Product to confirm for every EzyAgric Business client (the Sept 2026 support report says so for EzyProduce). Never write 'no IT staff needed'."
+    total: { label: Upfront technology investment, struck: Heavy, value: Light }
+    footnote: This compares ways of working, not prices. Your quote is made for your enterprise.
+    link: { label: How pricing works, href: "#pricing" }
 
 modules:
   eyebrow: The four modules
@@ -61,7 +131,8 @@ modules:
       points:
         - Put your products and prices on Agrishop
         - Receive orders from farmers, merchants and agri-hubs, including Buy Now, Pay Later orders
-        - Reach farmers through EzyAgric merchants, agents and agri-hubs
+        - text: Reach farmers through EzyAgric merchants, agents and agri-hubs
+          stamp: { promise: investment, text: No network to build }
         - See your sales and demand by product and demographics
       screen:
         src: /images/business/ezysupplier-dashboard.webp
@@ -96,6 +167,11 @@ modules:
         - Bulk produce and trace it back to each farmer
         - Pay farmers and suppliers in bulk by Mobile Money or bank
         - Purchases, sales, stock, accounting and compliance reports
+        # EzyProduce training manual (Sept 2026) p.6 "authorised approver for
+        # purchase orders, credit sales and manual journals", p.10 "recorded in
+        # the audit trail under the approver's name". This module only.
+        - text: Set an authorised approver for purchase orders, credit sales and journals, with each approval recorded under their name
+          stamp: { promise: privacy, text: Signed off }
       screen:
         src: /images/photos/web-portal.webp
         alt: "EzyProduce on a laptop and tablet: the off-taker dashboard with produce collected, payments pending, farmers, village agents and farm-gate prices"
@@ -125,7 +201,8 @@ modules:
       summary: Lend to farmers and agribusinesses who already buy and sell on EzyAgric.
       points:
         - Reach customers with a transaction history on EzyAgric
-        - Score customers on their transaction, KYC and location data, shared with consent
+        - text: Score customers on their transaction, KYC and location data
+          stamp: { promise: privacy, text: Shared with consent }
         - Credit goes out as inputs paid to suppliers, so it can't be diverted
         - Follow your loans and repayments in one place
       screen:
@@ -156,7 +233,8 @@ modules:
       product: ka-ezy
       summary: Give your outgrowers, suppliers, borrowers or customers Ka-Ezy, the AI farm expert.
       points:
-        - Ka-Ezy for your farmers, on bulk subscriptions
+        - text: Ka-Ezy for your farmers, on bulk subscriptions
+          stamp: { promise: investment, text: Ready to use }
         - Advice in English, Luganda and other local languages, photo checks of sick crops and animals, and garden mapping
         - Or as an advisory service under your own brand, powered by EzyAgric and its partners
         - See your farmers' subscriptions and Ka-Ezy use in one dashboard
@@ -192,7 +270,7 @@ kaezyBanner:
 access:
   eyebrow: Web portal or APIs
   title: Two ways to connect
-  intro: Work in our web portal, or keep the systems you have and let EzyAgric Business feed them.
+  intro: "Nothing to replace: work in our web portal, or keep the systems you have and let EzyAgric Business feed them."
   hub: { label: EzyAgric Business, text: "Four modules, two ways in" }
   items:
     - title: Web portal
@@ -203,7 +281,7 @@ access:
       points:
         - One EzyAgric account for all your modules
         - See each customer's purchases, credit and Ka-Ezy use in one view
-        - Invite your team and choose what each role can see
+        - { text: Invite your team and choose what each role can see, promise: privacy }
         - Export your records to PDF and Excel
     - title: APIs
       kind: api
@@ -214,15 +292,18 @@ access:
       icon: plug
       points:
         - Connect your ERP or financial management system and other systems
-        - Set up with our team, under a data-sharing agreement
-        - Secure access with API keys over HTTPS
+        - { text: "Set up with our team, under a data-sharing agreement", promise: privacy }
+        - { text: Secure access with API keys over HTTPS, promise: privacy }
   screen:
     image:
       src: /images/business/customer-view.webp
       alt: "One customer in the web portal: tabs for Inputs (EzySupplier), BNPL (EzyCredits) and Ka-Ezy (EzyServices), lifetime purchases, transactions across all services, delivered orders and the team's calls and WhatsApp follow-ups"
       width: 1400
       height: 627
-    caption: One customer across EzySupplier, EzyCredits and EzyServices. Names and phone numbers are blurred.
+    caption: "One customer across EzySupplier, EzyCredits and EzyServices. Even on this page, we blur customers' and staff names and phone numbers, as in the dashed frame."
+    # The blurred avatar, name and phone line, top left (the redaction boxes
+    # over the crop, with a little room).
+    blurred: "1.5% 1.5% 38.9% 14.8%"
 
 pricing:
   title: Pricing made for your enterprise
@@ -241,6 +322,8 @@ pricing:
       - { label: Prepared for, value: Your enterprise or organisation }
       - { label: Modules, value: The ones you use, modules: true }
       - { label: Access, value: Web portal or APIs }
+      - { label: Your data, value: Private and secure, promise: privacy }
+      - { label: To start, value: "One module, with no heavy upfront tech investment", promise: investment }
     price: { label: Price, value: Custom }
   stub: { title: Talk to our team, button: Ask for a quote on WhatsApp }
 
@@ -253,8 +336,20 @@ faq:
       actions:
         - { kind: page, label: "Find your module", href: "/ezyagric-business/#modules" }
         - { kind: whatsapp, label: "Talk to our team" }
+    # The portal role point; the API points; EzyCredits consent; policy sections 3 and 5.
+    - q: Is our data private and secure?
+      a: "Yes. Each person on your team sees only what their role allows. API connections use API keys over HTTPS and are set up with our team under a data-sharing agreement, and in EzyCredits customers' data for credit scoring is shared with their consent. We protect information with reasonable administrative, technical and physical safeguards, and we do not sell your personal information."
+      actions:
+        - { kind: page, label: "See our two promises", href: "/ezyagric-business/#promise-privacy" }
+        - { kind: page, label: "Read our privacy policy", href: /privacy-policy/ }
+    # Promise B; the hero intro (live services); the systems FAQ; custom pricing.
+    - q: Do we need a big technology investment first?
+      a: "No. EzyAgric Business is already built and runs on EzyAgric's own services, so there's nothing for you to build first. Start with one module, keep the systems you have, and get a quote made for the modules you use."
+      actions:
+        - { kind: page, label: "How pricing works", href: "/ezyagric-business/#pricing" }
+        - { kind: whatsapp, label: "Talk to our team" }
     - q: Can we start with one module?
-      a: Yes. Use one module, or all four, with a single sign-in.
+      a: Yes. Start with one module and add the others when you need them, all with a single sign-in.
       actions:
         - { kind: page, label: "See the four modules", href: "/ezyagric-business/#modules" }
         - { kind: whatsapp, label: "Ask us on WhatsApp" }
@@ -281,4 +376,4 @@ faq:
 
 seo:
   title: "EzyAgric Business: web portal and APIs for agribusinesses | EzyAgric"
-  description: "EzyAgric's services by web portal or API for input suppliers, off-takers, lenders, extension enterprises, development partners, governments and others in agriculture."
+  description: "EzyAgric's services by web portal or API for agribusinesses, development partners and governments: your data private and secure, with no heavy upfront tech investment."

@@ -54,6 +54,8 @@ export type ChapterLook = {
   linkText: string;
   arrow: string;
   tile: string;
+  /** A promise stamp's ink, where the default (white with blue or green) would not suit. */
+  stamp?: string;
 };
 
 // Full class strings so Tailwind can find them. Small green text only where
@@ -127,6 +129,7 @@ export const LOOKS: Record<LookName, ChapterLook> = {
     arrow: "bg-accent-bright text-on-accent",
     // The navy wallet tile would vanish on the navy page without a ring.
     tile: "ring-1 ring-on-inverse/30",
+    stamp: "border-on-inverse/70 text-on-inverse",
   },
   blue: {
     page: "bg-brand-soft ring-1 ring-brand-soft-strong",

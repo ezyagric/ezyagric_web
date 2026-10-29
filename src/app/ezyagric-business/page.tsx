@@ -6,6 +6,7 @@ import { BusinessFaq } from "@/components/business/BusinessFaq";
 import { BusinessHero } from "@/components/business/BusinessHero";
 import { BusinessModules } from "@/components/business/BusinessModules";
 import { BusinessPricing } from "@/components/business/BusinessPricing";
+import { BusinessPromises } from "@/components/business/BusinessPromises";
 import { Breadcrumbs } from "@/components/product/Breadcrumbs";
 import { KaEzyBanner } from "@/components/promo/KaEzyBanner";
 
@@ -32,7 +33,10 @@ export default function BusinessPage() {
     <>
       <Breadcrumbs name={name} path={PATH} accent="brand" />
       <BusinessHero />
-      {/* The hero is white, so the bands below start tinted and alternate. */}
+      {/* The two promises on navy, the record book's front matter straight
+          after the white cover; the chapters then start tinted and the bands
+          alternate. */}
+      <BusinessPromises />
       <BusinessModules tone="subtle" />
       {/* Straight after EzyServices (Ka-Ezy for your farmers), whose chapter
           links down to it: what the enterprise's farmers get. No page prop,

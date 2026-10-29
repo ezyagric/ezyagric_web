@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import type { BandTone } from "@/components/product/tones";
 import { PhotoPrint } from "./PhotoPrint";
+import { PromiseDot } from "./PromiseMarks";
 
 /**
  * Pricing as a quotation slip: the slip (its label and a "Custom quote"
@@ -46,7 +47,14 @@ export function BusinessPricing({ tone }: { tone: BandTone }) {
               <div key={row.label} className="grid gap-1 py-3 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-4">
                 <dt className="text-sm text-label-style text-muted">{row.label}</dt>
                 <dd className="text-base font-label text-title">
-                  {row.value}
+                  {row.promise ? (
+                    <span className="inline-flex items-start gap-2">
+                      <PromiseDot kind={row.promise} />
+                      {row.value}
+                    </span>
+                  ) : (
+                    row.value
+                  )}
                   {row.modules ? (
                     // role="list": Safari drops the list role from unstyled lists.
                     <ul role="list" className="mt-2 flex flex-wrap gap-2">

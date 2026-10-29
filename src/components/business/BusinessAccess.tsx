@@ -9,6 +9,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { ClaimText } from "@/components/ui/Pending";
 import type { BandTone } from "@/components/product/tones";
 import { PlugStrip } from "./PlugStrip";
+import { PromiseDot } from "./PromiseMarks";
 import { ScreenWindow } from "./ScreenWindow";
 
 // Glyph colours on a white disc. Full class strings so Tailwind finds them.
@@ -71,6 +72,8 @@ export function BusinessAccess({ tone }: { tone: BandTone }) {
                     crumb={access.hub.label}
                     label={portal.title}
                     accent="brand"
+                    region={access.screen.blurred}
+                    pin="blur"
                     sizes="(min-width: 1152px) 440px, (min-width: 1024px) calc(50vw - 136px), (min-width: 640px) calc(100vw - 128px), calc(100vw - 88px)"
                   />
                   <figcaption className="px-1 pt-2 text-sm text-pretty text-muted">{access.screen.caption}</figcaption>
@@ -131,7 +134,7 @@ function Outlet({
         <ul role="list" className="mt-4 space-y-2.5">
           {visible(item.points).map((point) => (
             <li key={point.text} className="flex items-start gap-2.5 text-base text-body">
-              <CheckDot />
+              {point.promise ? <PromiseDot kind={point.promise} /> : <CheckDot />}
               <span>
                 <ClaimText claim={point} keepHyphens />
               </span>
