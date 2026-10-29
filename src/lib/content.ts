@@ -717,8 +717,6 @@ const BusinessSchema = z.object({
     eyebrow: z.string().optional(),
     title: z.string(),
     intro: z.string().optional(),
-    /** Under the intro: where the screens come from and what is blurred. */
-    screensNote: z.string().optional(),
     /** The name of the sticky module index (a nav landmark). */
     indexLabel: z.string(),
     /** The WhatsApp button in each chapter; {module} becomes the module's name. */

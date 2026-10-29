@@ -42,10 +42,11 @@ modules:
   eyebrow: The four modules
   title: Four modules, one EzyAgric account
   intro: Each module brings one of our services to the businesses that work with farmers. Use one, or all four, with a single sign-in.
-  # EzyProduce shows an earlier illustration (the "EzyAgric Offtaker"
-  # laptop and tablet mockup, 2020 demo data) until marketing sends a
-  # current EzyProduce screen; the others are real screens from 28 Oct 2026.
-  screensNote: "Screens from EzyAgric Business, with customers' and staff names and phone numbers blurred. The EzyProduce view is from an earlier version."
+  # No note under the header (the team's call, 29 Oct 2026). For maintainers:
+  # EzyProduce shows an earlier illustration (the "EzyAgric Offtaker" laptop
+  # and tablet mockup, 2020 demo data) until marketing sends a current
+  # EzyProduce screen; the others are real screens from 28 Oct 2026, with
+  # names and phone numbers blurred.
   indexLabel: Jump to a module
   ask:
     label: "Ask about {module}"
