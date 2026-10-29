@@ -752,8 +752,8 @@ const BusinessSchema = z.object({
     items: z.array(BusinessModule).length(4),
   }),
   /**
-   * The two promises (privacy and security; no heavy upfront investment):
-   * the record book's front matter, between the cover and the chapters.
+   * The two promises (privacy and security; no heavy upfront investment),
+   * on navy just before the two ways in.
    */
   promises: z.object({
     eyebrow: z.string().optional(),

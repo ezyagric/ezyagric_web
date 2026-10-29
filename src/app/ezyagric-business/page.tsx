@@ -33,15 +33,15 @@ export default function BusinessPage() {
     <>
       <Breadcrumbs name={name} path={PATH} accent="brand" />
       <BusinessHero />
-      {/* The two promises on navy, the record book's front matter straight
-          after the white cover; the chapters then start tinted and the bands
-          alternate. */}
-      <BusinessPromises />
+      {/* The hero is white, so the chapters start tinted. */}
       <BusinessModules tone="subtle" />
       {/* Straight after EzyServices (Ka-Ezy for your farmers), whose chapter
           links down to it: what the enterprise's farmers get. No page prop,
           so Try opens the Ka-Ezy page, as on the other service pages. */}
       <KaEzyBanner id="kaezy-banner" position="ezyagric-business-page" intro={kaezyBanner?.intro} />
+      {/* The two promises on navy, just before the two ways in (the team's
+          order, 29 Oct 2026); the white wiring sheet follows. */}
+      <BusinessPromises />
       <BusinessAccess tone="canvas" />
       <BusinessPricing tone="subtle" />
       <BusinessFaq tone="canvas" />

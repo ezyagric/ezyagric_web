@@ -10,9 +10,9 @@ const LINK =
   "group mt-5 inline-flex min-h-11 items-center gap-2 rounded-control font-label text-link underline underline-offset-4 hover:decoration-2";
 
 /**
- * The record book's front matter, between the white cover and the
- * chapters: one white sheet on a navy blotter ruled like ledger paper,
- * holding EzyAgric Business's two promises.
+ * EzyAgric Business's two promises, after the Ka-Ezy banner and just before
+ * the two ways in: one white sheet on a navy blotter ruled like ledger
+ * paper.
  * - Promise A (privacy and security), sealed with a blue wax seal: how we
  *   keep it, as numbered lines (A.1, A.2, ...), and a link to the policy.
  * - Promise B (no heavy upfront investment), stamped "Already built": a
@@ -21,7 +21,7 @@ const LINK =
  *   link to pricing.
  * The two clauses stack on phones (a double rule and an "&" plate between
  * them) and sit side by side from lg. Below the sheet, a key to the lock and
- * feather marks that recur further down the page. Pending lines show only
+ * feather marks that recur across the page. Pending lines show only
  * in preview, and the numbering follows what is shown.
  */
 export function BusinessPromises() {

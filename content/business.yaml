@@ -19,8 +19,8 @@
 # on the screen, as "x% y% w% h%"); `status` is an illustrative notification
 # with no figures; `photo` is a field photo clipped to the chapter.
 #
-# The page reads like a record book: a Contents card, the two promises, four
-# numbered module chapters, the Ka-Ezy banner, the two ways in, a quotation
+# The page reads like a record book: a Contents card, four numbered module
+# chapters, the Ka-Ezy banner, the two promises, the two ways in, a quotation
 # slip, questions.
 
 name: EzyAgric Business
@@ -43,7 +43,9 @@ hero:
     label: Contents
     note: 4 modules · 1 sign-in
 
-# The two promises (EzyAgric's marketing lead, 29 Oct 2026): enterprises on
+# The two promises (EzyAgric's marketing lead, 29 Oct 2026). Engineering
+# confirms the security lines in docs/backend-tickets.md BT-07 (and the API
+# access model in BT-06). Enterprises on
 # EzyAgric Business are assured of their data privacy and security, and become
 # tech-enabled without a heavy upfront technology investment. Both are
 # published as stated. Anything more specific has its source beside it, or is
@@ -53,7 +55,7 @@ promises:
   eyebrow: Your data · Your investment
   title: Two promises to every enterprise
   intro: Whichever modules you use, and however you connect, these two hold.
-  key: { label: "Look for these marks further down the page:", privacy: Private and secure, investment: No heavy upfront investment }
+  key: { label: "Look for these marks across the page:", privacy: Private and secure, investment: No heavy upfront investment }
   privacy:
     label: Promise A
     title: Your data, ==private and secure==
