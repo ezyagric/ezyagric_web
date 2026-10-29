@@ -215,9 +215,7 @@ access:
       points:
         - Connect your ERP or financial management system and other systems
         - Set up with our team, under a data-sharing agreement
-        - text: Secure access with API keys over HTTPS
-          pending: true
-          note: From the UNCDF deck's platform overview. Product to confirm the API access model and documentation.
+        - Secure access with API keys over HTTPS
   screen:
     image:
       src: /images/business/customer-view.webp
