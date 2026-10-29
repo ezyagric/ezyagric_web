@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { trackData } from "@/lib/track";
+import { HashLink, samePath } from "@/components/ui/HashLink";
 
 export type ServiceItem = {
   href: string;
@@ -15,11 +15,6 @@ export type ServiceItem = {
   /** Analytics event on the link (data-track), with its params. */
   track?: { event: string; params?: Record<string, string> };
 };
-
-/** "/ka-ezy/" and "/ka-ezy" are the same page. */
-function samePath(a: string, b: string): boolean {
-  return a.replace(/\/+$/, "") === b.replace(/\/+$/, "");
-}
 
 function closeDetails(details: HTMLDetailsElement | null) {
   if (details) details.open = false;
@@ -34,12 +29,14 @@ function closeDetails(details: HTMLDetailsElement | null) {
  * hangs from the header's nav pill (the nearest positioned ancestor, not this
  * menu), so both open at the pill's left edge and stay on screen at 1024px.
  *
- * It is a <details> element, so it opens and closes with JavaScript off. With
+ * It is a <details> element, so it opens and closes with JavaScript off; the
+ * menus share a `name`, so opening one closes the other even then. With
  * JavaScript on, it also closes on Escape (focus goes back to its button), on
  * a click or tap outside (so opening one menu closes the other), when
  * keyboard focus moves on past it, and after a service is chosen. On a
  * service page, the button and that service are highlighted; on `pagePath`,
- * the button only.
+ * the button only, and the items jump natively to their sections there
+ * (HashLink), so :target and keyboard focus follow.
  */
 export function ServicesMenu({
   label,
@@ -103,6 +100,7 @@ export function ServicesMenu({
     // Not `relative`: the panel is placed against the nav pill (see above).
     <details
       ref={ref}
+      name="header-services"
       className="group"
       onBlur={(event) => {
         // Tabbing past the last service closes the panel.
@@ -145,8 +143,7 @@ export function ServicesMenu({
             const current = samePath(item.href, pathname);
             return (
               <li key={item.href}>
-                <Link
-                  prefetch={false}
+                <HashLink
                   href={item.href}
                   aria-current={current ? "page" : undefined}
                   {...(item.track ? trackData(item.track.event, item.track.params) : {})}
@@ -171,7 +168,7 @@ export function ServicesMenu({
                     aria-hidden="true"
                     className="size-4 shrink-0 text-link opacity-0 transition-opacity group-hover/item:opacity-100 group-focus-visible/item:opacity-100 motion-safe:transition-[opacity,transform] motion-safe:group-hover/item:translate-x-0.5"
                   />
-                </Link>
+                </HashLink>
               </li>
             );
           })}

@@ -45,8 +45,9 @@ export function HeroSlider() {
 }
 
 /**
- * A service's icon in the switcher with its number (1 to 5, as in the "Our
- * services" menu) in a small white badge at its top right, like the step
+ * A service's icon in the switcher with its number (1 to 4 for the services,
+ * in the Farmer Services menu's order, then 5 for EzyAgric Business, whose
+ * modules make up the Agribusiness Services menu) in a small white badge at its top right, like the step
  * badges in the Ka-Ezy banner. Decoration: each slide is announced as
  * "n of 5: name".
  */

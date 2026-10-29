@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { trackData } from "@/lib/track";
+import { HashLink } from "./HashLink";
 
 // Brand guide: primary buttons are a green fill with a white SemiBold label;
 // secondary buttons are a blue outline on white. Corners come from the theme's
@@ -63,6 +64,15 @@ export function ButtonLink({
         {children}
         {newTab ? <span className="sr-only"> (opens in a new tab)</span> : null}
       </a>
+    );
+  }
+  // A jump to a section (/ezyagric-business/#ezyservices) goes natively on
+  // its own page, so :target and keyboard focus follow (HashLink).
+  if (href.includes("#")) {
+    return (
+      <HashLink href={href} className={classes} {...data}>
+        {children}
+      </HashLink>
     );
   }
   return (

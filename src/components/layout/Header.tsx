@@ -3,6 +3,7 @@ import { getBusinessModules, getProducts } from "@/lib/content";
 import { PORTAL_URL } from "@/lib/links";
 import { trackData } from "@/lib/track";
 import { ButtonLink } from "@/components/ui/Button";
+import { HashLink } from "@/components/ui/HashLink";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
@@ -150,15 +151,14 @@ export function Header() {
               <ol role="list" aria-labelledby="menu-business-services" className="grid grid-cols-2 gap-1">
                 {modules.map((m, i) => (
                   <li key={m.id}>
-                    <Link
-                      prefetch={false}
+                    <HashLink
                       href={`${BUSINESS_PATH}#${m.id}`}
                       className={PHONE_LINK}
                       {...trackData("business_module_click", { module: m.id, position: "menu-phone" })}
                     >
                       <span className="tabular-nums text-muted">{i + 1}.</span>
                       <span>{m.name}</span>
-                    </Link>
+                    </HashLink>
                   </li>
                 ))}
               </ol>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getBusiness, getBusinessModules, getProducts, getSite, visible } from "@/lib/content";
+import { HashLink } from "@/components/ui/HashLink";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { GET_THE_APP_ID } from "@/components/promo/KaEzyBanner";
@@ -76,15 +77,18 @@ export function Footer() {
         </div>
         {columns.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            {/* Two lines kept for every heading from md to xl, where "Farmer
-                Services" and "Agribusiness Services" wrap, so the lists line up. */}
-            <p className="text-sm text-label-style text-accent-bright md:min-h-[2lh] xl:min-h-0">{col.title}</p>
+            {/* Two lines kept for every heading on phones (below sm) and from
+                md to xl, where "Agribusiness Services" wraps beside a heading
+                that may not, so the lists line up. */}
+            <p className="text-sm text-label-style text-accent-bright max-sm:min-h-[2lh] md:min-h-[2lh] xl:min-h-0">
+              {col.title}
+            </p>
             <ul className="mt-1 md:mt-2">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <Link prefetch={false} href={l.href} className={LINK}>
+                  <HashLink href={l.href} className={LINK}>
                     {l.label}
-                  </Link>
+                  </HashLink>
                 </li>
               ))}
             </ul>
