@@ -158,9 +158,7 @@ modules:
       points:
         - Ka-Ezy for your farmers, on bulk subscriptions
         - Advice in English, Luganda and other local languages, photo checks of sick crops and animals, and garden mapping
-        - text: Or as an advisory service under your own brand, powered by EzyAgric
-          pending: true
-          note: From the Ka-Ezy B2B plan (bulk subscriptions or a white-labelled service). Confirm white-label is offered.
+        - Or as an advisory service under your own brand, powered by EzyAgric and its partners
         - See your farmers' subscriptions and Ka-Ezy use in one dashboard
       screen:
         src: /images/business/ezyservices-dashboard.webp
