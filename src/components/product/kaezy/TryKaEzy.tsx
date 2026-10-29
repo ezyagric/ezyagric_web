@@ -1,7 +1,8 @@
 import { isVisible, visible, type Product } from "@/lib/content";
 import { KAEZY_DEMO_API, SHOW_PENDING } from "@/lib/env";
 import { Section, SectionHeader } from "@/components/ui/Container";
-import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
+import { playStoreUrl } from "@/lib/links";
+import { RichText } from "@/components/ui/RichText";
 import { PendingBadge } from "@/components/ui/Pending";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import type { BandTone } from "../tones";
@@ -54,7 +55,7 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
           (no text-pretty, which would pull the first line in short). */}
       <SectionHeader id="try-ka-ezy-title" eyebrow={tryIt.eyebrow} title={tryIt.title} full>
         <p className="mt-3 text-lg text-muted">
-          <KeepHyphensTogether text={tryIt.intro} />
+          <RichText text={tryIt.intro} />
           {tryIt.pending ? <PendingBadge note={tryIt.note} /> : null}
         </p>
       </SectionHeader>
@@ -62,7 +63,21 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
       {/* The last thing in the section when it shows, so no margin below. */}
       <noscript>
         <p className="rounded-card border border-line bg-card p-4 text-base text-body">
-          Turn on JavaScript to try Ka-Ezy here, or get the EzyAgric App to use it on your phone.
+          Turn on JavaScript to try Ka-Ezy here, or{" "}
+          <a
+            href={playStoreUrl("ka-ezy", "try-noscript")}
+            target="_blank"
+            rel="noopener"
+            data-track="get_app_click"
+            data-track-product="ka-ezy"
+            data-track-position="try-noscript"
+            data-track-store="google_play"
+            className="font-label text-link underline underline-offset-4"
+          >
+            get the EzyAgric App
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>{" "}
+          to use it on your phone.
         </p>
       </noscript>
 

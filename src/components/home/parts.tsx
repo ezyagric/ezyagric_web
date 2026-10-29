@@ -1,5 +1,7 @@
 import { Check } from "lucide-react";
 import { getProducts } from "@/lib/content";
+import { plainText, splitLinks } from "@/lib/richText";
+import { InlineLink } from "@/components/ui/RichText";
 
 // Small pieces shared by the home sections.
 
@@ -13,10 +15,8 @@ function pattern(): RegExp {
   return new RegExp(`\\b(${[...names, String.raw`UGX\s?\d[\d,]*\d`].join("|")})`);
 }
 
-/** Copy without its ==marker== signs (for places that show plain text, like share images). */
-export function plainText(text: string): string {
-  return text.replace(/==/g, "");
-}
+/** Copy without its ==marker== signs and [links](...) (for share images and captions). */
+export { plainText };
 
 /** Product names and prices in green within one run of copy. */
 function Names({ text, className }: { text: string; className: string }) {
@@ -32,6 +32,27 @@ function Names({ text, className }: { text: string; className: string }) {
           </span>
         ) : (
           part
+        ),
+      )}
+    </>
+  );
+}
+
+/**
+ * One run of copy with its [words](target) links (components/ui/RichText):
+ * the rest gets green product names and prices; inside a link the names
+ * only stay whole, in the link's colour.
+ */
+function Run({ text, className }: { text: string; className: string }) {
+  return (
+    <>
+      {splitLinks(text).map((piece, i) =>
+        typeof piece === "string" ? (
+          <Names key={i} text={piece} className={className} />
+        ) : (
+          <InlineLink key={i} target={piece.target}>
+            <Names text={piece.label} className="" />
+          </InlineLink>
         ),
       )}
     </>
@@ -65,7 +86,9 @@ export function HeadlineText({ text, className }: { text: string; className: str
  * Renders the copy with product names and UGX prices in green, and any
  * ==key phrase== in the copy with a soft green highlighter stroke behind its
  * lower half (it wraps across lines cleanly). text-accent by default (5.1:1,
- * safe at body size); pass text-accent-bright only for large text.
+ * safe at body size); pass text-accent-bright only for large text. The copy
+ * may carry [words](target) links, also inside a mark
+ * ("==[private and secure](/ezyagric-business/#promise-privacy)==").
  */
 export function Highlight({
   text,
@@ -84,13 +107,13 @@ export function Highlight({
             key={i}
             // Short phrases stay on one line ("agro-inputs" would break at its hyphen).
             className={`bg-transparent bg-[linear-gradient(transparent_55%,var(--color-accent-soft-strong)_55%)] [box-decoration-break:clone] font-label text-title ${
-              run.length <= 24 ? "whitespace-nowrap" : ""
+              plainText(run).length <= 24 ? "whitespace-nowrap" : ""
             }`}
           >
-            <Names text={run} className={className} />
+            <Run text={run} className={className} />
           </mark>
         ) : (
-          <Names key={i} text={run} className={className} />
+          <Run key={i} text={run} className={className} />
         ),
       )}
     </>

@@ -12,7 +12,7 @@ accent: deep
 icon: wallet
 
 card:
-  summary: Get inputs, feeds and vet products on Agrishop now and pay later, if you qualify.
+  summary: "Get inputs, feeds and vet products on [Agrishop](/agrishop/) now and pay later, if you qualify."
   points:
     - "If approved, get your order now and repay after delivery"
     - Repay with MTN or Airtel Mobile Money
@@ -22,7 +22,7 @@ hero:
   eyebrow: EzyCredits · Buy Now, Pay Later
   # ==key words== in green (large text, accent-bright).
   headline: Get the ==genuine inputs== for your farm or shop, ==Pay Later==
-  intro: "If you qualify, ==Buy Now, Pay Later== gets you ==inputs, feeds and vet products== on Agrishop ==now==. Your order is delivered first, then you ==repay with Mobile Money==."
+  intro: "If you qualify, ==Buy Now, Pay Later== gets you ==inputs, feeds and vet products== on [Agrishop](/agrishop/) ==now==. Your order is delivered first, then you ==repay with Mobile Money==."
 
 cta:
   label: See if you qualify
@@ -32,7 +32,7 @@ features:
   title: What you can pay for
   items:
     - title: Inputs
-      text: Seeds, fertilizers, pesticides and tools on Agrishop.
+      text: "Seeds, fertilizers, pesticides and tools on [Agrishop](/agrishop/)."
       icon: sprout
     - title: Feeds
       text: Animal feeds for your livestock.
@@ -46,12 +46,15 @@ steps:
   items:
     - title: Complete your profile
       text: Through the EzyAgric App, apply using your National ID, personal, business, contact and next-of-kin details.
+      action: { kind: get-app, label: Get the EzyAgric App }
     - title: Get verified
       text: Your details are verified instantly.
     - title: Get your offer
       text: If you are approved, see how much you can use, for how long and how much to pay back.
+      action: { kind: page, label: Read the key facts, href: "/ezycredits/#key-facts" }
     - title: Shop and pay later
       text: "At Agrishop checkout, choose Buy Now, Pay Later. Your order is delivered first; repay in the agreed period and grow your limit."
+      action: { kind: page, label: See how to order, href: "/agrishop/#how-it-works" }
 
 # A real photo from the EzyAgric photo library: an agent helping a farmer in
 # the app (the first step, completing the profile, is often done with one).
@@ -99,8 +102,12 @@ faq:
       - { kind: get-app }
   - q: How do I repay?
     a: With MTN or Airtel Mobile Money. Your repayment period starts when your order is delivered.
+    actions:
+      - { kind: whatsapp, label: "Ask us on WhatsApp" }
   - q: How much can I borrow?
     a: "Your offer in the app shows your limit. It can grow as you keep buying and repaying on time."
+    actions:
+      - { kind: get-app }
   - q: Can I have two Buy Now, Pay Later loans at once?
     a: No. Repay your current loan before you use Buy Now, Pay Later again.
   - q: In the app I see "BNPL". Is that Buy Now, Pay Later?

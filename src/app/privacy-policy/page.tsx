@@ -148,9 +148,11 @@ export default function PrivacyPolicyPage() {
 
           <PolicySection id="your-rights-and-choices" title="6. Your Rights and Choices">
             <p>
-              Subject to applicable law, you may request access to, correction of, or deletion
-              of your personal information. You may also object to or restrict certain
-              processing activities.
+              Subject to applicable law, you may{" "}
+              <a href="#policy-contact" className="font-label text-link underline underline-offset-4">
+                request access to, correction of, or deletion of your personal information
+              </a>
+              . You may also object to or restrict certain processing activities.
             </p>
           </PolicySection>
 

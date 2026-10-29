@@ -214,6 +214,14 @@
   }
 }
 
+/* Links in copy (ui/TextLink) on dark bands and the gradient: white,
+   underlined in green, as the steps' own links. Outside the layers, so it
+   beats the link's own text-link utility. */
+.bg-inverse a.inline-link,
+.gradient-brand a.inline-link {
+  @apply text-on-inverse decoration-accent-bright;
+}
+
 /* The signature gradient: brand blue to green, left to right. Its green end
    is the accessible shade, so white text passes across the whole band. */
 @utility gradient-brand {

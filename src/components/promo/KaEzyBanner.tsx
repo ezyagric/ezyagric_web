@@ -8,6 +8,7 @@ import { ButtonLink, type ButtonVariant } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
+import { RichText } from "@/components/ui/RichText";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 
 /** Ka-Ezy's face, for small round avatars. */
@@ -177,7 +178,9 @@ export function KaEzyBanner({
           >
             {copy.title}
           </h2>
-          <p className="mt-2 text-lg text-pretty text-on-inverse">{intro ?? copy.intro}</p>
+          <p className="mt-2 text-lg text-pretty text-on-inverse">
+            <RichText text={intro ?? copy.intro} />
+          </p>
         </div>
 
         {/* See Ka-Ezy in action: the demo plays in place (it downloads only on play). */}

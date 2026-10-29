@@ -51,7 +51,7 @@ features:
       icon: message-circle
     # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
-      text: "Sick plant or animal? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. Order what it recommends straight from Agrishop."
+      text: "Sick plant or animal? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. Order what it recommends straight from [Agrishop](/agrishop/)."
       icon: camera
     - title: Garden mapping
       text: "Walk your garden once and Ka-Ezy maps it: exact acreage, clear boundaries and the spots that need your inputs most."
@@ -109,7 +109,7 @@ tryIt:
   # then the live site sends visitors to the app to pay. Live answers: BT-01.
   eyebrow: Try Ka-Ezy
   title: Ask Ka-Ezy, then hire it
-  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, choose a plan and pay with Mobile Money."
+  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, [choose a plan](/ka-ezy/#hire-ka-ezy) and pay with Mobile Money."
   # Ka-Ezy's answers and plan figures below are samples written for the
   # website. They are personalised from "Your farm": {name}, {crop}, {location}
   # and {acres} are filled in, and a part in [[ ]] is left out when one of its
@@ -593,8 +593,11 @@ faq:
     a: With MTN MoMo or Airtel Money, inside the app.
     actions:
       - { kind: pay-kaezy, label: "Pay for Ka-Ezy" }
+      - { kind: get-app }
   - q: Which languages does Ka-Ezy understand?
     a: English, Luganda and other local languages. Ask Ka-Ezy in the language you are most comfortable with.
+    actions:
+      - { kind: get-app }
   - q: Can I talk to Ka-Ezy instead of typing?
     a: Yes. Tap the microphone and speak your question.
     actions:

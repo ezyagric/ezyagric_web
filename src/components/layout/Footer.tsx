@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getBusiness, getBusinessModules, getProducts, getSite, visible } from "@/lib/content";
+import { getBusiness, getBusinessModules, getProducts, getSite, isVisible, visible } from "@/lib/content";
+import { whatsappUrl } from "@/lib/links";
 import { HashLink } from "@/components/ui/HashLink";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { StoreBadges } from "@/components/ui/StoreBadges";
@@ -9,7 +10,8 @@ import { CookieSettingsButton } from "@/components/analytics/CookieSettingsButto
 import { GA_ENABLED } from "@/components/analytics/config";
 import { Logo } from "./Logo";
 
-type FooterLink = { href: string; label: string };
+/** `external`: a chat or another site, in a new tab, with its analytics event. */
+type FooterLink = { href: string; label: string; external?: { track: string } };
 
 // Column links are 44px tap targets, and 36px from md with a mouse or
 // trackpad (pointer-fine), so the columns stay short; touch tablets keep 44px.
@@ -51,6 +53,15 @@ export function Footer() {
         { href: "/#stories", label: "Stories" },
         { href: "/#faq", label: "FAQ" },
         { href: "/#contact-us", label: "Contact us" },
+        ...(isVisible(site.contact.whatsapp)
+          ? [
+              {
+                href: whatsappUrl(site.contact.whatsapp.number, site.contact.whatsapp.message),
+                label: "Chat on WhatsApp",
+                external: { track: "whatsapp_click" },
+              },
+            ]
+          : []),
       ],
     },
   ];
@@ -86,9 +97,23 @@ export function Footer() {
             <ul className="mt-1 md:mt-2">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <HashLink href={l.href} className={LINK}>
-                    {l.label}
-                  </HashLink>
+                  {l.external ? (
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener"
+                      data-track={l.external.track}
+                      data-track-position="footer"
+                      className={LINK}
+                    >
+                      {l.label}
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <HashLink href={l.href} className={LINK}>
+                      {l.label}
+                    </HashLink>
+                  )}
                 </li>
               ))}
             </ul>

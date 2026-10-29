@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { getProducts } from "@/lib/content";
+import { getProducts, getSite, isVisible } from "@/lib/content";
+import { whatsappUrl } from "@/lib/links";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { StoreBadges } from "@/components/ui/StoreBadges";
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   const products = getProducts();
+  const { contact } = getSite();
+  const whatsapp = isVisible(contact.whatsapp) ? contact.whatsapp : null;
 
   return (
     <>
@@ -67,6 +70,39 @@ export default function NotFound() {
               ))}
             </ul>
           </nav>
+
+          {/* Agribusinesses, and anyone stuck, have a way on too. */}
+          <p className="mx-auto mt-6 max-w-3xl text-center text-base text-pretty text-body">
+            For agribusinesses:{" "}
+            <Link
+              prefetch={false}
+              href="/ezyagric-business/"
+              data-track="business_page_click"
+              data-track-position="404"
+              className="font-label text-link underline underline-offset-4"
+            >
+              EzyAgric Business
+            </Link>
+            .
+            {whatsapp ? (
+              <>
+                {" "}
+                Can&apos;t find what you need?{" "}
+                <a
+                  href={whatsappUrl(whatsapp.number, whatsapp.message)}
+                  target="_blank"
+                  rel="noopener"
+                  data-track="whatsapp_click"
+                  data-track-position="404"
+                  className="font-label text-link underline underline-offset-4"
+                >
+                  Chat with our team on WhatsApp
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+                .
+              </>
+            ) : null}
+          </p>
 
           <div className="mt-10 flex flex-col items-center gap-3 text-center">
             <p className="font-label text-body">Get the EzyAgric App</p>

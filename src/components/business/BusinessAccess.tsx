@@ -64,7 +64,7 @@ export function BusinessAccess({ tone }: { tone: BandTone }) {
 
         <div className="grid lg:grid-cols-[minmax(0,1fr)_3rem_minmax(0,1fr)] lg:gap-x-4">
           {portal ? (
-            <Outlet id="connect-portal" item={portal} accent="brand">
+            <Outlet id="connect-portal" item={portal} accent="brand" whatsappNumber={whatsapp?.number}>
               {access.screen ? (
                 <figure className="border-b border-line bg-brand-soft p-3 sm:p-4">
                   <ScreenWindow
@@ -143,15 +143,30 @@ function Outlet({
         </ul>
         <div className="mt-auto pt-6">
           {item.kind === "portal" ? (
-            <ButtonLink
-              href={PORTAL_URL}
-              variant="secondary"
-              track="portal_login_click"
-              trackProps={{ position: "business-connect" }}
-              className="w-full sm:w-auto"
-            >
-              {item.button}
-            </ButtonLink>
+            // Partner login for teams already on it; a chat with the team for those who aren't.
+            <div className="flex flex-wrap gap-3">
+              <ButtonLink
+                href={PORTAL_URL}
+                variant="secondary"
+                track="portal_login_click"
+                trackProps={{ position: "business-connect" }}
+                className="w-full sm:w-auto"
+              >
+                {item.button}
+              </ButtonLink>
+              {item.ask && whatsappNumber ? (
+                <ButtonLink
+                  href={whatsappUrl(whatsappNumber, item.ask.message)}
+                  variant="secondary"
+                  track="whatsapp_click"
+                  trackProps={{ position: "business-connect-portal" }}
+                  className="w-full sm:w-auto"
+                >
+                  <Icon name="message-circle" className="size-5 shrink-0" />
+                  {item.ask.label}
+                </ButtonLink>
+              ) : null}
+            </div>
           ) : whatsappNumber ? (
             <ButtonLink
               href={whatsappUrl(whatsappNumber, item.message)}

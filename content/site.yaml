@@ -79,7 +79,7 @@ hero:
 products:
   eyebrow: One app, four tools
   title: Everything your farm or agribusiness needs
-  intro: "Get advice, buy inputs, pay your way and sell crops and livestock, all in the EzyAgric App."
+  intro: "Get advice, buy inputs, pay your way and sell crops and livestock, all in the [EzyAgric App](get-app)."
 
 journey:
   title: How the four tools work together
@@ -89,6 +89,8 @@ journey:
     - verb: Plan
       product: ka-ezy
       text: Ask Ka-Ezy for advice and a farm plan for your crops, animals and budget.
+      # Each step's next move: Ka-Ezy's demo, or the product's own button (its hero's label).
+      action: { kind: ask-kaezy, label: Ask Ka-Ezy, appLabel: See Ka-Ezy plans }
       image:
         src: /images/photos/agent-shows-farmers-phone.webp
         alt: An EzyAgric field agent shows two young farmers something on her phone
@@ -98,6 +100,7 @@ journey:
     - verb: Buy
       product: agrishop
       text: Order genuine inputs and vet products on Agrishop.
+      action: { kind: get-app, label: Shop on Agrishop }
       image:
         src: /images/photos/agro-shop-product-check.webp
         alt: A young farmer in an agro-input shop checks a bottle of herbicide against his phone
@@ -107,6 +110,7 @@ journey:
     - verb: Pay
       product: ezycredits
       text: Get your inputs now with EzyCredits Buy Now, Pay Later (if you qualify).
+      action: { kind: get-app, label: See if you qualify }
       image:
         src: /images/photos/agro-dealer-phone.webp
         alt: An agro-input dealer at his counter with his phone, shelves of seed and crop protection products behind him
@@ -116,6 +120,7 @@ journey:
     - verb: Sell
       product: produce-market
       text: Post your crops and livestock on Produce Market at your own asking price.
+      action: { kind: get-app, label: List your produce }
       image:
         src: /images/photos/farmer-produce-sacks.webp
         alt: A smiling farmer beside a tall stack of produce sacks ready for market
@@ -285,7 +290,7 @@ videos:
 organisations:
   eyebrow: For agribusinesses · EzyAgric Business
   title: Our four services, built for agribusiness enterprises
-  intro: "EzyAgric Business brings our four services to the enterprises that work with farmers: Agrishop to input suppliers, Produce Market to off-takers, EzyCredits to financial institutions and fintechs, and Ka-Ezy to the businesses that give it to their farmers. Development partners, governments and other organisations interested in agriculture can use it too. In a web portal, or through APIs into the systems they already run."
+  intro: "EzyAgric Business brings our four services to the enterprises that work with farmers: Agrishop to input suppliers, Produce Market to off-takers, EzyCredits to financial institutions and fintechs, and Ka-Ezy to the businesses that give it to their farmers. Development partners, governments and other organisations interested in agriculture can use it too. In a [web portal](/ezyagric-business/#connect-portal), or through [APIs](/ezyagric-business/#connect-api) into the systems they already run."
   # How it connects, as chips on the tear line under the chapter fan (from sm).
   channels:
     - { icon: monitor, text: Web portal }
@@ -312,20 +317,22 @@ faq:
       a: "EzyAgric works across Uganda. Shopping on Agrishop, buying now and paying later with EzyCredits, and selling on Produce Market are available only in Uganda for now."
       actions:
         - { kind: page, label: "Explore our services", href: "/#solutions" }
+        - { kind: get-app }
     - q: Can I use Ka-Ezy outside Uganda?
       a: "Yes. Ka-Ezy works wherever you can use the EzyAgric App."
       actions:
         - { kind: try-kaezy }
+        - { kind: get-app }
     - q: How do I pay?
       a: "With MTN or Airtel Mobile Money, Pay on Delivery, or EzyCredits Buy Now, Pay Later (if you qualify)."
       actions:
-        - { kind: page, label: "About EzyCredits", href: "/ezycredits/" }
+        - { kind: page, label: "How Pay Later works", href: "/ezycredits/#how-it-works" }
     - q: Is there an iPhone app?
       a: "Coming soon. The EzyAgric App for iPhone launches on the App Store shortly. Until then, you can get it on Android from Google Play."
       actions:
         - { kind: get-app }
     - q: Can I get help from a person?
-      a: "Yes. Chat with our team on WhatsApp or call us. Our contact details are below."
+      a: "Yes. Chat with our team on WhatsApp or call us. Our [contact details](/#contact-us) are below."
       actions:
         - { kind: whatsapp, label: "Chat on WhatsApp" }
         - { kind: call, label: "Call us" }

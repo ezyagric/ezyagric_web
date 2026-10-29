@@ -133,6 +133,12 @@ function onDocumentClick(event: MouseEvent): void {
       params[attr.name.slice("data-track-".length).replace(/-/g, "_")] = attr.value;
     }
   }
+  // Links in copy (ui/TextLink) leave their section blank: name it after the
+  // section they sit in (heroes have no id, so their title's id).
+  if (params.section === "") {
+    const section = el.closest("section");
+    params.section = section?.id || section?.getAttribute("aria-labelledby") || "";
+  }
   track(name, params);
 }
 

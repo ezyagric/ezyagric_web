@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { KeepHyphensTogether } from "./KeepHyphens";
+import { RichText } from "./RichText";
 
 export function Container({
   children,
@@ -90,7 +91,7 @@ export function SectionHeader({
       </h2>
       {intro ? (
         <p className={`mt-3 text-lg text-pretty ${invert ? "text-on-inverse" : "text-muted"}`}>
-          <KeepHyphensTogether text={intro} />
+          <RichText text={intro} />
         </p>
       ) : null}
       {children}

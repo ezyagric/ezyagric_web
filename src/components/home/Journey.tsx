@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { getProduct, getSite, type ImageData, type Product } from "@/lib/content";
+import { getProduct, getSite, type ImageData, type Product, type StepAction } from "@/lib/content";
+import { StepActionLink, actionLink } from "@/components/product/Steps";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { IconCircle } from "@/components/ui/IconCircle";
 
@@ -14,7 +15,8 @@ import { IconCircle } from "@/components/ui/IconCircle";
  * Phones: a vertical timeline, the photo under each step's text. From sm the
  * photo stands beside the text. From lg the steps run in one row of photo
  * cards: the icon overlaps the foot of its photo, and an arrow on the seam
- * between two photos leads to the next step.
+ * between two photos leads to the next step. Each step ends with its next
+ * move (`action`: ask Ka-Ezy, or the product's own button in the app).
  */
 export function Journey() {
   const { journey } = getSite();
@@ -35,6 +37,7 @@ export function Journey() {
             text={step.text}
             product={step.product}
             image={step.image}
+            action={step.action}
             last={i === steps.length - 1}
           />
         ))}
@@ -49,6 +52,7 @@ function JourneyStep({
   text,
   product,
   image,
+  action,
   last,
 }: {
   number: number;
@@ -56,8 +60,10 @@ function JourneyStep({
   text: string;
   product: Product;
   image: ImageData;
+  action?: StepAction;
   last: boolean;
 }) {
+  const link = action ? actionLink(action, product, { position: "home-journey", page: null }) : null;
   return (
     // content-start: in the lg row the steps stretch to the tallest one; the
     // spare height goes below the text, so photos, icons and titles line up.
@@ -124,6 +130,18 @@ function JourneyStep({
           </Link>
         </p>
         <p className="text-base text-pretty text-body">{text}</p>
+        {link ? (
+          <StepActionLink
+            link={link}
+            className="group/action mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-control font-label text-link underline decoration-secondary/40 underline-offset-4 hover:decoration-secondary"
+          >
+            {link.label}
+            <ArrowRight
+              aria-hidden="true"
+              className="size-4 shrink-0 motion-safe:transition-transform motion-safe:group-hover/action:translate-x-0.5"
+            />
+          </StepActionLink>
+        ) : null}
       </div>
     </li>
   );

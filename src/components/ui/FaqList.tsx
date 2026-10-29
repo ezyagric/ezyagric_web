@@ -4,6 +4,7 @@ import { ButtonLink } from "./Button";
 import { resolveFaqActions } from "./faqActions";
 import { Icon } from "./Icon";
 import { KeepHyphensTogether } from "./KeepHyphens";
+import { RichText } from "./RichText";
 import { PendingBadge } from "./Pending";
 import { StoreBadges } from "./StoreBadges";
 
@@ -100,7 +101,7 @@ export function FaqList({
                   line with the question, past the spine. */}
               <div className="px-4 pb-6 sm:pr-6 sm:pl-[calc(var(--index)+1.25rem)]">
                 <p className="max-w-prose text-base text-pretty text-body">
-                  <KeepHyphensTogether text={item.a} />
+                  <RichText text={item.a} />
                 </p>
                 {actions.length > 0 ? (
                   <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-line pt-4">
@@ -108,8 +109,9 @@ export function FaqList({
                       action.kind === "get-app" ? (
                         <StoreBadges
                           key={action.kind}
-                          campaign="general"
-                          medium="faq"
+                          // The page's own campaign, so Play Console tells the FAQs apart.
+                          campaign={page ?? "general"}
+                          medium={page ? `faq-${page}` : "faq"}
                           size="md"
                         />
                       ) : action.kind === "try-kaezy" ? (
@@ -127,7 +129,11 @@ export function FaqList({
                           href={action.href}
                           variant={j === 0 ? "primary" : "secondary"}
                           track="faq_action_click"
-                          trackProps={{ action: action.kind }}
+                          trackProps={{
+                            action: action.kind,
+                            position: page ? `faq-answer-${page}` : "faq-answer",
+                            ...(action.kind === "page" ? { target: action.href } : {}),
+                          }}
                           className="w-full whitespace-nowrap sm:w-auto"
                         >
                           {action.icon ? (

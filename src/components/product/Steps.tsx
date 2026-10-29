@@ -1,10 +1,14 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import type { Product, Step, StepAction } from "@/lib/content";
 import { playStoreUrl } from "@/lib/links";
+import { trackData } from "@/lib/track";
 import { Highlight } from "@/components/home/parts";
 import { kaezyAskHref, kaezyOnSite, kaezyPayHref, kaezyTryHref, kaezyWatchHref } from "@/components/promo/KaEzyBanner";
 import { Section, SectionHeader } from "@/components/ui/Container";
+import { resolveFaqActions } from "@/components/ui/faqActions";
+import { HashLink } from "@/components/ui/HashLink";
 import type { BandTone } from "./tones";
 
 // Where the photo goes beside the steps. In the 5/12 column the photo is as
@@ -92,10 +96,18 @@ export function Steps({ product, tone }: { product: Product; tone: BandTone }) {
 /**
  * Where a step's link goes, its label, and the same analytics as the site's
  * other links there. Without the Ka-Ezy demo on this build, "try" plays the
- * banner's demo video and "ask" goes to the Ka-Ezy plans (`appLabel`).
+ * banner's demo video and "ask" goes to the Ka-Ezy plans (`appLabel`). The
+ * other targets resolve as FAQ buttons do; null when hidden on this build.
+ * Also used by the home journey's steps: `page` is the page the link sits on
+ * (the product's own page by default; null on the home page), so the Ka-Ezy
+ * links jump within the Ka-Ezy page or go to it.
  */
-function actionLink(action: StepAction, product: Product) {
-  const position = "how-it-works";
+export function actionLink(
+  action: StepAction,
+  product: Product,
+  { position = "how-it-works", page: on }: { position?: string; page?: string | null } = {},
+) {
+  const page = on === undefined ? product.slug : (on ?? undefined);
   const onSite = kaezyOnSite();
   const appLabel = action.appLabel ?? action.label;
   switch (action.kind) {
@@ -114,13 +126,13 @@ function actionLink(action: StepAction, product: Product) {
     case "try-kaezy":
       return onSite
         ? {
-            href: kaezyTryHref(product.slug),
+            href: kaezyTryHref(page),
             label: action.label,
             external: false,
             track: { "data-track": "kaezy_try_click", "data-track-position": position },
           }
         : {
-            href: kaezyWatchHref(product.slug),
+            href: kaezyWatchHref(page),
             label: appLabel,
             external: false,
             track: { "data-track": "kaezy_banner_click", "data-track-action": "watch", "data-track-position": position },
@@ -128,18 +140,63 @@ function actionLink(action: StepAction, product: Product) {
     case "ask-kaezy":
       return onSite
         ? {
-            href: kaezyAskHref(product.slug),
+            href: kaezyAskHref(page),
             label: action.label,
             external: false,
             track: { "data-track": "kaezy_try_click", "data-track-position": `${position}-ask` },
           }
         : {
-            href: kaezyPayHref(product.slug),
+            href: kaezyPayHref(page),
             label: appLabel,
             external: false,
             track: { "data-track": "kaezy_banner_click", "data-track-action": "pay", "data-track-position": position },
           };
+    default: {
+      // pay-kaezy, whatsapp, call, page and portal go where the FAQ buttons do.
+      const [to] = resolveFaqActions([{ kind: action.kind, label: action.label, href: action.href }]);
+      if (!to || !("href" in to)) return null;
+      return {
+        href: to.href,
+        label: action.label,
+        external: to.href.startsWith("http"),
+        track: trackData("step_action_click", {
+          action: action.kind,
+          product: product.slug,
+          position,
+          ...(action.href ? { target: action.href } : {}),
+        }),
+      };
+    }
   }
+}
+
+/**
+ * A step's link: a page of the site through HashLink (a section of this page
+ * jumps natively), anything else as a plain link, in a new tab when it
+ * leaves the site.
+ */
+export function StepActionLink({
+  link,
+  className,
+  children,
+}: {
+  link: NonNullable<ReturnType<typeof actionLink>>;
+  className: string;
+  children: ReactNode;
+}) {
+  if (link.href.startsWith("/") || link.href.startsWith("#")) {
+    return (
+      <HashLink href={link.href} className={className} {...link.track}>
+        {children}
+      </HashLink>
+    );
+  }
+  return (
+    <a href={link.href} className={className} {...(link.external ? { target: "_blank", rel: "noopener" } : {})} {...link.track}>
+      {children}
+      {link.external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+    </a>
+  );
 }
 
 /** `beside`: the list's classes when it sits beside (or under) a photo, joined by lines. */
@@ -200,19 +257,16 @@ function StepList({ items, beside, product }: { items: Step[]; beside: string | 
                   // White, underlined in green (the green alone is too close
                   // to 4.5:1 on the hover tint). The focus ring is drawn
                   // round the whole step, on the ::after.
-                  <a
-                    href={link.href}
-                    {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
-                    {...link.track}
+                  <StepActionLink
+                    link={link}
                     className="mt-2 inline-flex items-center gap-1.5 text-base font-label text-on-inverse underline decoration-accent-bright decoration-2 underline-offset-4 after:absolute after:inset-0 after:rounded-card focus-visible:outline-none focus-visible:after:outline-3 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus-inverse"
                   >
                     {link.label}
-                    {link.external ? <span className="sr-only"> (opens in a new tab)</span> : null}
                     <ArrowRight
                       aria-hidden="true"
                       className="size-4 shrink-0 text-accent-bright transition-transform motion-safe:group-hover:translate-x-0.5"
                     />
-                  </a>
+                  </StepActionLink>
                 ) : null}
               </div>
             </div>

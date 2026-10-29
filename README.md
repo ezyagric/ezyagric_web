@@ -54,6 +54,13 @@ Change the text, keep the indentation (spaces, not tabs). Put text in quotes if 
 
 Every file is checked when the site builds (`src/lib/content.ts`). A typo in a field name, a missing field or an unknown icon name **stops the build** with a message saying which file and field is wrong, instead of publishing a broken page.
 
+### Calls to action: links in copy, step and FAQ buttons
+
+- **A link inside a passage:** `[words](target)`, e.g. `on [Agrishop](/agrishop/) now`. A target is a page of the site (`/agrishop/`, `/ezyagric-business/#connect`, `/#contact-us`), an `https://` address, or one of `whatsapp`, `call`, `portal` (Partner login) and `get-app` (Google Play); a channel that is hidden on the build (an unconfirmed WhatsApp number) leaves the words plain. Put `==marks==` round a whole link, never inside it: `==[private and secure](/ezyagric-business/#promise-privacy)==`. At most two links in one passage. A page never links to itself (the words stay plain there), and a section of the same page jumps natively.
+- **Where links work:** home `hero.subline`, `products.intro`, `organisations.intro`, `alsoInApp` tiles and FAQ answers; product `card` summary and points, `hero.intro`, features, steps (not a step that has its own `action`), FAQ answers and `tryIt.intro`; business `hero.intro`, `kaezyBanner.intro` and FAQ answers. A link anywhere else (a title, a WhatsApp message, a search description) or to a page that doesn't exist **stops the build**.
+- **Step buttons:** a product's `steps.items` and the home `journey.steps` take an `action` with `kind` `get-app`, `try-kaezy`, `ask-kaezy`, `pay-kaezy`, `whatsapp`, `call`, `portal` or `page` (with `href`), and a `label`.
+- **FAQ buttons:** up to two `actions` under an answer (see `FaqAction` in `src/lib/content.ts`).
+
 ### Marking text that still needs confirmation
 
 Anything not yet confirmed can be marked `pending: true`, with a `note` saying what must be checked:
@@ -196,9 +203,11 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 - Google Analytics 4 loads **only after the visitor taps "Accept"** on the cookie banner. Before that, or after "No thanks", no Google script is requested and no cookie is set. The choice is stored in the browser; "Cookie settings" in the footer reopens the banner.
 - Google Consent Mode v2 is used with everything denied by default; accepting grants analytics storage only (ads features stay off).
 - Buttons and links send events through `data-track` attributes, picked up by one click listener in `src/components/analytics/Analytics.tsx`:
-  - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`); `position` is `how-it-works` for a product page's "Install the EzyAgric App" step
+  - `get_app_click` (`product`, `position`, `store`: `app_store` or `google_play`); `position` is `how-it-works` for a product page's step buttons, `home-journey` for the home journey's, `faq-<slug>` for FAQ store badges on a product page, `try-noscript` for the Ka-Ezy demo's no-JavaScript note
+  - `inline_link_click` (`target`: the copy's own target, e.g. `/agrishop/`, `/ezyagric-business/#connect-portal`, `whatsapp` or `get-app`; `section`: the section it sits in): a link inside a passage of copy
+  - `step_action_click` (`action`: `pay-kaezy`, `whatsapp`, `call`, `page` or `portal`; `product`; `position`: `how-it-works` or `home-journey`; `target` for a page): a step's button that isn't the app or the Ka-Ezy demo
   - `portal_login_click` (`position`; on the EzyAgric Business page `business-hero` or `business-connect`; `menu-desktop` for the Agribusiness Services menu's card)
-  - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its chapter pages, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide, `menu-desktop` and `menu-phone` for Explore the platform in the Agribusiness Services menu's card and strip)
+  - `business_page_click` (`position`: `organisations-section` for the home page's button, `organisations-module` with `module` for its chapter pages, `home-hero-slide` for "Learn more" on the hero's EzyAgric Business slide, `menu-desktop` and `menu-phone` for Explore the platform in the Agribusiness Services menu's card and strip, `404` for the 404 page's link)
   - `business_module_click` (`module`; `position`: `business-contents` for the hero's Contents card, `business-index` for the sticky module index, `menu-desktop` and `menu-phone` for the Agribusiness Services menus)
   - `business_product_click` (`module`, `product`): a chapter's "Built on" link to the service it is built on
   - `business_promise_click` (`promise`: `privacy` or `investment`; `position`: `business-promises` for the promises band's links, with `action`: `policy` or `pricing`)
@@ -206,10 +215,10 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
   - `kaezy_banner_click` (`action`: watch, try or pay; `position`): the banner's Pay button (pay), the menus' Ka-Ezy card and strip (watch, try, pay), and on builds without the demo the Ka-Ezy page's "Tap Ka-Ezy" (watch) and "Ask anything" (pay) steps, position `how-it-works`, and the EzyServices chapter's link down to the banner on the EzyAgric Business page (watch), position `business-ezyservices`; that page's banner itself has position `ezyagric-business-page`
   - `kaezy_try_prompt` (`prompt`), `kaezy_try_ask`, `kaezy_try_nudge`
   - `kaezy_try_photo` (the photo buttons in Farm Expert), `kaezy_try_sample_photo` (`item`: the sample's crop, e.g. Maize)
-  - `faq_action_click` (`action`: `whatsapp`, `call`, `pay-kaezy`, `page` or `portal` for Partner login): the other buttons under FAQ answers
+  - `faq_action_click` (`action`: `whatsapp`, `call`, `pay-kaezy`, `page` or `portal` for Partner login; `position`: `faq-answer` or `faq-answer-<slug>`; `target` for a page): the other buttons under FAQ answers
   - `livestock_product_click` (`product`): the product tiles in the home page's livestock section
   - `kaezy_hire_continue` (`plan`), `kaezy_hire_pay` (`plan`, `network`)
-  - `whatsapp_click`, `tel_click`, `email_click` (`position` where a page has several, e.g. `key-facts`; on the EzyAgric Business page `business-hero`, `business-module` with `module` for each chapter's "Ask about …", `business-connect` for "Ask about the APIs", `business-pricing-button` and `business-pricing` for the quotation slip's button and contact rows; `menu-desktop` and `menu-phone` for Talk to our team in the Agribusiness Services menu's card and strip)
+  - `whatsapp_click`, `tel_click`, `email_click` (`position` where a page has several, e.g. `key-facts`; on the EzyAgric Business page `business-hero`, `business-module` with `module` for each chapter's "Ask about …", `business-connect` for "Ask about the APIs", `business-pricing-button` and `business-pricing` for the quotation slip's button and contact rows; `menu-desktop` and `menu-phone` for Talk to our team in the Agribusiness Services menu's card and strip; `business-connect-portal` for "Ask about the portal"; `footer` and `404` for the footer's and the 404 page's WhatsApp links)
   - `video_play` (`video_id`)
 - Play Store links also carry a referrer (`utm_source=website&utm_medium=<position>&utm_campaign=<product>`), so installs show up per page and button in Play Console even without cookies.
 - YouTube videos show a local thumbnail and load from `youtube-nocookie.com` only when tapped.

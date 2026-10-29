@@ -24,7 +24,7 @@ card:
 hero:
   eyebrow: Produce Market · Sell crops & livestock
   headline: Post your produce on the EzyAgric market
-  intro: "Farmer or agribusiness, list your ==crops, animals and farm products== in ==a few taps==. You choose the quantity, the unit and ==your asking price==."
+  intro: "Farmer or agribusiness, list your ==crops, animals and farm products== in ==[a few taps](/produce-market/#how-it-works)==. You choose the quantity, the unit and ==your asking price==."
   image:
     src: /images/products/produce-market.webp
     alt: A farmer at a market stall of fresh produce
@@ -64,10 +64,13 @@ steps:
   items:
     - title: Post a new item
       text: Open Produce Market in the app and tap Post New Item.
+      action: { kind: get-app, label: Get the EzyAgric App }
     - title: Add the details
       text: Choose the produce and variety, then add quantity, unit, price and location.
     - title: Publish
       text: Your produce is now live on the market.
+      # The next question once it's live: how buyers get in touch (the FAQ below).
+      action: { kind: page, label: How buyers reach you, href: "/produce-market/#faq" }
     - title: Mark it as sold
       text: Update the listing when it's sold.
 
@@ -90,10 +93,16 @@ faq:
       - { kind: get-app }
   - q: Who sets the price?
     a: You do. Set your own asking price per unit.
+    actions:
+      - { kind: get-app }
   - q: How do buyers contact me?
     a: "Buyers who see and are interested in your listing get in touch with you directly."
+    actions:
+      - { kind: get-app }
   - q: Where can I sell?
     a: Produce Market is available in Uganda for now.
+    actions:
+      - { kind: whatsapp, label: "Ask us on WhatsApp" }
 
 seo:
   title: "Produce Market: list your crops and livestock for sale | EzyAgric"

@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
+import { RichText } from "@/components/ui/RichText";
 
 /**
  * For agribusinesses: a glimpse of EzyAgric Business, as its record book
@@ -31,7 +32,7 @@ export function Organisations() {
           </h2>
         </div>
         <p className="mt-3 max-w-2xl text-lg text-pretty text-muted lg:mt-0">
-          <KeepHyphensTogether text={org.intro} />
+          <RichText text={org.intro} />
         </p>
       </div>
 

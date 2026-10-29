@@ -3,6 +3,7 @@ import path from "node:path";
 import { parse } from "yaml";
 import { z } from "zod";
 import { SHOW_PENDING } from "./env";
+import { linkProblems } from "./richText";
 import { THEMES } from "@/theme/themes";
 
 // All website copy lives in content/*.yaml so the product team can edit it
@@ -107,17 +108,26 @@ const Feature = z.object({
 export type Feature = z.infer<typeof Feature>;
 
 /**
- * Where a "how it works" step can take the visitor (resolved in
- * product/Steps.tsx, so links follow the build): Google Play, the Ka-Ezy
- * demo, or the demo's question box. `label` is the link's text. On builds
- * without the Ka-Ezy demo, "try" goes to the banner's demo video and "ask"
- * to the Ka-Ezy plans instead, labelled `appLabel`.
+ * Where a step can take the visitor (a product's "how it works" step or a
+ * home journey step; resolved in product/Steps.tsx, so links follow the
+ * build): Google Play, the Ka-Ezy demo or its question box, the Ka-Ezy plans,
+ * WhatsApp or a call to the team, Partner login, or a page of the site
+ * (`href`, e.g. "/ezycredits/#key-facts"). `label` is the link's text. On
+ * builds without the Ka-Ezy demo, "try" goes to the banner's demo video and
+ * "ask" to the Ka-Ezy plans instead, labelled `appLabel`. A step whose
+ * target is hidden on the build (an unconfirmed WhatsApp number) shows no link.
  */
-const StepAction = z.object({
-  kind: z.enum(["get-app", "try-kaezy", "ask-kaezy"]),
-  label: z.string(),
-  appLabel: z.string().optional(),
-});
+const StepAction = z
+  .object({
+    kind: z.enum(["get-app", "try-kaezy", "ask-kaezy", "pay-kaezy", "whatsapp", "call", "page", "portal"]),
+    label: z.string(),
+    appLabel: z.string().optional(),
+    href: z.string().startsWith("/").optional(),
+  })
+  .refine((a) => (a.kind === "page") === !!a.href, { message: 'Only a "page" action takes an href, and it needs one' })
+  .refine((a) => !a.appLabel || a.kind === "try-kaezy" || a.kind === "ask-kaezy", {
+    message: "appLabel is only for try-kaezy and ask-kaezy",
+  });
 export type StepAction = z.infer<typeof StepAction>;
 
 const Step = z.object({ title: z.string(), text: z.string(), action: StepAction.optional() });
@@ -528,6 +538,8 @@ const SiteSchema = z.object({
           text: z.string(),
           /** A real photo of the step from the field, on its card (components/home/Journey). */
           image: Image,
+          /** The step's link under its text (as a product's steps). */
+          action: StepAction.optional(),
         }),
       )
       .length(4),
@@ -799,6 +811,8 @@ const BusinessSchema = z.object({
           button: z.string(),
           /** The WhatsApp message of an api card's button. */
           message: z.string().optional(),
+          /** portal: a WhatsApp button beside Partner login, for enterprises not on it yet. */
+          ask: z.object({ label: z.string(), message: z.string() }).optional(),
           /** The api card's illustration: from EzyAgric Business to the enterprise's system. */
           plug: z.object({ from: z.string(), to: z.string(), label: z.string() }).optional(),
         }),
@@ -846,6 +860,41 @@ function readYaml(file: string): unknown {
   return parse(fs.readFileSync(path.join(CONTENT_DIR, file), "utf8"));
 }
 
+// The site's pages, for [words](target) links in copy (lib/richText).
+const PAGES = ["/", "/ezyagric-business/", "/privacy-policy/", ...PRODUCT_SLUGS.map((slug) => `/${slug}/`)];
+
+/**
+ * Where copy may carry [words](target) links: the fields whose components
+ * render them (Highlight, RichText). Anywhere else a link would show as raw
+ * brackets, leak into a meta tag or share image, or sit inside another link,
+ * so the build stops. Paths are the YAML's own ("faq.items.2.a").
+ */
+const LINK_FIELDS = {
+  site: /^(hero\.subline|products\.intro|organisations\.intro|faq\.items\.\d+\.a|alsoInApp\.items\.\d+\.text)$/,
+  product:
+    /^(card\.summary|card\.points\.\d+(\.text)?|hero\.intro|features\.items\.\d+\.text|steps\.items\.\d+\.text|faq\.\d+\.a|tryIt\.intro)$/,
+  business: /^(hero\.intro|faq\.items\.\d+\.a|kaezyBanner\.intro)$/,
+};
+
+/** Stops the build on a link where it can't show, or to a page that doesn't exist. */
+function checkLinks(data: unknown, file: string, fields: RegExp): void {
+  const walk = (value: unknown, at: string[]): void => {
+    if (typeof value === "string") {
+      if (!value.includes("](")) return;
+      const path = at.join(".");
+      // The Ka-Ezy demo's sample answers are Markdown of their own (MiniMarkdown).
+      if (path.startsWith("tryIt.") && path !== "tryIt.intro") return;
+      const problems = fields.test(path) ? linkProblems(value, PAGES) : ["links aren't shown here"];
+      if (problems.length > 0) throw new Error(`content/${file}: ${path}: ${problems.join("; ")}`);
+    } else if (Array.isArray(value)) {
+      value.forEach((item, i) => walk(item, [...at, String(i)]));
+    } else if (value && typeof value === "object") {
+      for (const [key, item] of Object.entries(value)) walk(item, [...at, key]);
+    }
+  };
+  walk(data, []);
+}
+
 function validate<T>(schema: z.ZodType<T>, data: unknown, file: string): T {
   const result = schema.safeParse(data);
   if (!result.success) {
@@ -863,14 +912,18 @@ const CACHE = process.env.NODE_ENV === "production";
 let siteCache: Site | undefined;
 export function getSite(): Site {
   if (siteCache && CACHE) return siteCache;
-  siteCache = validate(SiteSchema, readYaml("site.yaml"), "site.yaml");
+  const data = readYaml("site.yaml");
+  checkLinks(data, "site.yaml", LINK_FIELDS.site);
+  siteCache = validate(SiteSchema, data, "site.yaml");
   return siteCache;
 }
 
 let businessCache: Business | undefined;
 export function getBusiness(): Business {
   if (businessCache && CACHE) return businessCache;
-  businessCache = validate(BusinessSchema, readYaml("business.yaml"), "business.yaml");
+  const data = readYaml("business.yaml");
+  checkLinks(data, "business.yaml", LINK_FIELDS.business);
+  businessCache = validate(BusinessSchema, data, "business.yaml");
   return businessCache;
 }
 
@@ -879,7 +932,15 @@ export function getProducts(): Product[] {
   if (productsCache && CACHE) return productsCache;
   productsCache = PRODUCT_SLUGS.map((slug) => {
     const file = `products/${slug}.yaml`;
-    const product = validate(ProductSchema, readYaml(file), file);
+    const data = readYaml(file);
+    checkLinks(data, file, LINK_FIELDS.product);
+    const product = validate(ProductSchema, data, file);
+    // A step with an action is one big link: a link in its text couldn't be clicked.
+    product.steps.items.forEach((step, i) => {
+      if (step.action && step.text.includes("](")) {
+        throw new Error(`content/${file}: steps.items.${i}.text: no links in a step that has an action`);
+      }
+    });
     if (product.slug !== slug) {
       throw new Error(`content/${file}: slug must be "${slug}"`);
     }

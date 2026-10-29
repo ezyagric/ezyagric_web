@@ -13,7 +13,7 @@ card:
   points:
     - Delivered to your shop, farm or office
     - Track every order until it arrives
-    - Pay by Mobile Money, on delivery or with Buy Now, Pay Later (if you qualify)
+    - "Pay by Mobile Money, on delivery or with [Buy Now, Pay Later](/ezycredits/) (if you qualify)"
   image:
     src: /images/products/agrishop.webp
     alt: A farmer pushing a shopping trolley of farm inputs
@@ -98,7 +98,7 @@ features:
       text: Your orders are automatically posted to your expense ledgers.
       icon: clipboard-list
     - title: Pay your way
-      text: "MTN or Airtel Mobile Money, Pay on Delivery, or EzyCredits Buy Now, Pay Later (if you qualify)."
+      text: "MTN or Airtel Mobile Money, Pay on Delivery, or [EzyCredits Buy Now, Pay Later](/ezycredits/) (if you qualify)."
       icon: wallet
 
 steps:
@@ -106,12 +106,15 @@ steps:
   items:
     - title: Find what you need
       text: "Search or shop by category: seeds, fertilizers, pesticides, livestock and more."
+      action: { kind: get-app, label: Get the EzyAgric App }
     - title: Confirm your order
       text: Add items to your cart, check your delivery address and confirm.
     - title: Choose how to pay
       text: Mobile Money, pay on delivery, or EzyCredits Buy Now, Pay Later.
+      action: { kind: page, label: "How Buy Now, Pay Later works", href: "/ezycredits/#how-it-works" }
     - title: Track your order
       text: Watch your order move until it's delivered.
+      action: { kind: whatsapp, label: Ask about an order }
 
 # A real photo (marketing team, 27 Oct 2026): Agrishop's "Shop by
 # category" on a phone, the first step here.
@@ -136,8 +139,12 @@ faq:
       - { kind: get-app }
   - q: Do prices include delivery?
     a: No. Prices don't include transport costs.
+    actions:
+      - { kind: whatsapp, label: "Ask about delivery costs" }
   - q: Can I pay when my order arrives?
     a: Yes. Choose Pay on Delivery at checkout.
+    actions:
+      - { kind: get-app }
   - q: Can I buy now and pay later?
     a: Yes, with EzyCredits Buy Now, Pay Later if you qualify.
     actions:

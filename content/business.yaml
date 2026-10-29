@@ -44,7 +44,7 @@ hero:
   headline: Our four services, ==built for your agribusiness==
   # How it connects, then the two promises (the "Two promises" band spells
   # them out).
-  intro: "EzyAgric Business brings the power of the ==proven, trusted and scaled== Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises and organisations that work with farmers: in ==a web portal==, or through ==APIs== into your existing systems. Your data stays ==private and secure==, and you get started with ==minimal upfront tech investment==."
+  intro: "EzyAgric Business brings the power of the ==proven, trusted and scaled== Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises and organisations that work with farmers: in ==a web portal==, or through ==APIs== into your existing systems. Your data stays ==[private and secure](/ezyagric-business/#promise-privacy)==, and you get started with ==[minimal upfront tech investment](/ezyagric-business/#promise-investment)==."
   contents:
     label: Contents
     note: 4 modules · 1 sign-in
@@ -272,7 +272,7 @@ modules:
 # On this page the Ka-Ezy banner shows what the enterprise's farmers get
 # (its step 2 is the farmers' price, not the enterprise's).
 kaezyBanner:
-  intro: "This is what your farmers get with EzyServices. Watch Ka-Ezy at work, try it, see the farmers' plans or get the app. For bulk subscriptions, talk to our team."
+  intro: "This is what your farmers get with EzyServices. Watch Ka-Ezy at work, try it, see the farmers' plans or get the app. For bulk subscriptions, [talk to our team](whatsapp)."
 
 access:
   eyebrow: Web portal or APIs
@@ -283,6 +283,10 @@ access:
     - title: Web portal
       kind: portal
       button: Partner login
+      # For enterprises not on it yet: a chat with the team beside Partner login.
+      ask:
+        label: Ask about the portal
+        message: "Hello EzyAgric, I'd like to know more about the EzyAgric Business web portal."
       text: For teams that want to work in EzyAgric Business directly.
       icon: monitor
       points:
@@ -373,7 +377,7 @@ faq:
     - q: How much does it cost?
       a: Pricing is custom to your business. Talk to our team for a quote.
       actions:
-        - { kind: whatsapp, label: "Ask us on WhatsApp" }
+        - { kind: whatsapp, label: "Ask for a quote" }
         - { kind: call, label: "Call us" }
     - q: I already use EzyAgric Business. Where do I sign in?
       a: Use Partner login at the top of any page, or the button below. One EzyAgric account opens all your modules.
