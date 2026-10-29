@@ -264,7 +264,7 @@
    beats the link's own text-link utility. */
 .bg-inverse a.inline-link,
 .gradient-brand a.inline-link {
-  @apply text-on-inverse decoration-accent-bright;
+  @apply text-on-inverse decoration-accent-bright decoration-2;
 }
 
 /* The signature gradient: brand blue to green, left to right. Its green end

@@ -67,6 +67,8 @@ export function KaEzyDemo({
   // under the sticky header the page scrolls to the window's foot, not its
   // top. Modifier clicks (a new tab or window) are left to the browser, and
   // on a reload or back/forward the browser's own scroll position stands.
+  // Arriving from another page of the site counts however the document was
+  // first loaded (a client-side navigation leaves that entry behind).
   useEffect(() => {
     const hash = `#${askId}`;
     function reveal() {
@@ -79,7 +81,10 @@ export function KaEzyDemo({
       win.scrollIntoView({ block: win.offsetHeight + margin <= window.innerHeight ? "start" : "end" });
     }
     const [entry] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
-    if (window.location.hash === hash && (!entry || entry.type === "navigate")) requestAnimationFrame(reveal);
+    const clientArrival = !!entry && new URL(entry.name).pathname !== window.location.pathname;
+    if (window.location.hash === hash && (!entry || entry.type === "navigate" || clientArrival)) {
+      requestAnimationFrame(reveal);
+    }
     function onClick(event: MouseEvent) {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       if (!(event.target instanceof Element) || !event.target.closest(`a[href$="${hash}"]`)) return;
