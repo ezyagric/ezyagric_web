@@ -11,7 +11,7 @@ Its job is to make the app's four tools clear in a few seconds on a cheap Androi
 | **EzyCredits** | Buy Now, Pay Later (credit from EzyAgric lender partners) | `/ezycredits/` |
 | **Produce Market** | Farmers list their produce for sale | `/produce-market/` |
 
-It also serves agribusiness enterprises: **EzyAgric Business** (`/ezyagric-business/`) brings the four services to them as a web portal or APIs, in four modules: EzySupplier (input suppliers), EzyProduce (off-takers), EzyCredits (financial institutions and fintechs) and EzyServices (extension enterprises). Pricing is custom.
+It also serves agribusiness enterprises: **EzyAgric Business** (`/ezyagric-business/`) brings the four services to them as a web portal or APIs, in four modules: EzySupplier (input suppliers), EzyProduce (off-takers), EzyCredits (financial institutions and fintechs) and EzyServices (extension enterprises), and to development partners, governments and other organisations interested in agriculture. Pricing is custom.
 
 The site is built with Next.js (App Router, TypeScript, Tailwind CSS) and exported as **plain static files** (`out/`) that nginx serves. There is no server code, database or contact form. Pages work with JavaScript turned off; JavaScript is only used for the video player and the analytics consent banner.
 

@@ -27,9 +27,9 @@ name: EzyAgric Business
 tagline: Web portal and APIs for agribusinesses
 
 hero:
-  eyebrow: EzyAgric Business · For agribusiness enterprises
+  eyebrow: EzyAgric Business · For agribusinesses, development partners and governments
   headline: Our four services, ==built for your agribusiness==
-  intro: "EzyAgric Business brings the power of the ==proven, trusted and scaled== Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises that work with farmers: in ==a web portal==, or through ==APIs== into your existing systems."
+  intro: "EzyAgric Business brings the power of the ==proven, trusted and scaled== Agrishop, Ka-Ezy, EzyCredits and Produce Market to the enterprises and organisations that work with farmers: in ==a web portal==, or through ==APIs== into your existing systems."
   facts:
     - { icon: monitor, text: Web portal }
     - { icon: plug, text: APIs }
@@ -242,7 +242,7 @@ pricing:
     label: Quotation · EzyAgric Business
     stamp: Custom quote
     rows:
-      - { label: Prepared for, value: Your enterprise }
+      - { label: Prepared for, value: Your enterprise or organisation }
       - { label: Modules, value: The ones you use, modules: true }
       - { label: Access, value: Web portal or APIs }
     price: { label: Price, value: Custom }
@@ -270,4 +270,4 @@ faq:
 
 seo:
   title: "EzyAgric Business: web portal and APIs for agribusinesses | EzyAgric"
-  description: "EzySupplier, EzyProduce, EzyCredits and EzyServices: EzyAgric's services for input suppliers, off-takers, lenders and extension enterprises, by web portal or API."
+  description: "EzyAgric's services by web portal or API for input suppliers, off-takers, lenders, extension enterprises, development partners, governments and others in agriculture."
