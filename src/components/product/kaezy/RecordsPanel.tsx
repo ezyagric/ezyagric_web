@@ -16,7 +16,8 @@ const NUDGE_AFTER = 3;
  * Farm Records: the visitor says what happened ("Sold 5 bags of maize for
  * 600,000"), Ka-Ezy turns it into a record card to save (the app's record
  * proposal), and the season's income, expenses and profit add up above.
- * Records are saved on this device only.
+ * Records are saved on this device, and to the visitor's account when they
+ * are signed in (`remote`).
  */
 export function RecordsPanel({
   copy,
@@ -27,6 +28,7 @@ export function RecordsPanel({
   hireHref,
   live,
   labels,
+  remote = null,
 }: {
   copy: TryIt;
   profile: Profile;
@@ -36,6 +38,8 @@ export function RecordsPanel({
   hireHref: string;
   live: KaEzyChatService | null;
   labels: ThreadLabels;
+  /** Signed in: also saves the records to the visitor's account (best effort). */
+  remote?: ((records: FarmRecord[]) => void) | null;
 }) {
   const r = copy.records;
   // The conversation waiting for Ka-Ezy, if any (the "thinking" bubble shows only there).
@@ -100,6 +104,7 @@ export function RecordsPanel({
     );
     if (!save) return;
     demo.saveRecords(message.records);
+    remote?.(message.records);
     if (records.length < NUDGE_AFTER && records.length + message.records.length >= NUDGE_AFTER) {
       demo.appendTo(conversation.id, [{ id: newId(), from: "nudge", text: r.nudge }]);
     }

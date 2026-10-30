@@ -21,6 +21,24 @@ export const SITE_URL = (
 export const KAEZY_DEMO_API = (process.env.NEXT_PUBLIC_KAEZY_DEMO_API ?? "").trim();
 
 /**
+ * The EzyAgric Partner API, for "Try Ka-Ezy" signed in: the visitor signs in
+ * with an organisation's code and their phone (or a sign-in link) and gets
+ * the real Ka-Ezy (components/product/kaezy/partner.ts). Normally
+ * "https://kaezy-api.ezyagric.com/partner"; it must also be allowed in the
+ * Content-Security-Policy's connect-src (nginx/nginx.conf). Empty: no
+ * sign-in card.
+ */
+export const PARTNER_API = (process.env.NEXT_PUBLIC_PARTNER_API ?? "").trim().replace(/\/$/, "");
+
+/**
+ * The organisation a visitor with no organisation code joins when they sign
+ * in from the website (EzyAgric's own, e.g. "ezyorg531207"). The sign-in
+ * card then asks only for a name and phone; the code field is behind "I have
+ * an organisation code". Empty: every visitor must type a code.
+ */
+export const PARTNER_DEFAULT_ORG = (process.env.NEXT_PUBLIC_PARTNER_DEFAULT_ORG ?? "").trim();
+
+/**
  * The live count behind the home page's first impact number
  * (docs/backend-tickets.md BT-10), normally the same-origin path
  * "/api/impact" that nginx proxies to EzyCRM's read-only count. Empty: the

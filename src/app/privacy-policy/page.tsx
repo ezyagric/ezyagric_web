@@ -104,6 +104,7 @@ export default function PrivacyPolicyPage() {
                 "Farm and business information, including crop details, farm records, and transaction history.",
                 "Device and technical information such as IP address, browser type, operating system, and usage logs.",
                 "Communication data from customer support interactions, surveys, and feedback.",
+                "If you sign in to Try Ka-Ezy on this website with an organisation code and your phone number, we collect that phone number, the name you give, your consent, the farm details and questions you send to Ka-Ezy, and any records you save. Your organisation can see that you signed in, your usage and your plan. Without signing in, what you enter in Try Ka-Ezy stays on your device.",
               ]}
             />
           </PolicySection>

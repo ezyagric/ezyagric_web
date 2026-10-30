@@ -4,6 +4,7 @@ import { useRef, useState, type RefObject } from "react";
 import { History, MessageCircle, Sprout } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/lib/content";
+import type { RemoteThread } from "./partner";
 import type { Profile, TryIt } from "./personalise";
 import { demo, type Conversation, type Tab } from "./store";
 
@@ -54,14 +55,12 @@ export function FarmDetails({
 
       <label htmlFor="kaezy-farm-value-chain" className={`mt-4 ${LABEL}`}>
         {f.valueChain}
-        <span aria-hidden="true"> *</span>
       </label>
       <select
         ref={valueChainRef}
         id="kaezy-farm-value-chain"
         value={profile.valueChain}
         onChange={(event) => demo.setProfile({ valueChain: event.target.value })}
-        aria-required="true"
         className={`mt-1 ${FIELD}`}
       >
         <option value="">{f.valueChainPlaceholder}</option>
@@ -178,6 +177,8 @@ export function PastConversations({
   openIds,
   hasData,
   onOpen,
+  remote = null,
+  onOpenRemote,
   className = "",
 }: {
   copy: TryIt;
@@ -187,9 +188,17 @@ export function PastConversations({
   /** Anything saved on this device (farm details count too), so "Delete all" has something to delete. */
   hasData: boolean;
   onOpen: (conversation: Conversation) => void;
+  /** Signed in: the visitor's conversations on their account (null while loading or signed out). */
+  remote?: RemoteThread[] | null;
+  onOpenRemote?: (thread: RemoteThread) => void;
   className?: string;
 }) {
   const f = copy.farm;
+  // Account conversations not already on this device (a conversation started
+  // here is listed above, under its own title).
+  const localThreadIds = new Set(conversations.map((c) => c.threadId));
+  const fromAccount = (remote ?? []).filter((t) => !localThreadIds.has(t.threadId));
+  const nothing = conversations.length === 0 && fromAccount.length === 0;
   const [confirming, setConfirming] = useState(false);
   const [status, setStatus] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -208,7 +217,7 @@ export function PastConversations({
       <p role="status" className="sr-only">
         {status}
       </p>
-      {conversations.length === 0 ? (
+      {nothing ? (
         // Just the line on phones, where the Ka-Ezy window comes next.
         <div className="flex flex-1 flex-col items-center justify-center gap-2 pt-3 text-center md:py-6">
           <span
@@ -222,6 +231,11 @@ export function PastConversations({
       ) : (
         // -mx-2 px-2: room for the open conversation's bar and the focus ring inside the scroll area.
         <ul className="-mx-2 mt-2 max-h-72 min-h-0 space-y-1 overflow-y-auto px-2 py-1 lg:max-h-none lg:flex-1">
+          {fromAccount.length > 0 && conversations.length > 0 ? (
+            <li aria-hidden="true" className="px-2 pt-1 text-xs text-label-style text-label">
+              {f.pastDevice}
+            </li>
+          ) : null}
           {conversations.map((conversation) => {
             const open = openIds.includes(conversation.id);
             return (
@@ -251,6 +265,32 @@ export function PastConversations({
               </li>
             );
           })}
+          {fromAccount.length > 0 ? (
+            <li className="px-2 pt-3 text-xs text-label-style text-label">{f.pastAccount}</li>
+          ) : null}
+          {fromAccount.map((thread) => (
+            <li key={thread.threadId}>
+              <button
+                type="button"
+                onClick={() => onOpenRemote?.(thread)}
+                data-track="kaezy_try_open_account_conversation"
+                className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 border-transparent px-2 py-1.5 text-left transition-colors hover:bg-card"
+              >
+                <span
+                  aria-hidden="true"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card text-secondary ring-1 ring-line"
+                >
+                  <Icon name={TAB_ICONS[thread.tab]} className="size-4" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-label text-title">{thread.title}</span>
+                  <span className="block text-xs text-muted">
+                    {copy.tabs[thread.tab].title} · {when(thread.at)}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))}
         </ul>
       )}
       {/* At the foot of the list (beside the title there's no room in the

@@ -134,6 +134,8 @@ tryIt:
     storageLive: Saved on this device only, and sent with your questions so Ka-Ezy can tailor its answers.
     pastTitle: Past conversations
     pastEmpty: No conversations yet.
+    pastDevice: On this device
+    pastAccount: From your Ka-Ezy account
     newConversation: New conversation
     clear: Delete all
   # The app's value chains (FarmPlanOptions.valueChainItems), grouped.
@@ -342,8 +344,100 @@ tryIt:
       offline: Unable to connect. Check your internet and try again.
       busy: Server is busy right now. Please try again shortly.
       limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
+      # Signed in through the Partner API (the sign-in card beside Your farm).
+      signedOut: "Your sign-in has ended. Sign in again to keep asking."
+      notEnabled: "Your organisation hasn't turned this feature on yet. Ask them, or try another tab."
+      unknownValueChain: "Ka-Ezy can't plan for that value chain yet. Choose another one in Your farm."
     nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your crops and livestock, day or night."
+    signInPrompt: "Or sign in here with your name and phone, and Ka-Ezy will answer about your own farm right on this page."
     disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
+  # "Sign in for the real Ka-Ezy", beside Your farm, on builds with
+  # NEXT_PUBLIC_PARTNER_API (README, "Ka-Ezy on the website"). The visitor
+  # signs in with an organisation's code and their phone through the EzyAgric
+  # Partner API, or from a sign-in link the organisation gives them, and the
+  # demo then answers from the real Ka-Ezy with their own account.
+  signIn:
+    title: Sign in for the real Ka-Ezy
+    intro: "Give your name and phone and we text you a code. Signed in, Ka-Ezy answers for real, about your own farm."
+    orgCode: Organisation code
+    orgCodeHint: "From the organisation that gave you Ka-Ezy, e.g. ezyorg482913."
+    orgToggle: I have an organisation code
+    phone: Your phone number
+    phoneHint: "The number that will receive the code."
+    phoneMaskedHint: "Your link was for {masked}."
+    sendCode: Send me a code
+    sending: Sending…
+    codeSent: "We've texted a 6-digit code to {phone}. It's valid for 5 minutes."
+    sandboxCode: "This is a test organisation: no SMS is sent, the code is 123456."
+    code: The code from the SMS
+    fullName: Your full name
+    fullNameHint: "As on your ID; it goes on your EzyAgric farmer record."
+    consent: "I agree to EzyAgric's terms and"
+    consentLink: privacy policy
+    # Sent to the API with the consent. Bump when the terms or this wording change.
+    termsVersion: ezyagric-2026-10
+    submit: Sign in
+    signingIn: Signing in…
+    back: Change number
+    signedIn: "Signed in as {who} with {org}."
+    sandboxBadge: Test
+    signOut: Sign out
+    linkSigningIn: "Signing you in…"
+    linkSigningInHint: "Checking your link and opening your session. This takes a moment."
+    linkUsed: "That sign-in link has already been used. We'll text you a code instead."
+    linkExpired: "That sign-in link has expired. We'll text you a code instead."
+    linkInvalid: "That sign-in link isn't valid. We'll text you a code instead."
+    fromLink: "Your organisation comes from the link you opened:"
+    open: Sign in
+    # The snackbar at the foot of the screen, as the sign-in goes along.
+    toasts:
+      signingIn: "Signing you in…"
+      signedIn: "Signed in as {who} with {org}."
+      detailsReady: "Your Ka-Ezy details are ready."
+      signedOut: "You're signed out."
+      codeSent: "Code sent to {phone}."
+      recordSaved: "Record saved to your Ka-Ezy account."
+      loadingConversation: "Loading the conversation…"
+    # "Your Ka-Ezy account", under the Ka-Ezy window, for a signed-in visitor:
+    # their stage with the organisation, this month's use and their plan.
+    account:
+      title: Your Ka-Ezy account
+      loading: Loading your account…
+      stageLabel: Your stage
+      stages:
+        awareness: Signed up
+        onboarded: Getting started
+        transacted: Ka-Ezy customer
+        repeating: Regular customer
+      monthLabel: This month
+      request: question or plan
+      requests: questions and plans
+      farmExpert: Farm Expert
+      farmPlan: Farm Plan
+      records: Records kept
+      yes: "yes"
+      no: not yet
+      planLabel: Your Ka-Ezy plan
+      plans:
+        free: Free plan
+        paid: Paid plan
+        none: No plan yet
+      status:
+        active: active
+        exhausted: used up
+      used: used
+      ends: ends
+      pay: Buy or renew Ka-Ezy
+    errors:
+      unknownOrg: "No organisation has that code. Check it with the organisation; codes look like ezyorg482913."
+      blocked: "This account can't sign in right now. Ask your organisation."
+      limit: "This organisation already has its maximum number of users."
+      badCode: "That code isn't right or has expired. Check the SMS, or send a new code."
+      tooMany: "Too many tries. Wait a few minutes, then try again."
+      needName: "Enter your full name: it's needed the first time you sign in."
+      needConsent: "Tick the box to agree to EzyAgric's terms and privacy policy."
+      badPhone: "That doesn't look like a Ugandan mobile number, e.g. 772 123 456."
+      generic: "Something went wrong. Please try again shortly."
   # Farm Expert's photo check, like the app's diagnosis mode. The sample
   # photos are drawings made for the website, and their diagnoses are samples
   # (see note). {name} is filled in as in the answers above.
@@ -525,7 +619,11 @@ tryIt:
       - Use photo diagnosis to spot farm problems early.
       - Map your gardens and get soil, fertilizer and season plans.
     accountHelp: Use the number you sign in to the EzyAgric App with. Your plan is added to that account.
+    accountRequired: "Your plan is added to the EzyAgric account with this number, so tick the box to pay. If you use another number in the app, pay with that one."
+    notRegistered: "This number isn't registered with EzyAgric yet, so a plan has nowhere to go. Sign out and sign in again to retry, or ask Ka-Ezy a question first."
+    checkingAccount: "Checking your EzyAgric account…"
     policy: EzyAgric never asks for or stores your Mobile Money PIN.
+    livePrompt: "When you tap Pay, a Mobile Money prompt is sent to this phone. Approve it with your PIN and your plan starts right away. A plan runs to its end date; there are no refunds."
     appHandoff: "Paying on the website is coming soon. For now, hire Ka-Ezy in the EzyAgric App: open Ka-Ezy and tap View Ka-Ezy Plans."
 
 steps:

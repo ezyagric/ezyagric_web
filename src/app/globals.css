@@ -101,6 +101,18 @@
    screen. Skipped for reduced motion and where scroll timelines are missing
    (the stamp just sits there). Longhands only; transform composes with the
    stamp's Tailwind rotate (the separate `rotate` property). */
+/* The snackbar (components/ui/Snackbar.tsx) sliding up into place. */
+@keyframes snack-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes stamp-press {
   from {
     opacity: 0;

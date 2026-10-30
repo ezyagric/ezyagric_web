@@ -44,6 +44,7 @@ export function ExpertPanel({
   live,
   labels,
   onChooseValueChain,
+  onSignIn,
 }: {
   copy: TryIt;
   profile: Profile;
@@ -53,6 +54,8 @@ export function ExpertPanel({
   live: KaEzyChatService | null;
   labels: ThreadLabels;
   onChooseValueChain: () => void;
+  /** Builds with sign-in: a sample answer to the visitor's own question offers it. */
+  onSignIn?: () => void;
 }) {
   const chat = copy.chat;
   const d = copy.diagnosis;
@@ -124,11 +127,14 @@ export function ExpertPanel({
     setPhotoStatus("");
     const text = typed || d.question;
     void send(text, own?.photo, async (conversationId, signal) => {
+      // Sample answers cannot answer the visitor's own question or photo:
+      // say so, and (with sign-in on this build) offer the real Ka-Ezy here.
+      const offer: Message[] = onSignIn ? [{ id: newId(), from: "signin", text: chat.signInPrompt }] : [];
       if (own && !live) {
-        // Nothing on this page can check a photo: say so, and where it can be done.
         await wait(1600, signal);
-        return [{ id: newId(), from: "kaezy", text: fill(d.ownPhotoReply, profile) }];
+        return [{ id: newId(), from: "kaezy", text: fill(d.ownPhotoReply, profile) }, ...offer];
       }
+      const isSample = !live && !prompts.some((p) => normalise(p.q) === normalise(text));
       const service =
         live ?? demoService({ answers: prompts, otherQuestion: fill(chat.ownQuestionReply, profile) });
       const reply = await service.ask(
@@ -143,10 +149,13 @@ export function ExpertPanel({
         },
       );
       if (reply.threadId) demo.setThread(conversationId, reply.threadId);
-      const out: Message[] = [{ id: newId(), from: "kaezy", text: reply.text }];
+      const out: Message[] = [
+        reply.video ? { id: newId(), from: "kaezy", text: reply.text, video: reply.video } : { id: newId(), from: "kaezy", text: reply.text },
+      ];
       if (reply.records) {
         out.push({ id: newId(), from: "record", text: copy.records.prompt, records: reply.records, status: "pending" });
       }
+      if (isSample) out.push(...offer);
       return out;
     });
   }
@@ -237,6 +246,7 @@ export function ExpertPanel({
         label="Conversation with Ka-Ezy"
         labels={labels}
         onRecord={recordDecision}
+        onSignIn={onSignIn}
         empty={
           // shrink-0: when it is taller than the conversation area, it scrolls from its top
           // (shrunk to fit, its centred content would spill out above, out of reach).

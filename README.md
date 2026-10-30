@@ -194,6 +194,8 @@ These are read **at build time** and baked into the files, so each environment n
 | `NEXT_PUBLIC_SITE_URL` | e.g. `https://ezyagric.com` | `https://ezyagric.com` | Used for canonical URLs, the sitemap, robots.txt, share images and structured data. No trailing slash. |
 | `NEXT_PUBLIC_GA_ID` | GA4 measurement ID, e.g. `G-XXXXXXXXXX` | empty | Empty = no analytics, no cookie banner, no "Cookie settings" link. |
 | `NEXT_PUBLIC_KAEZY_DEMO_API` | `/api/kaezy-demo` | empty | Live Ka-Ezy answers in "Try Ka-Ezy". Empty = sample answers. See "Ka-Ezy on the website". |
+| `NEXT_PUBLIC_PARTNER_API` | `https://kaezy-api.ezyagric.com/partner` | empty | "Try Ka-Ezy" gets a sign-in card: an organisation code and the visitor's phone (SMS code), or a sign-in link from the organisation, and the demo answers from the real Ka-Ezy with the visitor's own account. Empty = no card. See "Ka-Ezy on the website". |
+| `NEXT_PUBLIC_PARTNER_DEFAULT_ORG` | `ezyorg531207` | empty | The organisation a visitor with no organisation code joins when they sign in from the site (EzyAgric's own). The card then asks only for a name and phone. Empty = the code is required. |
 | `NEXT_PUBLIC_IMPACT_API` | `/api/impact` | empty | Keeps the home page's "554,662+" live: 500,000 plus EzyCRM's count (`live.base` in `impact.items`), refreshed every five minutes. Empty = the number as typed. See `docs/backend-tickets.md` BT-10. |
 
 For local work, put them in `.env.local` (git-ignored), for example:
@@ -296,6 +298,21 @@ The website never calls the farmer app's own Ka-Ezy or payment APIs. They are bu
 
 ### Try Ka-Ezy: live answers
 
+### Signed in, through the Partner API
+
+Set `NEXT_PUBLIC_PARTNER_API` (build arg in the Dockerfile; `cloudbuild.yaml` sets it for production) to `https://kaezy-api.ezyagric.com/partner`, the EzyAgric Partner API (`ezy_assistant_api`, `docs/partner-api.md`). "Try Ka-Ezy" then shows a sign-in card beside "Your farm" (`src/components/product/kaezy/SignInCard.tsx`): the visitor enters an organisation's code and their phone, gets an SMS code, and from then on every tab answers from the real Ka-Ezy with the visitor's own one-day user token (`partner.ts`), charged to their own Ka-Ezy plan. Nothing secret is on the page: the browser calls the API directly (it allows this origin, and its host is in the CSP's `connect-src` in `nginx/nginx.conf`) and keeps only the visitor's own token on their device. The first sign-in registers the visitor with EzyAgric as a farmer of that organisation, with their name and consent (the checkbox on the card; its `termsVersion` is in `content/products/ka-ezy.yaml`).
+
+The Ka-Ezy page understands three links (Partner API guide, 3.6):
+
+| Link | What the page does |
+|---|---|
+| `/ka-ezy/#ask-ka-ezy` | The plain link: the visitor types the organisation code and their phone. |
+| `/ka-ezy/?k=ezy_link_…#ask-ka-ezy` | A sign-in link the organisation made through the API: the token is its only parameter, so no phone or code travels in the URL. The page looks the token up to show the organisation and the masked phone, then signs the visitor in at once. The token works once and for a day; the page drops it from the address bar and, if it has been used or has expired, falls back to the SMS code for that organisation, with the masked number as a hint. Older links with `org`, `phone` and `token` in the open are still read. |
+
+Signed in, Farm Expert and the photo check use the API's `farm-expert/ask`, Farm Plan its `farm-plan`, and saved records also go to the visitor's Farm Records with the organisation; Garden Mapping stays the page's own calculator. The value chain in "Your farm" goes along as context when it is set; Ka-Ezy answers whatever is asked either way. Only Farm Plan needs one. Without a session the demo is exactly as below.
+
+### Guest answers (BT-01)
+
 Set `NEXT_PUBLIC_KAEZY_DEMO_API` (build arg in the Dockerfile) to switch the chat from its sample answers to live Ka-Ezy answers. It should be the same-origin path `/api/kaezy-demo`, which nginx proxies to the backend (template commented out in `nginx/nginx.conf`, with a per-visitor rate limit). Same origin means no CORS and no change to the Content-Security-Policy. A photo check sends one JPEG of a few hundred KB, so the template allows 1 MB per request (`client_max_body_size`); the backend's own upload limit must allow at least that.
 
 The endpoint engineering needs to provide (ticket BT-01; for example `POST /web/demo-query` on the Ka-Ezy backend):
@@ -318,7 +335,7 @@ Paying on the website needs, from engineering: web sign-in checked on the server
 ## Hand-off checklist (before launch)
 
 - [ ] **GA4:** create the property and set `NEXT_PUBLIC_GA_ID` in the production build. Check the banner, "Accept", "No thanks" and "Cookie settings", and that events arrive in GA4 DebugView.
-- [ ] **Ka-Ezy try and hire:** the EzyAgric team confirmed the demo for the live site on 29 Oct 2026 (`tryIt` is no longer pending). Still to do: the agronomy team to check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal to add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). For live answers, set up the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API` (BT-01, BT-02). Web payment stays "finish in the app" until BT-03 to BT-05 are done.
+- [ ] **Ka-Ezy try and hire:** the EzyAgric team confirmed the demo for the live site on 29 Oct 2026 (`tryIt` is no longer pending). Still to do: the agronomy team to check the sample answers and the sample plan figures (costs, yields, prices) in `content/products/ka-ezy.yaml`, and legal to add a line to the privacy policy about the demo (farm details stay on the device; with live answers they are sent to Ka-Ezy with each question). Live answers for signed-in visitors are in (`NEXT_PUBLIC_PARTNER_API`, "Ka-Ezy on the website"): legal to check the sign-in card's consent wording and the privacy policy's line about it (a phone number and name are sent to the Partner API at sign-in). Anonymous live answers would still need the guest demo endpoint and `NEXT_PUBLIC_KAEZY_DEMO_API` (BT-01, BT-02). Web payment stays "finish in the app" until BT-03 to BT-05 are done.
 - [ ] **Poultry video captions:** Marvin Busulwa's poultry video in the home page's livestock section is 3 minutes of speech with no captions (WCAG 1.2.2). Get an English transcript or WebVTT file from marketing or the video's editor, then add it as `public/videos/poultry-marvin-busulwa.vtt` with a `<track kind="captions">` in `DemoVideoPlayer` and a captions path in `livestock.video`. Ask for a corrected export at the same time ("POUTRY FARMER" in its caption).
 - [x] **Pending items:** the EzyAgric team confirmed every **To confirm** item on 29 Oct 2026; none are left in `content/`.
 - [ ] **EzyAgric Business:** Marketing and Product to approve the names EzyAgric Business, EzySupplier and EzyServices (the brand guide asks for new product names to be approved; the white-label and API access points were confirmed by the EzyAgric team on 29 Oct 2026), and the team to check that the dashboard figures shown in the module screens (sales, revenue, subscribers) are fine to publish. The chapters' magnified details (`loupe` in `content/business.yaml`) make some of them easy to read: the most purchased volumes, a loan's repayments in UGX and Ka-Ezy usage counts (the EzySupplier and EzyServices figures were raised, about tenfold, at the marketing team's request on 29 Oct 2026; the EzyCredits ledger shows a real loan); delete a module's `loupe` to withdraw one (its dashed frame goes with it). The chapters also set "Ezy" in Vibrant Green ("EzySupplier"), like the home headline: set `TWO_TONE_NAMES = false` in `src/components/business/chapterLooks.ts` if Marketing prefers one colour.

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState, type ReactNode, type RefObject } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, ExternalLink } from "lucide-react";
 import { formatUgx } from "./format";
 import { acresText } from "./personalise";
 import { MiniMarkdown } from "./MiniMarkdown";
-import type { Diagnosis, FarmRecord, MapResult, Message, PlanResult } from "./store";
+import type { Diagnosis, FarmRecord, KaEzyVideo, MapResult, Message, PlanResult } from "./store";
 
 /** Words the thread shows, from content/products/ka-ezy.yaml. */
 export type ThreadLabels = {
@@ -24,6 +24,8 @@ export type ThreadLabels = {
   steps: string;
   diagnosisNote: string;
   diagnosisNudge: string;
+  /** The sign-in button under a sample answer. */
+  signIn: string;
 };
 
 // The app's typing indicator cycles these while Ka-Ezy works.
@@ -104,6 +106,7 @@ export function Thread({
   empty,
   onRecord,
   onMapAction,
+  onSignIn,
 }: {
   threadRef: RefObject<HTMLDivElement | null>;
   messages: Message[];
@@ -116,6 +119,8 @@ export function Thread({
   empty?: ReactNode;
   onRecord?: (message: Message, save: boolean) => void;
   onMapAction?: (action: "use" | "plan", map: MapResult) => void;
+  /** Opens the sign-in form (the "signin" message's button); absent on builds without sign-in. */
+  onSignIn?: () => void;
 }) {
   // Scroll inside the thread only, never the page. While Ka-Ezy thinks, show
   // the bottom; when an answer lands, put the question above it at the top,
@@ -170,10 +175,27 @@ export function Thread({
                 </div>
               );
             case "kaezy":
+              return (
+                <KaEzyBubble key={message.id} avatar={avatar}>
+                  <MiniMarkdown text={message.text} />
+                  {message.video ? <AdviceVideo video={message.video} className="mt-3" /> : null}
+                </KaEzyBubble>
+              );
             case "error":
               return (
                 <KaEzyBubble key={message.id} avatar={avatar}>
                   <MiniMarkdown text={message.text} />
+                </KaEzyBubble>
+              );
+            case "signin":
+              return (
+                <KaEzyBubble key={message.id} avatar={avatar}>
+                  <p>{message.text}</p>
+                  {onSignIn ? (
+                    <button type="button" onClick={onSignIn} data-track="kaezy_sign_in_open_reply" className={`${SMALL_PRIMARY} mt-3`}>
+                      {labels.signIn}
+                    </button>
+                  ) : null}
                 </KaEzyBubble>
               );
             case "nudge":
@@ -234,6 +256,47 @@ export function Thread({
         {thinking ? <ThinkingBubble avatar={avatar} /> : null}
       </div>
     </div>
+  );
+}
+
+/**
+ * A curated advisory video inside Ka-Ezy's answer bubble, under the text,
+ * like the app's player card: the player itself, ready to play. It is YouTube's
+ * privacy-enhanced embed (youtube-nocookie.com, which sets no cookie until
+ * the visitor presses play), loaded lazily as the conversation scrolls to it.
+ */
+function AdviceVideo({ video, className = "" }: { video: KaEzyVideo; className?: string }) {
+  return (
+    <figure className={`-mx-1 overflow-hidden rounded-card border border-line bg-card ${className}`}>
+      <div className="relative aspect-video bg-inverse">
+        <iframe
+          className="absolute inset-0 size-full"
+          src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0&modestbranding=1`}
+          title={video.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <figcaption className="flex items-center justify-between gap-3 px-3 py-2.5">
+        <span className="min-w-0">
+          <span className="block truncate text-sm font-label text-title">{video.title}</span>
+          <span className="block text-xs text-muted">Video · {video.source}</span>
+        </span>
+        <a
+          href={video.url}
+          target="_blank"
+          rel="noopener"
+          data-track="kaezy_try_video_open"
+          data-track-video-id={video.youtubeId}
+          className="inline-flex shrink-0 items-center gap-1 text-xs font-label text-link underline underline-offset-4"
+        >
+          YouTube
+          <ExternalLink aria-hidden="true" className="size-3.5" />
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      </figcaption>
+    </figure>
   );
 }
 

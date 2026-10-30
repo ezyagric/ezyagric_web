@@ -96,7 +96,9 @@ export function PlanPanel({
           threadId: demo.threadOf(conversationId),
         });
         if (reply.threadId) demo.setThread(conversationId, reply.threadId);
-        demo.appendTo(conversationId, [{ id: newId(), from: "kaezy", text: reply.text }]);
+        demo.appendTo(conversationId, [
+          reply.video ? { id: newId(), from: "kaezy", text: reply.text, video: reply.video } : { id: newId(), from: "kaezy", text: reply.text },
+        ]);
       } else if (crop) {
         await new Promise((resolve) => window.setTimeout(resolve, 1600));
         if (controller.signal.aborted) return;

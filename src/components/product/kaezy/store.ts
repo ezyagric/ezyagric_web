@@ -34,6 +34,13 @@ export type PlanResult = {
 export type MapResult = { acres: number; m2: number; perimeter: number };
 
 /**
+ * One of EzyAgric's curated advisory videos (reviewed YouTube videos), as
+ * the Partner API attaches it to an answer. Played in place from
+ * youtube-nocookie.com when tapped.
+ */
+export type KaEzyVideo = { title: string; url: string; youtubeId: string; source: string };
+
+/**
  * A photo in the visitor's message: a sample photo from the site, or a small
  * JPEG copy of their own (see photo.ts), kept with the conversation. The
  * size keeps its space in the conversation while it loads.
@@ -54,7 +61,8 @@ type Base = { id: string };
 export type Message = Base &
   (
     | { from: "you"; text: string; photo?: Photo }
-    | { from: "kaezy" | "nudge" | "limit" | "error"; text: string }
+    | { from: "kaezy"; text: string; video?: KaEzyVideo }
+    | { from: "nudge" | "limit" | "error" | "signin"; text: string }
     | { from: "diagnosis"; diagnosis: Diagnosis }
     | { from: "plan"; plan: PlanResult }
     | { from: "record"; text: string; records: FarmRecord[]; status: "pending" | "saved" | "dismissed" }
@@ -137,6 +145,21 @@ const isPhoto = (p: unknown): p is Photo => {
 
 const isStrings = (value: unknown): value is string[] => Array.isArray(value) && value.every(isString);
 
+// Only a real YouTube video can be shown from a saved conversation.
+const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
+export const isVideo = (v: unknown): v is KaEzyVideo => {
+  const value = v as KaEzyVideo | null;
+  return (
+    !!value &&
+    isString(value.title) &&
+    isString(value.source) &&
+    isString(value.youtubeId) &&
+    YOUTUBE_ID.test(value.youtubeId) &&
+    isString(value.url) &&
+    /^https:\/\/(www\.)?youtube\.com\/watch\?v=/.test(value.url)
+  );
+};
+
 /** A saved message that could not render (old version, edited by hand) is dropped. */
 function isMessage(m: unknown): m is Message {
   const v = m as Record<string, unknown> | null;
@@ -145,9 +168,11 @@ function isMessage(m: unknown): m is Message {
     case "you":
       return isString(v.text) && (v.photo === undefined || isPhoto(v.photo));
     case "kaezy":
+      return isString(v.text) && (v.video === undefined || isVideo(v.video));
     case "nudge":
     case "limit":
     case "error":
+    case "signin":
       return isString(v.text);
     case "diagnosis": {
       const d = v.diagnosis as Diagnosis | undefined;
@@ -283,6 +308,20 @@ export const demo = {
     set({ ...s, profile: { ...s.profile, ...patch } });
   },
 
+  /** Fills in farm details the visitor has left empty (from their account); typed ones stay. */
+  setProfileIfEmpty(patch: Partial<Profile>) {
+    const s = get();
+    const next = { ...s.profile };
+    let changed = false;
+    for (const [key, value] of Object.entries(patch) as [keyof Profile, string][]) {
+      if (value && !next[key].trim()) {
+        next[key] = value.slice(0, 100);
+        changed = true;
+      }
+    }
+    if (changed) set({ ...s, profile: next });
+  },
+
   /** The open conversation of a tab, if any. */
   current(tab: Tab): Conversation | undefined {
     const s = get();
@@ -315,6 +354,19 @@ export const demo = {
       current: { ...s.current, [tab]: conversation.id },
     });
     return conversation.id;
+  },
+
+  /**
+   * Puts a conversation fetched from the visitor's account into the list
+   * (replacing an earlier copy of it) and opens it in its tab.
+   */
+  importConversation(conversation: Conversation) {
+    const s = get();
+    set({
+      ...s,
+      conversations: [conversation, ...s.conversations.filter((c) => c.id !== conversation.id)].slice(0, MAX_CONVERSATIONS),
+      current: { ...s.current, [conversation.tab]: conversation.id },
+    });
   },
 
   /** Adds messages to one conversation (no-op if it was deleted meanwhile). */

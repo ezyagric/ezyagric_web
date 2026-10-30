@@ -2,16 +2,29 @@
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { flushSync } from "react-dom";
-import { Plus } from "lucide-react";
+import { LogIn, Plus } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
+import { SnackbarHost, snackbar } from "@/components/ui/Snackbar";
 import { ExpertPanel, QUESTION_ID } from "./ExpertPanel";
 import { FarmDetails, PastConversations, TAB_ICONS } from "./FarmDetails";
+import { AccountPanel } from "./AccountPanel";
 import { MappingPanel } from "./MappingPanel";
+import {
+  PARTNER_ENABLED,
+  fetchConversation,
+  partnerChatService,
+  saveRecords,
+  useAccount,
+  useArrival,
+  useRemoteThreads,
+  useSession,
+  type RemoteThread,
+} from "./partner";
 import type { TryIt } from "./personalise";
 import { PlanPanel } from "./PlanPanel";
 import { RecordsPanel } from "./RecordsPanel";
 import { liveChatService } from "./service";
-import { TABS, demo, hasSavedData, useDemo, type Conversation, type Tab } from "./store";
+import { TABS, demo, hasSavedData, useDemo, type Conversation, type FarmRecord, type Tab } from "./store";
 import { KaEzyAvatar, type ThreadLabels } from "./Thread";
 
 /**
@@ -19,7 +32,9 @@ import { KaEzyAvatar, type ThreadLabels } from "./Thread";
  * the Ka-Ezy window, whose tabs are the app's Farm Expert (with its photo
  * check), Garden Mapping, Farm Plan and Farm Records. Everything the visitor
  * enters stays on their device; with `endpoint` (the guest demo endpoint)
- * the answers come from the real Ka-Ezy.
+ * the answers come from the real Ka-Ezy, and so do they once the visitor
+ * signs in with an organisation's code and their phone (SignInCard, the
+ * Partner API), with their own Ka-Ezy account.
  */
 export function KaEzyDemo({
   copy,
@@ -39,7 +54,29 @@ export function KaEzyDemo({
 }) {
   const state = useDemo();
   const [tab, setTab] = useState<Tab>("expert");
-  const live = useMemo(() => (endpoint ? liveChatService({ endpoint }) : null), [endpoint]);
+  const session = useSession();
+  // Their name, stage, usage and plan, once signed in; a link's org, phone and token on arrival.
+  const account = useAccount();
+  const arrival = useArrival();
+  // The visitor's conversations on their account, for "Past conversations".
+  const remoteThreads = useRemoteThreads();
+  const [signInWanted, setSignInWanted] = useState(false);
+  // Signed in, the visitor's own Ka-Ezy answers; else the guest endpoint, if any.
+  const live = useMemo(
+    () => (session ? partnerChatService(session) : endpoint ? liveChatService({ endpoint }) : null),
+    [session, endpoint],
+  );
+  // Records go to the visitor's Farm Records with the organisation too.
+  const remote = useMemo(
+    () =>
+      session
+        ? (records: FarmRecord[]) =>
+            void saveRecords(session, records).then((saved) => {
+              if (saved > 0) snackbar.show(copy.signIn.toasts.recordSaved, "success");
+            })
+        : null,
+    [session, copy.signIn.toasts.recordSaved],
+  );
   const valueChainRef = useRef<HTMLSelectElement>(null);
   const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
 
@@ -57,6 +94,7 @@ export function KaEzyDemo({
     steps: copy.diagnosis.steps,
     diagnosisNote: copy.diagnosis.sampleNote,
     diagnosisNudge: copy.diagnosis.nudge,
+    signIn: copy.signIn.open,
   };
   const current = (t: Tab) => state.conversations.find((c) => c.id === state.current[t]);
   const openIds = TABS.map((t) => state.current[t]).filter((id): id is string => !!id);
@@ -108,6 +146,19 @@ export function KaEzyDemo({
     if (focusTab) tabRefs.current[next]?.focus();
   }
 
+  /** A conversation from the account: fetch it, put it in the list, open it. */
+  async function openRemote(thread: RemoteThread) {
+    const busy = snackbar.show(copy.signIn.toasts.loadingConversation, "busy");
+    try {
+      const conversation = await fetchConversation(thread);
+      demo.importConversation(conversation);
+      snackbar.dismiss(busy);
+      show(conversation.tab, true);
+    } catch {
+      snackbar.show(copy.chat.errors.busy, "error");
+    }
+  }
+
   // Arrow keys move between tabs (the ARIA tabs pattern).
   function onTabKey(event: KeyboardEvent) {
     const i = TABS.indexOf(tab);
@@ -125,7 +176,8 @@ export function KaEzyDemo({
   const shared = { copy, profile: state.profile, avatar, hireHref, labels };
 
   return (
-    // grid-cols-1 (minmax(0, 1fr)): no child can push the page wider than a phone.
+    <>
+    {/* grid-cols-1 (minmax(0, 1fr)): no child can push the page wider than a phone. */}
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-8">
       {/* "Your farm" and past conversations, one panel: stacked on phones,
           side by side from md, and from lg down the side of the Ka-Ezy
@@ -142,6 +194,8 @@ export function KaEzyDemo({
             demo.open(conversation);
             show(conversation.tab, true);
           }}
+          remote={PARTNER_ENABLED ? remoteThreads : null}
+          onOpenRemote={(thread) => void openRemote(thread)}
           className="min-h-0 flex-1 border-t border-line bg-subtle p-5 md:max-lg:border-t-0 md:max-lg:border-l"
         />
       </div>
@@ -157,9 +211,22 @@ export function KaEzyDemo({
             </span>
             <span className="block text-sm leading-snug text-on-brand/85">{tagline}</span>
           </span>
-          <span className="hidden shrink-0 rounded-pill border border-on-brand/40 px-2.5 py-0.5 text-xs font-label sm:inline">
-            {live ? "Live demo" : "Sample answers"}
-          </span>
+          {PARTNER_ENABLED && !session ? (
+            // Opens the sign-in form in the account band under the window.
+            <button
+              type="button"
+              onClick={() => setSignInWanted(true)}
+              data-track="kaezy_sign_in_open"
+              className="inline-flex min-h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-pill border border-on-brand/40 px-3 text-xs font-label transition-colors hover:bg-on-brand/15 focus-visible:outline-focus-inverse"
+            >
+              <LogIn aria-hidden="true" className="size-4" />
+              {copy.signIn.open}
+            </button>
+          ) : (
+            <span className="hidden shrink-0 rounded-pill border border-on-brand/40 px-2.5 py-0.5 text-xs font-label sm:inline">
+              {session ? (session.organisation.sandbox ? "Live · test" : "Live") : live ? "Live demo" : "Sample answers"}
+            </span>
+          )}
           <button
             type="button"
             onClick={() => {
@@ -218,11 +285,20 @@ export function KaEzyDemo({
             className={tab === t ? "flex min-h-0 flex-1 flex-col" : "hidden"}
           >
             {t === "expert" ? (
-              <ExpertPanel {...shared} conversation={current(t)} live={live} onChooseValueChain={chooseValueChain} />
+              <ExpertPanel
+                {...shared}
+                conversation={current(t)}
+                live={live}
+                onChooseValueChain={chooseValueChain}
+                onSignIn={PARTNER_ENABLED && !session ? () => setSignInWanted(true) : undefined}
+              />
             ) : t === "plan" ? (
               <PlanPanel {...shared} conversation={current(t)} live={live} onChooseValueChain={chooseValueChain} />
             ) : t === "records" ? (
-              <RecordsPanel {...shared} conversation={current(t)} records={state.records} live={live} />
+              // Signed in, records are read from what the visitor types (as with
+              // sample answers) and saved to their account too; Ka-Ezy's chat
+              // does not propose records through the Partner API.
+              <RecordsPanel {...shared} conversation={current(t)} records={state.records} live={session ? null : live} remote={remote} />
             ) : (
               <MappingPanel {...shared} conversation={current(t)} onPlan={() => show("plan", true)} />
             )}
@@ -230,5 +306,22 @@ export function KaEzyDemo({
         ))}
       </div>
     </div>
+
+    {/* "Your Ka-Ezy account": only for a signed-in visitor (or the sign-in
+        form, when asked for). Full width under the window, the demo's own gap. */}
+    {PARTNER_ENABLED ? (
+      <AccountPanel
+        copy={copy.signIn}
+        session={session}
+        account={account}
+        arrival={arrival}
+        profile={state.profile}
+        wanted={signInWanted}
+        hireHref={hireHref}
+        className="mt-6 lg:mt-8"
+      />
+    ) : null}
+    {PARTNER_ENABLED ? <SnackbarHost /> : null}
+    </>
   );
 }

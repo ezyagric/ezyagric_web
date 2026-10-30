@@ -1,0 +1,78 @@
+# Builds the website image and deploys it to Cloud Run as the `website`
+# service, which ezyagric.com is mapped to (project ezyagric-kubenetes,
+# europe-west1, next to kaezy-web and ezy-assistant-api).
+#
+# By hand, from this folder:
+#   gcloud builds submit --config cloudbuild.yaml \
+#     --substitutions=_TAG=$(git rev-parse --short HEAD) .
+#
+# The new revision gets NO traffic and the URL tag "next", so it can be
+# checked at https://next---website-<hash>-ew.a.run.app first. Then:
+#   gcloud run services update-traffic website --region europe-west1 --to-latest
+#
+# Staging: pass _SITE_ENV=staging,_SITE_URL=https://staging.ezyagric.com,
+# _SERVICE_NAME=website-staging.
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '$_IMAGE'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SITE_ENV=$_SITE_ENV'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SITE_URL=$_SITE_URL'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_GA_ID=$_GA_ID'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_KAEZY_DEMO_API=$_KAEZY_DEMO_API'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_IMPACT_API=$_IMPACT_API'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_PARTNER_API=$_PARTNER_API'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_PARTNER_DEFAULT_ORG=$_PARTNER_DEFAULT_ORG'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '$_IMAGE'
+
+  # nginx in the image listens on 80 (Dockerfile), so the container port is 80.
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '$_SERVICE_NAME'
+      - '--image=$_IMAGE'
+      - '--region=$_REGION'
+      - '--platform=managed'
+      - '--port=80'
+      - '--allow-unauthenticated'
+      - '--no-traffic'
+      - '--tag=next'
+
+substitutions:
+  _REGION: europe-west1
+  _SERVICE_NAME: website
+  _TAG: manual
+  _IMAGE: us-central1-docker.pkg.dev/${PROJECT_ID}/main-repo/website:${_TAG}
+  _SITE_ENV: production
+  _SITE_URL: https://ezyagric.com
+  _GA_ID: ''
+  _KAEZY_DEMO_API: ''
+  _IMPACT_API: ''
+  # The Partner API behind "Try Ka-Ezy" signed in (its origin is in the CSP).
+  _PARTNER_API: https://kaezy-api.ezyagric.com/partner
+  # EzyAgric's own organisation ("EzyAgric Demo"), which visitors without a code join.
+  _PARTNER_DEFAULT_ORG: ezyorg531207
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+  dynamicSubstitutions: true
+
+timeout: 1200s

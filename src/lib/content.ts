@@ -306,6 +306,9 @@ const ProductSchema = z.object({
         storageLive: z.string(),
         pastTitle: z.string(),
         pastEmpty: z.string(),
+        /** Signed in: the two groups in the list, this device's and the account's (components/product/kaezy/partner.ts). */
+        pastDevice: z.string(),
+        pastAccount: z.string(),
         newConversation: z.string(),
         clear: z.string(),
       }),
@@ -345,10 +348,113 @@ const ProductSchema = z.object({
         /** Sample answers only: the reply to a question the visitor types themselves. */
         ownQuestionReply: z.string(),
         /** Live answers only: what to say when Ka-Ezy can't answer. */
-        errors: z.object({ offline: z.string(), busy: z.string(), limit: z.string() }),
+        errors: z.object({
+          offline: z.string(),
+          busy: z.string(),
+          limit: z.string(),
+          /** Signed in through the Partner API (components/product/kaezy/partner.ts): */
+          signedOut: z.string(),
+          notEnabled: z.string(),
+          unknownValueChain: z.string(),
+        }),
         /** Shown after the second answer, with a link to the plans. */
         nudge: z.string(),
+        /** Under a sample answer, on builds with sign-in: why to sign in, with the sign-in button. */
+        signInPrompt: z.string(),
         disclaimer: z.string(),
+      }),
+      /**
+       * "Sign in for the real Ka-Ezy": the visitor signs in with an
+       * organisation's code and their phone through the Partner API, or from
+       * a sign-in link (components/product/kaezy/SignInCard.tsx). Shown only
+       * on builds with NEXT_PUBLIC_PARTNER_API.
+       */
+      signIn: z.object({
+        title: z.string(),
+        intro: z.string(),
+        orgCode: z.string(),
+        orgCodeHint: z.string(),
+        /** With a default organisation: the link that reveals the code field. */
+        orgToggle: z.string(),
+        phone: z.string(),
+        phoneHint: z.string(),
+        /** From a link whose exchange failed: the masked number, "{masked}", as a hint for the one to type. */
+        phoneMaskedHint: z.string(),
+        sendCode: z.string(),
+        sending: z.string(),
+        /** "{phone}" is filled in. */
+        codeSent: z.string(),
+        sandboxCode: z.string(),
+        code: z.string(),
+        fullName: z.string(),
+        fullNameHint: z.string(),
+        /** The consent line; `consentLink` is the linked words at its end (to /privacy-policy/). */
+        consent: z.string(),
+        consentLink: z.string(),
+        /** Sent to the API as the terms version the user agreed to. Bump it when the wording changes. */
+        termsVersion: z.string(),
+        submit: z.string(),
+        signingIn: z.string(),
+        back: z.string(),
+        /** The signed-in line: "{who}" is the name or phone, "{org}" the organisation. */
+        signedIn: z.string(),
+        sandboxBadge: z.string(),
+        signOut: z.string(),
+        /** A sign-in link from the organisation (docs: Partner API 3.6). */
+        linkSigningIn: z.string(),
+        /** Under it, while the token is checked; the link's organisation and phone follow. */
+        linkSigningInHint: z.string(),
+        linkUsed: z.string(),
+        linkExpired: z.string(),
+        linkInvalid: z.string(),
+        /** From the link: the organisation and phone are fixed. */
+        fromLink: z.string(),
+        /** The Ka-Ezy window's "Sign in" button, which opens the form in the account band. */
+        open: z.string(),
+        /** What the snackbar (components/ui/Snackbar.tsx) says as the sign-in goes along. */
+        toasts: z.object({
+          signingIn: z.string(),
+          /** "{who}" is the name or phone, "{org}" the organisation. */
+          signedIn: z.string(),
+          detailsReady: z.string(),
+          signedOut: z.string(),
+          /** "{phone}" is filled in. */
+          codeSent: z.string(),
+          recordSaved: z.string(),
+          loadingConversation: z.string(),
+        }),
+        /** "Your Ka-Ezy account": the band under the window for a signed-in visitor (AccountPanel.tsx). */
+        account: z.object({
+          title: z.string(),
+          loading: z.string(),
+          stageLabel: z.string(),
+          stages: z.object({ awareness: z.string(), onboarded: z.string(), transacted: z.string(), repeating: z.string() }),
+          monthLabel: z.string(),
+          request: z.string(),
+          requests: z.string(),
+          farmExpert: z.string(),
+          farmPlan: z.string(),
+          records: z.string(),
+          yes: z.string(),
+          no: z.string(),
+          planLabel: z.string(),
+          plans: z.object({ free: z.string(), paid: z.string(), none: z.string() }),
+          status: z.object({ active: z.string(), exhausted: z.string() }),
+          used: z.string(),
+          ends: z.string(),
+          pay: z.string(),
+        }),
+        errors: z.object({
+          unknownOrg: z.string(),
+          blocked: z.string(),
+          limit: z.string(),
+          badCode: z.string(),
+          tooMany: z.string(),
+          needName: z.string(),
+          needConsent: z.string(),
+          badPhone: z.string(),
+          generic: z.string(),
+        }),
       }),
       /**
        * Farm Expert's photo check (the app's diagnosis mode). Sample photos get
@@ -467,8 +573,15 @@ const ProductSchema = z.object({
         intro: z.string(),
         benefits: z.array(z.string()),
         accountHelp: z.string(),
+        /** Under the unticked box: why Pay is off. */
+        accountRequired: z.string(),
+        /** Signed in, but the number is not (yet) registered with EzyAgric: Pay is off. */
+        notRegistered: z.string(),
+        checkingAccount: z.string(),
         policy: z.string(),
-        /** Production, until web payment is connected: how to hire in the app instead. */
+        /** Signed in: what happens when Pay is pressed (the prompt on their phone). */
+        livePrompt: z.string(),
+        /** Not signed in, on the live site: how to hire in the app instead. */
         appHandoff: z.string(),
       }),
       ...pendingFields,

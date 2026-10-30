@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } 
 import { Check, ChevronLeft, Loader2, ShieldCheck, XCircle } from "lucide-react";
 import type { Product } from "@/lib/content";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
+import { PARTNER_ENABLED, PayRefused, partnerPayService, useAccount, useSession } from "./partner";
 import { buttonClasses } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
@@ -16,6 +17,7 @@ import {
   type Network,
 } from "./format";
 import { demoService, type DemoOutcome, type PayResult, type PayStatus } from "./service";
+import { FieldError, PhoneField } from "./PhoneField";
 import { KaEzyAvatar } from "./Thread";
 
 type Hire = NonNullable<Product["tryIt"]>["hire"];
@@ -97,17 +99,36 @@ export function HireKaEzy({
   /** Server-rendered store badges (they read site settings). */
   storeBadges: ReactNode;
 }) {
-  // The simulated payment until the live one exists (docs/backend-tickets.md BT-05).
-  const service = useMemo(() => demoService({ answers: [], otherQuestion: "" }), []);
+  // Signed in through the Partner API, the payment is real (partner.ts);
+  // otherwise the simulation (preview builds) or the hand-off to the app.
+  const session = useSession();
+  const account = useAccount();
+  const live = PARTNER_ENABLED && !!session;
+  const mode: PayMode | "live" = live ? "live" : payMode;
+  const demo = useMemo(() => demoService({ answers: [], otherQuestion: "" }), []);
+  const service = useMemo(() => (live && session ? partnerPayService(session) : demo), [live, session, demo]);
+  const [payMessage, setPayMessage] = useState("");
   const firstPick = Math.max(0, plans.findIndex((p) => p.highlight));
   const [step, setStep] = useState<Step>("plan");
   const [planIndex, setPlanIndex] = useState(firstPick);
   const [network, setNetwork] = useState<Network | null>(null);
   const [networkPicked, setNetworkPicked] = useState(false);
-  const [paying, setPaying] = useState("");
+  // Signed in to "Try Ka-Ezy" (partner.ts): their phone is the Mobile Money
+  // number, since the prompt goes to the signed-in phone.
+  const signedInNational = PARTNER_ENABLED && session ? ugNationalNumber(session.phone) : null;
+  const [typedPaying, setTypedPaying] = useState<string | null>(null);
+  // Signed in, the number is the one the sign-in registered with EzyAgric: it
+  // cannot be changed here (sign out and in with another to use that one).
+  const locked = !!signedInNational;
+  const paying = locked ? `${signedInNational.slice(0, 3)} ${signedInNational.slice(3, 6)} ${signedInNational.slice(6)}` : typedPaying ?? "";
+
+  // "I use this number in the EzyAgric App": the plan goes to the account
+  // with the paying number, so paying is off until the visitor confirms it.
   const [sameNumber, setSameNumber] = useState(true);
-  const [account, setAccount] = useState("");
-  const [errors, setErrors] = useState<{ paying?: string; account?: string; network?: string }>({});
+  // Registered with EzyAgric, as the API saw it (5.3): a plan needs an account to land on.
+  const registration: "linked" | "pending" | "sandbox" | "unknown" | null = !PARTNER_ENABLED || !session ? null : account ? account.ezyagricAccount : "unknown";
+  const canPay = sameNumber && registration !== "pending" && registration !== "unknown";
+  const [errors, setErrors] = useState<{ paying?: string; network?: string }>({});
   const [status, setStatus] = useState<PayStatus>("sending");
   const [result, setResult] = useState<PayResult | null>(null);
   const [outcome, setOutcome] = useState<DemoOutcome>("approved");
@@ -118,8 +139,10 @@ export function HireKaEzy({
   const plan = plans[planIndex];
   const total = plan.months * plan.monthlyUgx;
   const payingNational = ugNationalNumber(paying);
-  const accountNational = sameNumber ? payingNational : ugNationalNumber(account);
-  const totalSteps = payMode === "demo" ? 3 : 2;
+  const accountNational = payingNational;
+  // The network: picked, or read from the number's prefix (a prefilled one included).
+  const chosenNetwork = network ?? (payingNational ? networkFor(payingNational) : null);
+  const totalSteps = mode === "app" ? 2 : 3;
 
   useEffect(() => () => abortRef.current?.abort(), []);
 
@@ -131,7 +154,7 @@ export function HireKaEzy({
   }, [step]);
 
   function onPayingChange(value: string) {
-    setPaying(value);
+    setTypedPaying(value);
     const national = ugNationalNumber(value);
     if (!national) return;
     // Clear the error as soon as the number is fixed, and pick the network
@@ -145,16 +168,17 @@ export function HireKaEzy({
     event.preventDefault();
     const next: typeof errors = {};
     if (!payingNational) next.paying = "Enter a Ugandan mobile number, for example 0772 123 456.";
-    if (!network) next.network = "Choose MTN MoMo or Airtel Money.";
-    if (!sameNumber && !accountNational) next.account = "Enter the number you use in the EzyAgric App.";
+    if (!chosenNetwork) next.network = "Choose MTN MoMo or Airtel Money.";
+    if (!canPay) return;
     setErrors(next);
     if (Object.keys(next).length > 0) {
-      const first = next.paying ? "kaezy-paying" : next.network ? "kaezy-network-mtn" : "kaezy-account";
+      const first = next.paying ? "kaezy-paying" : "kaezy-network-mtn";
       document.getElementById(first)?.focus();
       return;
     }
 
     setStatus("sending");
+    setPayMessage("");
     setStep("progress");
     const controller = new AbortController();
     abortRef.current = controller;
@@ -164,16 +188,22 @@ export function HireKaEzy({
           planName: plan.name,
           months: plan.months,
           amountUgx: total,
-          network: network!,
+          network: chosenNetwork!,
           payingNumber: payingNational!,
           accountNumber: accountNational!,
         },
-        { onStatus: setStatus, signal: controller.signal, demoOutcome: outcome },
+        { onStatus: setStatus, signal: controller.signal, demoOutcome: outcome, onMessage: setPayMessage },
       );
       setResult(final);
       setStep(final === "fulfilled" ? "done" : "failed");
-    } catch {
-      // Aborted: the visitor left the page.
+    } catch (error) {
+      // Refused before any prompt went out: say why. Anything else is an
+      // abort (the visitor left the page).
+      if (error instanceof PayRefused && !controller.signal.aborted) {
+        setPayMessage(error.message);
+        setResult("failed");
+        setStep("failed");
+      }
     }
   }
 
@@ -212,9 +242,13 @@ export function HireKaEzy({
             />
           ))}
         </span>
-        {payMode === "demo" ? (
+        {mode === "demo" ? (
           <p className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
             Demo: no request leaves this page and no money is taken.
+          </p>
+        ) : mode === "live" && session?.organisation.sandbox ? (
+          <p className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
+            Test organisation: no prompt is sent to a phone and no money is taken.
           </p>
         ) : null}
         {/* Why farmers hire Ka-Ezy, from lg: beside every step, at the column's
@@ -251,7 +285,7 @@ export function HireKaEzy({
               className="flex flex-1 flex-col"
               onSubmit={(event) => {
                 event.preventDefault();
-                setStep(payMode === "demo" ? "pay" : "app");
+                setStep(mode === "app" ? "app" : "pay");
               }}
             >
               <fieldset>
@@ -353,7 +387,7 @@ export function HireKaEzy({
                         id={`kaezy-network-${key}`}
                         type="radio"
                         name="kaezy-network"
-                        checked={network === key}
+                        checked={chosenNetwork === key}
                         onChange={() => {
                           setNetwork(key);
                           setNetworkPicked(true);
@@ -379,10 +413,15 @@ export function HireKaEzy({
               <PhoneField
                 id="kaezy-paying"
                 label="Mobile Money number"
-                hint="The number that pays. You approve the payment on this phone."
+                hint={
+                  locked
+                    ? "From your sign-in: the number registered with EzyAgric, which pays and gets the plan. To use another number, sign out and sign in with it."
+                    : "The number that pays. You approve the payment on this phone, and the plan goes to this number's EzyAgric account."
+                }
                 value={paying}
                 onChange={onPayingChange}
                 error={errors.paying}
+                readOnly={locked}
               />
 
               {/* The padding makes the whole line a 44px+ tap target; the help
@@ -392,25 +431,23 @@ export function HireKaEzy({
                   type="checkbox"
                   checked={sameNumber}
                   onChange={(event) => setSameNumber(event.target.checked)}
+                  aria-describedby="kaezy-same-number-help"
                   className="mt-1 size-5 shrink-0 accent-secondary"
                 />
                 I use this number in the EzyAgric App
               </label>
-              {sameNumber ? (
-                <p className="pl-8 text-sm text-muted">{hire.accountHelp}</p>
-              ) : (
-                <PhoneField
-                  id="kaezy-account"
-                  label="EzyAgric App number"
-                  hint={hire.accountHelp}
-                  value={account}
-                  onChange={(value) => {
-                    setAccount(value);
-                    if (ugNationalNumber(value)) setErrors((e) => ({ ...e, account: undefined }));
-                  }}
-                  error={errors.account}
-                />
-              )}
+              <p id="kaezy-same-number-help" className="pl-8 text-sm text-muted">
+                {sameNumber ? hire.accountHelp : hire.accountRequired}
+              </p>
+              {registration === "pending" ? (
+                <p role="alert" className="mt-3 text-sm font-label text-danger">
+                  {hire.notRegistered}
+                </p>
+              ) : registration === "unknown" ? (
+                <p role="status" className="mt-3 text-sm text-muted">
+                  {hire.checkingAccount}
+                </p>
+              ) : null}
 
               <p className="mt-4 flex items-start gap-2 text-sm text-muted">
                 <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
@@ -419,8 +456,15 @@ export function HireKaEzy({
                 </span>
               </p>
 
+              {mode === "live" && !session?.organisation.sandbox ? (
+                <p className="mt-4 text-sm text-body">{hire.livePrompt}</p>
+              ) : null}
+
+              {mode === "demo" || session?.organisation.sandbox ? (
               <fieldset className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-1">
-                <legend className="px-1 text-sm font-label text-review">Demo only: what happens next?</legend>
+                <legend className="px-1 text-sm font-label text-review">
+                  {mode === "demo" ? "Demo only: what happens next?" : "Test organisation: what happens next?"}
+                </legend>
                 <div className="flex flex-wrap gap-x-4 gap-y-1">
                   {(
                     [
@@ -442,6 +486,7 @@ export function HireKaEzy({
                   ))}
                 </div>
               </fieldset>
+              ) : null}
 
               {/* nowrap: on the narrowest phones Pay takes its own full-width
                   line rather than breaking its amount over two. */}
@@ -456,10 +501,11 @@ export function HireKaEzy({
                 </button>
                 <button
                   type="submit"
+                  disabled={!canPay}
                   data-track="kaezy_hire_pay"
                   data-track-plan={plan.name}
-                  data-track-network={network ?? "none"}
-                  className={`${buttonClasses("primary")} flex-1 cursor-pointer whitespace-nowrap`}
+                  data-track-network={chosenNetwork ?? "none"}
+                  className={`${buttonClasses("primary")} flex-1 cursor-pointer whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60`}
                 >
                   Pay {formatUgx(total)}
                 </button>
@@ -524,6 +570,7 @@ export function HireKaEzy({
                   ? "The prompt timed out before it was approved. No money was taken."
                   : "Your payment did not go through. No money was taken."}
               </p>
+              {payMessage ? <p className="mt-2 text-sm text-muted">{payMessage}</p> : null}
               <Actions>
                 <button
                   type="button"
@@ -627,63 +674,6 @@ function PlanSummary({ plan, total, onChange }: { plan: HirePlan; total: number;
   );
 }
 
-function PhoneField({
-  id,
-  label,
-  hint,
-  value,
-  onChange,
-  error,
-}: {
-  id: string;
-  label: string;
-  hint: string;
-  value: string;
-  onChange: (value: string) => void;
-  error?: string;
-}) {
-  return (
-    <div className="mt-4">
-      <label htmlFor={id} className="text-base font-label text-title">
-        {label}
-      </label>
-      <p id={`${id}-hint`} className="mt-0.5 text-sm text-muted">
-        {hint}
-      </p>
-      <div
-        className={`mt-2 flex min-h-12 items-center overflow-hidden rounded-control border-2 bg-canvas focus-within:border-secondary ${
-          error ? "border-danger" : "border-line"
-        }`}
-      >
-        <span aria-hidden="true" className="self-stretch border-r border-line bg-subtle px-3 py-3 text-base font-label text-muted">
-          +256
-        </span>
-        <input
-          id={id}
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel-national"
-          placeholder="772 123 456"
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={`${id}-hint${error ? ` ${id}-error` : ""}`}
-          className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-base text-title outline-none placeholder:text-muted"
-        />
-      </div>
-      {error ? <FieldError id={`${id}-error`}>{error}</FieldError> : null}
-    </div>
-  );
-}
-
-function FieldError({ id, children }: { id: string; children: ReactNode }) {
-  return (
-    <p id={id} role="alert" className="mt-1.5 flex items-start gap-1.5 text-sm font-label text-danger">
-      <XCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
-      {children}
-    </p>
-  );
-}
 
 /** Each stage is current while the payment has this status; "fulfilled" means all done. */
 const STAGES: { status: PayStatus; text: (total: string, phone: string) => string }[] = [

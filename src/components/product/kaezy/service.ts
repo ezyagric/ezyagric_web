@@ -1,6 +1,6 @@
 import type { Network } from "./format";
 import { acresOf, formatAcres, type Profile } from "./personalise";
-import { newThreadId, type FarmRecord } from "./store";
+import { newThreadId, type FarmRecord, type KaEzyVideo } from "./store";
 
 // What the "Ask Ka-Ezy, then hire it" section needs from a backend
 // (tickets in docs/backend-tickets.md: BT-01 live answers, BT-03 sign-in,
@@ -12,8 +12,9 @@ import { newThreadId, type FarmRecord } from "./store";
 // - Chat: liveChatService talks to a guest demo endpoint (README, "Ka-Ezy on
 //   the website") that sends no farmer identity; without it, demoService
 //   answers from the sample answers.
-// - Payment: demoService simulates it until a secure payment API exists
-//   (BT-05); a live payment service implementing pay() goes beside it.
+// - Payment: demoService simulates it; signed in through the Partner API,
+//   partner.ts's partnerPayService sells the plan for real (step 12 of the
+//   Partner API guide), with the prompt on the signed-in phone.
 
 /** Payment progress, named as in the app's payment intents. */
 export type PayStatus =
@@ -46,6 +47,8 @@ export type KaEzyReply = {
   records?: FarmRecord[];
   /** The thread the server answered on (live answers only). */
   threadId?: string;
+  /** A curated advisory video that goes with the answer (Partner API). */
+  video?: KaEzyVideo;
 };
 
 export type AskOptions = {
@@ -68,15 +71,35 @@ export interface KaEzyChatService {
 
 /** Why a live question failed, so the chat can say something useful. */
 export class KaEzyAskError extends Error {
-  constructor(readonly reason: "offline" | "busy" | "limit") {
+  constructor(readonly reason: AskFailure) {
     super(reason);
   }
 }
 
+/**
+ * Why a question failed, each with its own line in tryIt.chat.errors. The
+ * last three come only from the Partner API (partner.ts): the sign-in died,
+ * the organisation has not turned the feature on, or Ka-Ezy does not have
+ * the value chain a plan was asked for.
+ */
+export type AskFailure =
+  | "offline"
+  | "busy"
+  | "limit"
+  | "signedOut"
+  | "notEnabled"
+  | "unknownValueChain";
+
 export interface KaEzyService extends KaEzyChatService {
   pay(
     request: PaymentRequest,
-    options: { onStatus: (status: PayStatus) => void; signal: AbortSignal; demoOutcome?: DemoOutcome },
+    options: {
+      onStatus: (status: PayStatus) => void;
+      signal: AbortSignal;
+      demoOutcome?: DemoOutcome;
+      /** What the payment system said, in words to show (a failure's reason). */
+      onMessage?: (text: string) => void;
+    },
   ): Promise<PayResult>;
 }
 
