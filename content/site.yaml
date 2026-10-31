@@ -360,11 +360,9 @@ contact:
     message: "Hello EzyAgric, I have a question:"
   phones:
     - number: "+256 708 383 845"
-  # Both, the team's choice (31 Oct 2026). ezy@ first: it is the one in the
-  # Terms and Privacy Policy, and the one search engines get (JsonLd).
+  # The site's one contact address, the team's choice (31 Oct 2026). The Terms
+  # and Privacy Policy, as issued, name ezy@ezyagric.com (content/legal).
   emails:
-    - address: ezy@ezyagric.com
-      label: Email
     - address: info@ezyagric.com
       label: Email
   # Office address from the Business Profile 2026.

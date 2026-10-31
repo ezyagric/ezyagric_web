@@ -24,7 +24,7 @@ export function ContactRows({
   const { contact } = getSite();
   const phone = visible(contact.phones)[0];
   const whatsapp = isVisible(contact.whatsapp) ? contact.whatsapp : null;
-  const emails = visible(contact.emails);
+  const email = visible(contact.emails)[0];
 
   const rows: { label: string; value: string; href: string; icon: IconName; color: Accent; track: string; external?: boolean }[] = [];
   if (phone) rows.push({ label: "Call us", value: phone.number, href: telUrl(phone.number), icon: "phone", color: "brand", track: "tel_click" });
@@ -38,16 +38,14 @@ export function ContactRows({
       track: "whatsapp_click",
       external: true,
     });
-  for (const email of emails) {
-    rows.push({ label: "Email us", value: email.address, href: mailUrl(email.address), icon: "mail", color: "deep", track: "email_click" });
-  }
+  if (email) rows.push({ label: "Email us", value: email.address, href: mailUrl(email.address), icon: "mail", color: "deep", track: "email_click" });
   if (rows.length === 0) return null;
 
   return (
     // role="list": Safari drops the list role from unstyled lists.
     <ul role="list" className={`divide-y divide-line overflow-hidden rounded-card border border-line bg-card ${className}`}>
       {rows.map((row) => (
-        <li key={row.value}>
+        <li key={row.track}>
           <a
             href={row.href}
             {...(row.external ? { target: "_blank", rel: "noopener" } : {})}

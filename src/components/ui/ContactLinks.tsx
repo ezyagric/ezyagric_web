@@ -16,7 +16,7 @@ export function ContactLinks({ position, message }: {
   const { contact } = getSite();
   const phone = visible(contact.phones)[0];
   const whatsapp = isVisible(contact.whatsapp) ? contact.whatsapp : null;
-  const emails = visible(contact.emails);
+  const email = visible(contact.emails)[0];
   const link = "font-label text-link underline underline-offset-4 hover:decoration-2";
   const parts = [
     phone ? (
@@ -43,17 +43,12 @@ export function ContactLinks({ position, message }: {
         </a>
       </>
     ) : null,
-    emails.length > 0 ? (
+    email ? (
       <>
         email{" "}
-        {emails.map((email, i) => (
-          <span key={email.address}>
-            {i === 0 ? null : " or "}
-            <a href={mailUrl(email.address)} data-track="email_click" data-track-position={position} className={link}>
-              {email.address}
-            </a>
-          </span>
-        ))}
+        <a href={mailUrl(email.address)} data-track="email_click" data-track-position={position} className={link}>
+          {email.address}
+        </a>
       </>
     ) : null,
   ].filter(Boolean);
