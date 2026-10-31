@@ -31,6 +31,7 @@ export function FarmDetails({
   profile,
   live,
   signedIn,
+  nameFromAccount,
   valueChainRef,
   className = "",
 }: {
@@ -38,6 +39,8 @@ export function FarmDetails({
   profile: Profile;
   live: boolean;
   signedIn: boolean;
+  /** Signed in with a name on the account: that is the first name here, not one to type. */
+  nameFromAccount: boolean;
   valueChainRef: RefObject<HTMLSelectElement | null>;
   className?: string;
 }) {
@@ -109,10 +112,11 @@ export function FarmDetails({
           hint={f.firstNameHint}
           value={profile.name}
           autoComplete="given-name"
+          readOnly={nameFromAccount}
           onChange={(name) => demo.setProfile({ name })}
         />
         <p id="kaezy-farm-name-hint" className="text-xs text-muted">
-          {f.firstNameHint}
+          {nameFromAccount ? f.firstNameAccount : f.firstNameHint}
         </p>
       </div>
       <p className="mt-4 text-xs text-muted">{signedIn ? f.storageAccount : live ? f.storageLive : f.storage}</p>
@@ -129,6 +133,7 @@ function Field({
   onChange,
   autoComplete,
   inputMode,
+  readOnly = false,
 }: {
   id: string;
   label: string;
@@ -137,6 +142,7 @@ function Field({
   onChange: (value: string) => void;
   autoComplete?: string;
   inputMode?: "decimal";
+  readOnly?: boolean;
 }) {
   return (
     <div className="row-span-2 grid grid-rows-subgrid gap-y-1">
@@ -150,9 +156,10 @@ function Field({
         maxLength={60}
         autoComplete={autoComplete}
         inputMode={inputMode}
+        readOnly={readOnly}
         aria-describedby={hint ? `${id}-hint` : undefined}
         onChange={(event) => onChange(event.target.value)}
-        className={FIELD}
+        className={`${FIELD} read-only:bg-subtle read-only:text-muted`}
       />
     </div>
   );

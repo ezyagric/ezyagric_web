@@ -302,6 +302,8 @@ const ProductSchema = z.object({
         landSize: z.string(),
         firstName: z.string(),
         firstNameHint: z.string(),
+        /** The hint instead, signed in: the name is the account's. */
+        firstNameAccount: z.string(),
         /** The line under "Your farm": a guest's, with live answers, and signed in. */
         storage: z.string(),
         storageLive: z.string(),

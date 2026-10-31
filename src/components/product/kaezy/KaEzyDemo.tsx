@@ -213,7 +213,7 @@ export function KaEzyDemo({
           window, as tall as it, past conversations filling the rest. Hire
           Ka-Ezy's navy column below is as wide (HireKaEzy). */}
       <div className="flex flex-col overflow-hidden rounded-card border border-line bg-card shadow-card md:max-lg:grid md:max-lg:grid-cols-2 lg:h-[44rem]">
-        <FarmDetails copy={copy} profile={state.profile} live={!!live} signedIn={!!session} valueChainRef={valueChainRef} className="p-5" />
+        <FarmDetails copy={copy} profile={state.profile} live={!!live} signedIn={!!session} nameFromAccount={!!session && !!account?.name} valueChainRef={valueChainRef} className="p-5" />
         <PastConversations
           copy={copy}
           conversations={state.conversations}

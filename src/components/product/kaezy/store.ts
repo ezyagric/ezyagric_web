@@ -352,6 +352,13 @@ export const demo = {
     set({ ...s, profile: { ...s.profile, ...patch } });
   },
 
+  /** The first name on the visitor's account: the one name "Your farm" uses while they are signed in. */
+  setAccountName(name: string) {
+    const s = get();
+    const next = name.slice(0, 100);
+    if (s.profile.name !== next) set({ ...s, profile: { ...s.profile, name: next } });
+  },
+
   /** Fills in farm details the visitor has left empty (from their account); typed ones stay. */
   setProfileIfEmpty(patch: Partial<Profile>) {
     const s = get();

@@ -188,17 +188,15 @@ function parseAccount(raw: Record<string, unknown>): Account {
 }
 
 /**
- * "Your farm" takes the user's name and place from their account, where
- * the visitor has not typed anything: a first name for the answers, and the
- * district (or region) as the location. What they typed stays.
+ * "Your farm" from the user's account: their first name for the answers, always
+ * (one person, one name across the page), and the district (or region) as the
+ * location where they have not typed one.
  */
 function prefillFarm(me: Account) {
-  const patch: { name?: string; location?: string } = {};
   const firstName = me.name.split(/\s+/)[0] ?? "";
-  if (firstName) patch.name = firstName;
+  if (firstName) demo.setAccountName(firstName);
   const place = (me.profile.district || me.profile.region || "").trim();
-  if (place) patch.location = place;
-  if (Object.keys(patch).length) demo.setProfileIfEmpty(patch);
+  if (place) demo.setProfileIfEmpty({ location: place });
 }
 
 /**
@@ -652,21 +650,32 @@ type SessionOut = {
 };
 
 async function started(out: SessionOut, via: Session["via"], name: string): Promise<Session> {
+  // Who the account says this is, before anyone is shown as signed in. The API
+  // ignores a name typed by someone it already knows (5.2), so that name stands.
+  let me: Account | null = null;
+  try {
+    me = parseAccount(await call<Record<string, unknown>>("/v1/user", { token: out.access_token }));
+    account = me;
+    accountFor = out.access_token;
+  } catch {
+    // The account's first reader asks again.
+  }
   const next: Session = {
     accessToken: out.access_token,
     expiresAt: out.expires_at,
     phone: out.phone,
     organisation: { name: out.organisation.name, orgCode: out.organisation.org_code ?? "", sandbox: !!out.organisation.sandbox },
     features: out.features,
-    name: name.trim(),
+    name: me?.name || name.trim(),
     via,
     signedInAt: Date.now(),
   };
   setSession(next);
-  // Their name, stage, usage and plan; a returning user's name comes from here.
-  const me = await refreshAccount();
-  if (me?.name && !next.name) setSession({ ...next, name: me.name });
-  return getSession() ?? next;
+  if (me) {
+    prefillFarm(me);
+    notifyAccount();
+  }
+  return next;
 }
 
 /** 5.1: a code is texted to the phone (or, for a test organisation, is 123456). */

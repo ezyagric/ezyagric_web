@@ -130,6 +130,7 @@ tryIt:
     landSize: Land size (acres)
     firstName: Your first name
     firstNameHint: Used to personalise answers.
+    firstNameAccount: From your Ka-Ezy account.
     storage: Only used while this page is open, to tailor Ka-Ezy's answers.
     storageLive: Only used while this page is open, and shared with Ka-Ezy as you work, so it can tailor its answers.
     storageAccount: From your Ka-Ezy account where we have them, and shared with Ka-Ezy as you work, so it can tailor its answers. Signing out clears them from this device.
@@ -380,7 +381,7 @@ tryIt:
     sandboxCode: "This is a test organisation: no SMS is sent, the code is 123456."
     code: The code from the SMS
     fullName: Your full name
-    fullNameHint: "As on your ID; it goes on your EzyAgric farmer record."
+    fullNameHint: "As on your ID; it goes on your EzyAgric farmer record. If you already have one, the name on it stays."
     consent: "I agree to EzyAgric's {terms} and {policy}."
     consentTerms: terms and conditions
     consentPolicy: privacy policy

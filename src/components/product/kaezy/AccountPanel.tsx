@@ -64,7 +64,7 @@ export function AccountPanel({
   const loaded = !!account;
   const wasSignedIn = useRef<boolean | null>(null);
   const wasLoaded = useRef(false);
-  const who = session ? session.name || account?.name || session.phone : "";
+  const who = session ? account?.name || session.name || session.phone : "";
   const orgName = session ? session.organisation.name || session.organisation.orgCode : "";
 
   useEffect(() => {
@@ -152,7 +152,7 @@ export function AccountPanel({
             ) : null}
           </p>
           <p className="mt-0.5 text-xs text-on-inverse/85">
-            {[national ? formatUgPhone(national) : session.phone, place, session.organisation.orgCode].filter(Boolean).join(" · ")}
+            {[national ? formatUgPhone(national) : session.phone, place].filter(Boolean).join(" · ")}
           </p>
         </div>
         <button
