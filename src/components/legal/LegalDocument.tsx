@@ -16,16 +16,18 @@ const TERMS_PATH = "/terms-and-conditions/";
 const LINKED = /(ezy@ezyagric\.com|www\.ezyagric\.com|www\.pdpo\.go\.ug|\+256 \d{3} \d{3} \d{3}|EzyAgric App Terms and Conditions|EzyAgric Privacy Policy)/;
 
 function InDocLink({ text, path }: { text: string; path: string }) {
+  // "/privacy-policy/" -> "privacy_policy", as analytics positions are named.
+  const position = path.replace(/\//g, "").replace(/-/g, "_");
   if (text === "ezy@ezyagric.com") {
     return (
-      <a href={mailUrl(text)} data-track="email_click" data-track-position={path} className={LINK}>
+      <a href={mailUrl(text)} data-track="email_click" data-track-position={position} className={LINK}>
         {text}
       </a>
     );
   }
   if (text.startsWith("+256")) {
     return (
-      <a href={telUrl(text)} data-track="call_click" data-track-position={path} className={`${LINK} whitespace-nowrap`}>
+      <a href={telUrl(text)} data-track="tel_click" data-track-position={position} className={`${LINK} whitespace-nowrap`}>
         {text}
       </a>
     );

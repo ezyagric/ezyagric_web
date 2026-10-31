@@ -128,6 +128,8 @@ export function SignInPopup({
   const [now, setNow] = useState(0);
   // Each wrong code shakes the boxes once more.
   const [shakes, setShakes] = useState(0);
+  // A new code asked for from the code step, so it is announced too.
+  const [resends, setResends] = useState(0);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const codeRef = useRef<HTMLInputElement>(null);
   const startRef = useRef<HTMLButtonElement>(null);
@@ -204,6 +206,7 @@ export function SignInPopup({
       setSentAt(sent);
       setNow(sent);
       setCode("");
+      if (step === "code") setResends((n) => n + 1);
       setStep("code");
     } catch (refused) {
       setError(explain(copy, refused));
@@ -226,6 +229,11 @@ export function SignInPopup({
       setTypedOrg("");
       setWantsOrg(false);
       setAgreed(false);
+      setSandbox(false);
+      setSentAt(0);
+      setNow(0);
+      setShakes(0);
+      setResends(0);
     } catch (refused) {
       setError(explain(copy, refused));
       setCode("");
@@ -237,7 +245,8 @@ export function SignInPopup({
   }
 
   function typeCode(value: string) {
-    const digits = value.replace(/\D/g, "").slice(0, CODE_LENGTH);
+    // A whole pasted SMS works: its six-digit run, whatever else it says.
+    const digits = value.match(/\b\d{6}\b/)?.[0] ?? value.replace(/\D/g, "").slice(0, CODE_LENGTH);
     setCode(digits);
     setError("");
     // The last digit signs in: typed, pasted or filled in from the SMS.
@@ -258,6 +267,12 @@ export function SignInPopup({
             fill(copy.codeSent, profile, { phone: phonePretty.replace(/ /g, "\u00a0") })
         : fill(copy.greeting, profile, { name: firstName });
   const stepNumber = !session && step === "details" ? 1 : 2;
+  const announcement =
+    !session && !link?.linking && step === "details"
+      ? ""
+      : resends && !session
+        ? fill(copy.toasts.codeSent, profile, { phone: phonePretty })
+        : bubble;
 
   return (
     <dialog
@@ -277,6 +292,11 @@ export function SignInPopup({
         >
           <X aria-hidden="true" className="size-5" />
         </button>
+
+        {/* Each step, for screen readers: never the greeting, which changes with every letter of the name. */}
+        <p role="status" className="sr-only">
+          {announcement}
+        </p>
 
         {/* Ka-Ezy, talking the visitor through it. */}
         <div className="gradient-brand relative isolate flex flex-col overflow-hidden p-4 pr-16 text-on-inverse md:min-h-[33rem] md:p-6">
@@ -303,9 +323,7 @@ export function SignInPopup({
             <span className="md:hidden">
               <KaEzyAvatar src={avatar} size="lg" />
             </span>
-            {/* Its text changes at each step: the visitor's screen reader hears it. */}
             <p
-              role="status"
               className="relative min-w-0 flex-1 rounded-card bg-card px-3 py-2 text-sm text-title shadow-raised md:px-4 md:py-3 md:text-base"
             >
               {bubble}
@@ -409,6 +427,8 @@ export function SignInPopup({
                     type="text"
                     value={name}
                     onChange={(event) => setTypedName(event.target.value)}
+                    // Held while the code is on its way: it goes to what was sent.
+                    readOnly={busy !== null}
                     autoComplete="name"
                     maxLength={120}
                     aria-describedby="kaezy-signin-name-hint"
@@ -421,7 +441,7 @@ export function SignInPopup({
                     hint={phoneHint}
                     value={phoneShown}
                     onChange={setTypedPhone}
-                    readOnly={fixed.phone}
+                    readOnly={fixed.phone || busy !== null}
                     error={typedPhone.trim() && !national ? copy.errors.badPhone : undefined}
                   />
 
@@ -439,6 +459,7 @@ export function SignInPopup({
                         value={orgCode}
                         onChange={(event) => setTypedOrg(event.target.value)}
                         disabled={fixed.org}
+                        readOnly={busy !== null}
                         autoComplete="off"
                         autoCapitalize="none"
                         placeholder="ezyorg482913"
@@ -450,6 +471,7 @@ export function SignInPopup({
                     <button
                       type="button"
                       onClick={() => setWantsOrg(true)}
+                      disabled={busy !== null}
                       className="mt-1 min-h-11 cursor-pointer rounded-control text-sm font-label text-link underline underline-offset-4"
                     >
                       {copy.orgToggle}
@@ -460,6 +482,7 @@ export function SignInPopup({
                     <input
                       type="checkbox"
                       checked={agreed}
+                      disabled={busy !== null}
                       onChange={(event) => {
                         setAgreed(event.target.checked);
                         setError("");
@@ -496,6 +519,7 @@ export function SignInPopup({
                         setStep("details");
                         setCode("");
                         setError("");
+                        setResends(0);
                       }}
                       disabled={busy !== null}
                       className="min-h-11 cursor-pointer rounded-control text-sm font-label text-link underline underline-offset-4 disabled:opacity-60"
@@ -539,7 +563,6 @@ export function SignInPopup({
                       autoComplete="one-time-code"
                       inputMode="numeric"
                       pattern="[0-9]*"
-                      maxLength={CODE_LENGTH}
                       aria-invalid={error ? true : undefined}
                       aria-describedby={error ? "kaezy-signin-error" : undefined}
                       className="absolute inset-0 size-full cursor-text bg-transparent text-base text-transparent caret-transparent outline-none selection:bg-transparent"

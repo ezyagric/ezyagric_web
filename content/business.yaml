@@ -347,9 +347,9 @@ faq:
       actions:
         - { kind: page, label: "Find your module", href: "/ezyagric-business/#modules" }
         - { kind: whatsapp, label: "Talk to our team" }
-    # The portal role point; the API points; EzyCredits consent; policy sections 3 and 5.
+    # The portal role point; the API points; EzyCredits consent; Privacy Policy v2.0, clauses 11.1 and 7.4.
     - q: Is our data private and secure?
-      a: "Yes. Each person on your team sees only what their role allows. API connections use API keys over HTTPS and are set up with our team under a data-sharing agreement, and in EzyCredits customers' data for credit scoring is shared with their consent. We protect information with reasonable administrative, technical and physical safeguards, and we do not sell your personal information."
+      a: "Yes. Each person on your team sees only what their role allows. API connections use API keys over HTTPS and are set up with our team under a data-sharing agreement, and in EzyCredits customers' data for credit scoring is shared with their consent. We protect information with appropriate technical and organisational measures, and we do not sell or rent your personal data."
       actions:
         - { kind: page, label: "See our two promises", href: "/ezyagric-business/#promise-privacy" }
         - { kind: page, label: "Read our privacy policy", href: /privacy-policy/ }

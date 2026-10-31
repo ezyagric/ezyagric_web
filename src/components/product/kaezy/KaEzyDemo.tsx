@@ -68,9 +68,14 @@ export function KaEzyDemo({
   const accountRecords = useAccountRecords();
   const [signInWanted, setSignInWanted] = useState(false);
   // A link brought the organisation or phone, or a token that signs in: the
-  // popup opens by itself, once.
-  const fromLink = !!arrival && (!!arrival.org || !!arrival.phone || arrival.linking || !!arrival.failure);
-  const [linkDismissed, setLinkDismissed] = useState(false);
+  // popup opens by itself, once, decided when the link is first read. Someone
+  // already signed in has no need of it, then or after they sign out.
+  const [linkRead, setLinkRead] = useState(false);
+  const [linkOpen, setLinkOpen] = useState(false);
+  if (arrival && !linkRead) {
+    setLinkRead(true);
+    if (!session && (arrival.org || arrival.phone || arrival.linking || arrival.failure)) setLinkOpen(true);
+  }
   // Signed in, the visitor's own Ka-Ezy answers; else the guest endpoint, if any.
   const live = useMemo(
     () => (session ? partnerChatService(session) : endpoint ? liveChatService({ endpoint }) : null),
@@ -362,10 +367,10 @@ export function KaEzyDemo({
         profile={state.profile}
         avatar={avatar}
         areaId={askId}
-        open={signInWanted || (fromLink && !linkDismissed)}
+        open={signInWanted || linkOpen}
         onClose={() => {
           setSignInWanted(false);
-          setLinkDismissed(true);
+          setLinkOpen(false);
           // Signed in: the "Sign in" button that opened it is gone.
           if (session) tabRefs.current[tab]?.focus({ preventScroll: true });
         }}
