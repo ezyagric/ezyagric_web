@@ -89,8 +89,8 @@ export function SignInPopup({
   /** "Your farm", for the name field's starting value. */
   profile: Profile;
   avatar: string;
-  /** The Ka-Ezy window: brought into view first, so the popup opens over it. */
-  areaId: string;
+  /** The Ka-Ezy window, brought into view first so the popup opens over it; none when asked for from further down the page. */
+  areaId?: string;
   /** Asked for: the window's "Sign in" button, or a link. It stays up for the welcome. */
   open: boolean;
   /** It closed: Esc, its close button, the backdrop, or the welcome ending. */
@@ -147,7 +147,7 @@ export function SignInPopup({
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (show && !dialog.open) {
-      document.getElementById(areaId)?.scrollIntoView({ block: "center", behavior: "instant" });
+      if (areaId) document.getElementById(areaId)?.scrollIntoView({ block: "center", behavior: "instant" });
       dialog.showModal();
       // With a mouse, straight into the first empty field. On a touch screen
       // the keyboard would cover the popup before it has been read.

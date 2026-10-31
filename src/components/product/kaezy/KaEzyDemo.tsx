@@ -13,6 +13,7 @@ import { MappingPanel } from "./MappingPanel";
 import {
   PARTNER_ENABLED,
   fetchConversation,
+  onSignInAsked,
   valueChainLabel,
   partnerChatService,
   saveRecords,
@@ -67,6 +68,16 @@ export function KaEzyDemo({
   const remoteThreads = useRemoteThreads();
   const accountRecords = useAccountRecords();
   const [signInWanted, setSignInWanted] = useState(false);
+  // Asked for by the hire card: the page stays there, and goes on to paying.
+  const [signInForPay, setSignInForPay] = useState(false);
+  useEffect(
+    () =>
+      onSignInAsked(() => {
+        setSignInForPay(true);
+        setSignInWanted(true);
+      }),
+    [],
+  );
   // A link brought the organisation or phone, or a token that signs in: the
   // popup opens by itself, once, decided when the link is first read. Someone
   // already signed in has no need of it, then or after they sign out.
@@ -366,13 +377,17 @@ export function KaEzyDemo({
         session={session}
         profile={state.profile}
         avatar={avatar}
-        areaId={askId}
+        areaId={signInForPay ? undefined : askId}
         open={signInWanted || linkOpen}
         onClose={() => {
           setSignInWanted(false);
           setLinkOpen(false);
+          setSignInForPay(false);
           // Signed in: the "Sign in" button that opened it is gone.
-          if (session) tabRefs.current[tab]?.focus({ preventScroll: true });
+          if (session) {
+            const next = signInForPay ? document.getElementById(hireHref.slice(1)) : tabRefs.current[tab];
+            next?.focus({ preventScroll: true });
+          }
         }}
       />
     ) : null}

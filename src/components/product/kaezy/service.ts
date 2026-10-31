@@ -12,9 +12,9 @@ import { newThreadId, type FarmRecord, type KaEzyVideo } from "./store";
 // - Chat: liveChatService talks to a guest demo endpoint (README, "Ka-Ezy on
 //   the website") that sends no farmer identity; without it, demoService
 //   answers from the sample answers.
-// - Payment: demoService simulates it; signed in through the Partner API,
-//   partner.ts's partnerPayService sells the plan for real (step 12 of the
-//   Partner API guide), with the prompt on the signed-in phone.
+// - Payment: only signed in through the Partner API, where partner.ts's
+//   partnerPayService sells the plan for real (step 12 of the Partner API
+//   guide), with the prompt on the signed-in phone.
 
 /** Payment progress, named as in the app's payment intents. */
 export type PayStatus =
@@ -27,7 +27,7 @@ export type PayStatus =
 
 export type PayResult = "fulfilled" | "failed" | "expired";
 
-/** Preview builds only: lets reviewers see every ending of the demo. */
+/** Test organisations only: picks how their settled sandbox payment ends. */
 export type DemoOutcome = "approved" | "declined" | "timed_out";
 
 export type PaymentRequest = {
@@ -125,8 +125,8 @@ export function normalise(text: string): string {
 }
 
 /**
- * Sample answers for the starter questions, a fixed reply for anything
- * else, and a simulated Mobile Money payment. Nothing leaves the browser.
+ * Sample answers for the starter questions and a fixed reply for anything
+ * else. Nothing leaves the browser.
  */
 export function demoService({
   answers,
@@ -134,7 +134,7 @@ export function demoService({
 }: {
   answers: { q: string; a: string }[];
   otherQuestion: string;
-}): KaEzyService {
+}): KaEzyChatService {
   return {
     async ask(question, signal) {
       const match = answers.find((item) => normalise(item.q) === normalise(question));
@@ -142,19 +142,6 @@ export function demoService({
       // About as long as a short real answer takes to arrive.
       await wait(1400 + Math.min(1600, answer.length * 2), signal);
       return { text: answer };
-    },
-
-    async pay(_request, { onStatus, signal, demoOutcome = "approved" }) {
-      onStatus("sending");
-      await wait(1500, signal);
-      onStatus("instructions_sent");
-      await wait(3500, signal);
-      if (demoOutcome === "declined") return "failed";
-      if (demoOutcome === "timed_out") return "expired";
-      onStatus("successful");
-      await wait(1800, signal);
-      onStatus("fulfilled");
-      return "fulfilled";
     },
   };
 }

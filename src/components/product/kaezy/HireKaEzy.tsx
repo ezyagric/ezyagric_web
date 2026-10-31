@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Check, ChevronLeft, Loader2, ShieldCheck, XCircle } from "lucide-react";
 import type { Product } from "@/lib/content";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
-import { PARTNER_ENABLED, PayRefused, partnerPayService, useAccount, useSession } from "./partner";
+import { PARTNER_ENABLED, PayRefused, askSignIn, partnerPayService, useAccount, useSession } from "./partner";
 import { buttonClasses } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { IconCircle } from "@/components/ui/IconCircle";
@@ -17,7 +17,7 @@ import {
   ugNationalNumber,
   type Network,
 } from "./format";
-import { demoService, type DemoOutcome, type PayResult, type PayStatus } from "./service";
+import type { DemoOutcome, PayResult, PayStatus } from "./service";
 import { FieldError, PhoneField } from "./PhoneField";
 import { KaEzyAvatar } from "./Thread";
 
@@ -32,15 +32,6 @@ export type HirePlan = {
 };
 
 type Step = "plan" | "pay" | "progress" | "done" | "failed" | "app";
-
-/**
- * How paying works on this build:
- * - "demo": preview builds walk through the whole Mobile Money flow,
- *   simulated (no request leaves the browser, no money moves).
- * - "app": the live site, until a secure web payment API exists, takes the
- *   plan choice and then sends the visitor to the app to pay.
- */
-export type PayMode = "demo" | "app";
 
 /** The app's plan subtitles, by plan length. */
 function planLine(months: number): string {
@@ -74,8 +65,12 @@ const RADIO_CARD =
  * the prompt on the phone, done. Redrawn from the app's plan list, Mobile
  * Money sheet and progress messages, in the website's theme.
  *
+ * Paying is real and needs a sign-in through the Partner API. Signed out, every
+ * build takes the plan choice, then offers the sign-in (where the build has it)
+ * or the app; a sign-in there carries on to paying.
+ *
  * One card in two parts: Hire Ka-Ezy on navy (the step, as words and a bar,
- * and the demo note on preview builds), then the current step. Below lg the
+ * and a note for test organisations), then the current step. Below lg the
  * navy part is a short header, so the plans start near the card's top (the
  * "Pay for Ka-Ezy" links land here), and why farmers hire Ka-Ezy follows the
  * plans. From lg they sit side by side: the navy column is as wide as the
@@ -88,7 +83,6 @@ export function HireKaEzy({
   hire,
   avatar,
   plans,
-  payMode,
   storeBadges,
 }: {
   id: string;
@@ -96,18 +90,15 @@ export function HireKaEzy({
   /** Ka-Ezy's face, on the pay header (as on the Ka-Ezy window's). */
   avatar: string;
   plans: HirePlan[];
-  payMode: PayMode;
   /** Server-rendered store badges (they read site settings). */
   storeBadges: ReactNode;
 }) {
   // Signed in through the Partner API, the payment is real (partner.ts);
-  // otherwise the simulation (preview builds) or the hand-off to the app.
+  // otherwise the sign-in or the hand-off to the app.
   const session = useSession();
   const account = useAccount();
   const live = PARTNER_ENABLED && !!session;
-  const mode: PayMode | "live" = live ? "live" : payMode;
-  const demo = useMemo(() => demoService({ answers: [], otherQuestion: "" }), []);
-  const service = useMemo(() => (live && session ? partnerPayService(session) : demo), [live, session, demo]);
+  const service = useMemo(() => (live && session ? partnerPayService(session) : null), [live, session]);
   const [payMessage, setPayMessage] = useState("");
   const firstPick = Math.max(0, plans.findIndex((p) => p.highlight));
   const [step, setStep] = useState<Step>("plan");
@@ -143,9 +134,21 @@ export function HireKaEzy({
   const accountNational = payingNational;
   // The network: picked, or read from the number's prefix (a prefilled one included).
   const chosenNetwork = network ?? (payingNational ? networkFor(payingNational) : null);
-  const totalSteps = mode === "app" ? 2 : 3;
+  const totalSteps = live ? 3 : 2;
+
+  // A sign-in carries on from the hand-off to paying; a sign-out leaves nothing
+  // of the last person's payment on screen.
+  const [wasLive, setWasLive] = useState(live);
+  if (live !== wasLive) {
+    setWasLive(live);
+    if (live && step === "app") setStep("pay");
+    else if (!live && step !== "plan") setStep("plan");
+  }
 
   useEffect(() => () => abortRef.current?.abort(), []);
+  useEffect(() => {
+    if (!live) abortRef.current?.abort();
+  }, [live]);
 
   // Move focus to the new step's heading (not on first render).
   useEffect(() => {
@@ -167,6 +170,7 @@ export function HireKaEzy({
 
   async function onPay(event: FormEvent) {
     event.preventDefault();
+    if (!service) return;
     const next: typeof errors = {};
     if (!payingNational) next.paying = "Enter a Ugandan mobile number, for example 0772 123 456.";
     if (!chosenNetwork) next.network = "Choose MTN MoMo or Airtel Money.";
@@ -243,11 +247,7 @@ export function HireKaEzy({
             />
           ))}
         </span>
-        {mode === "demo" ? (
-          <p className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
-            Demo: no request leaves this page and no money is taken.
-          </p>
-        ) : mode === "live" && session?.organisation.sandbox ? (
+        {live && session?.organisation.sandbox ? (
           <p className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-2 text-sm text-review">
             Test organisation: no prompt is sent to a phone and no money is taken.
           </p>
@@ -286,7 +286,7 @@ export function HireKaEzy({
               className="flex flex-1 flex-col"
               onSubmit={(event) => {
                 event.preventDefault();
-                setStep(mode === "app" ? "app" : "pay");
+                setStep(live ? "pay" : "app");
               }}
             >
               <fieldset>
@@ -455,14 +455,14 @@ export function HireKaEzy({
                 <span>{hire.policy}</span>
               </p>
 
-              {mode === "live" && !session?.organisation.sandbox ? (
+              {live && !session?.organisation.sandbox ? (
                 <p className="mt-4 text-sm text-body">{hire.livePrompt}</p>
               ) : null}
 
-              {mode === "demo" || session?.organisation.sandbox ? (
+              {session?.organisation.sandbox ? (
               <fieldset className="mt-4 rounded-control border border-dashed border-review bg-review-soft px-3 py-1">
                 <legend className="px-1 text-sm font-label text-review">
-                  {mode === "demo" ? "Demo only: what happens next?" : "Test organisation: what happens next?"}
+                  Test organisation: what happens next?
                 </legend>
                 <div className="flex flex-wrap gap-x-4 gap-y-1">
                   {(
@@ -595,11 +595,22 @@ export function HireKaEzy({
           {step === "app" ? (
             <div className="flex flex-1 flex-col">
               <h4 ref={headingRef} tabIndex={-1} className="text-lg font-heading text-title">
-                Finish in the EzyAgric App
+                {PARTNER_ENABLED ? "Pay here or in the EzyAgric App" : "Finish in the EzyAgric App"}
               </h4>
               <PlanSummary plan={plan} total={total} onChange={() => restart("plan")} />
-              <p className="mt-4 text-base text-body">{hire.appHandoff}</p>
+              <p className="mt-4 text-base text-body">{PARTNER_ENABLED ? hire.appHandoffSignIn : hire.appHandoff}</p>
               <Actions>
+                {PARTNER_ENABLED ? (
+                  <button
+                    type="button"
+                    onClick={askSignIn}
+                    data-track="kaezy_sign_in_open"
+                    data-track-position="hire"
+                    className={`${buttonClasses("primary")} cursor-pointer whitespace-nowrap`}
+                  >
+                    {hire.signInToPay}
+                  </button>
+                ) : null}
                 {storeBadges}
                 <button
                   type="button"

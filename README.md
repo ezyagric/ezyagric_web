@@ -325,12 +325,14 @@ The endpoint engineering needs to provide (ticket BT-01; for example `POST /web/
 
 ### Pay: what each build does
 
-| Build | Chat | Pay |
-|---|---|---|
-| `preview` / `staging` | Live answers if the endpoint is set, else sample answers to the four starter questions | Full flow, simulated: plan, MTN MoMo or Airtel Money number, "approve on your phone", success or failure (a "Demo only" switch picks the ending). Nothing leaves the browser. |
-| `production` | Shown (the EzyAgric team confirmed `tryIt` on 29 Oct 2026): live answers if the endpoint is set, else sample answers | Choose a plan, then "Finish in the EzyAgric App" with the store badges. No payment form. |
+The same on every build, `preview`, `staging` and `production` (the EzyAgric team confirmed `tryIt` on 29 Oct 2026):
 
-Paying on the website needs, from engineering: web sign-in checked on the server (phone + OTP, BT-03), a plans endpoint (plans live in the app's database today, BT-04), and payment and plan activation that trust only that sign-in and the payment callback, with rate limits (BT-05; the bot check is at sign-in, BT-03). Then add a live payment service next to the demo in `src/components/product/kaezy/service.ts`.
+| Visitor | Chat | Pay |
+|---|---|---|
+| Signed out | Guest answers if the endpoint is set, else sample answers to the starter questions | Choose a plan, then "Sign in to pay here" (with `NEXT_PUBLIC_PARTNER_API`) or the store badges. No payment form. |
+| Signed in | The real Ka-Ezy | Real Mobile Money through the Partner API. A test organisation sends no prompt and moves no money, and a "what happens next?" switch picks the ending. |
+
+Paying without the Partner API would need, from engineering: web sign-in checked on the server (phone + OTP, BT-03), a plans endpoint (plans live in the app's database today, BT-04), and payment and plan activation that trust only that sign-in and the payment callback, with rate limits (BT-05; the bot check is at sign-in, BT-03). Then add that payment service in `src/components/product/kaezy/service.ts`.
 
 ---
 

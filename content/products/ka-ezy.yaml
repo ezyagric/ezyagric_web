@@ -103,13 +103,11 @@ demoVideos:
 # "Work with Ka-Ezy, then hire it", right after the Ka-Ezy banner. The answers are sample
 # answers written for the website (there is no safe way yet for a public web
 # page to reach the real Ka-Ezy or take payment: see README, "Ka-Ezy on the
-# website"). Preview builds simulate paying with Mobile Money; the live site
-# sends visitors to the app to pay.
+# website"). Paying takes a sign-in: see "Hire Ka-Ezy" below.
 tryIt:
   # Confirmed by the EzyAgric team (29 Oct 2026), so it shows on the live site.
-  # Paying on the website stays a demo until engineering adds secure web
-  # sign-in and a payment API (docs/backend-tickets.md BT-03 to BT-05); until
-  # then the live site sends visitors to the app to pay. Live answers: BT-01.
+  # Paying on the website takes a sign-in through the Partner API; signed out,
+  # visitors choose a plan, then sign in or use the app. Guest answers: BT-01.
   eyebrow: Try Ka-Ezy
   title: Work with Ka-Ezy, then hire it
   intro: "Share your farm with Ka-Ezy, then work on it together: get advice, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, [choose a plan](/ka-ezy/#hire-ka-ezy) and pay with Mobile Money."
@@ -636,6 +634,8 @@ tryIt:
     checkingAccount: "Checking your EzyAgric account…"
     policy: EzyAgric never asks for or stores your Mobile Money PIN.
     livePrompt: "When you tap Pay, a Mobile Money prompt is sent to this phone. Approve it with your PIN and your plan starts right away. A plan runs to its end date. You can cancel a new plan within 7 days after you pay, for a full refund."
+    appHandoffSignIn: "Sign in and pay right here with Mobile Money. Or hire Ka-Ezy in the EzyAgric App: open Ka-Ezy and tap View Ka-Ezy Plans."
+    signInToPay: Sign in to pay here
     appHandoff: "Paying on the website is coming soon. For now, hire Ka-Ezy in the EzyAgric App: open Ka-Ezy and tap View Ka-Ezy Plans."
 
 steps:

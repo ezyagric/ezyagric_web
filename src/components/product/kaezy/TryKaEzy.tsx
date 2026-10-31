@@ -1,5 +1,5 @@
 import { isVisible, visible, type Product } from "@/lib/content";
-import { KAEZY_DEMO_API, SHOW_PENDING } from "@/lib/env";
+import { KAEZY_DEMO_API } from "@/lib/env";
 import { Section, SectionHeader } from "@/components/ui/Container";
 import { playStoreUrl } from "@/lib/links";
 import { RichText } from "@/components/ui/RichText";
@@ -101,10 +101,6 @@ export function TryKaEzy({ product, tone }: { product: Product; tone: BandTone }
             avatar="/images/products/ka-ezy-avatar.webp"
             hire={tryIt.hire}
             plans={hirePlans(product)}
-            // No secure web payment API yet (docs/backend-tickets.md BT-05):
-            // simulate it in preview builds, send visitors to the app on the
-            // live site.
-            payMode={SHOW_PENDING ? "demo" : "app"}
             storeBadges={<StoreBadges campaign={product.cta.campaign} medium="hire-ka-ezy" size="md" />}
           />
         </div>

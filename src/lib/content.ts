@@ -595,7 +595,10 @@ const ProductSchema = z.object({
         /** Signed in: what happens when Pay is pressed (the prompt on their phone). */
         livePrompt: z.string(),
         /** Not signed in, on the live site: how to hire in the app instead. */
+        /** Signed out, after choosing a plan: without sign-in on this build, and with it. */
         appHandoff: z.string(),
+        appHandoffSignIn: z.string(),
+        signInToPay: z.string(),
       }),
       ...pendingFields,
     })

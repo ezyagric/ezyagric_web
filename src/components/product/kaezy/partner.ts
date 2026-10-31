@@ -472,6 +472,22 @@ export function useAccountRecords(): AccountRecords | null {
   return useSyncExternalStore(subscribeRecords, getRecords, () => null);
 }
 
+// ── asking for the sign-in from elsewhere on the page ────────────────────────
+
+const signInAskers = new Set<() => void>();
+
+/** The hire card's "Sign in to pay here": the sign-in popup lives with the Ka-Ezy window. */
+export function askSignIn() {
+  for (const asker of signInAskers) asker();
+}
+
+export function onSignInAsked(asker: () => void) {
+  signInAskers.add(asker);
+  return () => {
+    signInAskers.delete(asker);
+  };
+}
+
 // ── arriving from a link ─────────────────────────────────────────────────────
 
 /**

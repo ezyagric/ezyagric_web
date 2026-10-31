@@ -248,9 +248,10 @@ the app sells:
 
 **Today.** On the live site, "Hire Ka-Ezy" ends at "Finish in the EzyAgric
 App" with the store badges (`appHandoff` in `content/products/ka-ezy.yaml`).
-Preview and staging builds show a simulated payment (`demoService().pay` in
-`src/components/product/kaezy/service.ts`) with the notice "Demo: no request
-leaves this page and no money is taken."
+Every build does the same for a signed-out visitor; the simulated payment on
+preview and staging builds was removed on 31 Oct 2026. Signed in through the
+Partner API, payment is already real (`partnerPayService` in
+`src/components/product/kaezy/partner.ts`).
 
 **Build** a payment API that trusts only the BT-03 session and the payment
 provider's own confirmation:
@@ -286,20 +287,12 @@ provider's own confirmation:
    `accountNumber`: the server prices the plan and the account is the BT-03
    session. Give each plan its BT-04 `id` in `pricing.tiers` and in
    `HirePlan`.
-2. Replace `payMode={SHOW_PENDING ? "demo" : "app"}` in
-   `src/components/product/kaezy/TryKaEzy.tsx` with a build flag (for example
-   `NEXT_PUBLIC_KAEZY_PAY` = `demo`, `app` or `live`, added to the Dockerfile
-   and to README "Environment variables"), so staging can run the live flow
-   against the sandboxes before production does. Add `"live"` to `PayMode`
-   in `HireKaEzy.tsx`, choose the service by `payMode` there (it always builds
-   `demoService` today), and add the BT-03 sign-in step before payment. In
-   the live flow, remove the "I use this number in the EzyAgric App" checkbox
-   and the "EzyAgric App number" field.
-3. Show the demo notice and the "Demo only: what happens next?" switch only
-   when `payMode` is `"demo"`. Today only the notice checks `payMode`; the
-   switch sits in the pay step without a check and stays off the live site
-   only because that step is demo-only.
-4. Update `appHandoff` and the README ("Pay: what each build does").
+2. In `HireKaEzy.tsx`, choose this service next to `partnerPayService`, behind
+   a build flag added to the Dockerfile and to README "Environment variables",
+   so staging can run the flow against the sandboxes before production does.
+   Add the BT-03 sign-in step before payment, and remove the "I use this number
+   in the EzyAgric App" checkbox and the "EzyAgric App number" field.
+3. Update `appHandoff` and the README ("Pay: what each build does").
 
 ---
 
