@@ -51,10 +51,10 @@ features:
       icon: message-circle
     # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
-      text: "Sick plant or animal? Snap a photo and Ka-Ezy tells you what's wrong, so you can act early. Order what it recommends straight from [Agrishop](/agrishop/)."
+      text: "Sick plant or animal? Snap a photo and Ka-Ezy shows you what it may be, so you can act early. You're advised to confirm with an expert before you buy an expensive treatment. Order what you need straight from [Agrishop](/agrishop/)."
       icon: camera
     - title: Garden mapping
-      text: "Walk your garden once and Ka-Ezy maps it: exact acreage, clear boundaries and the spots that need your inputs most."
+      text: "Walk your garden once and Ka-Ezy maps it: its estimated acreage, its outline and the spots that need your inputs most."
       icon: map
     - title: Farm records
       text: "Keep your income and expenses in one place. Track activities, monitor progress and grow profitably."
@@ -89,11 +89,11 @@ demoVideos:
       poster: { src: /images/videos/kaezy-expert-advice.webp, alt: "", width: 900, height: 506 }
     - src: /videos/kaezy-disease-diagnosis.mp4
       title: Instant disease diagnosis
-      text: Sick plant? Snap a photo and I'll tell you what's wrong in seconds.
+      text: Sick plant? Snap a photo and I'll show you what it may be in seconds.
       poster: { src: /images/videos/kaezy-disease-diagnosis.webp, alt: "", width: 900, height: 506 }
     - src: /videos/kaezy-garden-mapping.mp4
       title: Garden mapping
-      text: Walk around your garden and I'll map it, so you know exactly how big it is.
+      text: Walk around your garden and I'll map it, so you have a good idea how big it is.
       poster: { src: /images/videos/kaezy-garden-mapping.webp, alt: "", width: 900, height: 506 }
     - src: /videos/kaezy-farm-records.mp4
       title: Farm records
@@ -208,7 +208,7 @@ tryIt:
           2. **Give clean water all the time,** and keep housing clean, dry and well aired.
           3. **Vaccinate on schedule,** and deworm as your vet advises.
           4. **Keep new animals apart** for two weeks before mixing them in.
-          5. **Check your animals every day** and act early. Snap a photo in the app and I'll tell you what's wrong.
+          5. **Check your animals every day** and act early. Snap a photo in the app and I'll show you what it may be.
 
           Choose your animal in Your farm and I'll give you advice made for it.
     # When a crop is chosen (the app's own crop questions).
@@ -453,7 +453,7 @@ tryIt:
   # (see note). {name} is filled in as in the answers above.
   diagnosis:
     title: Check a sick crop or animal
-    text: Add a photo and Ka-Ezy tells you what's wrong and what to do.
+    text: Add a photo and Ka-Ezy shows you what it may be and what to do.
     upload: Add a photo
     samplesTitle: "Or try a sample photo:"
     sampleLabel: Sample photo
@@ -634,7 +634,7 @@ tryIt:
     notRegistered: "This number isn't registered with EzyAgric yet, so a plan has nowhere to go. Sign out and sign in again to retry, or work with Ka-Ezy once first."
     checkingAccount: "Checking your EzyAgric account…"
     policy: EzyAgric never asks for or stores your Mobile Money PIN.
-    livePrompt: "When you tap Pay, a Mobile Money prompt is sent to this phone. Approve it with your PIN and your plan starts right away. A plan runs to its end date; there are no refunds."
+    livePrompt: "When you tap Pay, a Mobile Money prompt is sent to this phone. Approve it with your PIN and your plan starts right away. A plan runs to its end date. You can cancel a new plan within 7 days after you pay, for a full refund."
     appHandoff: "Paying on the website is coming soon. For now, hire Ka-Ezy in the EzyAgric App: open Ka-Ezy and tap View Ka-Ezy Plans."
 
 steps:

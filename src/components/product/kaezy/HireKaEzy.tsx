@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import Link from "next/link";
 import { Check, ChevronLeft, Loader2, ShieldCheck, XCircle } from "lucide-react";
 import type { Product } from "@/lib/content";
 import { KeepHyphensTogether } from "@/components/ui/KeepHyphens";
@@ -451,9 +452,7 @@ export function HireKaEzy({
 
               <p className="mt-4 flex items-start gap-2 text-sm text-muted">
                 <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-accent-bright" />
-                <span>
-                  <span className="font-label text-title">100% safe.</span> {hire.policy}
-                </span>
+                <span>{hire.policy}</span>
               </p>
 
               {mode === "live" && !session?.organisation.sandbox ? (
@@ -566,9 +565,12 @@ export function HireKaEzy({
                 </h4>
               </div>
               <p className="mt-3 text-base text-body">
-                {result === "expired"
-                  ? "The prompt timed out before it was approved. No money was taken."
-                  : "Your payment did not go through. No money was taken."}
+                {result === "expired" ? "The prompt timed out before it was approved." : "Your payment did not go through."} If
+                money left your account,{" "}
+                <Link prefetch={false} href="/#contact-us" className="font-label text-link underline underline-offset-4">
+                  contact us
+                </Link>{" "}
+                and we&apos;ll activate your plan or refund you.
               </p>
               {payMessage ? <p className="mt-2 text-sm text-muted">{payMessage}</p> : null}
               <Actions>
