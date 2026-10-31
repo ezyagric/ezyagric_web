@@ -25,7 +25,8 @@ export function MobileMenu({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && ref.current?.open) {
+      // A popup opened from the menu (App Store badge) takes this Esc for itself.
+      if (event.key === "Escape" && ref.current?.open && !document.querySelector("dialog[open]")) {
         ref.current.open = false;
         ref.current.querySelector("summary")?.focus();
       }

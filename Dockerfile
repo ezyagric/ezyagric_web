@@ -35,9 +35,9 @@ ARG NEXT_PUBLIC_KAEZY_DEMO_API=
 # first impact number as typed in content/site.yaml.
 ARG NEXT_PUBLIC_IMPACT_API=
 # The EzyAgric Partner API ("https://kaezy-api.ezyagric.com/partner"): "Try
-# Ka-Ezy" gets a sign-in card, and a signed-in visitor gets the real Ka-Ezy
+# Ka-Ezy" gets a sign-in popup, and a signed-in visitor gets the real Ka-Ezy
 # (README, "Ka-Ezy on the website"). Its origin must be in the CSP's
-# connect-src (nginx/nginx.conf). Empty: no sign-in card.
+# connect-src (nginx/nginx.conf). Empty: no sign-in.
 ARG NEXT_PUBLIC_PARTNER_API=
 # The organisation code visitors without one join when they sign in from the
 # site (EzyAgric's own); empty makes the code a required field.

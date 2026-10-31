@@ -77,16 +77,16 @@ promises:
       # The EzyCredits point "shared with consent".
       - label: Your customers
         text: "In EzyCredits, customers' data for credit scoring is shared with their consent."
-      # Privacy policy (13 Feb 2026), sections 3 and 5: keep "reasonable" and "personal information".
+      # Privacy Policy v2.0, clauses 11.1 and 7.4: keep their words.
       - label: Your information
-        text: We protect it with reasonable administrative, technical and physical safeguards, and we do not sell your personal information.
+        text: We protect it with appropriate technical and organisational measures, and we do not sell or rent your personal data.
       # Encryption and the Act: confirmed by the EzyAgric team, 29 Oct 2026
       # (engineering keeps them true: docs/backend-tickets.md BT-07). Never
       # write "compliant", "certified" or "registered".
       - label: Encryption
         text: Your data is encrypted in transit and at rest.
       - label: The law
-        text: "We handle personal data in line with Uganda's Data Protection and Privacy Act, 2019."
+        text: "We handle personal data in line with Uganda's Data Protection and Privacy Act, Cap. 97."
     link: { label: Read our privacy policy, href: /privacy-policy/ }
   investment:
     label: Promise B

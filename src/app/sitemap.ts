@@ -7,6 +7,6 @@ import { SITE_URL } from "@/lib/env";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["/", ...getProducts().map((p) => `/${p.slug}/`), "/ezyagric-business/", "/privacy-policy/"];
+  const paths = ["/", ...getProducts().map((p) => `/${p.slug}/`), "/ezyagric-business/", "/privacy-policy/", "/terms-and-conditions/"];
   return paths.map((p) => ({ url: `${SITE_URL}${p}` }));
 }

@@ -236,8 +236,7 @@ export function Header() {
                 ))}
               </ul>
             </nav>
-            {/* On a phone, the store badges (App Store once the iPhone app is
-                live) beat a generic "Get the app" button. */}
+            {/* On a phone, the store badges beat a generic "Get the app" button. */}
             <StoreBadges campaign="general" medium="menu" size="md" className="mt-4" />
             <div className="mt-4 grid gap-2">
               <ButtonLink href={kaezyPayHref()} track="kaezy_pay_click" trackProps={{ position: "menu-phone" }}>

@@ -9,7 +9,7 @@ import { KaEzyAskError, demoService, normalise, wait, type KaEzyChatService } fr
 import { demo, newId, type Conversation, type Message, type Photo } from "./store";
 import { SMALL_PRIMARY, Thread, type ThreadLabels } from "./Thread";
 
-/** The question box's id ("Ask Ka-Ezy" links put the cursor in it: KaEzyDemo). */
+/** The question box's id ("Work with Ka-Ezy" links put the cursor in it: KaEzyDemo). */
 export const QUESTION_ID = "kaezy-question";
 
 /** After this many answers, Ka-Ezy suggests hiring it. */
@@ -243,7 +243,7 @@ export function ExpertPanel({
         thinking={thinking && pendingId === conversation?.id}
         avatar={avatar}
         hireHref={hireHref}
-        label="Conversation with Ka-Ezy"
+        label="Your work with Ka-Ezy"
         labels={labels}
         onRecord={recordDecision}
         onSignIn={onSignIn}
@@ -345,7 +345,7 @@ export function ExpertPanel({
       <div className="border-t border-line bg-card p-3">
         {messages.length > 0 ? (
           <Chips
-            label="More questions to try"
+            label="More to start with"
             items={[...remaining, ...remainingSamples.map((s) => fill(s.question, profile))]}
             disabled={thinking}
             onPick={askFromButton}
@@ -378,7 +378,7 @@ export function ExpertPanel({
         />
         <Composer
           id={QUESTION_ID}
-          label="Your question for Ka-Ezy"
+          label="What you're sharing with Ka-Ezy"
           placeholder={waiting ? d.placeholder : chat.placeholder}
           disabled={thinking}
           onSend={ask}

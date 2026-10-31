@@ -8,13 +8,16 @@ import { SnackbarHost, snackbar } from "@/components/ui/Snackbar";
 import { ExpertPanel, QUESTION_ID } from "./ExpertPanel";
 import { FarmDetails, PastConversations, TAB_ICONS } from "./FarmDetails";
 import { AccountPanel } from "./AccountPanel";
+import { SignInPopup } from "./SignInPopup";
 import { MappingPanel } from "./MappingPanel";
 import {
   PARTNER_ENABLED,
   fetchConversation,
+  valueChainLabel,
   partnerChatService,
   saveRecords,
   useAccount,
+  useAccountRecords,
   useArrival,
   useRemoteThreads,
   useSession,
@@ -26,6 +29,7 @@ import { RecordsPanel } from "./RecordsPanel";
 import { liveChatService } from "./service";
 import { TABS, demo, hasSavedData, useDemo, type Conversation, type FarmRecord, type Tab } from "./store";
 import { KaEzyAvatar, type ThreadLabels } from "./Thread";
+import { UsageGauge } from "./UsageGauge";
 
 /**
  * The Ka-Ezy demo: one panel with "Your farm" and past conversations beside
@@ -33,7 +37,7 @@ import { KaEzyAvatar, type ThreadLabels } from "./Thread";
  * check), Garden Mapping, Farm Plan and Farm Records. Everything the visitor
  * enters stays on their device; with `endpoint` (the guest demo endpoint)
  * the answers come from the real Ka-Ezy, and so do they once the visitor
- * signs in with an organisation's code and their phone (SignInCard, the
+ * signs in with an organisation's code and their phone (SignInPopup, the
  * Partner API), with their own Ka-Ezy account.
  */
 export function KaEzyDemo({
@@ -52,15 +56,21 @@ export function KaEzyDemo({
   askId: string;
   endpoint: string;
 }) {
+  // The session first: it says whose saved state useDemo may read.
+  const session = useSession();
   const state = useDemo();
   const [tab, setTab] = useState<Tab>("expert");
-  const session = useSession();
   // Their name, stage, usage and plan, once signed in; a link's org, phone and token on arrival.
   const account = useAccount();
   const arrival = useArrival();
   // The visitor's conversations on their account, for "Past conversations".
   const remoteThreads = useRemoteThreads();
+  const accountRecords = useAccountRecords();
   const [signInWanted, setSignInWanted] = useState(false);
+  // A link brought the organisation or phone, or a token that signs in: the
+  // popup opens by itself, once.
+  const fromLink = !!arrival && (!!arrival.org || !!arrival.phone || arrival.linking || !!arrival.failure);
+  const [linkDismissed, setLinkDismissed] = useState(false);
   // Signed in, the visitor's own Ka-Ezy answers; else the guest endpoint, if any.
   const live = useMemo(
     () => (session ? partnerChatService(session) : endpoint ? liveChatService({ endpoint }) : null),
@@ -72,11 +82,25 @@ export function KaEzyDemo({
       session
         ? (records: FarmRecord[]) =>
             void saveRecords(session, records).then((saved) => {
-              if (saved > 0) snackbar.show(copy.signIn.toasts.recordSaved, "success");
+              if (saved === records.length) snackbar.show(copy.signIn.toasts.recordSaved, "success");
+              else snackbar.show(copy.chat.errors.busy, "error");
             })
         : null,
-    [session, copy.signIn.toasts.recordSaved],
+    [session, copy.signIn.toasts.recordSaved, copy.chat.errors.busy],
   );
+  // Signed in: what "Your farm" has empty comes from their latest conversations
+  // that name it (the API has no farm profile), once per sign-in, so a field
+  // they clear stays clear.
+  const farmFilledFor = useRef<string | null>(null);
+  useEffect(() => {
+    if (!session || !remoteThreads || farmFilledFor.current === session.accessToken) return;
+    farmFilledFor.current = session.accessToken;
+    demo.setProfileIfEmpty({
+      valueChain: valueChainLabel(copy.valueChains, remoteThreads.find((t) => t.valueChain)?.valueChain ?? ""),
+      location: remoteThreads.find((t) => t.location)?.location ?? "",
+      acres: remoteThreads.find((t) => t.acres)?.acres ?? "",
+    });
+  }, [session, remoteThreads, copy.valueChains]);
   const valueChainRef = useRef<HTMLSelectElement>(null);
   const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
 
@@ -99,7 +123,7 @@ export function KaEzyDemo({
   const current = (t: Tab) => state.conversations.find((c) => c.id === state.current[t]);
   const openIds = TABS.map((t) => state.current[t]).filter((id): id is string => !!id);
 
-  // "Ask Ka-Ezy" links (#askId) open Farm Expert with the cursor in its
+  // "Work with Ka-Ezy" links (#askId) open Farm Expert with the cursor in its
   // question box, on a click here or on arrival from another page. The box
   // is at the foot of the 44rem window, so when the whole window doesn't fit
   // under the sticky header the page scrolls to the window's foot, not its
@@ -184,12 +208,13 @@ export function KaEzyDemo({
           window, as tall as it, past conversations filling the rest. Hire
           Ka-Ezy's navy column below is as wide (HireKaEzy). */}
       <div className="flex flex-col overflow-hidden rounded-card border border-line bg-card shadow-card md:max-lg:grid md:max-lg:grid-cols-2 lg:h-[44rem]">
-        <FarmDetails copy={copy} profile={state.profile} live={!!live} valueChainRef={valueChainRef} className="p-5" />
+        <FarmDetails copy={copy} profile={state.profile} live={!!live} signedIn={!!session} valueChainRef={valueChainRef} className="p-5" />
         <PastConversations
           copy={copy}
           conversations={state.conversations}
           openIds={openIds}
-          hasData={hasSavedData(state)}
+          hasData={!session && hasSavedData(state)}
+          loading={!!session && !remoteThreads}
           onOpen={(conversation: Conversation) => {
             demo.open(conversation);
             show(conversation.tab, true);
@@ -222,6 +247,16 @@ export function KaEzyDemo({
               <LogIn aria-hidden="true" className="size-4" />
               {copy.signIn.open}
             </button>
+          ) : session && account && account.subscription.type !== "none" && account.subscription.usagePercentage !== null ? (
+            <UsageGauge
+              label={session.organisation.sandbox ? "Live · test" : "Live"}
+              used={account.subscription.usagePercentage}
+              exhausted={account.subscription.status === "exhausted"}
+              usedWord={copy.signIn.account.used}
+              planLabel={copy.signIn.account.planLabel}
+              accountHref="#kaezy-account-title"
+              payHref={hireHref}
+            />
           ) : (
             <span className="hidden shrink-0 rounded-pill border border-on-brand/40 px-2.5 py-0.5 text-xs font-label sm:inline">
               {session ? (session.organisation.sandbox ? "Live · test" : "Live") : live ? "Live demo" : "Sample answers"}
@@ -298,7 +333,7 @@ export function KaEzyDemo({
               // Signed in, records are read from what the visitor types (as with
               // sample answers) and saved to their account too; Ka-Ezy's chat
               // does not propose records through the Partner API.
-              <RecordsPanel {...shared} conversation={current(t)} records={state.records} live={session ? null : live} remote={remote} />
+              <RecordsPanel {...shared} conversation={current(t)} records={state.records} live={session ? null : live} remote={remote} account={accountRecords} />
             ) : (
               <MappingPanel {...shared} conversation={current(t)} onPlan={() => show("plan", true)} />
             )}
@@ -307,8 +342,8 @@ export function KaEzyDemo({
       </div>
     </div>
 
-    {/* "Your Ka-Ezy account": only for a signed-in visitor (or the sign-in
-        form, when asked for). Full width under the window, the demo's own gap. */}
+    {/* "Your Ka-Ezy account": only for a signed-in visitor. Full width under
+        the window, the demo's own gap. */}
     {PARTNER_ENABLED ? (
       <AccountPanel
         copy={copy.signIn}
@@ -316,9 +351,24 @@ export function KaEzyDemo({
         account={account}
         arrival={arrival}
         profile={state.profile}
-        wanted={signInWanted}
         hireHref={hireHref}
         className="mt-6 lg:mt-8"
+      />
+    ) : null}
+    {PARTNER_ENABLED ? (
+      <SignInPopup
+        copy={copy.signIn}
+        session={session}
+        profile={state.profile}
+        avatar={avatar}
+        areaId={askId}
+        open={signInWanted || (fromLink && !linkDismissed)}
+        onClose={() => {
+          setSignInWanted(false);
+          setLinkDismissed(true);
+          // Signed in: the "Sign in" button that opened it is gone.
+          if (session) tabRefs.current[tab]?.focus({ preventScroll: true });
+        }}
       />
     ) : null}
     {PARTNER_ENABLED ? <SnackbarHost /> : null}

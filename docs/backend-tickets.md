@@ -346,7 +346,7 @@ And these, which the EzyAgric team confirmed for the live site on 29 Oct
 - [ ] "Your data is encrypted in transit and at rest", for all four modules, the web portal and the APIs.
 - [ ] "Cloud-hosted: your team works in a web browser", with no servers or hardware needed on the client's side (never name the hosting provider).
 - [ ] "Our team maintains and updates the platform", for every EzyAgric Business client.
-- [ ] Legal: "We handle personal data in line with Uganda's Data Protection and Privacy Act, 2019" (never "compliant", "certified" or "registered").
+- [ ] Legal: "We handle personal data in line with Uganda's Data Protection and Privacy Act, Cap. 97" (never "compliant", "certified" or "registered").
 
 **Where it plugs in.** If any line stops being true, tell the web team so the
 line in `content/business.yaml` can be reworded or removed (or marked

@@ -1,0 +1,500 @@
+# Word for word from the final document, 29102026_EzyAgric_App_Terms_and_Conditions_v1.2.docx and .pdf (29 Oct 2026),
+# the PDF being public/docs/terms-and-conditions.pdf. Change it only when Legal issues a new version,
+# and replace the PDF with it. **Bold** is the document's own; contact details and
+# the two documents' full names become links on the page (components/legal).
+# One difference from the final document, here and in the PDF: Table 2.1's
+# "Directors" row is left out, at the EzyAgric team's request (31 Oct 2026).
+title: EzyAgric App Terms and Conditions
+subtitle: The terms on which Akorion Company Limited, trading as EzyAgric, provides the EzyAgric mobile app, Ka-Ezy and its other Services
+version: Version 1.2 | Last updated August 2026
+pdf:
+  href: /docs/terms-and-conditions.pdf
+  size: 248 KB
+summary:
+  title: Key points
+  points:
+    - These Terms are a binding agreement between you and Akorion Company Limited, trading as EzyAgric. You accept them when you register or tick or tap to accept them.
+    - You must be 18 years or older to register. No one from EzyAgric, our Agents or our Partners will ever ask you to tell them your PIN or your mobile money PIN.
+    - Ka-Ezy uses artificial intelligence. Its advice is general guidance and can be wrong, so always follow product labels and consult a qualified agronomist or veterinarian before decisions with serious consequences.
+    - Agrishop sells genuine agricultural inputs. You can review your order before you confirm it, and you can cancel a purchase within 7 days after delivery, as section 10 explains.
+    - EzyCredits credit is given only after an assessment and under a separate credit agreement that shows the full cost before you accept.
+    - Every marketing message tells you how to stop such messages at no cost.
+    - If something goes wrong, contact customer care on +256 708 383 845 or on WhatsApp +256 787 991 262. These Terms do not take away your rights under the consumer laws of Uganda.
+  intro: Please read these Terms carefully. This summary gives the main points, but the full Terms below apply.
+sections:
+  - title: 1. About these Terms
+    blocks:
+      - clause: "1.1"
+        text: These Terms and Conditions (the “Terms”) form a legally binding agreement between you and Akorion Company Limited, trading as EzyAgric (“EzyAgric”, “we”, “us” or “our”). They set out the terms on which you may use the App and the Services.
+      - clause: "1.2"
+        text: You accept these Terms when you register for an account or when you tick or tap to accept them. If a Partner Channel lets you try Ka-Ezy before you register, you will be asked to confirm that you are 18 years or older and to accept sections 7 and 18 of these Terms before you start. If you do not agree with these Terms, please do not use the App or the Services.
+      - clause: "1.3"
+        text: Some Services have additional terms, such as an EzyCredits credit agreement, the rules of a promotion or referral programme, or a Partner’s terms for its own platform. We will show you any additional terms before you use the Service concerned. If additional terms conflict with these Terms, the additional terms apply to that Service.
+      - clause: "1.4"
+        text: The EzyAgric Privacy Policy explains how we handle personal data. It is a separate notice and does not form part of these Terms. It explains the consent that you give when you first sign in and the consents that we ask for separately, such as consent to marketing.
+      - clause: "1.5"
+        text: You can read, download and print the current version of these Terms at any time in the App and at www.ezyagric.com, and you can ask us for a copy.
+      - clause: "1.6"
+        text: These Terms are written in English. We may provide translations, for example in Luganda, and our customer care team or an Agent can explain these Terms to you in a language that you understand. If a translation differs from the English version, the English version applies.
+      - clause: "1.7"
+        text: Nothing in these Terms takes away any right that you have under the laws of Uganda that cannot be excluded or limited by agreement, including your rights under the Electronic Transactions Act and the Sale of Goods and Supply of Services Act.
+  - title: 2. About EzyAgric
+    blocks:
+      - clause: "2.1"
+        text: EzyAgric is an agtech platform that uses technology to ease access to genuine agricultural products and services for farmers and agribusinesses. Table 2.1 sets out our details.
+      - table:
+          caption: "Table 2.1: Our details"
+          head:
+            - Item
+            - Details
+          rows:
+            - - "**Legal name**"
+              - Akorion Company Limited
+            - - "**Trading name**"
+              - EzyAgric
+            - - "**Legal status**"
+              - Private company limited by shares, incorporated in Uganda
+            - - "**Company registration number**"
+              - "80010000693389"
+            - - "**Physical address and address for legal notices**"
+              - Plot 5-7 Coral Crescent, Kololo, Kampala, Uganda
+            - - "**Postal address**"
+              - P.O. Box 6638, Kampala, Uganda
+            - - "**Customer care**"
+              - +256 708 383 845 or +256 787 991 262
+            - - "**WhatsApp**"
+              - +256 787 991 262
+            - - "**Email**"
+              - ezy@ezyagric.com
+            - - "**Website**"
+              - www.ezyagric.com
+            - - "**Complaints and dispute resolution**"
+              - See section 25
+  - title: 3. Definitions
+    blocks:
+      - clause: "3.1"
+        text: In these Terms, the words in Table 3.1 have the meanings shown.
+      - table:
+          caption: "Table 3.1: Definitions"
+          head:
+            - Word
+            - Meaning
+          rows:
+            - - "**Affiliated company**"
+              - A company that controls, is controlled by, or is under common control with Akorion Company Limited.
+            - - "**Agent**"
+              - A person or business authorised by EzyAgric to help users register and use the Services on our behalf, including Digital Agriculture Champions, village agents, agro-dealers and cooperative staff working with us.
+            - - "**App**"
+              - The EzyAgric mobile application, the EzyAgric website and any USSD or voice service operated by EzyAgric. Partner Channels are not part of the App.
+            - - "**Business User**"
+              - A user who uses the Services for a business, cooperative, organisation or programme, rather than only for their own farm.
+            - - "**De-identified data**"
+              - Data from which names, phone numbers and other details that identify a person have been removed, so that it can no longer reasonably be linked to that person.
+            - - "**FinTech Partner**"
+              - A financial technology company, bank, microfinance institution, money lender, SACCO or other licensed credit provider that funds or provides credit to users through EzyCredits.
+            - - "**Ka-Ezy**"
+              - Our artificial intelligence farm advisor and its features, including expert advice, farm plans, farm records, pest and disease diagnosis, garden mapping and satellite insights.
+            - - "**Partner**"
+              - An organisation that we work with to provide, extend or pay for the Services, including telecommunications and mobile money providers, suppliers, delivery companies, FinTech Partners and development programme partners.
+            - - "**Partner Channel**"
+              - A platform, service or channel operated by a Partner, not by EzyAgric, through which you can access the Services, such as a telecommunications operator’s digital platform, a mobile money service, a USSD or voice service, or a programme partner’s channel.
+            - - "**Products**"
+              - Agricultural inputs and other goods offered on Agrishop, including seeds, fertilisers, crop protection products, veterinary products, animal feeds, tools, equipment and live animals such as day-old chicks.
+            - - "**Services**"
+              - The App, Ka-Ezy, Agrishop, EzyCredits, EzyProduce, veterinary services, agronomy, soil testing, training, irrigation and any other product or service that we provide, whether directly, through Agents or through Partner Channels.
+            - - "**Service Provider**"
+              - A veterinarian, para-veterinarian, agronomist, laboratory, trainer or other professional who provides services to users through the App, whether employed by EzyAgric or independent.
+            - - "**you and your**"
+              - The person who registers for or uses the App or the Services. Where you use the Services for a business, “you” also means that business.
+      - clause: "3.2"
+        text: Headings are for convenience only. Examples introduced by words such as “including” or “for example” do not limit the general words before them.
+  - title: 4. Who can use the App
+    blocks:
+      - clause: "4.1"
+        text: To register, you must be at least 18 years old and able to enter into a binding contract under the laws of Uganda.
+      - clause: "4.2"
+        text: If you register on behalf of a business, cooperative or other organisation, you confirm that you are authorised to accept these Terms on its behalf.
+      - clause: "4.3"
+        text: You must give us true, accurate and complete information when you register and keep it up to date. You may hold only 1 personal account, unless we agree otherwise.
+      - clause: "4.4"
+        text: You can register yourself in the App, through a Partner Channel or with the help of an Agent. An Agent who helps you acts on behalf of EzyAgric and must follow your instructions about your account. Please check the details registered for you. You are responsible for your account once it is set up.
+      - clause: "4.5"
+        text: If you cannot read these Terms, the Agent or the member of our staff who helps you must read and explain them to you in a language that you understand before you accept them, and must record their name and address as the person who did so.
+      - clause: "4.6"
+        text: We may verify your phone number and, for some Services such as EzyCredits, your identity. We may refuse a registration where we reasonably suspect fraud, where the information given is false, or where the law requires us to.
+  - title: 5. Your account and security
+    blocks:
+      - clause: "5.1"
+        text: You are responsible for keeping your phone, PIN, password and verification codes secure and private. Do not share them with anyone, including Agents.
+      - clause: "5.2"
+        text: "**No one from EzyAgric, our Agents or our Partners will ever ask you to tell them your PIN, your password or your mobile money PIN.** Enter your PIN only in the EzyAgric App, and your mobile money PIN only in the official mobile money prompt on your own phone. If anyone asks for them, do not share them, and report the request to us."
+      - clause: "5.3"
+        text: Tell us immediately if your phone or SIM card is lost or stolen, or if you think that someone else has used your account. We will block or suspend the account to protect you.
+      - clause: "5.4"
+        text: You are responsible for activity on your account, except activity that happens after you have told us of a loss or misuse, or that results from our failure to take reasonable security measures or from the conduct of an Agent.
+  - title: 6. Our Services
+    blocks:
+      - clause: "6.1"
+        text: Table 6.1 describes our main Services. Not all Services, Products, features or languages are available in every area, on every device or through every Partner Channel.
+      - table:
+          caption: "Table 6.1: Our main Services"
+          head:
+            - Service
+            - What it does
+          rows:
+            - - "**Ka-Ezy**"
+              - Our AI farm advisor, currently available in English and Luganda. It answers farming questions, diagnoses pests and diseases from photos, prepares farm plans, keeps farm records, maps gardens by GPS and provides satellite, soil and weather insights.
+            - - "**Agrishop**"
+              - Our digital marketplace for genuine agricultural inputs, delivered to your farm gate, your shop or a collection point.
+            - - "**EzyCredits**"
+              - Buy Now, Pay Later input credit and working capital loans for users who qualify, funded by our FinTech Partners. It appears in the App as BNPL.
+            - - "**EzyProduce**"
+              - Also called Produce Market. It helps farmers, cooperatives and agribusinesses record, bulk, trace and sell produce, and manage business records and payments.
+            - - "**Other services**"
+              - Veterinary advice and farm visits, agronomy support, soil testing, training, irrigation solutions and the supply of day-old chicks, offered from time to time.
+      - clause: "6.2"
+        text: Some Services are free and some must be paid for. We will show you the price of a paid Service before you pay.
+      - clause: "6.3"
+        text: We continually improve the Services, and we may add, change or withdraw features. If we withdraw a paid Service that you have already paid for, we will give you reasonable notice where possible and refund the unused part of what you paid.
+      - clause: "6.4"
+        text: To use the App, you need a compatible device and an internet connection. Your mobile network may charge you for data, unless a Partner has made access to the App free of data charges.
+  - title: 7. Ka-Ezy and AI-generated advice
+    blocks:
+      - clause: "7.1"
+        text: Ka-Ezy uses artificial intelligence to generate answers automatically from your questions and photos, your farm records and garden maps, weather, satellite and soil information, and agronomic content prepared or approved by EzyAgric.
+      - clause: "7.2"
+        text: Ka-Ezy gives general agronomic guidance to support your decisions. Farming results depend on many factors outside our control, such as weather, soil, pests, diseases, the quality of seeds and other inputs, how inputs are applied and market prices. Ka-Ezy’s answers may sometimes be inaccurate, incomplete or unsuitable for your particular farm. **We do not guarantee any yield, income or other result.**
+      - clause: "7.3"
+        text: "Before you act on Ka-Ezy advice, especially where a decision is costly or affects animal or human health, you should:"
+      - list:
+          - label: (a)
+            text: read and follow the label and the manufacturer’s instructions for any product, including the dosage, protective clothing, pre-harvest intervals and withdrawal periods;
+          - label: (b)
+            text: check the advice against your own knowledge and local conditions; and
+          - label: (c)
+            text: where the matter is serious, uncertain or urgent, consult a qualified agronomist or veterinarian, for example through EzyAgric customer care.
+      - clause: "7.4"
+        text: Pest and disease diagnosis from photos is an indication only. Its accuracy depends on the quality of the photo and the information that you provide. Confirm a diagnosis with an expert before you buy an expensive treatment.
+      - clause: "7.5"
+        text: Garden maps, area measurements and satellite insights are estimates based on GPS and satellite data, which have margins of error. They are suitable for farm planning, but they are not a land survey and must not be used as evidence of land ownership or boundaries.
+      - clause: "7.6"
+        text: Ka-Ezy does not give medical advice for people. In an emergency, such as poisoning by an agricultural chemical, seek medical help immediately.
+      - clause: "7.7"
+        text: Ka-Ezy may suggest Products that are available on Agrishop. You are free to buy suitable products from any genuine source. If a recommendation is sponsored by a supplier, we will say so.
+      - clause: "7.8"
+        text: You may use Ka-Ezy’s answers for your own farming and business. You must not use Ka-Ezy to create harmful, unlawful or misleading content, to try to obtain its underlying instructions, models or data, or to send automated or bulk requests, except through an interface that we have authorised.
+      - clause: "7.9"
+        text: If you think that a Ka-Ezy answer is wrong or harmful, please tell us using the feedback option in the App or through customer care. We review feedback to improve Ka-Ezy.
+      - clause: "7.10"
+        text: The Privacy Policy explains how we handle your questions, photos and other personal data when you use Ka-Ezy, including on a Partner Channel.
+  - title: 8. Ka-Ezy subscriptions
+    blocks:
+      - clause: "8.1"
+        text: New Ka-Ezy users receive a free allowance, measured in tokens or questions as shown in the App. When the free allowance has been used, you need a paid subscription to continue using the paid features.
+      - clause: "8.2"
+        text: Subscription plans, prices, durations and allowances are shown in the App, or on the Partner Channel, before you pay. The price shown when you pay is the price that applies to that subscription period.
+      - clause: "8.3"
+        text: Your subscription starts when we receive confirmation of your payment from the payment service provider. If your payment is confirmed but your subscription is not activated within 24 hours, contact us and we will activate it or refund you.
+      - clause: "8.4"
+        text: Subscriptions do not renew automatically unless you choose automatic renewal where we offer it. If you choose automatic renewal, we will remind you before each renewal payment, and you may cancel at any time before the renewal date.
+      - clause: "8.5"
+        text: Allowances and tokens have no cash value and cannot be transferred or exchanged for money. Unless the App states otherwise, unused allowances expire at the end of the subscription period.
+      - clause: "8.6"
+        text: You may cancel a new subscription within 7 days after you pay for it, without giving a reason, by contacting us or through the App where this option is available. We will refund the subscription price in full.
+  - title: 9. Agrishop orders, payment and delivery
+    blocks:
+      - clause: "9.1"
+        text: Agrishop offers genuine Products sourced from the manufacturers, importers, distributors and agro-dealers that we work with. We take reasonable care to describe Products accurately. Pictures are for illustration, and packaging may differ slightly from the picture.
+      - clause: "9.2"
+        text: EzyAgric is the seller of all Products on Agrishop. We buy them from the supplier named on the product page and sell them to you, so your contract of sale is with EzyAgric. If there is a problem with your order, please contact EzyAgric customer care.
+      - clause: "9.3"
+        text: Some Products, such as agricultural chemicals, seeds and veterinary medicines, are regulated. We sell them in line with the laws that apply to them, and we may ask for information or decline an order where the law requires.
+      - clause: "9.4"
+        text: Prices are shown in Uganda shillings and include taxes, unless stated otherwise. Delivery charges and any other costs are shown before you confirm your order.
+      - clause: "9.5"
+        text: Before you confirm an order, the App or the Agent helping you will show you a summary of the Products, quantities, prices, delivery charges, total amount, payment method and delivery option. You can review the order, correct any mistakes and cancel it before you confirm it.
+      - clause: "9.6"
+        text: Your confirmed order is an offer to buy. A contract is formed when we accept your order by sending you a confirmation in the App, by SMS or by WhatsApp. We may decline an order, for example if a Product is out of stock, the price shown was clearly wrong, credit is not approved or we suspect fraud. If we decline an order after you have paid, we will refund you in full.
+      - clause: "9.7"
+        text: You can pay by mobile money, bank transfer, EzyCredits, cash on delivery where we offer it, or other methods shown in the App. Only pay cash to EzyAgric staff, or to Agents we have authorised to collect cash, who give you an EzyAgric receipt.
+      - clause: "9.8"
+        text: We deliver to your farm gate, your shop or an agreed collection point, or we hand the Products to transport that you choose. The delivery options, charges and estimated delivery time are shown before you confirm your order. Unless we agree another time with you, we will deliver within 30 days after you place your order. If we do not, you may cancel the order by giving us 7 days’ notice, and we will refund you.
+      - clause: "9.9"
+        text: If a Product becomes unavailable after you have ordered it, we will tell you as soon as possible and either refund any payment for it or offer you a suitable alternative. If you refuse the alternative, we will refund you.
+      - clause: "9.10"
+        text: Please check the Products when you receive them, and tell the delivery person or customer care about any visible damage, shortage or wrong item.
+      - clause: "9.11"
+        text: The Products become your responsibility when they are delivered to you or to the person you nominate. If you ask us to send the Products by transport that you choose or arrange, such as a public bus, a taxi or a truck that you appoint, they become your responsibility when we hand them to that transport, and we will send you the details of the vehicle and the consignment.
+      - clause: "9.12"
+        text: Ownership of the Products passes to you when we receive full payment. For Products bought on credit, ownership passes as set out in your credit agreement.
+      - clause: "9.13"
+        text: Always store and use Products safely and as the label directs. Keep agricultural chemicals and veterinary medicines away from children, food and water sources, and dispose of empty containers safely.
+      - clause: "9.14"
+        text: For live animals such as day-old chicks, please check the animals on delivery and report any dead, sick or deformed animals to us within 24 hours, with photos where possible, so that we can quickly arrange a replacement or refund with the supplier. Reporting later does not remove your rights under section 10, but early reporting helps us to resolve the problem.
+  - title: 10. Cancellations, returns and refunds
+    blocks:
+      - clause: "10.1"
+        text: You may cancel an order at no cost before it is dispatched, by contacting us or through the App where this option is available.
+      - clause: "10.2"
+        text: After you receive Products bought through the App, you may cancel the purchase within 7 days after you receive them, without giving a reason and without penalty, as the Electronic Transactions Act provides. Please return the Products in the condition in which you received them, as far as possible. The only cost that you pay is the direct cost of returning them.
+      - clause: "10.3"
+        text: You may also cancel a paid service bought through the App, such as a veterinary visit or an EzyProduce plan, within 7 days after you agree to it, as the Electronic Transactions Act provides, and we will refund you.
+      - clause: "10.4"
+        text: If you bought the Products using EzyCredits, cancelling the purchase also cancels the related credit for those Products.
+      - clause: "10.5"
+        text: For live animals and for agricultural chemicals and veterinary medicines, please call us before returning them, so that we can arrange their safe collection and storage.
+      - clause: "10.6"
+        text: If a Product is damaged, defective, expired, not genuine or not what you ordered, please tell us within 7 days after delivery or, for a defect that you could not reasonably have noticed on delivery, as soon as you discover it. We will investigate with the supplier and, where the complaint is valid, replace the Product or refund you, including any delivery charge that you paid. This clause does not limit your rights under the Sale of Goods and Supply of Services Act.
+      - clause: "10.7"
+        text: If a Product that we sold you is found not to be genuine, we will refund you in full and report the matter to the relevant authorities.
+      - clause: "10.8"
+        text: Poor results from seeds, fertilisers or other inputs can have many causes, including weather, soil, storage and how the input was applied. If you believe that an input was defective, report it to us promptly and keep a sample and the packaging, so that we and the supplier can investigate.
+      - clause: "10.9"
+        text: Nothing in this section affects your other rights under the laws of Uganda.
+  - title: 11. EzyCredits
+    blocks:
+      - clause: "11.1"
+        text: EzyCredits lets qualifying users buy Products and services now and pay later, and gives access to working capital loans. EzyCredits is funded by our FinTech Partners. In the App it appears as BNPL (Buy Now, Pay Later).
+      - clause: "11.2"
+        text: To use EzyCredits, you must register for EzyCredits and pass a credit assessment. Registration does not guarantee that credit will be offered to you.
+      - clause: "11.3"
+        text: Your credit offer will name the FinTech Partner that fund or provides your credit and its licence. Your credit agreement will state who provides the credit, whom you must repay, and any role that EzyAgric plays, for example as the seller of the Products or as the FinTech Partner’s agent for collecting repayments. Loans of money are provided only by licensed FinTech Partners.
+      - clause: "11.4"
+        text: Before you accept credit, we or the FinTech Partner will give you a summary of its key terms, including the credit provider, the amount of credit, the Products or purpose, all fees and charges, any interest rate and whether it is charged on a reducing balance, the total amount that you will repay, the repayment dates, the consequences of late payment, anyone who may collect repayments for the credit provider, and how to complain. Each credit is governed by a separate credit agreement, which you accept separately. If the credit agreement conflicts with these Terms, the credit agreement applies to that credit.
+      - clause: "11.5"
+        text: If you cannot read the credit agreement, the person who helps you must explain it to you in a language that you understand before you accept it, and must record their name and address as the person who did so.
+      - clause: "11.6"
+        text: To assess and manage credit, we and the FinTech Partner may use, with your consent, the information that you provide, your activity, orders and repayment history on EzyAgric, your farm records and garden maps, information from your cooperative or group, your mobile money transaction history and reports from credit reference bureaus. Assessment may use automated scoring. You can ask for a person to review a credit decision, as the Privacy Policy explains.
+      - clause: "11.7"
+        text: You must repay on time, using the payment channels stated in your credit agreement. You may repay early.
+      - clause: "11.8"
+        text: "If you do not repay on time:"
+      - list:
+          - label: (a)
+            text: you may have to pay the late payment charges stated in your credit agreement, but only as the law permits;
+          - label: (b)
+            text: we may suspend further credit and orders on credit;
+          - label: (c)
+            text: we or the FinTech Partner may recover the amount owed by lawful means, including through your cooperative or group where you agreed to a group arrangement; and
+          - label: (d)
+            text: your repayment record may be reported to a licensed credit reference bureau, as clause 11.9 explains.
+      - clause: "11.9"
+        text: Where the law requires or allows it, the credit provider reports your repayment information, both good and bad, to licensed credit reference bureaus. Your credit agreement will tell you whether this applies.
+      - clause: "11.10"
+        text: We and our FinTech Partners will treat you with respect when collecting payment. We will not threaten you, use abusive language, publish your details or contact people in your phone contacts about your debt. **EzyAgric does not access your phone contacts, call logs or messages to assess or recover credit.**
+      - clause: "11.11"
+        text: If credit is provided through your cooperative, farmer group or agribusiness, the group arrangement also applies, and the group may receive information about the credit and your repayments.
+      - clause: "11.12"
+        text: If a guarantor is needed, the guarantor must confirm that they agree, for example by replying to a message from us, before the credit is approved.
+      - clause: "11.13"
+        text: You can make complaints about credit to EzyAgric customer care or to the FinTech Partner. We and the FinTech Partner will deal with complaints about credit within 30 days. If your complaint is not resolved, you may refer it to the regulator of the credit provider, such as the Uganda Microfinance Regulatory Authority or the Bank of Uganda.
+  - title: 12. EzyProduce
+    blocks:
+      - clause: "12.1"
+        text: EzyProduce, also called Produce Market, allows farmers, cooperatives and agribusinesses to record, bulk, trace and sell produce, find buyers and manage business records such as stock, sales, members and payments. Some features require a paid plan, as shown in the App.
+      - clause: "12.2"
+        text: If you list produce, you must describe it honestly and accurately, including the crop, variety, quantity, quality, grade and location, and you must have the right to sell it.
+      - clause: "12.3"
+        text: Unless EzyAgric is itself the buyer or the seller, the contract for the sale of produce is between the buyer and the seller. EzyAgric provides the platform and, where stated, arranges delivery and quality checks. Payments for produce are made through licensed payment service providers, on the terms shown for that transaction.
+      - clause: "12.4"
+        text: Buyers must pay for produce on the agreed terms and must not cancel accepted orders without good reason.
+      - clause: "12.5"
+        text: Traceability records, such as the farmer, village, district and harvest details, may be shared with buyers, as the Privacy Policy explains.
+  - title: 13. Veterinary and other professional services
+    blocks:
+      - clause: "13.1"
+        text: Veterinary, agronomy, soil testing, training and similar services booked through the App are provided by EzyAgric staff or by independent Service Providers. Before we list a Service Provider, we check that they hold the registration or licences that the law requires for their work.
+      - clause: "13.2"
+        text: Service Providers exercise their own professional judgement. Independent Service Providers are responsible for the professional services that they provide. This does not affect our own duty to arrange services with reasonable care and skill, or your rights under the law.
+      - clause: "13.3"
+        text: Fees, booking details and cancellation terms are shown in the App or confirmed by customer care before the service. They do not limit your right to cancel under clause 10.3. If a Service Provider does not attend a confirmed booking, we will rebook the service or refund you.
+      - clause: "13.4"
+        text: Veterinary services booked through the App are not an emergency service. Where an animal disease may be notifiable under the law, the Service Provider may be required to report it to the veterinary authorities.
+      - clause: "13.5"
+        text: Soil test results relate to the samples tested. Recommendations based on them are guidance and depend on how the samples were taken and on conditions in the field.
+  - title: 14. Payments, fees and refunds
+    blocks:
+      - clause: "14.1"
+        text: Prices for Products and paid Services are shown in Uganda shillings before you pay. You agree to pay the price shown when you confirm a purchase.
+      - clause: "14.2"
+        text: Payments are processed by licensed payment service providers, such as mobile money operators and banks. You must authorise each mobile money payment on your own phone, and the provider’s terms also apply to the payment.
+      - clause: "14.3"
+        text: We will send you a receipt or confirmation for each payment. Your orders, payments and subscriptions are recorded in your account, where you can view them while your account is open. You can ask us for a copy of the record of any transaction for 5 years after it took place.
+      - clause: "14.4"
+        text: If you are charged in error, including a duplicate charge or a charge for a Product or Service that you did not receive, please contact us and we will refund you once we confirm the error.
+      - clause: "14.5"
+        text: Whenever these Terms say that we will refund you, we will do so within 30 days, to the payment method that you used, unless we agree another method with you. Refunds of mobile money payments are sent to the mobile money number used for the payment. If a Partner or its payment provider collected your payment, we will arrange the refund through that provider within the same period.
+      - clause: "14.6"
+        text: If a payment is reversed or cancelled, we may suspend the related Service or order until payment is received.
+  - title: 15. Partner Channels
+    blocks:
+      - clause: "15.1"
+        text: You may be able to discover, join, pay for or use some Services through a Partner Channel, such as a telecommunications operator’s digital platform, a mobile money service, a USSD or voice service, or a development programme channel.
+      - clause: "15.2"
+        text: When you use a Partner Channel, these Terms apply to the Services, and the Partner’s own terms apply to the Partner Channel. EzyAgric is responsible for the Services. The Partner is responsible for its own platform, network and payment services.
+      - clause: "15.3"
+        text: If you ask to join EzyAgric through a Partner Channel, you become an EzyAgric user when you register and accept these Terms.
+      - clause: "15.4"
+        text: To provide the Services through a Partner Channel, we and the Partner exchange limited information about people who joined, subscribed or paid through that Partner Channel, for example to confirm whether you have registered, to confirm payments, to activate subscriptions, to process refunds and to reconcile campaigns. If you use Ka-Ezy on a Partner Channel, your questions and Ka-Ezy’s answers pass through the Partner’s platform so that it can show the service to you. The Privacy Policy explains this.
+      - clause: "15.5"
+        text: If you pay for a Service through a Partner Channel, the Partner or its payment provider may collect the payment for us, and the Service is activated only after the payment is confirmed. If you are charged but the Service is not activated, contact us or the Partner, and we will activate the Service or arrange a refund through the provider that took the payment.
+      - clause: "15.6"
+        text: If you join EzyAgric through a Partner Channel, you can also use your account in the App on these Terms.
+  - title: 16. Agents and referral programmes
+    blocks:
+      - clause: "16.1"
+        text: Agents help users register, use the App, place orders, map gardens and access Services. Agents are not EzyAgric employees, but when they help you with the Services they act on behalf of EzyAgric, and we are responsible for their conduct in doing so.
+      - clause: "16.2"
+        text: Agents must carry identification issued or approved by EzyAgric. They must never ask you to tell them your PIN or mobile money PIN, charge you any fee that is not shown in the App, or take cash from you unless we have authorised them to do so and they give you an EzyAgric receipt.
+      - clause: "16.3"
+        text: Please report any misconduct by an Agent to customer care. We will investigate and take appropriate action.
+      - clause: "16.4"
+        text: Agents, influencers and others who take part in our referral programmes may receive a referral code. Rewards are paid under the rules of each programme. We may withhold rewards and close accounts used for fake referrals, self-referrals or other abuse.
+  - title: 17. Business Users
+    blocks:
+      - clause: "17.1"
+        text: This section applies to Business Users, including agro-dealers, cooperatives, agribusinesses and organisations that use the Services for their own business or to serve others. It does not apply to what an Agent does on behalf of EzyAgric, which is governed by the Agent’s agreement with us.
+      - clause: "17.2"
+        text: If you use the App to keep records about other people, such as your farmers, members, customers or staff, you are responsible for collecting their personal data lawfully, informing them and obtaining any consent that the Data Protection and Privacy Act, Cap. 97 requires. You must use their personal data only for the purpose for which it was collected.
+      - clause: "17.3"
+        text: You must keep confidential all personal data and commercial information that you access through the App, use it only to serve the people concerned or to do business with EzyAgric, and not copy, sell or disclose it except as the law and these Terms allow. This obligation continues after your account is closed.
+      - clause: "17.4"
+        text: You are responsible for your staff and for anyone else who uses the App on your behalf.
+      - clause: "17.5"
+        text: You will compensate EzyAgric for any loss, claim, fine or cost that results from your breach of this section or of the law, except to the extent that EzyAgric caused it.
+  - title: 18. Acceptable use
+    blocks:
+      - clause: "18.1"
+        text: "You must use the App and the Services lawfully and in line with these Terms. You must not:"
+      - list:
+          - label: (a)
+            text: give false information, impersonate another person or open accounts for people without their consent;
+          - label: (b)
+            text: use the Services for fraud, money laundering or any other unlawful purpose;
+          - label: (c)
+            text: access another user’s account or personal data without authorisation;
+          - label: (d)
+            text: interfere with, disrupt or try to gain unauthorised access to the App, our systems or our networks, or introduce viruses or other harmful code;
+          - label: (e)
+            text: copy, modify, reverse engineer or decompile the App, except as the law expressly allows;
+          - label: (f)
+            text: use automated tools, bots or scrapers to access or extract data from the App, except through an interface that we have authorised;
+          - label: (g)
+            text: post or send content that is unlawful, false, abusive, threatening or hateful, or that infringes another person’s rights;
+          - label: (h)
+            text: resell or commercially exploit the Services without our written permission; or
+          - label: (i)
+            text: harass, threaten or abuse our staff, Agents, Service Providers or other users.
+  - title: 19. Your content and data
+    blocks:
+      - clause: "19.1"
+        text: You keep ownership of the content and records that you put into the App, such as your farm records, photos and produce listings (“Your Content”).
+      - clause: "19.2"
+        text: You give EzyAgric a non-exclusive, royalty-free licence to host, store, copy, process and display Your Content in order to provide, secure and improve the Services, as the Privacy Policy describes. EzyAgric may allow its suppliers and the licensor of its technology platform to use Your Content for those purposes on its behalf, and may allow the licensor to use de-identified data from Your Content to improve Ka-Ezy and the technology behind it. This licence ends when Your Content is deleted from our systems, except for copies that we must keep by law and de-identified data.
+      - clause: "19.3"
+        text: We may create de-identified and aggregated data from Your Content and from the use of the Services, such as crop trends in a district. That data belongs to EzyAgric or its licensors, and we may use and share it for agricultural insights, research, reporting and the improvement of our Services.
+      - clause: "19.4"
+        text: You are responsible for Your Content. You confirm that you have the right to share it and that it does not infringe anyone else’s rights. We may remove content that breaches these Terms or the law.
+      - clause: "19.5"
+        text: If you send us ideas or suggestions, we may use them without any obligation to you.
+  - title: 20. Intellectual property
+    blocks:
+      - clause: "20.1"
+        text: The App, Ka-Ezy, the technology platform on which they run, and all software, designs, content, databases and trade marks in them belong to EzyAgric or to its licensors, including its affiliated companies. The names and logos EzyAgric, Ka-Ezy, Agrishop, EzyCredits and EzyProduce are trade marks of EzyAgric or its affiliated companies.
+      - clause: "20.2"
+        text: We give you a personal, non-exclusive, non-transferable and revocable licence to use the App and its content for the purposes of these Terms. You may not copy, publish or distribute our content, including articles and videos, without our written permission, except for personal and non-commercial sharing with other farmers that credits EzyAgric.
+      - clause: "20.3"
+        text: Some content in the App, such as videos from government, research and development organisations, belongs to third parties and is used under their terms.
+  - title: 21. Privacy and communications
+    blocks:
+      - clause: "21.1"
+        text: We handle personal data in line with the Privacy Policy and the Data Protection and Privacy Act, Cap. 97.
+      - clause: "21.2"
+        text: You agree that we may communicate with you electronically, including in the App and by SMS, WhatsApp, push notification, email and phone call. Electronic communications, records and acceptances have the same effect as written ones, as the Electronic Transactions Act provides.
+      - clause: "21.3"
+        text: We will send you service messages about your account, orders, payments, subscriptions, credit and security. With your consent, we may also send you marketing messages, including offers from our Partners. Every marketing message tells you how to stop such messages free of charge, and we do not give your contact details to Partners for their own marketing unless you agree.
+  - title: 22. Availability, suspension and closing your account
+    blocks:
+      - clause: "22.1"
+        text: We work to keep the App available and secure, but it may sometimes be unavailable because of maintenance, updates, network failures or events outside our control.
+      - clause: "22.2"
+        text: Please keep the App updated. Older versions may stop working.
+      - clause: "22.3"
+        text: "We may suspend or restrict your account or a Service if:"
+      - list:
+          - label: (a)
+            text: you seriously or repeatedly breach these Terms;
+          - label: (b)
+            text: we reasonably suspect fraud, misuse or a security risk; or
+          - label: (c)
+            text: the law, a regulator or a court requires us to.
+      - text: Where possible, we will tell you the reason and give you a chance to respond before we suspend your account, unless doing so would create a security or legal risk. If you miss a credit repayment, we may suspend credit as clause 11.8 explains, but we will not suspend your whole account for that reason alone.
+      - clause: "22.4"
+        text: You may close your account at any time by contacting us or, where the option is available, in the App.
+      - clause: "22.5"
+        text: Closing or suspending an account does not affect amounts that you owe, including under EzyCredits, orders already accepted, or rights and obligations that by their nature continue, such as those in sections 17, 19, 20, 23 and 25.
+  - title: 23. Our responsibility to you
+    blocks:
+      - clause: "23.1"
+        text: "Nothing in these Terms excludes or limits:"
+      - list:
+          - label: (a)
+            text: our liability for death or personal injury caused by our negligence, or for fraud;
+          - label: (b)
+            text: the terms implied by the Sale of Goods and Supply of Services Act, including that Products correspond with their description, are of satisfactory quality and are reasonably fit for their purpose, and that services are provided with reasonable care and skill;
+          - label: (c)
+            text: your consumer rights under the Electronic Transactions Act; or
+          - label: (d)
+            text: any other liability that cannot be excluded or limited under the laws of Uganda.
+      - clause: "23.2"
+        text: Subject to clause 23.1, we are responsible for loss or damage that you suffer as a foreseeable result of our breach of these Terms or our failure to use reasonable care and skill. Loss or damage is foreseeable if it is obvious that it will happen, or if both you and we knew that it might happen when you accepted these Terms or placed the order.
+      - clause: "23.3"
+        text: "Subject to clause 23.1, we are not responsible for loss or damage that:"
+      - list:
+          - label: (a)
+            text: is caused by your failure to follow product labels, safety instructions, the guidance in section 7 or these Terms;
+          - label: (b)
+            text: results from weather, pests, diseases, market prices or other farming risks outside our control;
+          - label: (c)
+            text: is caused by a Partner Channel or other platform, network or payment service of a third party that we do not control, or by an event described in section 24;
+          - label: (d)
+            text: results from information that you, or someone acting for you other than our Agent, gave us that was false or incomplete; or
+          - label: (e)
+            text: where you are a Business User, is a loss of profit, revenue, business or opportunity.
+      - text: Paragraph (c) does not apply to the technology platform on which the App and Ka-Ezy run. We remain responsible to you for that platform.
+  - title: 24. Events outside our control
+    blocks:
+      - clause: "24.1"
+        text: We are not responsible for delays or failures caused by events outside our reasonable control, such as floods, drought, disease outbreaks, epidemics, civil unrest, road closures, government action, power or network failures, or failures of payment systems. If such an event affects an order or a Service, we will tell you, and you may cancel and receive a refund for anything that you paid for but did not receive.
+  - title: 25. Complaints and disputes
+    blocks:
+      - clause: "25.1"
+        text: If you have a complaint, please contact customer care using the details in section 2. You may also ask an Agent to help you.
+      - clause: "25.2"
+        text: We will acknowledge your complaint within 2 working days and aim to resolve it within 30 days. If we need more time, we will tell you why. Complaints about credit are always dealt with within 30 days, as clause 11.13 explains.
+      - clause: "25.3"
+        text: If you are not satisfied with our response, you may ask for your complaint to be reviewed by our management. If the dispute is still not resolved, either of us may propose mediation by an independent mediator, such as the Centre for Arbitration and Dispute Resolution in Kampala, before going to court.
+      - clause: "25.4"
+        text: You may also complain to a regulator with authority over the matter, such as the Personal Data Protection Office for personal data, or the regulator of a FinTech Partner for credit.
+      - clause: "25.5"
+        text: These Terms are governed by the laws of Uganda. The courts of Uganda have jurisdiction over any dispute about these Terms, without affecting your right to use mediation or a regulator’s complaints process.
+  - title: 26. Changes to these Terms
+    blocks:
+      - clause: "26.1"
+        text: We may change these Terms to reflect changes in our Services, the law or our business. The date at the top shows when they were last updated.
+      - clause: "26.2"
+        text: We will tell you about important changes through the App and on our website, and by SMS or WhatsApp where appropriate, at least 14 days before they take effect, unless a change is needed sooner by law or to protect security. If you do not agree with a change, you may close your account before it takes effect. If you continue to use the Services after that date, the changed Terms apply to you.
+      - clause: "26.3"
+        text: Changes do not affect orders, subscription periods or credit agreements made before the change takes effect, unless the law requires otherwise.
+  - title: 27. General
+    blocks:
+      - clause: "27.1"
+        text: These Terms and any additional terms that apply to a Service form the whole agreement between you and us about the Services.
+      - clause: "27.2"
+        text: If any part of these Terms is found to be invalid or unenforceable, the rest of these Terms remains in force.
+      - clause: "27.3"
+        text: If we do not enforce a right immediately, we may still enforce it later.
+      - clause: "27.4"
+        text: You may not transfer your rights or obligations under these Terms without our written consent. We may transfer our rights and obligations to an affiliated company or to a buyer of our business, provided that your rights under these Terms are not reduced, and we will tell you if we do so.
+      - clause: "27.5"
+        text: We may send notices to you through the App, by SMS, WhatsApp or email, or to the contact details in your account. You may send notices to us using the details in section 2.

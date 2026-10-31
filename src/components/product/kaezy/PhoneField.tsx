@@ -5,7 +5,7 @@ import { XCircle } from "lucide-react";
 
 // A Ugandan phone number field, as the payment screen draws it: the country
 // code (+256) fixed on the left, the national number typed on the right.
-// Shared by "Pay for Ka-Ezy here" and the sign-in card.
+// Shared by "Pay for Ka-Ezy here" and the sign-in popup.
 
 export function PhoneField({
   id,
@@ -52,7 +52,7 @@ export function PhoneField({
           readOnly={readOnly}
           aria-invalid={error ? true : undefined}
           aria-describedby={`${id}-hint${error ? ` ${id}-error` : ""}`}
-          className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-base text-title outline-none placeholder:text-muted"
+          className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-base text-title outline-none autofill:shadow-[inset_0_0_0_100rem_var(--color-canvas)] placeholder:text-muted"
         />
       </div>
       {error ? <FieldError id={`${id}-error`}>{error}</FieldError> : null}

@@ -167,6 +167,11 @@ export function Footer() {
                   Privacy policy
                 </Link>
               </li>
+              <li>
+                <Link prefetch={false} href="/terms-and-conditions/" className={SMALL_LINK}>
+                  Terms and conditions
+                </Link>
+              </li>
               {/* Reopens the analytics consent banner; only when GA is configured. */}
               {GA_ENABLED ? (
                 <li>

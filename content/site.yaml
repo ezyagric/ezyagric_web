@@ -17,7 +17,7 @@ slogan: Farm the Ezy Way, the Smart Way.
 # service page including Ka-Ezy's, the 404 page; a one-line strip in the
 # menus) so visitors can watch, try, pay for and download Ka-Ezy from
 # wherever they are. The "try" and "pay"
-# links go to the Ka-Ezy page's "Ask Ka-Ezy, then hire it" section when the
+# links go to the Ka-Ezy page's "Work with Ka-Ezy, then hire it" section when the
 # site shows it, else to the Ka-Ezy page and its plans.
 kaezyBanner:
   eyebrow: Meet Ka-Ezy
@@ -29,7 +29,7 @@ kaezyBanner:
     title: See Ka-Ezy in action
   try:
     title: Try Ka-Ezy
-    text: Ask Ka-Ezy about your crops or livestock right here and see how it answers.
+    text: Share your crops or livestock with Ka-Ezy right here and see how it assists you.
     appText: Start free in the EzyAgric App. No payment needed.
   pay:
     title: Pay
@@ -44,27 +44,30 @@ kaezyBanner:
     try: Try Ka-Ezy
     pay: Pay for Ka-Ezy
 
-# The iPhone app (launching on the App Store in late 2026). On launch day:
+# The iPhone app (with Apple for review, Oct 2026). On launch day:
 #   1. Paste the app's App Store link into `url` (keep the quotes). The
-#      official "Download on the App Store" badge then appears first, next to
-#      Google Play, everywhere on the site.
+#      "Download on the App Store" badge then opens the App Store, and its
+#      popup goes, everywhere on the site.
 #   2. Update the two FAQ answers that say the iPhone app is coming soon.
-# Until then, preview builds show the badge (not yet a link) and the live
-# site shows the `comingSoon` line next to the Google Play badge.
+# Until then, tapping the badge opens a popup on every build: `comingSoon` is
+# its headline (==marks== are highlighted), `popup` the line and button below.
 appStore:
   url: null
-  comingSoon: iPhone app coming soon
+  comingSoon: EzyAgric is ==coming soon== on iOS
+  popup:
+    note: Until then, you can get it on Android from Google Play.
+    close: Got it
 
 seo:
   title: "EzyAgric: Farm the Ezy Way, the Smart Way | Ka-Ezy, Agrishop, EzyCredits, Produce Market"
-  description: "One app for farmers and agribusinesses: ask Ka-Ezy, shop genuine inputs on Agrishop, pay later with EzyCredits if you qualify, sell crops and livestock on Produce Market."
+  description: "One app for farmers and agribusinesses: work with Ka-Ezy, shop genuine inputs on Agrishop, pay later with EzyCredits if you qualify, and sell crops on Produce Market."
   googleSiteVerification: r4qhmGCvQpsFjly0EYIRXgCg0fNN_-WPCFf_4QI45I0
 
 hero:
   eyebrow: Built for Africa's farmers and agribusinesses
   headline: Farm the Ezy Way, the Smart Way.
   # Product names turn green on their own; ==phrase== gets a highlighter stroke.
-  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Ask your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Buy Now, Pay Later== for your products and services with EzyCredits if you qualify, and sell your ==crops and livestock== on Produce Market."
+  subline: "One app to ==plan, buy, pay, sell and manage your farm==. Work with your farm ==personalised expert== Ka-Ezy, shop your ==genuine agro-inputs== delivered at your ==door step== on Agrishop, ==Buy Now, Pay Later== for your products and services with EzyCredits if you qualify, and sell your ==crops and livestock== on Produce Market."
   screenshot:
     src: /images/screens/home.webp
     alt: "EzyAgric App home screen showing Agrishop, Ka-Ezy and Produce Market"
@@ -88,9 +91,9 @@ journey:
   steps:
     - verb: Plan
       product: ka-ezy
-      text: Ask Ka-Ezy for advice and a farm plan for your crops, animals and budget.
+      text: Share your crops, animals and budget with Ka-Ezy for advice and a farm plan.
       # Each step's next move: Ka-Ezy's demo, or the product's own button (its hero's label).
-      action: { kind: ask-kaezy, label: Ask Ka-Ezy, appLabel: See Ka-Ezy plans }
+      action: { kind: ask-kaezy, label: Work with Ka-Ezy, appLabel: See Ka-Ezy plans }
       image:
         src: /images/photos/agent-shows-farmers-phone.webp
         alt: An EzyAgric field agent shows two young farmers something on her phone
@@ -316,7 +319,7 @@ faq:
   # The card beside the questions (on phones, under them).
   help:
     title: Still have a question?
-    text: Ask Ka-Ezy any farm question, day or night, or chat with our team on WhatsApp.
+    text: Let Ka-Ezy assist you with anything on your farm, day or night, or chat with our team on WhatsApp.
     whatsapp: Chat on WhatsApp
   items:
     - q: Is the EzyAgric App free?

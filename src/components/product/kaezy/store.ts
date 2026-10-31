@@ -1,11 +1,14 @@
 import { useSyncExternalStore } from "react";
 import { EMPTY_PROFILE, type Profile } from "./personalise";
 
-// The demo's state, kept on the visitor's device only (localStorage): the
-// farm details, past conversations and saved records. Every read and write
-// is guarded, so a private window or blocked storage just means nothing is
-// remembered. Components read it with useDemo(); the server render and the
-// first client render see the empty state, then the saved one.
+// The demo's state: the farm details, conversations and saved records. A guest
+// starts blank and theirs is gone when the page is left, so nobody opens this
+// page to an earlier visitor's details. A signed-in visitor's (partner.ts says
+// who, setOwner) is also kept on the device under their number until they sign
+// out; their account is the source of their conversations and records. Every
+// read and write is guarded, so a private window or blocked storage just means
+// nothing is remembered. Components read it with useDemo(); the server render
+// and the first client render see the empty state, then the saved one.
 
 export type Tab = "expert" | "plan" | "records" | "mapping";
 /** In the order the tabs show. */
@@ -92,6 +95,8 @@ const MAX_CONVERSATIONS = 15;
 const EMPTY: DemoState = { profile: EMPTY_PROFILE, conversations: [], current: {}, records: [] };
 
 let state: DemoState | null = null;
+/** Whose state this is: the signed-in phone, or null for a guest. */
+let owner: string | null = null;
 let counter = 0;
 const listeners = new Set<() => void>();
 
@@ -201,12 +206,22 @@ function isMessage(m: unknown): m is Message {
   }
 }
 
-/** Saved data from an older or broken version is dropped, not trusted. */
+function forget() {
+  try {
+    window.localStorage.removeItem(KEY);
+  } catch {
+    // Blocked storage holds nothing to forget.
+  }
+}
+
+/** The owner's saved state. Anyone else's, or data from an older or broken version, is dropped, not trusted. */
 function load(): DemoState {
+  if (!owner) return EMPTY;
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return EMPTY;
-    const saved = JSON.parse(raw) as Partial<DemoState>;
+    const saved = JSON.parse(raw) as Partial<DemoState> & { owner?: unknown };
+    if (saved.owner !== owner) return EMPTY;
     const profile = { ...EMPTY_PROFILE };
     for (const key of Object.keys(EMPTY_PROFILE) as (keyof Profile)[]) {
       const value = saved.profile?.[key];
@@ -237,8 +252,9 @@ function load(): DemoState {
 }
 
 function save(next: DemoState): boolean {
+  if (!owner) return true;
   try {
-    window.localStorage.setItem(KEY, JSON.stringify(next));
+    window.localStorage.setItem(KEY, JSON.stringify({ ...next, owner }));
     return true;
   } catch {
     return false;
@@ -269,12 +285,40 @@ function set(next: DemoState) {
 }
 
 function get(): DemoState {
-  if (!state) state = load();
+  if (!state) {
+    // Nobody is signed in: whatever an earlier visitor left here goes.
+    if (!owner) forget();
+    state = load();
+  }
   return state;
 }
 
-/** Another browser tab saved or deleted the demo: show the same data here. */
+/**
+ * Who is signed in (partner.ts). Signing out, or a sign-in that has ended,
+ * leaves nothing on the device. Signing in starts from what that person saved
+ * here, plus the farm details just typed on this page; a guest's conversations
+ * and records stay behind. `quiet`: the first read of the session, while
+ * rendering, before anything has been shown.
+ */
+export function setOwner(phone: string | null, quiet = false) {
+  if (phone === owner) return;
+  const typed = owner ? null : state?.profile;
+  if (owner) forget();
+  owner = phone;
+  if (quiet) {
+    state = null;
+    return;
+  }
+  const next = load();
+  const kept = Object.fromEntries(Object.entries(typed ?? {}).filter(([, value]) => value.trim() !== ""));
+  state = { ...next, profile: { ...next.profile, ...kept } };
+  save(state);
+  for (const listener of listeners) listener();
+}
+
+/** Another browser tab saved or deleted this person's data: show the same here. A guest's state is their own. */
 function onStorage(event: StorageEvent) {
+  if (!owner) return;
   if (event.key !== KEY && event.key !== null) return;
   state = load();
   for (const listener of listeners) listener();
@@ -289,7 +333,7 @@ function subscribe(listener: () => void) {
   };
 }
 
-/** True when this device holds anything from the demo (for "Delete all"). */
+/** True when there is anything of a guest's to clear (for "Delete all"). */
 export function hasSavedData(s: DemoState): boolean {
   return (
     s.conversations.length > 0 ||
@@ -424,7 +468,7 @@ export const demo = {
     set({ ...s, records: [...s.records, ...records] });
   },
 
-  /** Forget everything this device remembers: farm details, conversations and records. */
+  /** Forget everything here: farm details, conversations and records. */
   clearAll() {
     set(EMPTY);
   },

@@ -40,7 +40,7 @@ export function kaezyTryHref(page?: string): string {
 }
 
 /**
- * "Ask Ka-Ezy": like kaezyTryHref, but straight to the Ka-Ezy window, where
+ * "Work with Ka-Ezy": like kaezyTryHref, but straight to the Ka-Ezy window, where
  * Farm Expert opens with the cursor in its question box.
  */
 export function kaezyAskHref(page?: string): string {
@@ -98,7 +98,7 @@ export function kaezyWatchHref(page?: string): string {
   return onKaezyPage(targets().watch, page);
 }
 
-/** True when this build shows the Ka-Ezy demo (the "Ask Ka-Ezy, then hire it" section). */
+/** True when this build shows the Ka-Ezy demo (the "Work with Ka-Ezy, then hire it" section). */
 export function kaezyOnSite(): boolean {
   return targets().tryOnSite;
 }
@@ -115,7 +115,7 @@ function bannerVideo(kaezy: Product | undefined) {
 
 /**
  * Where the Ka-Ezy actions lead on this build. "Try" and "pay" use the
- * Ka-Ezy page's "Ask Ka-Ezy, then hire it" section when it is shown (preview
+ * Ka-Ezy page's "Work with Ka-Ezy, then hire it" section when it is shown (preview
  * builds, or once it is approved), else the Ka-Ezy page and its price cards.
  */
 function targets() {
@@ -245,8 +245,8 @@ export function KaEzyBanner({
           <Step id={appStepId(id)} n={3} title={copy.app.title} text={copy.app.text} last>
             {/* Side by side, level with the other steps' buttons: the column is
                 sized for the pair (size "row"). Below 375px they wrap, App Store
-                first (Apple's order; never reorder). onDark: the "coming soon"
-                line is white on the band. */}
+                first (Apple's order; never reorder). onDark: the no-JavaScript
+                "coming soon" line is white on the band. */}
             <StoreBadges campaign="ka-ezy" medium={position} size="row" onDark />
           </Step>
         </ol>

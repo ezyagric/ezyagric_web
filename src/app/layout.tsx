@@ -6,6 +6,7 @@ import { SITE_ENV, SITE_URL } from "@/lib/env";
 import { OPEN_GRAPH_BASE } from "@/lib/metadata";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { AppStoreSoon } from "@/components/ui/StoreBadges";
 import { PreviewBanner } from "@/components/layout/PreviewBanner";
 import { Analytics } from "@/components/analytics/Analytics";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
@@ -55,6 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        {/* The App Store badges' "coming soon" popup, until the app is live. */}
+        <AppStoreSoon />
         {/* Organization + MobileApplication structured data, on every page. */}
         <SiteJsonLd />
         {/* GA4 consent banner; renders nothing unless NEXT_PUBLIC_GA_ID is set. */}

@@ -19,6 +19,7 @@
  * Vibrant Green #0C9548 with white text is 3.9:1, below WCAG AA for
  * button-size text, so buttons and small green text use #0A7F3D (5.1:1). */
 :root,
+::backdrop,
 [data-theme="ezyagric"] {
   /* Surfaces */
   --theme-canvas: #ffffff; /* page background */

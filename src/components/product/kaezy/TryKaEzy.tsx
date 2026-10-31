@@ -37,7 +37,7 @@ export function hasTryIt(product: Product): boolean {
 }
 
 /**
- * "Ask Ka-Ezy, then hire it": "Your farm" and past conversations beside the
+ * "Work with Ka-Ezy, then hire it": "Your farm" and past conversations beside the
  * Ka-Ezy window (Farm Expert with its photo check, Garden Mapping, Farm Plan,
  * Farm Records), then "Hire Ka-Ezy" below. All redrawn from the app in the
  * website's theme. It replaces the plain price cards on the page, since the

@@ -1,14 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { buttonClasses } from "@/components/ui/Button";
 import { snackbar } from "@/components/ui/Snackbar";
-import { BarChart3, CreditCard, Loader2, Sprout, UserRound } from "lucide-react";
+import { BarChart3, Check, CreditCard, Loader2, Sprout, UserRound } from "lucide-react";
+import { formatUgPhone, ugNationalNumber } from "./format";
 import { fill, type Profile, type TryIt } from "./personalise";
 import { isFresh, signOut, type Account, type Arrival, type Session } from "./partner";
-import { SignInCard } from "./SignInCard";
-import { SMALL_SECONDARY } from "./Thread";
+import { LOW_FROM, UsageRing } from "./UsageGauge";
 
 type Copy = TryIt["signIn"];
+
+/** The API's stages, in the order a user goes through them. */
+const STAGES = ["awareness", "onboarded", "transacted", "repeating"] as const;
 
 /** "2026-10-31T09:00:00+00:00" -> "31 Oct 2026" */
 function day(value: string | null): string {
@@ -25,12 +29,12 @@ function monthName(value: string): string {
 }
 
 /**
- * "Your Ka-Ezy account": a band under the Ka-Ezy window, only for a
- * signed-in (verified) visitor: who they are, their stage with the
- * organisation, this month's use and their Ka-Ezy plan, from the Partner API
- * (5.3). Not signed in, the band shows the sign-in form only when asked for
- * (the window's "Sign in" button) or when a link brought the organisation
- * and phone along; otherwise nothing.
+ * "Your Ka-Ezy account": a card under the Ka-Ezy window, only for a signed-in
+ * (verified) visitor: who they are on the brand's gradient, then their stage
+ * as a path they grow along, this month's use, and their plan in the same ring
+ * as the window's header, from the Partner API
+ * (5.3). Not signed in, nothing: signing in is SignInPopup's. The snackbar
+ * says what is going on either way.
  */
 export function AccountPanel({
   copy,
@@ -38,7 +42,6 @@ export function AccountPanel({
   account,
   arrival,
   profile,
-  wanted,
   hireHref,
   className = "",
 }: {
@@ -47,15 +50,12 @@ export function AccountPanel({
   account: Account | null;
   arrival: Arrival | null;
   profile: Profile;
-  /** The visitor pressed "Sign in" in the Ka-Ezy window. */
-  wanted: boolean;
   /** "Pay for Ka-Ezy here" on this page (the hire card), where the number is already filled in. */
   hireHref: string;
   className?: string;
 }) {
   const a = copy.account;
   const t = copy.toasts;
-  const panelRef = useRef<HTMLDivElement>(null);
   // The snackbar says what is going on, at each change of state.
   const busySnack = useRef<number | null>(null);
   const linking = !!arrival?.linking;
@@ -112,170 +112,166 @@ export function AccountPanel({
     // session is read at that moment, not watched.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, signedIn, t.detailsReady]);
-  const fromLink = !!arrival && (!!arrival.org || !!arrival.phone || arrival.linking || !!arrival.failure);
-  const showForm = !session && (wanted || fromLink);
 
-  // Asked for from the window above: bring the form into view.
-  useEffect(() => {
-    if (!wanted || session) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    panelRef.current?.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
-  }, [wanted, session]);
+  if (!session) return null;
 
-  if (!session && !showForm) return null;
-
-  if (!session && arrival?.linking) {
-    return (
-      <div
-        ref={panelRef}
-        role="status"
-        aria-live="polite"
-        className={`flex items-center gap-4 rounded-card border border-line bg-card p-5 shadow-card ${className}`}
-      >
-        <Loader2 aria-hidden="true" className="size-8 shrink-0 text-secondary motion-safe:animate-spin" />
-        <div className="min-w-0">
-          <p className="text-base font-heading text-title">{copy.linkSigningIn}</p>
-          <p className="mt-0.5 text-sm text-muted">
-            {copy.linkSigningInHint}
-            {arrival.orgName || arrival.org || arrival.phoneMasked || arrival.phone ? (
-              <>
-                {" "}
-                <span className="text-title">
-                  {[arrival.orgName || arrival.org, arrival.phoneMasked || arrival.phone].filter(Boolean).join(" · ")}
-                </span>
-              </>
-            ) : null}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session) {
-    return (
-      <div ref={panelRef} className={`rounded-card border border-line bg-card p-5 shadow-card ${className}`}>
-        <SignInCard copy={copy} session={session} profile={profile} className="mx-auto max-w-xl" />
-      </div>
-    );
-  }
-
-  const org = orgName;
   const sub = account?.subscription;
-  const used = sub?.usagePercentage ?? null;
+  const used = sub && sub.type !== "none" ? sub.usagePercentage : null;
+  const low = !!sub && (sub.status === "exhausted" || (used ?? 0) >= LOW_FROM);
   const planName = sub ? (a.plans[sub.type as keyof typeof a.plans] ?? sub.type) : "";
+  const national = ugNationalNumber(session.phone);
+  const place = account?.profile.district || account?.profile.region || "";
+  const stage = STAGES.indexOf(account?.stage as (typeof STAGES)[number]);
+  const asked = account?.usage.requests ?? 0;
 
   return (
     <section
-      ref={panelRef}
       aria-labelledby="kaezy-account-title"
-      className={`rounded-card border border-line bg-card p-5 shadow-card ${className}`}
+      className={`overflow-hidden rounded-card border border-line bg-card shadow-card ${className}`}
     >
-      <div className="flex flex-wrap items-start gap-3">
+      {/* Their card: who they are, on the brand's gradient. */}
+      <div className="gradient-brand relative isolate flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden p-5 text-on-inverse">
+        <span aria-hidden="true" className="absolute -top-20 -right-10 -z-10 size-64 rounded-full border border-on-inverse/20" />
+        <span aria-hidden="true" className="absolute -top-32 -right-24 -z-10 size-96 rounded-full border border-on-inverse/10" />
         <span
           aria-hidden="true"
-          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-soft text-secondary"
+          className="flex size-14 shrink-0 items-center justify-center rounded-full bg-card text-2xl font-heading text-heading"
         >
-          <UserRound className="size-5" />
+          {/[a-z]/i.test(who.charAt(0)) ? who.charAt(0).toUpperCase() : <UserRound className="size-7" />}
         </span>
-        <div className="min-w-0 flex-1">
-          <h3 id="kaezy-account-title" className="text-lg font-heading text-title">
+        <div className="min-w-0 flex-1 basis-56">
+          <h3 id="kaezy-account-title" className="text-xl font-heading text-on-inverse">
             {a.title}
           </h3>
-          <p className="text-sm text-body">
-            {fill(copy.signedIn, profile, { who, org })}
+          <p className="text-sm">
+            {fill(copy.signedIn, profile, { who, org: orgName })}
             {session.organisation.sandbox ? (
-              <span className="ml-2 inline-flex rounded-pill bg-accent-soft px-2 py-0.5 text-xs font-label text-accent">
+              <span className="ml-2 inline-flex rounded-pill bg-card px-2 py-0.5 text-xs font-label text-accent">
                 {copy.sandboxBadge}
               </span>
             ) : null}
           </p>
-          <p className="mt-0.5 text-xs text-muted">
-            {session.organisation.orgCode} · {session.phone}
-            {account?.profile.district || account?.profile.region ? (
-              <> · {account.profile.district || account.profile.region}</>
-            ) : null}
+          <p className="mt-0.5 text-xs text-on-inverse/85">
+            {[national ? formatUgPhone(national) : session.phone, place, session.organisation.orgCode].filter(Boolean).join(" · ")}
           </p>
         </div>
         <button
           type="button"
           onClick={() => void signOut()}
           data-track="kaezy_sign_out"
-          className={SMALL_SECONDARY}
+          className="inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center rounded-button border-2 border-on-inverse bg-inverse/25 px-4 text-sm font-label transition-colors hover:bg-inverse/50"
         >
           {copy.signOut}
         </button>
       </div>
 
       {account ? (
-        <dl className="mt-4 grid gap-3 sm:grid-cols-3">
-          <Tile icon={<Sprout className="size-4" />} label={a.stageLabel}>
-            <span className="text-base font-heading text-title">
-              {a.stages[account.stage as keyof typeof a.stages] ?? account.stage}
-            </span>
-          </Tile>
+        <dl className="grid divide-line max-md:divide-y md:grid-cols-3 md:divide-x">
+          <Zone icon={<Sprout className="size-4" />} label={a.stageLabel}>
+            {stage < 0 ? (
+              <span className="text-base font-heading text-title">{account.stage}</span>
+            ) : (
+              // The way a user grows with their organisation; the stage lit is theirs.
+              <ol className="mt-1">
+                {STAGES.map((key, i) => (
+                  <li key={key} aria-current={i === stage ? "step" : undefined} className="relative flex items-center gap-2.5 pb-2.5 last:pb-0">
+                    {i < STAGES.length - 1 ? (
+                      <span
+                        aria-hidden="true"
+                        className={`absolute top-6 bottom-0 left-[0.6875rem] w-0.5 ${i < stage ? "bg-accent-bright" : "bg-line"}`}
+                      />
+                    ) : null}
+                    <span
+                      aria-hidden="true"
+                      className={`relative flex size-6 shrink-0 items-center justify-center rounded-full ${
+                        i < stage
+                          ? "bg-accent-bright text-on-accent"
+                          : i === stage
+                            ? "bg-accent-bright text-on-accent ring-4 ring-accent-soft"
+                            : "border-2 border-line bg-card"
+                      }`}
+                    >
+                      {i < stage ? <Check className="size-3.5" /> : i === stage ? <Sprout className="size-3.5" /> : null}
+                    </span>
+                    <span className={i === stage ? "text-base font-heading text-title" : i < stage ? "text-sm text-body" : "text-sm text-muted"}>
+                      {a.stages[key]}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </Zone>
 
-          <Tile icon={<BarChart3 className="size-4" />} label={`${a.monthLabel} · ${monthName(account.usage.month)}`}>
-            <span className="text-base font-heading text-title">
-              {account.usage.requests} {account.usage.requests === 1 ? a.request : a.requests}
+          <Zone icon={<BarChart3 className="size-4" />} label={`${a.monthLabel} · ${monthName(account.usage.month)}`}>
+            <span className="flex items-baseline gap-2">
+              <span className="text-4xl font-heading text-title tabular-nums">{asked}</span>
+              <span className="text-sm text-body">{asked === 1 ? a.request : a.requests}</span>
             </span>
-            <span className="mt-1 flex flex-wrap gap-1.5 text-xs text-muted">
-              <span className="rounded-pill bg-subtle px-2 py-0.5">
-                {a.farmExpert} {account.usage.byFeature.farm_expert ?? 0}
+            <Meter label={a.farmExpert} value={account.usage.byFeature.farm_expert ?? 0} total={asked} />
+            <Meter label={a.farmPlan} value={account.usage.byFeature.farm_plan ?? 0} total={asked} />
+            <span className="mt-2.5 flex items-center gap-1.5 text-sm text-body">
+              <span
+                aria-hidden="true"
+                className={`flex size-4 items-center justify-center rounded-full ${account.usage.hasRecords ? "bg-accent-bright text-on-accent" : "border-2 border-line"}`}
+              >
+                {account.usage.hasRecords ? <Check className="size-3" /> : null}
               </span>
-              <span className="rounded-pill bg-subtle px-2 py-0.5">
-                {a.farmPlan} {account.usage.byFeature.farm_plan ?? 0}
-              </span>
-              <span className="rounded-pill bg-subtle px-2 py-0.5">
-                {a.records} {account.usage.hasRecords ? a.yes : a.no}
-              </span>
+              {a.records}: {account.usage.hasRecords ? a.yes : a.no}
             </span>
-          </Tile>
+          </Zone>
 
-          <Tile icon={<CreditCard className="size-4" />} label={a.planLabel}>
-            <span className="text-base font-heading text-title">
-              {planName}
-              {sub && sub.type !== "none" ? (
-                <span className={`ml-2 text-xs font-label ${sub.status === "exhausted" ? "text-danger" : "text-accent"}`}>
-                  {a.status[sub.status as keyof typeof a.status] ?? sub.status}
-                </span>
+          <Zone icon={<CreditCard className="size-4" />} label={a.planLabel}>
+            <span className="flex items-center gap-4">
+              {used !== null ? (
+                <UsageRing
+                  percent={Math.min(100, Math.max(0, used))}
+                  track="stroke-subtle"
+                  fill={low ? "stroke-danger" : "stroke-accent-bright"}
+                  className="size-24"
+                >
+                  <span className="absolute inset-0 flex flex-col items-center justify-center leading-tight">
+                    <span className={`text-xl font-heading tabular-nums ${low ? "text-danger" : "text-title"}`}>{Math.round(used)}%</span>
+                    <span className="text-xs text-muted">{a.used}</span>
+                  </span>
+                </UsageRing>
               ) : null}
-            </span>
-            {used !== null && sub?.type !== "none" ? (
-              <span className="mt-1.5 block">
-                <span className="block h-2 w-full overflow-hidden rounded-pill bg-subtle">
-                  <span
-                    className={`block h-full rounded-pill ${used >= 98 ? "bg-danger" : "bg-secondary"}`}
-                    style={{ width: `${Math.min(100, Math.max(0, used))}%` }}
-                  />
-                </span>
-                <span className="mt-1 block text-xs text-muted">
-                  {Math.round(used)}% {a.used}
-                  {sub?.expiresAt ? ` · ${a.ends} ${day(sub.expiresAt)}` : ""}
-                </span>
+              <span className="min-w-0">
+                <span className="block text-base font-heading text-title">{planName}</span>
+                {sub && sub.type !== "none" ? (
+                  <span className={`mt-0.5 inline-flex rounded-pill px-2 py-0.5 text-xs font-label ${low ? "bg-subtle text-danger" : "bg-accent-soft text-accent"}`}>
+                    {a.status[sub.status as keyof typeof a.status] ?? sub.status}
+                  </span>
+                ) : null}
+                {sub?.expiresAt ? (
+                  <span className="mt-1 block text-sm text-muted">
+                    {a.ends} {day(sub.expiresAt)}
+                  </span>
+                ) : null}
               </span>
-            ) : null}
+            </span>
             {/* Down to "Pay for Ka-Ezy here" on this page, with this number filled in. */}
             <a
               href={hireHref}
               data-track="kaezy_account_pay"
-              className="mt-2 inline-block text-sm font-label text-link underline underline-offset-4"
+              className={`mt-3 w-full cursor-pointer ${buttonClasses(low || used === null ? "primary" : "secondary")}`}
             >
               {a.pay}
             </a>
-          </Tile>
+          </Zone>
         </dl>
       ) : (
-        <div role="status" aria-live="polite" className="mt-4">
+        <div role="status" aria-live="polite" className="p-5">
           <p className="flex items-center gap-2 text-sm text-muted">
             <Loader2 aria-hidden="true" className="size-4 shrink-0 text-secondary motion-safe:animate-spin" />
             {a.loading}
           </p>
-          {/* The three tiles' shapes, so the band does not jump when they fill. */}
-          <div aria-hidden="true" className="mt-3 grid gap-3 sm:grid-cols-3">
+          {/* The three zones' shapes, so the card does not jump when they fill. */}
+          <div aria-hidden="true" className="mt-3 grid gap-5 md:grid-cols-3">
             {[a.stageLabel, a.monthLabel, a.planLabel].map((label) => (
-              <div key={label} className="rounded-control border border-line bg-canvas p-3">
+              <div key={label}>
                 <p className="text-xs text-label-style text-label">{label}</p>
-                <div className="mt-2 h-5 w-2/3 rounded-pill bg-subtle motion-safe:animate-pulse" />
+                <div className="mt-3 h-8 w-2/3 rounded-pill bg-subtle motion-safe:animate-pulse" />
+                <div className="mt-3 h-3 w-full rounded-pill bg-subtle motion-safe:animate-pulse" />
                 <div className="mt-2 h-3 w-1/2 rounded-pill bg-subtle motion-safe:animate-pulse" />
               </div>
             ))}
@@ -286,16 +282,34 @@ export function AccountPanel({
   );
 }
 
-function Tile({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
+function Zone({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
   return (
-    <div className="rounded-control border border-line bg-canvas p-3">
+    <div className="p-5">
       <dt className="flex items-center gap-1.5 text-xs text-label-style text-label">
         <span aria-hidden="true" className="text-secondary">
           {icon}
         </span>
         {label}
       </dt>
-      <dd className="mt-1 flex flex-col">{children}</dd>
+      <dd className="mt-3 flex flex-col">{children}</dd>
     </div>
+  );
+}
+
+/** One feature's share of the month: its name and count over a thin bar. */
+function Meter({ label, value, total }: { label: string; value: number; total: number }) {
+  return (
+    <span className="mt-2.5 block text-sm text-body">
+      <span className="flex justify-between gap-2">
+        {label}
+        <span className="font-label text-title tabular-nums">{value}</span>
+      </span>
+      <span aria-hidden="true" className="mt-1 block h-1.5 overflow-hidden rounded-pill bg-subtle">
+        <span
+          className="block h-full rounded-pill bg-secondary transition-[width] duration-700 ease-out motion-reduce:transition-none"
+          style={{ width: `${total ? Math.min(100, (value / total) * 100) : 0}%` }}
+        />
+      </span>
+    </span>
   );
 }

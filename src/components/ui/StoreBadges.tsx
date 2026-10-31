@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
+import { Highlight, plainText } from "@/components/home/parts";
 import { getSite } from "@/lib/content";
-import { SHOW_PENDING } from "@/lib/env";
 import { playStoreUrl } from "@/lib/links";
+import { AppStoreSoonButton, AppStoreSoonDialog } from "./AppStoreSoon";
+import { PhoneFrame } from "./PhoneFrame";
 
 // Store badges are official artwork: shown exactly as supplied (no
 // recolouring, cropping or animation), at least 40px tall (Apple's minimum),
@@ -22,11 +24,10 @@ const HEIGHT = {
 } as const;
 
 /**
- * The farmer app's store badges. The App Store badge appears once
- * `appStore.url` is set in content/site.yaml. Until then, preview builds show
- * it unlinked (so the team sees the launch look), and production builds show the
- * `comingSoon` line instead (the badge says "Download", so it waits until
- * the iPhone app can be downloaded). `onDark` is for the navy footer and
+ * The farmer app's store badges. The App Store badge links to the store once
+ * `appStore.url` is set in content/site.yaml. Until then it opens the "coming
+ * soon" popup (AppStoreSoon below); without JavaScript the `comingSoon` line
+ * shows beside it instead. `onDark` is for that line on the navy footer and
  * the gradient bands.
  */
 export function StoreBadges({
@@ -51,25 +52,60 @@ export function StoreBadges({
         <StoreLink href={appStore.url} store="app_store" campaign={campaign} medium={medium}>
           <AppStoreImage className={height} />
         </StoreLink>
-      ) : SHOW_PENDING ? (
-        <AppStoreImage className={height} />
-      ) : null}
+      ) : (
+        <AppStoreSoonButton campaign={campaign} medium={medium}>
+          <AppStoreImage className={height} />
+        </AppStoreSoonButton>
+      )}
 
       <StoreLink href={playStoreUrl(campaign, medium)} store="google_play" campaign={campaign} medium={medium}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- static SVG badge */}
-        <img
-          src="/images/brand/google-play-badge.svg"
-          alt="Get it on Google Play"
-          width={180}
-          height={53}
-          className={height}
-        />
+        <GooglePlayImage className={height} />
       </StoreLink>
 
-      {appStore.url || SHOW_PENDING ? null : (
-        <p className={`text-sm font-label ${onDark ? "text-on-inverse" : "text-muted"}`}>{appStore.comingSoon}</p>
+      {appStore.url ? null : (
+        <noscript>
+          <p className={`text-sm font-label ${onDark ? "text-on-inverse" : "text-muted"}`}>
+            {plainText(appStore.comingSoon)}
+          </p>
+        </noscript>
       )}
     </div>
+  );
+}
+
+/**
+ * The App Store badge's popup, once on every page (root layout); gone when
+ * `appStore.url` is set. Its Google Play badge is the one thing a visitor can
+ * do meanwhile; `position` "popup" tells its installs apart.
+ */
+export function AppStoreSoon() {
+  const { appStore } = getSite();
+  if (appStore.url) return null;
+
+  return (
+    <AppStoreSoonDialog
+      title={<Highlight text={appStore.comingSoon} />}
+      note={appStore.popup.note}
+      close={appStore.popup.close}
+      phone={
+        <PhoneFrame
+          size="sm"
+          image={{ src: "/images/screens/ka-ezy.webp", alt: "", width: 640, height: 1385 }}
+          className="w-full"
+          sizes="144px"
+        />
+      }
+      playBadge={
+        <StoreLink
+          href={playStoreUrl("app-store-soon", "popup")}
+          store="google_play"
+          campaign="app-store-soon"
+          medium="popup"
+        >
+          <GooglePlayImage className={HEIGHT.md} />
+        </StoreLink>
+      }
+    />
   );
 }
 
@@ -100,6 +136,19 @@ function StoreLink({
       {children}
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
+  );
+}
+
+function GooglePlayImage({ className }: { className: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- static SVG badge
+    <img
+      src="/images/brand/google-play-badge.svg"
+      alt="Get it on Google Play"
+      width={180}
+      height={53}
+      className={className}
+    />
   );
 }
 

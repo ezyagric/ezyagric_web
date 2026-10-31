@@ -21,7 +21,8 @@ const LABEL = "block text-sm font-label text-title";
 
 /**
  * "Your farm": the value chain and optional farm details that personalise
- * every tab (starter questions, answers, the plan). Kept on this device.
+ * every tab (starter questions, answers, the plan). A guest's are gone when
+ * the page is left; signed in, they fill in from the account.
  * The top half of the panel beside the Ka-Ezy window (KaEzyDemo), so it has
  * no card of its own; location and land size share a row to keep it short.
  */
@@ -29,12 +30,14 @@ export function FarmDetails({
   copy,
   profile,
   live,
+  signedIn,
   valueChainRef,
   className = "",
 }: {
   copy: TryIt;
   profile: Profile;
   live: boolean;
+  signedIn: boolean;
   valueChainRef: RefObject<HTMLSelectElement | null>;
   className?: string;
 }) {
@@ -112,7 +115,7 @@ export function FarmDetails({
           {f.firstNameHint}
         </p>
       </div>
-      <p className="mt-4 text-xs text-muted">{live ? f.storageLive : f.storage}</p>
+      <p className="mt-4 text-xs text-muted">{signedIn ? f.storageAccount : live ? f.storageLive : f.storage}</p>
     </section>
   );
 }
@@ -166,8 +169,9 @@ function when(at: number): string {
 }
 
 /**
- * Past conversations on this device: open one to carry on, or delete them
- * all. The bottom half of the panel beside the Ka-Ezy window: from lg it
+ * Past conversations: open one to carry on. A guest's are only those of this
+ * visit, and they can clear them; signed in, the list is all of the account's,
+ * newest first. The bottom half of the panel beside the Ka-Ezy window: from lg it
  * fills the rest of the panel's height and the list scrolls inside it;
  * elsewhere the list scrolls past a few conversations.
  */
@@ -178,6 +182,7 @@ export function PastConversations({
   hasData,
   onOpen,
   remote = null,
+  loading = false,
   onOpenRemote,
   className = "",
 }: {
@@ -185,11 +190,13 @@ export function PastConversations({
   conversations: Conversation[];
   /** The conversation open in each tab. */
   openIds: string[];
-  /** Anything saved on this device (farm details count too), so "Delete all" has something to delete. */
+  /** A guest with anything to clear (farm details count too). An account's own can't be deleted from here. */
   hasData: boolean;
   onOpen: (conversation: Conversation) => void;
   /** Signed in: the visitor's conversations on their account (null while loading or signed out). */
   remote?: RemoteThread[] | null;
+  /** Signed in, and the account's list is still on its way. */
+  loading?: boolean;
   onOpenRemote?: (thread: RemoteThread) => void;
   className?: string;
 }) {
@@ -198,7 +205,10 @@ export function PastConversations({
   // here is listed above, under its own title).
   const localThreadIds = new Set(conversations.map((c) => c.threadId));
   const fromAccount = (remote ?? []).filter((t) => !localThreadIds.has(t.threadId));
-  const nothing = conversations.length === 0 && fromAccount.length === 0;
+  const rows = [
+    ...conversations.map((conversation) => ({ at: conversation.at, conversation })),
+    ...fromAccount.map((thread) => ({ at: thread.at, thread })),
+  ].sort((a, b) => b.at - a.at);
   const [confirming, setConfirming] = useState(false);
   const [status, setStatus] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -217,7 +227,7 @@ export function PastConversations({
       <p role="status" className="sr-only">
         {status}
       </p>
-      {nothing ? (
+      {rows.length === 0 ? (
         // Just the line on phones, where the Ka-Ezy window comes next.
         <div className="flex flex-1 flex-col items-center justify-center gap-2 pt-3 text-center md:py-6">
           <span
@@ -226,71 +236,34 @@ export function PastConversations({
           >
             <MessageCircle className="size-5" />
           </span>
-          <p className="text-sm text-muted">{f.pastEmpty}</p>
+          <p className="text-sm text-muted">{loading ? f.pastLoading : f.pastEmpty}</p>
         </div>
       ) : (
         // -mx-2 px-2: room for the open conversation's bar and the focus ring inside the scroll area.
         <ul className="-mx-2 mt-2 max-h-72 min-h-0 space-y-1 overflow-y-auto px-2 py-1 lg:max-h-none lg:flex-1">
-          {fromAccount.length > 0 && conversations.length > 0 ? (
-            <li aria-hidden="true" className="px-2 pt-1 text-xs text-label-style text-label">
-              {f.pastDevice}
-            </li>
-          ) : null}
-          {conversations.map((conversation) => {
-            const open = openIds.includes(conversation.id);
-            return (
-              <li key={conversation.id}>
-                <button
-                  type="button"
-                  onClick={() => onOpen(conversation)}
-                  aria-current={open ? "true" : undefined}
-                  // The open one has a bar as well as the white (white alone is the hover look).
-                  className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 px-2 py-1.5 text-left transition-colors hover:bg-card ${
-                    open ? "border-secondary bg-card shadow-card" : "border-transparent"
-                  }`}
-                >
-                  <span
-                    aria-hidden="true"
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card text-secondary ring-1 ring-line"
-                  >
-                    <Icon name={TAB_ICONS[conversation.tab]} className="size-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-label text-title">{conversation.title}</span>
-                    <span className="block text-xs text-muted">
-                      {copy.tabs[conversation.tab].title} · {when(conversation.at)}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-          {fromAccount.length > 0 ? (
-            <li className="px-2 pt-3 text-xs text-label-style text-label">{f.pastAccount}</li>
-          ) : null}
-          {fromAccount.map((thread) => (
-            <li key={thread.threadId}>
-              <button
-                type="button"
-                onClick={() => onOpenRemote?.(thread)}
-                data-track="kaezy_try_open_account_conversation"
-                className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 border-transparent px-2 py-1.5 text-left transition-colors hover:bg-card"
-              >
-                <span
-                  aria-hidden="true"
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card text-secondary ring-1 ring-line"
-                >
-                  <Icon name={TAB_ICONS[thread.tab]} className="size-4" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-label text-title">{thread.title}</span>
-                  <span className="block text-xs text-muted">
-                    {copy.tabs[thread.tab].title} · {when(thread.at)}
-                  </span>
-                </span>
-              </button>
-            </li>
-          ))}
+          {rows.map((row) =>
+            "conversation" in row && row.conversation ? (
+              <PastRow
+                key={row.conversation.id}
+                copy={copy}
+                tab={row.conversation.tab}
+                title={row.conversation.title}
+                at={row.at}
+                open={openIds.includes(row.conversation.id)}
+                onClick={() => onOpen(row.conversation)}
+              />
+            ) : "thread" in row && row.thread ? (
+              <PastRow
+                key={row.thread.threadId}
+                copy={copy}
+                tab={row.thread.tab}
+                title={row.thread.title}
+                at={row.at}
+                track="kaezy_try_open_account_conversation"
+                onClick={() => onOpenRemote?.(row.thread)}
+              />
+            ) : null,
+          )}
         </ul>
       )}
       {/* At the foot of the list (beside the title there's no room in the
@@ -306,7 +279,7 @@ export function PastConversations({
               if (confirming) {
                 demo.clearAll();
                 setConfirming(false);
-                setStatus("Everything saved on this device was deleted.");
+                setStatus("Everything here was cleared.");
                 window.setTimeout(() => headingRef.current?.focus(), 0);
               } else {
                 setConfirming(true);
@@ -320,5 +293,51 @@ export function PastConversations({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function PastRow({
+  copy,
+  tab,
+  title,
+  at,
+  open = false,
+  track,
+  onClick,
+}: {
+  copy: TryIt;
+  tab: Tab;
+  title: string;
+  at: number;
+  open?: boolean;
+  track?: string;
+  onClick: () => void;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={onClick}
+        aria-current={open ? "true" : undefined}
+        data-track={track}
+        // The open one has a bar as well as the white (white alone is the hover look).
+        className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-control border-l-4 px-2 py-1.5 text-left transition-colors hover:bg-card ${
+          open ? "border-secondary bg-card shadow-card" : "border-transparent"
+        }`}
+      >
+        <span
+          aria-hidden="true"
+          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card text-secondary ring-1 ring-line"
+        >
+          <Icon name={TAB_ICONS[tab]} className="size-4" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-label text-title">{title}</span>
+          <span className="block text-xs text-muted">
+            {copy.tabs[tab].title} · {when(at)}
+          </span>
+        </span>
+      </button>
+    </li>
   );
 }

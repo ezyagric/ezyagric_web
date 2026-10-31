@@ -1,0 +1,413 @@
+# Word for word from the final document, 29102026_EzyAgric_Privacy_Policy_v2.0.docx and .pdf (29 Oct 2026),
+# the PDF being public/docs/privacy-policy.pdf. Change it only when Legal issues a new version,
+# and replace the PDF with it. **Bold** is the document's own; contact details and
+# the two documents' full names become links on the page (components/legal).
+title: EzyAgric Privacy Policy
+subtitle: How Akorion Company Limited, trading as EzyAgric, collects, uses, shares and protects your personal data
+version: Version 2.0 | Last updated September 2026
+pdf:
+  href: /docs/privacy-policy.pdf
+  size: 213 KB
+summary:
+  title: Summary of this policy
+  points:
+    - We collect the information you give us, information created when you use EzyAgric, and information from Agents and Partners who help us serve you.
+    - We use it to run your account, to provide Ka-Ezy, Agrishop, EzyCredits, EzyProduce and our other Services, to keep you informed and, with your consent, to send you offers.
+    - Ka-Ezy uses artificial intelligence. Your questions, photos and farm records are processed to give you advice. Our AI technology suppliers are not allowed to use your personal data to train their own models.
+    - We share information only where it is needed for the purposes in this policy, where you agree, or where the law requires it. We never sell your personal data.
+    - When you first sign in, you accept the Terms and this Privacy Policy and consent to the processing needed to provide the Services, including processing outside Uganda. We ask separately for consent to marketing, to sharing with Partners and to EzyCredits.
+    - You can ask to see, correct or delete your information, stop marketing messages at no cost, and ask for a person to review a credit decision.
+    - Contact us on +256 708 383 845, on WhatsApp +256 787 991 262 or at ezy@ezyagric.com. You can also complain to the Personal Data Protection Office.
+  intro: This summary gives the main points. The full policy below explains each of them.
+sections:
+  - title: 1. About this Privacy Policy
+    blocks:
+      - clause: "1.1"
+        text: This Privacy Policy explains how Akorion Company Limited, trading as EzyAgric (“EzyAgric”, “we”, “us” or “our”), collects, uses, shares, stores and protects personal data about you when you use the EzyAgric mobile app, our website, Ka-Ezy and our other Services, or when you deal with our staff, Agents and Partners.
+      - clause: "1.2"
+        text: We are the data controller for the personal data described in this Privacy Policy. This means that we decide why and how that personal data is processed. Our contact details are in section 18.
+      - clause: "1.3"
+        text: We comply with the Data Protection and Privacy Act, Cap. 97 (the “Act”), the Data Protection and Privacy Regulations, 2021 and the other laws of Uganda that apply to personal data. In this Privacy Policy, a reference to a section “of the Act” is to a section of that Act.
+      - clause: "1.4"
+        text: This Privacy Policy applies to everyone whose personal data we process through our Services, including farmers, agro-input dealers, cooperatives and other agribusinesses, Agents, buyers, Service Providers and visitors to our website. Our staff are covered by a separate staff privacy policy.
+      - clause: "1.5"
+        text: This Privacy Policy is a notice that explains how we handle personal data. It is not a contract and does not form part of the EzyAgric App Terms and Conditions. Where we need your consent, we ask for it separately, as section 5 explains. Some Services, such as EzyCredits, give you an additional privacy notice when you sign up for them.
+      - clause: "1.6"
+        text: This Privacy Policy replaces all earlier versions of the EzyAgric Privacy Policy, including those issued in 2020 and 2023.
+  - title: 2. Key words used in this policy
+    blocks:
+      - clause: "2.1"
+        text: Table 2.1 explains the meaning of some words used in this Privacy Policy.
+      - table:
+          caption: "Table 2.1: Key words"
+          head:
+            - Word
+            - Meaning
+          rows:
+            - - "**Personal data**"
+              - Information about you from which you can be identified, such as your name, phone number, location, photo, or farm records linked to you.
+            - - "**Special personal data**"
+              - "The categories of personal data that the Act protects more strictly: religious or philosophical beliefs, political opinions, sexual life, financial information, health status and medical records."
+            - - "**Processing**"
+              - Anything done with personal data, such as collecting, recording, storing, using, sharing or deleting it.
+            - - "**App**"
+              - The EzyAgric mobile application, the EzyAgric website and any USSD or voice service operated by EzyAgric. Partner Channels are not part of the App.
+            - - "**Services**"
+              - The App, Ka-Ezy, Agrishop, EzyCredits, EzyProduce, veterinary services, agronomy, soil testing, training, irrigation and any other product or service that we provide, whether directly, through Agents or through Partner Channels.
+            - - "**Agent**"
+              - A person or business that EzyAgric authorises to help users register and use the Services on our behalf, including Digital Agriculture Champions, village agents, agro-dealers and cooperative staff working with us.
+            - - "**Partner**"
+              - An organisation that we work with to provide, extend or pay for the Services, such as a FinTech Partner, a telecommunications or mobile money provider, a supplier, a delivery company or a development programme partner.
+            - - "**Partner Channel**"
+              - A platform or service operated by a Partner, not by EzyAgric, through which you can reach EzyAgric, such as a telecommunications operator’s digital platform, a mobile money service, or a USSD or voice service.
+            - - "**FinTech Partner**"
+              - A financial technology company, bank, microfinance institution, money lender, SACCO or other licensed credit provider that funds or provides credit to users through EzyCredits.
+            - - "**Service Provider**"
+              - A veterinarian, para-veterinarian, agronomist, laboratory, trainer or other professional who provides services to users through the App, whether employed by EzyAgric or independent.
+            - - "**Affiliated company**"
+              - A company that controls, is controlled by, or is under common control with Akorion Company Limited.
+            - - "**De-identified data**"
+              - Data from which names, phone numbers and other details that identify a person have been removed, so that it can no longer reasonably be linked to that person.
+  - title: 3. Personal data we collect
+    blocks:
+      - clause: "3.1"
+        text: "We collect personal data in 3 ways: from you directly, from your use of the App and the Services, and from other people and organisations such as Agents and Partners. Table 3.1 lists the main types of personal data that we collect."
+      - table:
+          caption: "Table 3.1: Personal data we collect"
+          head:
+            - Type of data
+            - Examples
+          rows:
+            - - "**Identity and contact details**"
+              - Name, phone number, gender, age or year of birth, preferred language, district, sub-county, parish and village, and email address if you have one. We collect a national identification number or refugee identification number only where it is needed, for example when you apply for EzyCredits or when a programme requires verification.
+            - - "**Account details**"
+              - Account and user identification numbers, PIN or password (stored in protected form), verification codes, login records, and the Agent, referral or campaign code used when you joined.
+            - - "**Farm and business information**"
+              - Crops and livestock, farm size, garden locations and boundaries, planting and harvest dates, inputs used, yields, farm plans, farm and business records, soil test results, and the cooperative, group or agribusiness that you belong to.
+            - - "**Ka-Ezy content**"
+              - Questions that you type or speak, photos of crops, animals and soil, Ka-Ezy’s answers, pest and disease diagnosis results, and your feedback.
+            - - "**Location information**"
+              - Your precise location when you map a garden or allow the App to use location, your delivery location, and your approximate location based on your network.
+            - - "**Orders, payments and subscriptions**"
+              - Products and services ordered, prices, delivery details, payment method, mobile money number, transaction references, subscription plans and status, and refunds. We never collect your mobile money PIN.
+            - - "**Credit and financial information**"
+              - Income and sales information, credit applications, credit scores, repayment history, mobile money transaction history, bank or SACCO details, guarantor details and credit reference bureau reports. This is special personal data, and we process it only with your consent.
+            - - "**Communications**"
+              - Calls with customer care, which may be recorded, messages that you send us by SMS, WhatsApp or email, complaints and survey answers.
+            - - "**Device and usage information**"
+              - Phone model, operating system, App version, device identifiers, IP address, mobile network, the features and screens that you use, crash reports, cookie data from our website, and whether you installed the App after following a Partner or campaign link.
+            - - "**Programme information**"
+              - Training attendance, photos and videos taken at events with your consent, and eligibility details that a programme requires, such as age group, gender, whether an enterprise is led by women, youth or refugees, and disability status. Disability status is special personal data, and we ask for it only with your consent.
+      - clause: "3.2"
+        text: You do not have to give us all the personal data that we ask for. However, some personal data is needed to provide a Service. For example, we cannot deliver an order without your phone number and delivery location, and we cannot assess you for EzyCredits without the information requested in the credit application. We will tell you when information is required and what happens if you do not provide it.
+      - clause: "3.3"
+        text: We collect special personal data only where it is needed and only with your consent, as section 9 of the Act requires. EzyCredits requires financial information, which the Act treats as special personal data. Where a development programme needs to know whether you live with a disability, we ask for your consent first and use the answer only for that programme.
+      - clause: "3.4"
+        text: "We also receive personal data about you from:"
+      - list:
+          - label: (a)
+            text: Agents, who register you, map your garden or place orders for you on our behalf, with your consent;
+          - label: (b)
+            text: cooperatives, farmer groups and agribusinesses that you belong to or buy through;
+          - label: (c)
+            text: Partners whose Partner Channels you use to reach EzyAgric, which may send us your phone number, your request to join EzyAgric and the record of your consent;
+          - label: (d)
+            text: payment service providers and mobile money operators, which confirm whether a payment has succeeded;
+          - label: (e)
+            text: FinTech Partners and, with your consent, credit reference bureaus, about credit applications and repayments;
+          - label: (f)
+            text: development programme partners, where you take part in a programme that we deliver with them; and
+          - label: (g)
+            text: public and satellite sources, such as weather data and satellite images of the area around a garden that you have mapped.
+      - clause: "3.5"
+        text: If a Partner sends us your details because you asked to join EzyAgric through its Partner Channel, we treat them only as a request to join until you register, and we send you a link to this Privacy Policy as soon as practicable.
+      - clause: "3.6"
+        text: If you give us personal data about another person, such as a family member, guarantor, farm worker or a farmer you serve as an agribusiness, you must have that person’s permission and tell them about this Privacy Policy.
+  - title: 4. How we use your personal data
+    blocks:
+      - clause: "4.1"
+        text: We use personal data only for specific and lawful purposes connected with our Services. Table 4.1 sets out the main purposes and the legal grounds on which we rely.
+      - table:
+          caption: "Table 4.1: Why we use your personal data"
+          head:
+            - Purpose
+            - What this involves
+            - Legal ground
+          rows:
+            - - "**Create and manage your account**"
+              - Registering you, verifying your phone number, keeping your profile and helping you through customer care and Agents
+              - Your consent; performance of our contract with you
+            - - "**Provide Ka-Ezy**"
+              - Answering questions, diagnosing pests and diseases from photos, preparing farm plans and keeping farm records
+              - Your consent; performance of our contract with you
+            - - "**Map gardens and give satellite insights**"
+              - Measuring garden area and showing crop health maps, soil information and weather for your gardens
+              - Your consent, including for location; performance of our contract with you
+            - - "**Sell and deliver products**"
+              - Processing Agrishop orders, payments, deliveries, returns and refunds
+              - Performance of our contract with you
+            - - "**Provide EzyCredits**"
+              - Checking eligibility, credit scoring, sharing applications with FinTech Partners, managing repayments, recovery and credit reporting
+              - Your consent, which section 9 of the Act requires for financial information
+            - - "**Connect you to markets**"
+              - Listing produce on EzyProduce, linking sellers and buyers, keeping traceability records and processing payments for produce
+              - Your consent; performance of our contract with you
+            - - "**Arrange vet, agronomy and other services**"
+              - Sharing the details that a Service Provider needs to serve you
+              - Your consent; performance of our contract with you
+            - - "**Send messages and offers**"
+              - Service messages about your account and transactions and, with your consent, offers, farming tips and news
+              - Performance of our contract with you for service messages; your consent for marketing
+            - - "**Run programmes with Partners**"
+              - Checking eligibility, recording training and participation, and reporting results to programme funders
+              - Your consent
+            - - "**Share stories and photos**"
+              - Using photos, videos and stories from farms and events in our content, including content shown on Partner platforms
+              - Your consent
+            - - "**Improve our Services**"
+              - Analysing how the App is used, fixing errors, and testing and improving Ka-Ezy
+              - Your consent. Once data is de-identified, it is no longer personal data
+            - - "**Protect you and comply with the law**"
+              - Preventing fraud, securing accounts, keeping tax and accounting records and responding to lawful requests from authorities
+              - Compliance with our legal obligations; prevention and detection of crime
+      - clause: "4.2"
+        text: The Act requires your consent before we collect or process your personal data, except where section 7(2) of the Act allows processing without consent, for example where it is necessary to perform a contract with you, to comply with a legal obligation or to prevent or detect crime.
+      - clause: "4.3"
+        text: We will not use your personal data for a new purpose that is not compatible with the purpose for which we collected it, unless you agree or the law allows it.
+      - clause: "4.4"
+        text: We use de-identified and aggregated data, which does not identify you, to understand farming trends, improve our Services, prepare reports for Partners and support agricultural research. Properly de-identified data is no longer personal data, but we still protect it.
+  - title: 5. How we ask for your consent
+    blocks:
+      - clause: "5.1"
+        text: Consent under the Act must be freely given, specific, informed and unambiguous, and given by a statement or a clear action, such as ticking a box or tapping a button in the App, or an Agent recording your agreement.
+      - clause: "5.2"
+        text: When you sign in to the App for the first time, you must accept the Terms and this Privacy Policy and consent to the processing of your personal data that is needed to provide the Services, including processing outside Uganda as section 10 explains. This consent is a condition of using the App, because the Services cannot work without it.
+      - clause: "5.3"
+        text: "We ask for your consent separately, and you are free to refuse it without losing access to the App, for:"
+      - list:
+          - label: (a)
+            text: sending you marketing messages;
+          - label: (b)
+            text: sharing information with a Partner when you join or pay through its Partner Channel, which you give in that channel; and
+          - label: (c)
+            text: using your financial information for EzyCredits, which you give when you register for EzyCredits.
+      - clause: "5.4"
+        text: You can withdraw any consent at any time by changing your settings in the App or by contacting us. Withdrawing consent does not affect processing that took place before you withdrew it. If you withdraw the consent that you gave when you signed in, we will no longer be able to provide the App to you, and we will close your account if you ask us to.
+      - clause: "5.5"
+        text: If an Agent helps you and you cannot read this Privacy Policy, the Agent must explain it to you in a language that you understand before you give your consent, and must record that they did so.
+      - clause: "5.6"
+        text: Where we start to use personal data for a new purpose, we will ask existing users for their consent, for example through a prompt in the App, before we do so.
+      - clause: "5.7"
+        text: We keep a record of each consent, including the wording that you agreed to, when you agreed and through which channel. Where we share personal data with a Partner on the basis of your consent, we may show that record to the Partner when it needs evidence of your consent.
+  - title: 6. Ka-Ezy and artificial intelligence
+    blocks:
+      - clause: "6.1"
+        text: Ka-Ezy is our artificial intelligence (AI) farm advisor. To answer you, Ka-Ezy processes the questions that you type or speak, photos that you upload, your language choice, your farm records and garden maps, your general location, and weather, satellite and soil information for your area. It also draws on agronomic content prepared or approved by EzyAgric.
+      - clause: "6.2"
+        text: Ka-Ezy’s answers are generated automatically. They are suggestions to help you decide what to do on your farm. They are not decisions about you and do not change your rights or obligations. The EzyAgric App Terms and Conditions explain the limits of Ka-Ezy advice.
+      - clause: "6.3"
+        text: We use carefully selected AI technology suppliers to run Ka-Ezy. They process your questions and photos on our instructions, under contracts that require them to keep the data confidential and secure. **Our AI technology suppliers are not allowed to use your personal data to train their own AI models.**
+      - clause: "6.4"
+        text: To check that Ka-Ezy is accurate and safe, our team may review a sample of questions, photos and answers, removing names, phone numbers and other identifying details where we can. To improve Ka-Ezy, we and the licensor of our technology platform use only data from which names, phone numbers and other identifying details have been removed. You can ask us at any time not to use your conversations for these purposes by contacting us as set out in section 18. This will not affect your use of Ka-Ezy.
+      - clause: "6.5"
+        text: Please do not share identification numbers, PINs, passwords or details about any person’s health in Ka-Ezy. Take photos of crops, animals and soil rather than people. If a photo shows a person, we do not use it to identify them.
+      - clause: "6.6"
+        text: If you use Ka-Ezy on a Partner Channel, your questions, photos and Ka-Ezy’s answers pass through the Partner’s platform so that the Partner can show the service to you. We require the Partner to use them only for that purpose, and not to keep them or use them for anything else. For reporting, the Partner receives only usage information, such as whether and how often you used Ka-Ezy.
+      - clause: "6.7"
+        text: EzyCredits may use automated tools, including scoring models, to help assess eligibility for credit. If you are unhappy with a credit decision, contact us and a person will review it, together with the FinTech Partner where relevant. We offer this review even though section 27 of the Act does not apply to decisions about entering into or performing a contract.
+  - title: 7. Who we share your personal data with
+    blocks:
+      - clause: "7.1"
+        text: We share personal data only where it is needed for the purposes in section 4, where you have agreed, or where the law requires or allows it. Table 7.1 shows the main recipients.
+      - table:
+          caption: "Table 7.1: Who we share personal data with"
+          head:
+            - Recipient
+            - What we share
+            - Why
+          rows:
+            - - "**Technology suppliers**"
+              - The data that each supplier needs, for example for cloud hosting, AI technology, SMS, WhatsApp, voice, analytics and customer care services
+              - To run the App and the Services on our behalf
+            - - "**Our affiliated companies and the licensor of our technology platform**"
+              - The data needed to host, run, secure and support the technology platform behind the App, and de-identified data to improve the Ka-Ezy models
+              - To provide and improve the App and Ka-Ezy
+            - - "**Suppliers, delivery partners and Agents**"
+              - Name, phone number, delivery location and order details
+              - To fulfil and deliver your orders
+            - - "**Service Providers**"
+              - Name, phone number, location and details of the animals, crops or samples concerned
+              - To provide the services that you request
+            - - "**FinTech Partners and credit reference bureaus**"
+              - Credit application details, scores, transaction and repayment information. Credit reference bureaus must be licensed
+              - To assess, provide, manage and report credit under EzyCredits
+            - - "**Payment service providers**"
+              - Phone number, amount, payment reference and payment status, shared with mobile money operators, banks and payment aggregators
+              - To process payments and refunds
+            - - "**Partners that operate Partner Channels**"
+              - "Only for people who joined, subscribed or paid through that Partner Channel and agreed to the sharing there: phone number, registration status, subscription, payment and refund status and amounts, campaign or referral references, App installation and usage information, and the record of your consent to the sharing. If you use Ka-Ezy on the Partner Channel, your questions and Ka-Ezy’s answers pass through the Partner’s platform, which may not keep or reuse them"
+              - To let you use EzyAgric through the Partner Channel, activate subscriptions, process refunds and reconcile campaigns
+            - - "**Your cooperative, farmer group or agribusiness**"
+              - Orders, deliveries, credit and records connected with the group
+              - To provide group services and group credit
+            - - "**Buyers and offtakers on EzyProduce**"
+              - Your produce listing, your name, village or district, and traceability information
+              - To sell your produce
+            - - "**Programme funders and implementing partners**"
+              - Mainly aggregated statistics. Individual records only where a programme requires verification and you have agreed
+              - To report on and verify programmes that you take part in
+            - - "**Authorities, regulators and courts**"
+              - Information required by law or by a lawful order, such as tax records or reports of notifiable animal diseases
+              - To comply with the law
+            - - "**Professional advisers, auditors and insurers**"
+              - Information that they need for their work, under confidentiality
+              - To run and protect our business
+      - clause: "7.2"
+        text: We require our suppliers and the licensor of our technology platform, by contract, to process personal data only with our authorisation and on our instructions, and to keep it confidential and secure, in line with sections 21 and 22 of the Act. The licensor of our technology platform may not use your personal data for its own purposes.
+      - clause: "7.3"
+        text: When you deal with a Partner through its own platform or service, such as a mobile money service or a FinTech Partner’s credit product, the Partner also processes your personal data under its own privacy notice. We encourage you to read it.
+      - clause: "7.4"
+        text: "**We do not sell or rent your personal data to anyone.** We do not give your contact details to Partners for their own marketing unless you agree."
+      - clause: "7.5"
+        text: We may share de-identified or aggregated information, such as the number of farmers growing a crop in a district, with Partners, government agencies, researchers and the public. This information does not identify you.
+      - clause: "7.6"
+        text: If EzyAgric, or part of its business, is restructured, merged or sold, personal data may be transferred to the new owner or operator so that the Services can continue. The new owner or operator must protect your personal data in line with this Privacy Policy, and we will tell you before your personal data is transferred.
+  - title: 8. Agents, cooperatives and business users
+    blocks:
+      - clause: "8.1"
+        text: Many users join EzyAgric through an Agent. Agents act on behalf of EzyAgric. An Agent may register you, map your garden, place orders and request services for you using the information that you provide. Agents must ask for your consent, explain this Privacy Policy to you, and use your information only to serve you on our behalf. We are responsible for how our Agents handle your personal data when they act for us.
+      - clause: "8.2"
+        text: Agents are bound by confidentiality obligations. They must not copy, sell or use your personal data for their own purposes, and they must never ask you to tell them your PIN or your mobile money PIN. If you believe that an Agent has misused your information, please contact us.
+      - clause: "8.3"
+        text: Agribusinesses, cooperatives and other business users may use EzyProduce and other tools in the App to keep records about their own farmers, members, customers or staff. For those records, the business user decides why the information is collected and is responsible for having a lawful basis and for informing the people concerned. We process those records to provide the tools to the business user and to keep them secure, and we use them for our own purposes only as this Privacy Policy allows.
+  - title: 9. Messages and marketing
+    blocks:
+      - clause: "9.1"
+        text: We send service messages by SMS, WhatsApp, push notification, phone call or email, such as verification codes, order and delivery updates, payment confirmations, subscription reminders, credit repayment reminders and security alerts. These messages are part of the Services.
+      - clause: "9.2"
+        text: With your consent, we may send you information about our products, offers, events and farming tips, including offers from our Partners. **Every marketing message that we send tells you how to stop such messages free of charge**, for example by replying STOP. You can also stop them by changing your settings in the App or by contacting us. We will stop sending you marketing messages as soon as we receive your request, and we will confirm in writing within 14 days, as section 26 of the Act requires. Stopping marketing messages does not stop service messages.
+      - clause: "9.3"
+        text: We may record calls to customer care for quality, training and the resolution of complaints. We will tell you at the start of a call if it is being recorded.
+  - title: 10. Transfers outside Uganda
+    blocks:
+      - clause: "10.1"
+        text: Some of our suppliers, affiliated companies and the licensor of our technology platform, including cloud hosting suppliers, AI technology suppliers and messaging platforms, store or process personal data outside Uganda. The countries concerned depend on the supplier, and we will give you the current list on request.
+      - clause: "10.2"
+        text: Under section 19 of the Act, we transfer personal data outside Uganda only where the country of the recipient has data protection measures at least equivalent to those in the Act, or where you have consented. We also require recipients to protect your personal data by contract, and we keep a record of the basis and safeguards for each transfer.
+      - clause: "10.3"
+        text: You give your consent to processing outside Uganda when you first sign in, as clause 5.2 explains. You may withdraw it, but the Services, including Ka-Ezy, cannot work without these transfers.
+  - title: 11. How we protect your personal data
+    blocks:
+      - clause: "11.1"
+        text: We use appropriate technical and organisational measures to protect personal data against loss, misuse, unauthorised access, alteration and destruction, as section 20 of the Act requires. These measures include encryption of data sent between the App and our servers, access controls that limit personal data to the staff and Agents who need it, protected storage of PINs and passwords, confidentiality agreements, security testing and regular backups.
+      - clause: "11.2"
+        text: No system is completely secure. You can help by keeping your phone, PIN and verification codes private, locking your phone, and telling us immediately if your phone or SIM card is lost or stolen. **No one from EzyAgric, our Agents or our Partners will ever ask you to tell them your PIN or your mobile money PIN.** Enter your PIN only in the EzyAgric App, and your mobile money PIN only in the official mobile money prompt on your own phone.
+      - clause: "11.3"
+        text: If a data security breach affects your personal data, we will notify the Personal Data Protection Office immediately, as section 23 of the Act requires. We will also tell you where the Office directs us to, or where you need to take steps to protect yourself. If the breach involves personal data that we have shared with a Partner, we will also notify that Partner so that we can deal with it together.
+  - title: 12. How long we keep your personal data
+    blocks:
+      - clause: "12.1"
+        text: We keep personal data only for as long as we need it for the purposes in this Privacy Policy, unless the law requires or allows us to keep it longer, as section 18 of the Act provides. Table 12.1 shows how long we keep the main types of personal data.
+      - table:
+          caption: "Table 12.1: How long we keep personal data"
+          head:
+            - Type of data
+            - How long we keep it
+          rows:
+            - - "**Account and profile information**"
+              - While your account is open, and for 12 months after you close it, so that we can deal with questions and claims.
+            - - "**Orders, payments and invoices**"
+              - For 5 years after the end of the tax period to which they relate, as the Tax Procedures Code Act requires, or longer if a tax proceeding is in progress.
+            - - "**EzyCredits records**"
+              - While any amount remains unpaid, and for 5 years after the credit is repaid or closed, or longer where a FinTech Partner must keep them by law.
+            - - "**Ka-Ezy questions, photos and answers, farm records and garden maps**"
+              - While your account is open, so that Ka-Ezy can give advice based on your history, and for 12 months after you close it. You can ask us to delete them earlier. We may keep de-identified data to improve Ka-Ezy.
+            - - "**Requests to join from a Partner Channel**"
+              - If you do not complete registration, we delete your details within 90 days.
+            - - "**Customer care call recordings**"
+              - For 12 months after the call.
+            - - "**Complaints and other messages**"
+              - For 2 years after the matter is closed.
+            - - "**Device and usage information**"
+              - For 24 months after it is collected.
+            - - "**Marketing choices**"
+              - For as long as we hold your phone number, so that we continue to respect your choice.
+            - - "**Programme records**"
+              - For the period stated in the programme notice that you receive when you join, which follows the programme agreement and the law.
+      - clause: "12.2"
+        text: When a retention period ends, we delete the personal data or de-identify it so that it cannot be reconstructed in an identifiable form.
+  - title: 13. Your rights
+    blocks:
+      - clause: "13.1"
+        text: "Under the Act, you have the right to:"
+      - list:
+          - label: (a)
+            text: be told what personal data we collect, why we collect it, who receives it, how long we keep it and what your rights are, as this Privacy Policy does (section 13 of the Act);
+          - label: (b)
+            text: ask us whether we hold personal data about you, for a description of that data, and which third parties have had access to it (section 24 of the Act);
+          - label: (c)
+            text: ask us to correct or delete personal data that is inaccurate, irrelevant, excessive, out of date, incomplete, misleading or obtained unlawfully, or to destroy records that we no longer have authority to keep (section 16 of the Act);
+          - label: (d)
+            text: require us, by written notice, to stop processing your personal data where the processing is causing or is likely to cause you unwarranted substantial damage or distress (section 25 of the Act);
+          - label: (e)
+            text: require us to stop using your personal data for direct marketing (section 26 of the Act);
+          - label: (f)
+            text: require that a decision that significantly affects you is not based solely on automated processing, except for decisions about entering into or performing a contract with you or decisions that the law authorises (section 27 of the Act); and
+          - label: (g)
+            text: withdraw your consent at any time, without affecting processing that took place before you withdrew it.
+      - clause: "13.2"
+        text: To use any of these rights, contact us using the details in section 18, or ask an Agent to help you contact us. We may ask you to confirm your identity first. We will correct or delete inaccurate personal data promptly, respond to a request for access within 30 days, respond to a notice to stop processing or to stop direct marketing within 14 days, and respond to a notice about an automated decision within 21 days, as sections 16 and 24 to 27 of the Act require. If your request concerns personal data that we have shared with a Partner, we will tell the Partner and work with it so that your request is dealt with. We do not charge you for making a request.
+      - clause: "13.3"
+        text: Some rights have limits. For example, the right to stop processing does not apply where we process personal data without consent on a ground allowed by section 7(2) of the Act, such as performing a contract with you or complying with the law. We may also need to keep records that tax law requires or that relate to unpaid credit, and deleting some personal data may mean that we can no longer provide a Service to you. If we refuse a request, we will give you our reasons in writing.
+      - clause: "13.4"
+        text: If you are not satisfied with how we handle your personal data, you may complain to the Personal Data Protection Office through www.pdpo.go.ug. The Office can investigate and, where personal data is inaccurate, order us to rectify, update, block, erase or destroy it (section 28 of the Act). You may also seek compensation from a court under section 33 of the Act. We encourage you to contact us first so that we can try to resolve your concern.
+  - title: 14. Children
+    blocks:
+      - clause: "14.1"
+        text: The App and the Services are for people aged 18 years and above, and we do not knowingly collect personal data about children under 18 years. Section 8 of the Act allows such data to be collected only in limited cases, such as with the consent of a parent or guardian.
+      - clause: "14.2"
+        text: If we learn that we have collected a child’s personal data without that consent, we will delete it. If you believe that this has happened, please contact us.
+  - title: 15. Cookies and similar technologies
+    blocks:
+      - clause: "15.1"
+        text: Our website and the App use cookies, software development kits and similar technologies to keep you signed in, remember your settings such as language, keep the App secure, measure performance and understand how features are used.
+      - clause: "15.2"
+        text: We also use attribution tools that tell us whether you installed or registered on the App after following a link from a Partner or a campaign. We may tell that Partner that an installation or registration came from its link, without giving it your other personal data.
+      - clause: "15.3"
+        text: You can control cookies through your browser settings, and you can control App permissions such as location, camera and notifications through your phone settings. If you turn some of them off, parts of the Services may not work.
+  - title: 16. Third-party services
+    blocks:
+      - clause: "16.1"
+        text: The App may link to or work with services that we do not control, such as mobile money services, WhatsApp, app stores, Partner Channels and Partner websites. Those services have their own privacy notices, and we are not responsible for how they handle your personal data, except as section 6 explains for Ka-Ezy on Partner Channels.
+  - title: 17. Changes to this Privacy Policy
+    blocks:
+      - clause: "17.1"
+        text: We may update this Privacy Policy when our Services or the law change. The date at the top shows when it was last updated.
+      - clause: "17.2"
+        text: If we make an important change, we will tell you through the App and on our website, and by SMS or WhatsApp where appropriate, at least 14 days before the change takes effect. Where a change needs your consent, we will ask for it and will not rely on your continued use of the Services.
+  - title: 18. Contact us
+    blocks:
+      - clause: "18.1"
+        text: If you have a question or a request about your personal data, please contact our Data Protection Officer using the details in Table 18.1.
+      - table:
+          caption: "Table 18.1: Our contact details"
+          head:
+            - Contact
+            - Details
+          rows:
+            - - "**Organisation**"
+              - Akorion Company Limited, trading as EzyAgric
+            - - "**For the attention of**"
+              - The Data Protection Officer
+            - - "**Address**"
+              - Plot 5-7 Coral Crescent, Kololo, P.O. Box 6638, Kampala, Uganda
+            - - "**Phone**"
+              - +256 708 383 845 or +256 787 991 262
+            - - "**WhatsApp**"
+              - +256 787 991 262
+            - - "**Email**"
+              - ezy@ezyagric.com, with “Data Protection” in the subject line
+            - - "**Website**"
+              - www.ezyagric.com
+      - clause: "18.2"
+        text: You can also contact the Personal Data Protection Office, the regulator for personal data in Uganda, through www.pdpo.go.ug.

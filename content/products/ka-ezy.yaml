@@ -11,7 +11,7 @@ accent: brand
 icon: bot
 
 card:
-  summary: Your personal expert for crops and livestock. Ask by text or voice, in English, Luganda or other local languages, any time of day.
+  summary: Your personal expert for crops and livestock. Work with it by text or voice, in English, Luganda or other local languages, any time of day.
   points:
     - Spot crop and livestock diseases early from a photo
     - Map your garden and keep your farm records
@@ -47,7 +47,7 @@ features:
   title: Everything in one app
   items:
     - title: Expert farm advice
-      text: "Trusted answers for every crop and livestock decision, personalised to your exact location. Ask by text or voice, in English, Luganda or other local languages."
+      text: "Trusted guidance for every crop and livestock decision, personalised to your exact location. Share what you see by text or voice, in English, Luganda or other local languages."
       icon: message-circle
     # Includes "Order what it recommends" (merged to keep six boxes, 27 Oct 2026).
     - title: Instant disease diagnosis
@@ -85,7 +85,7 @@ demoVideos:
       poster: { src: /images/videos/kaezy-short.webp, alt: "", width: 540, height: 960 }
     - src: /videos/kaezy-expert-advice.mp4
       title: Expert farm advice
-      text: Ask me anything about your crops or livestock, any time of day.
+      text: Share anything about your crops or livestock and I'll assist you, any time of day.
       poster: { src: /images/videos/kaezy-expert-advice.webp, alt: "", width: 900, height: 506 }
     - src: /videos/kaezy-disease-diagnosis.mp4
       title: Instant disease diagnosis
@@ -100,7 +100,7 @@ demoVideos:
       text: Keep your income and expenses in one place and watch your profit grow.
       poster: { src: /images/videos/kaezy-farm-records.webp, alt: "", width: 900, height: 506 }
 
-# "Ask Ka-Ezy, then hire it", right after the Ka-Ezy banner. The answers are sample
+# "Work with Ka-Ezy, then hire it", right after the Ka-Ezy banner. The answers are sample
 # answers written for the website (there is no safe way yet for a public web
 # page to reach the real Ka-Ezy or take payment: see README, "Ka-Ezy on the
 # website"). Preview builds simulate paying with Mobile Money; the live site
@@ -111,8 +111,8 @@ tryIt:
   # sign-in and a payment API (docs/backend-tickets.md BT-03 to BT-05); until
   # then the live site sends visitors to the app to pay. Live answers: BT-01.
   eyebrow: Try Ka-Ezy
-  title: Ask Ka-Ezy, then hire it
-  intro: "Tell Ka-Ezy about your farm, then ask it anything, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, [choose a plan](/ka-ezy/#hire-ka-ezy) and pay with Mobile Money."
+  title: Work with Ka-Ezy, then hire it
+  intro: "Share your farm with Ka-Ezy, then work on it together: get advice, check a sick crop or animal from a photo, map a garden, plan your season and keep records. When you're ready, [choose a plan](/ka-ezy/#hire-ka-ezy) and pay with Mobile Money."
   # The two numbered headers: the Ka-Ezy window (1), then the hire card's pay
   # column (2, hire.payTitle), both in a blue stripe with Ka-Ezy's face.
   windowTitle: Try Ka-Ezy Demo here
@@ -130,13 +130,13 @@ tryIt:
     landSize: Land size (acres)
     firstName: Your first name
     firstNameHint: Used to personalise answers.
-    storage: Saved on this device only, to tailor Ka-Ezy's answers.
-    storageLive: Saved on this device only, and sent with your questions so Ka-Ezy can tailor its answers.
-    pastTitle: Past conversations
-    pastEmpty: No conversations yet.
-    pastDevice: On this device
-    pastAccount: From your Ka-Ezy account
-    newConversation: New conversation
+    storage: Only used while this page is open, to tailor Ka-Ezy's answers.
+    storageLive: Only used while this page is open, and shared with Ka-Ezy as you work, so it can tailor its answers.
+    storageAccount: From your Ka-Ezy account where we have them, and shared with Ka-Ezy as you work, so it can tailor its answers. Signing out clears them from this device.
+    pastTitle: Your work with Ka-Ezy
+    pastEmpty: Nothing here yet.
+    pastLoading: Loading your work with Ka-Ezy…
+    newConversation: Start something new
     clear: Delete all
   # The app's value chains (FarmPlanOptions.valueChainItems), grouped.
   valueChains:
@@ -155,18 +155,18 @@ tryIt:
       items: [Fish, Beekeeping, Mushroom]
   # Shown in this order (TABS in components/product/kaezy/store.ts).
   tabs:
-    expert: { title: Farm Expert, text: "Ask Ka-Ezy about a crop or animal, or check a photo of a sick one." }
+    expert: { title: Farm Expert, text: "Work with Ka-Ezy on a crop or animal, or share a photo of a sick one." }
     mapping: { title: Garden Mapping, text: The guide to mapping a garden by GPS. }
     plan: { title: Farm Plan, text: "A costed plan from setup to harvest, scaled to your farm." }
     records: { title: Farm Records, text: "Income, expenses and activities, with totals." }
   chat:
     greeting: Hello there
     greetingNamed: "Hello, {name}"
-    subtitle: "Ask anything about your farm: crops, livestock, pests, planning or records."
+    subtitle: "Share anything about your farm and Ka-Ezy will assist you: crops, livestock, pests, planning or records."
     personalised: "Answers for {crop}[[ in {location}]][[, {acres}]]"
     choosePrompt: Choose your value chain in Your farm for answers about your farm.
-    tryAsking: Try asking
-    placeholder: Ask Ka-Ezy...
+    tryAsking: Start with one of these
+    placeholder: Share with Ka-Ezy...
     # Before a value chain is chosen.
     prompts:
       - q: What should I plant this season?
@@ -337,28 +337,37 @@ tryIt:
           - farmer groups and cooperatives that sell together for better prices
 
           On Produce Market in the EzyAgric App you can list your {crop} for free, at your own price.
-    ownQuestionReply: "[[{name}, ]]on the website I can only answer the sample questions. Ask me about your own farm in the EzyAgric App, where your first questions are free."
+    ownQuestionReply: "[[{name}, ]]on the website I can only work through the samples. Work with me on your own farm in the EzyAgric App, where your first questions are free."
     # When the chat uses live Ka-Ezy answers (NEXT_PUBLIC_KAEZY_DEMO_API) and
     # a question fails. The first two are the app's own messages.
     errors:
       offline: Unable to connect. Check your internet and try again.
       busy: Server is busy right now. Please try again shortly.
-      limit: "That's all the questions for this demo. Hire Ka-Ezy to keep asking about your own farm, any time."
-      # Signed in through the Partner API (the sign-in card beside Your farm).
-      signedOut: "Your sign-in has ended. Sign in again to keep asking."
+      limit: "That's all for this demo. Hire Ka-Ezy to keep working on your own farm together, any time."
+      # Signed in through the Partner API (the sign-in popup).
+      signedOut: "Your sign-in has ended. Sign in again to keep working with Ka-Ezy."
       notEnabled: "Your organisation hasn't turned this feature on yet. Ask them, or try another tab."
       unknownValueChain: "Ka-Ezy can't plan for that value chain yet. Choose another one in Your farm."
-    nudge: "Ready to ask about your own farm? Hire Ka-Ezy for advice made for your crops and livestock, day or night."
-    signInPrompt: "Or sign in here with your name and phone, and Ka-Ezy will answer about your own farm right on this page."
+    nudge: "Ready to work on your own farm? Hire Ka-Ezy for advice made for your crops and livestock, day or night."
+    signInPrompt: "Or sign in here with your name and phone, and Ka-Ezy will work with you on your own farm right on this page."
     disclaimer: "Ka-Ezy's advice may vary. For serious crop or animal health problems, talk to an agronomist or a vet."
-  # "Sign in for the real Ka-Ezy", beside Your farm, on builds with
-  # NEXT_PUBLIC_PARTNER_API (README, "Ka-Ezy on the website"). The visitor
+  # "Sign in for the real Ka-Ezy", a popup over the Ka-Ezy window, on builds
+  # with NEXT_PUBLIC_PARTNER_API (README, "Ka-Ezy on the website"). The visitor
   # signs in with an organisation's code and their phone through the EzyAgric
   # Partner API, or from a sign-in link the organisation gives them, and the
   # demo then answers from the real Ka-Ezy with their own account.
   signIn:
     title: Sign in for the real Ka-Ezy
-    intro: "Give your name and phone and we text you a code. Signed in, Ka-Ezy answers for real, about your own farm."
+    # Ka-Ezy's speech bubble in the popup: {name} is the first name as it is
+    # typed; [[...]] drops out until there is one. Then `codeSent`, then `welcome`.
+    greeting: "Hello[[ {name}]]! I'm Ka-Ezy. Sign in and I'll work with you on your own farm."
+    welcome: "Welcome[[ {name}]]! Let's get to work on your farm."
+    start: Start working with Ka-Ezy
+    # Under the code boxes; {time} is minutes and seconds, e.g. 4:32.
+    validFor: "Valid for {time}"
+    expired: This code has expired.
+    resend: Send a new code
+    resendIn: "Send a new code in {time}"
     orgCode: Organisation code
     orgCodeHint: "From the organisation that gave you Ka-Ezy, e.g. ezyorg482913."
     orgToggle: I have an organisation code
@@ -372,10 +381,11 @@ tryIt:
     code: The code from the SMS
     fullName: Your full name
     fullNameHint: "As on your ID; it goes on your EzyAgric farmer record."
-    consent: "I agree to EzyAgric's terms and"
-    consentLink: privacy policy
+    consent: "I agree to EzyAgric's {terms} and {policy}."
+    consentTerms: terms and conditions
+    consentPolicy: privacy policy
     # Sent to the API with the consent. Bump when the terms or this wording change.
-    termsVersion: ezyagric-2026-10
+    termsVersion: ezyagric-terms-1.2-privacy-2.0
     submit: Sign in
     signingIn: Signing in…
     back: Change number
@@ -397,7 +407,7 @@ tryIt:
       signedOut: "You're signed out."
       codeSent: "Code sent to {phone}."
       recordSaved: "Record saved to your Ka-Ezy account."
-      loadingConversation: "Loading the conversation…"
+      loadingConversation: "Loading your work…"
     # "Your Ka-Ezy account", under the Ka-Ezy window, for a signed-in visitor:
     # their stage with the organisation, this month's use and their plan.
     account:
@@ -410,8 +420,8 @@ tryIt:
         transacted: Ka-Ezy customer
         repeating: Regular customer
       monthLabel: This month
-      request: question or plan
-      requests: questions and plans
+      request: request to Ka-Ezy
+      requests: requests to Ka-Ezy
       farmExpert: Farm Expert
       farmPlan: Farm Plan
       records: Records kept
@@ -420,7 +430,7 @@ tryIt:
       planLabel: Your Ka-Ezy plan
       plans:
         free: Free plan
-        paid: Paid plan
+        paid: Hired Ka-Ezy plan
         none: No plan yet
       status:
         active: active
@@ -435,7 +445,7 @@ tryIt:
       badCode: "That code isn't right or has expired. Check the SMS, or send a new code."
       tooMany: "Too many tries. Wait a few minutes, then try again."
       needName: "Enter your full name: it's needed the first time you sign in."
-      needConsent: "Tick the box to agree to EzyAgric's terms and privacy policy."
+      needConsent: "Tick the box to agree to EzyAgric's terms and conditions and privacy policy."
       badPhone: "That doesn't look like a Ugandan mobile number, e.g. 772 123 456."
       generic: "Something went wrong. Please try again shortly."
   # Farm Expert's photo check, like the app's diagnosis mode. The sample
@@ -449,7 +459,7 @@ tryIt:
     sampleLabel: Sample photo
     attach: Add a photo of a sick crop or animal
     remove: Remove the photo
-    added: Photo added. Add a question, or send it as it is.
+    added: Photo added. Add a note, or send it as it is.
     unreadable: "That photo couldn't be opened. Try a JPG or PNG photo."
     placeholder: Describe the problem (optional)
     question: What's wrong in this photo?
@@ -589,6 +599,7 @@ tryIt:
     notUnderstood: "I couldn't tell what happened from that. Try something like \"Sold 5 bags of maize for 600,000\" or \"Bought feed for 50,000\"."
     saved: Saved to your farm records.
     dismissed: Not saved.
+    listTitle: Your records
     totals: { income: Income, expenses: Expenses, profit: Profit }
     nudge: In the EzyAgric App, Ka-Ezy keeps all your records and uses them to advise you.
   # Garden Mapping: Ka-Ezy's guide, and a tap-the-corners map to try.
@@ -620,7 +631,7 @@ tryIt:
       - Map your gardens and get soil, fertilizer and season plans.
     accountHelp: Use the number you sign in to the EzyAgric App with. Your plan is added to that account.
     accountRequired: "Your plan is added to the EzyAgric account with this number, so tick the box to pay. If you use another number in the app, pay with that one."
-    notRegistered: "This number isn't registered with EzyAgric yet, so a plan has nowhere to go. Sign out and sign in again to retry, or ask Ka-Ezy a question first."
+    notRegistered: "This number isn't registered with EzyAgric yet, so a plan has nowhere to go. Sign out and sign in again to retry, or work with Ka-Ezy once first."
     checkingAccount: "Checking your EzyAgric account…"
     policy: EzyAgric never asks for or stores your Mobile Money PIN.
     livePrompt: "When you tap Pay, a Mobile Money prompt is sent to this phone. Approve it with your PIN and your plan starts right away. A plan runs to its end date; there are no refunds."
@@ -635,9 +646,9 @@ steps:
     - title: Tap Ka-Ezy
       text: Open Ka-Ezy from the home screen. Your free Ka-Ezy tokens let you start straight away.
       action: { kind: try-kaezy, label: Try Ka-Ezy, appLabel: Watch Ka-Ezy in action }
-    - title: Ask anything
-      text: Type or speak your question. When your free tokens run out, pick a plan and pay with MTN MoMo or Airtel Money.
-      action: { kind: ask-kaezy, label: Ask Ka-Ezy a question, appLabel: See Ka-Ezy plans }
+    - title: Get to work
+      text: Type or speak what you need. When your free tokens run out, pick a plan and pay with MTN MoMo or Airtel Money.
+      action: { kind: ask-kaezy, label: Work with Ka-Ezy, appLabel: See Ka-Ezy plans }
 
 # Prices from the "Renew & save" and "Go Premium" visuals in the Creative &
 # Content Pack (October 2026): "From UGX 5,000 a month", longer plan, lower price.
@@ -700,11 +711,11 @@ faq:
       - { kind: pay-kaezy, label: "Pay for Ka-Ezy" }
       - { kind: get-app }
   - q: Which languages does Ka-Ezy understand?
-    a: English, Luganda and other local languages. Ask Ka-Ezy in the language you are most comfortable with.
+    a: English, Luganda and other local languages. Work with Ka-Ezy in the language you are most comfortable with.
     actions:
       - { kind: get-app }
-  - q: Can I talk to Ka-Ezy instead of typing?
-    a: Yes. Tap the microphone and speak your question.
+  - q: Can I use my voice with Ka-Ezy instead of typing?
+    a: Yes. Tap the microphone and speak.
     actions:
       - { kind: get-app }
   - q: Does Ka-Ezy help with livestock?

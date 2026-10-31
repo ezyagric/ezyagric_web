@@ -542,7 +542,7 @@ export function HireKaEzy({
                 <span className="font-label text-title">
                   {accountNational ? formatUgPhone(accountNational) : ""}
                 </span>
-                . Open the EzyAgric App and sign in with this number to start asking Ka-Ezy.
+                . Open the EzyAgric App and sign in with this number to enjoy Hired Ka-Ezy.
               </p>
               <Actions>
                 {storeBadges}

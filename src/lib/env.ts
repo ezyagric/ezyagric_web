@@ -26,7 +26,7 @@ export const KAEZY_DEMO_API = (process.env.NEXT_PUBLIC_KAEZY_DEMO_API ?? "").tri
  * the real Ka-Ezy (components/product/kaezy/partner.ts). Normally
  * "https://kaezy-api.ezyagric.com/partner"; it must also be allowed in the
  * Content-Security-Policy's connect-src (nginx/nginx.conf). Empty: no
- * sign-in card.
+ * sign-in.
  */
 export const PARTNER_API = (process.env.NEXT_PUBLIC_PARTNER_API ?? "").trim().replace(/\/$/, "");
 

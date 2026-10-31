@@ -278,7 +278,7 @@ const ProductSchema = z.object({
     })
     .optional(),
   /**
-   * "Ask Ka-Ezy, then hire it": a chat with sample answers beside a plan and
+   * "Work with Ka-Ezy, then hire it": a chat with sample answers beside a plan and
    * Mobile Money flow (components/product/kaezy). There is no secure web API
    * for Ka-Ezy or payments yet, so the chat answers from `prompts`, preview
    * builds simulate the payment, and production sends visitors to the app to
@@ -302,13 +302,13 @@ const ProductSchema = z.object({
         landSize: z.string(),
         firstName: z.string(),
         firstNameHint: z.string(),
+        /** The line under "Your farm": a guest's, with live answers, and signed in. */
         storage: z.string(),
         storageLive: z.string(),
+        storageAccount: z.string(),
         pastTitle: z.string(),
         pastEmpty: z.string(),
-        /** Signed in: the two groups in the list, this device's and the account's (components/product/kaezy/partner.ts). */
-        pastDevice: z.string(),
-        pastAccount: z.string(),
+        pastLoading: z.string(),
         newConversation: z.string(),
         clear: z.string(),
       }),
@@ -366,12 +366,20 @@ const ProductSchema = z.object({
       /**
        * "Sign in for the real Ka-Ezy": the visitor signs in with an
        * organisation's code and their phone through the Partner API, or from
-       * a sign-in link (components/product/kaezy/SignInCard.tsx). Shown only
+       * a sign-in link (components/product/kaezy/SignInPopup.tsx). Shown only
        * on builds with NEXT_PUBLIC_PARTNER_API.
        */
       signIn: z.object({
         title: z.string(),
-        intro: z.string(),
+        /** Ka-Ezy's speech bubble in the popup, before and after the code; "{name}" is the first name. */
+        greeting: z.string(),
+        welcome: z.string(),
+        start: z.string(),
+        /** "{time}" is filled in. */
+        validFor: z.string(),
+        expired: z.string(),
+        resend: z.string(),
+        resendIn: z.string(),
         orgCode: z.string(),
         orgCodeHint: z.string(),
         /** With a default organisation: the link that reveals the code field. */
@@ -388,10 +396,11 @@ const ProductSchema = z.object({
         code: z.string(),
         fullName: z.string(),
         fullNameHint: z.string(),
-        /** The consent line; `consentLink` is the linked words at its end (to /privacy-policy/). */
+        /** The consent line; "{terms}" and "{policy}" are `consentTerms` and `consentPolicy`, linked to their pages. */
         consent: z.string(),
-        consentLink: z.string(),
-        /** Sent to the API as the terms version the user agreed to. Bump it when the wording changes. */
+        consentTerms: z.string(),
+        consentPolicy: z.string(),
+        /** Sent to the API as the version the user agreed to. Bump it when the wording or either document changes. */
         termsVersion: z.string(),
         submit: z.string(),
         signingIn: z.string(),
@@ -548,6 +557,8 @@ const ProductSchema = z.object({
         examples: z.array(z.string()).min(1),
         prompt: z.string(),
         notUnderstood: z.string(),
+        /** Signed in: the heading of the list of their records from their account. */
+        listTitle: z.string(),
         saved: z.string(),
         dismissed: z.string(),
         totals: z.object({ income: z.string(), expenses: z.string(), profit: z.string() }),
@@ -626,10 +637,11 @@ const SiteSchema = z.object({
     /** The one-line version for menus and the Ka-Ezy page. */
     strip: z.object({ label: z.string(), watch: z.string(), try: z.string(), pay: z.string() }),
   }),
-  /** The iPhone app: the App Store badge appears once `url` is set (see StoreBadges). */
+  /** The iPhone app: the App Store badge opens `url` once set, the popup until then (see StoreBadges). */
   appStore: z.object({
     url: z.string().url().nullable().default(null),
     comingSoon: z.string(),
+    popup: z.object({ note: z.string(), close: z.string() }),
   }),
   seo: z.object({
     title: z.string(),
@@ -984,7 +996,7 @@ function readYaml(file: string): unknown {
 }
 
 // The site's pages, for [words](target) links in copy (lib/richText).
-const PAGES = ["/", "/ezyagric-business/", "/privacy-policy/", ...PRODUCT_SLUGS.map((slug) => `/${slug}/`)];
+const PAGES = ["/", "/ezyagric-business/", "/privacy-policy/", "/terms-and-conditions/", ...PRODUCT_SLUGS.map((slug) => `/${slug}/`)];
 
 /**
  * Where copy may carry [words](target) links: the fields whose components
@@ -1033,6 +1045,29 @@ function validate<T>(schema: z.ZodType<T>, data: unknown, file: string): T {
 const CACHE = process.env.NODE_ENV === "production";
 
 let siteCache: Site | undefined;
+/** A legal document, as Legal issued it (content/legal). */
+const LegalBlockSchema = z.union([
+  z.object({ clause: z.string(), text: z.string() }),
+  z.object({ list: z.array(z.object({ label: z.string(), text: z.string() })) }),
+  z.object({ table: z.object({ caption: z.string(), head: z.array(z.string()), rows: z.array(z.array(z.string())) }) }),
+  z.object({ text: z.string() }),
+]);
+const LegalDocSchema = z.object({
+  title: z.string(),
+  subtitle: z.string(),
+  version: z.string(),
+  pdf: z.object({ href: z.string(), size: z.string() }),
+  summary: z.object({ title: z.string(), intro: z.string(), points: z.array(z.string()) }),
+  sections: z.array(z.object({ title: z.string(), blocks: z.array(LegalBlockSchema) })),
+});
+export type LegalBlock = z.infer<typeof LegalBlockSchema>;
+export type LegalDoc = z.infer<typeof LegalDocSchema>;
+
+export function getLegal(slug: "privacy-policy" | "terms-and-conditions"): LegalDoc {
+  const file = `legal/${slug}.yaml`;
+  return validate(LegalDocSchema, readYaml(file), file);
+}
+
 export function getSite(): Site {
   if (siteCache && CACHE) return siteCache;
   const data = readYaml("site.yaml");

@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 import { PARTNER_API } from "@/lib/env";
 import { acresOf, formatAcres } from "./personalise";
 import { KaEzyAskError, wait, type KaEzyChatService, type KaEzyService, type PayResult } from "./service";
-import { demo, isVideo, newId, type Conversation, type FarmRecord, type KaEzyVideo, type Message, type Tab } from "./store";
+import { demo, isVideo, newId, setOwner, type Conversation, type FarmRecord, type KaEzyVideo, type Message, type Tab } from "./store";
 
 // "Try Ka-Ezy" signed in: the visitor signs in with an organisation's code
 // and their phone through the EzyAgric Partner API (ezy_assistant_api,
@@ -87,15 +87,24 @@ function setSession(next: Session | null) {
   session = next;
   try {
     if (next) window.localStorage.setItem(KEY, JSON.stringify(next));
-    else window.localStorage.removeItem(KEY);
+    else {
+      window.localStorage.removeItem(KEY);
+      window.localStorage.removeItem(THREADS_KEY);
+    }
   } catch {
     // Blocked storage: signed in until the page is left.
   }
+  if (!next) knownThreads = null;
+  // Signed out or ended: "Your farm", conversations and records go with it.
+  setOwner(next?.phone ?? null);
   for (const listener of listeners) listener();
 }
 
 function getSession(): Session | null {
-  if (session === undefined) session = load();
+  if (session === undefined) {
+    session = load();
+    setOwner(session?.phone ?? null, true);
+  }
   return session;
 }
 
@@ -255,7 +264,14 @@ export type RemoteThread = {
   valueChain: string | null;
   /** ms since epoch, from `updated_at` (else `created_at`, else now). */
   at: number;
+  /** The farm details it was asked with, for "Your farm" on a new device. */
+  location: string;
+  acres: string;
 };
+
+const THREADS_PAGE = 100;
+/** A runaway answer stops here; no real account comes near it. */
+const MAX_THREADS = 1000;
 
 let threads: RemoteThread[] | null = null;
 let threadsFor: string | null = null;
@@ -277,6 +293,8 @@ function parseThread(raw: Record<string, unknown>): RemoteThread | null {
     title: title.slice(0, 80),
     valueChain: typeof raw.value_chain === "string" ? raw.value_chain : null,
     at: Number.isFinite(at) ? at : Date.now(),
+    location: typeof raw.location === "string" ? raw.location.trim() : "",
+    acres: typeof raw.land_size_acres === "number" && raw.land_size_acres > 0 ? String(raw.land_size_acres) : "",
   };
 }
 
@@ -292,8 +310,19 @@ export async function refreshThreads(): Promise<RemoteThread[]> {
     return [];
   }
   try {
-    const raw = await call<Record<string, unknown>[]>("/v1/farm-expert/threads?limit=50", { token: current.accessToken });
-    threads = (Array.isArray(raw) ? raw : []).map(parseThread).filter((t): t is RemoteThread => !!t);
+    // All of them, page by page (6.3).
+    const raw: Record<string, unknown>[] = [];
+    for (let offset = 0; offset < MAX_THREADS; offset += THREADS_PAGE) {
+      const page = await call<Record<string, unknown>[]>(`/v1/farm-expert/threads?limit=${THREADS_PAGE}&offset=${offset}`, {
+        token: current.accessToken,
+      });
+      const rows = Array.isArray(page) ? page : [];
+      raw.push(...rows);
+      if (rows.length < THREADS_PAGE) break;
+    }
+    // Signed out meanwhile: this answer is no one's now.
+    if (getSession()?.accessToken !== current.accessToken) return [];
+    threads = raw.map(parseThread).filter((t): t is RemoteThread => !!t);
     for (const thread of threads) rememberThread(thread.threadId);
     threadsFor = current.accessToken;
     notifyThreads();
@@ -352,6 +381,97 @@ export async function fetchConversation(thread: RemoteThread): Promise<Conversat
   }
   rememberThread(thread.threadId);
   return { id: `remote:${thread.threadId}`, tab: thread.tab, title: thread.title, at: thread.at, messages, threadId: thread.threadId };
+}
+
+// ── the account's farm records (8.2) ─────────────────────────────────────────
+
+/** The user's records on the API, newest first, with totals over all of them. */
+export type AccountRecords = {
+  count: number;
+  totals: { income: number; expenses: number; profit: number };
+  records: (FarmRecord & { id: string })[];
+};
+
+const RECORDS_PAGE = 200;
+const MAX_RECORDS = 2000;
+let accountRecords: AccountRecords | null = null;
+let recordsFor: string | null = null;
+const recordListeners = new Set<() => void>();
+
+function parseRecords(rows: Record<string, unknown>[]): AccountRecords["records"] {
+  const out: AccountRecords["records"] = [];
+  for (const row of rows) {
+    const type = row.record_type;
+    if (type !== "income" && type !== "expense" && type !== "activity") continue;
+    out.push({
+      id: String(row.id ?? out.length),
+      type,
+      category: typeof row.category === "string" ? row.category : "",
+      description: typeof row.description === "string" ? row.description : "",
+      amount: typeof row.amount_ugx === "number" ? row.amount_ugx : 0,
+      date: typeof row.record_date === "string" ? row.record_date : "",
+    });
+  }
+  return out;
+}
+
+/** Re-read the user's records (after a sign-in, and after saving some). */
+export async function refreshRecords(): Promise<void> {
+  const current = getSession();
+  if (!current) return;
+  try {
+    type Out = { count?: number; totals?: { income_ugx?: number; expense_ugx?: number; net_ugx?: number }; records?: Record<string, unknown>[] };
+    const rows: Record<string, unknown>[] = [];
+    let first: Out | null = null;
+    for (let offset = 0; offset < MAX_RECORDS; offset += RECORDS_PAGE) {
+      const page = await call<Out>(`/v1/records?limit=${RECORDS_PAGE}&offset=${offset}`, { token: current.accessToken });
+      first ??= page;
+      const got = Array.isArray(page.records) ? page.records : [];
+      rows.push(...got);
+      if (got.length < RECORDS_PAGE || rows.length >= (page.count ?? 0)) break;
+    }
+    if (getSession()?.accessToken !== current.accessToken) return;
+    accountRecords = {
+      count: first?.count ?? rows.length,
+      totals: {
+        income: first?.totals?.income_ugx ?? 0,
+        expenses: first?.totals?.expense_ugx ?? 0,
+        profit: first?.totals?.net_ugx ?? 0,
+      },
+      records: parseRecords(rows),
+    };
+  } catch (error) {
+    if (error instanceof PartnerError && error.status === 401) setSession(null);
+    // Off for this organisation, or offline: the panel shows what it has.
+  }
+  recordsFor = current.accessToken;
+  for (const listener of recordListeners) listener();
+}
+
+function getRecords(): AccountRecords | null {
+  const current = getSession();
+  if (!current) return null;
+  if (recordsFor !== current.accessToken && recordsFor !== `loading:${current.accessToken}`) {
+    recordsFor = `loading:${current.accessToken}`;
+    accountRecords = null;
+    void refreshRecords();
+    return null;
+  }
+  return recordsFor === current.accessToken ? accountRecords : null;
+}
+
+function subscribeRecords(listener: () => void) {
+  recordListeners.add(listener);
+  listeners.add(listener); // a sign-out empties it too
+  return () => {
+    recordListeners.delete(listener);
+    listeners.delete(listener);
+  };
+}
+
+/** The signed-in user's records, once loaded; null before, or signed out. */
+export function useAccountRecords(): AccountRecords | null {
+  return useSyncExternalStore(subscribeRecords, getRecords, () => null);
 }
 
 // ── arriving from a link ─────────────────────────────────────────────────────
@@ -588,6 +708,8 @@ export async function signOut(): Promise<void> {
   accountFor = null;
   threads = null;
   threadsFor = null;
+  accountRecords = null;
+  recordsFor = null;
   plans = null;
   setSession(null);
   if (!current) return;
@@ -604,6 +726,17 @@ type ValueChain = { key: string; name: string };
 let chains: Promise<ValueChain[]> | null = null;
 
 const normalise = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+/** "Your farm"'s name for a value chain the API named ("cucumber" -> "Cucumber", "matooke" -> "Banana/Matooke"); "" if it has none. */
+export function valueChainLabel(groups: { items: string[] }[], apiName: string): string {
+  const wanted = normalise(apiName);
+  if (!wanted) return "";
+  for (const { items } of groups) {
+    const hit = items.find((item) => normalise(item) === wanted || item.split("/").map(normalise).includes(wanted));
+    if (hit) return hit;
+  }
+  return "";
+}
 
 /**
  * The API's key for a value chain as "Your farm" names it ("Maize" ->
@@ -921,7 +1054,7 @@ export function partnerPayService(current: Session): Pick<KaEzyService, "pay"> {
 
 /**
  * 8.1: the records the visitor saved, to their Farm Records with the
- * organisation. Best effort: the device keeps them whatever happens.
+ * organisation. The answer says how many went; the list and totals follow.
  */
 export async function saveRecords(current: Session, records: FarmRecord[]): Promise<number> {
   let saved = 0;
@@ -940,8 +1073,9 @@ export async function saveRecords(current: Session, records: FarmRecord[]): Prom
       });
       saved += 1;
     } catch {
-      // Kept on the device only.
+      // The caller says so.
     }
   }
+  if (saved) void refreshRecords();
   return saved;
 }

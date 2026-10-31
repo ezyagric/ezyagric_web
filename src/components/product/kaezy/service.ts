@@ -2,7 +2,7 @@ import type { Network } from "./format";
 import { acresOf, formatAcres, type Profile } from "./personalise";
 import { newThreadId, type FarmRecord, type KaEzyVideo } from "./store";
 
-// What the "Ask Ka-Ezy, then hire it" section needs from a backend
+// What the "Work with Ka-Ezy, then hire it" section needs from a backend
 // (tickets in docs/backend-tickets.md: BT-01 live answers, BT-03 sign-in,
 // BT-04 plans, BT-05 payment).
 //
